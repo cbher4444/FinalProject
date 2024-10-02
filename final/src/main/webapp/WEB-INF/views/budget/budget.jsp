@@ -278,7 +278,7 @@
 								</tbody>
 							</table>
 							
-							<img src="template/images/1111.png" alt="" style="width: 800px;">
+							<img src="resources/images/1111.png" alt="" style="width: 800px;">
 						</div>
 						
 						<!-- 캘린더 -->

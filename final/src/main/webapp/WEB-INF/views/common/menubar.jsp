@@ -67,6 +67,20 @@
 	<!-- <script src="resources/dist/scripts.min.js"></script> --> <!-- 에러가 많아서 min.js 가 아닌 일반 js로 변경 - 동규 -->
 	<script src="resources/dist/scripts.js"></script> 
 		  <!-- 에러가 많아서 min.js 가 아닌 일반 js로 변경 - 동규 -->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+	<style>
+		@media screen and (max-width: 768px) {
+			#fh5co-couple, #fh5co-countdown, #fh5co-groom-bride, #fh5co-blog-section, #fh5co-started, #fh5co-when-where, #fh5co-guest, #fh5co-gallery, .fh5co-content-section {
+				padding: 4em 0;
+				min-height: 587px !important;
+			}
+		}
+
+		#fh5co-couple, #fh5co-countdown, #fh5co-groom-bride, #fh5co-blog-section, #fh5co-started, #fh5co-when-where, #fh5co-guest, #fh5co-gallery, .fh5co-content-section {
+			padding: 7em 0;
+			min-height: 587px !important;
+		}
+	</style>
 </head>
 <body>
 
@@ -99,14 +113,14 @@
 										<li id="menubar_bucket"><a href="bucket">버킷리스트</a></li>
 									</ul>
 								</li>
-								<li id="menubar_budget"><a href="budget">Budget</a></li>
+								<li id="menubar_budget"><a href="goBudget">Budget</a></li>
 								<li id="menubar_fun">
-									<a href="fun1" class="fh5co-sub-ddown">Fun</a>
+									<a href="goFun1" class="fh5co-sub-ddown">Fun</a>
 									<ul class="fh5co-sub-menu">
-										<li id="menubar_fun1"><a href="fun1">연애고사</a></li>
-										<li id="menubar_fun2"><a href="fun2">오늘 뭐하지?</a></li>
-										<li id="menubar_fun3"><a href="fun3">오늘의 질문</a></li>
-										<li id="menubar_fun4"><a href="fun4">커플 랜덤퀴즈</a></li>
+										<li id="menubar_fun1"><a href="goFun1">연애고사</a></li>
+										<li id="menubar_fun2"><a href="goFun2">오늘 뭐 먹지?</a></li>
+										<li id="menubar_fun3"><a href="goFun3">오늘의 질문</a></li>
+										<li id="menubar_fun4"><a href="goFun4">커플 랜덤퀴즈</a></li>
 									</ul>
 								</li>
 								<li id="menubar_myPage"><a href="myPage">MyPage</a></li>
