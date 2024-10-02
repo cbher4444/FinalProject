@@ -68,6 +68,19 @@
 	<script src="resources/dist/scripts.js"></script> 
 		  <!-- 에러가 많아서 min.js 가 아닌 일반 js로 변경 - 동규 -->
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+	<style>
+		@media screen and (max-width: 768px) {
+			#fh5co-couple, #fh5co-countdown, #fh5co-groom-bride, #fh5co-blog-section, #fh5co-started, #fh5co-when-where, #fh5co-guest, #fh5co-gallery, .fh5co-content-section {
+				padding: 4em 0;
+				min-height: 587px !important;
+			}
+		}
+
+		#fh5co-couple, #fh5co-countdown, #fh5co-groom-bride, #fh5co-blog-section, #fh5co-started, #fh5co-when-where, #fh5co-guest, #fh5co-gallery, .fh5co-content-section {
+			padding: 7em 0;
+			min-height: 587px !important;
+		}
+	</style>
 </head>
 <body>
 
