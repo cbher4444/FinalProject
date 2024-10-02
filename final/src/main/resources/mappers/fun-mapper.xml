@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="funMapper">
+	<resultMap type="Qtest" id="qtestResult">
+		<result column="QTEST_NO" property="qtestNo" />
+		<result column="QTEST_CONTENT" property="qtestContent" />
+		<result column="TEST_NO" property="testNo" />
+		<result column="EMAIL" property="email" />
+		<result column="COUPLE_CODE" property="coupleCode" />
+	</resultMap>
+	
+	<select id="selectQuestion" resultMap="qtestResult">
+		select qtest_no
+		     , qtest_content
+		     , test_no
+		  from f_qtest
+		 where test_no = (
+		                    select test_no
+		                      from (
+		                            select test_no
+		                              from f_test
+		                             where email = #{ email }
+		                               and couple_code = #{ coupleCode }
+		                             order
+		                                by test_date desc
+		                            )
+		                     where rownum = 1 
+		                  )
+	</select>
+</mapper>

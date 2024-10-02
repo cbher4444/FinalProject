@@ -71,184 +71,63 @@
 
 					<script>
 						$(() => {
-							let content = `
-								<div id="made-testBody">
-									<div id="made-testHead">
-										<div id="made-testTitle" align="center">유진 ❤️ 애신</div>
-									</div>
-
-									<div id="made-testContent">
-										<div id="made-testContentFirst" class="testContent" align="left">
-											<div id="made-testQ1" class="testQ">
-												<div id="made-testQ1Title" class="testQtitle">
-													Q1. 첫 만남 장소를 고르시오.
-												</div>
-												<div id="made-testQ1Content" class="testQcontent">
-													<input type="radio" name="made-testQ1A" id="made-testQ1A1">
-													<label for="made-testQ1A1">대학교 동아리</label> <br>
-													<input type="radio" name="made-testQ1A" id="made-testQ1A2">
-													<label for="made-testQ1A2">헌팅 포차</label> <br>
-													<input type="radio" name="made-testQ1A" id="made-testQ1A3">
-													<label for="made-testQ1A3">도서관</label> <br>
-													<input type="radio" name="made-testQ1A" id="made-testQ1A4">
-													<label for="made-testQ1A4">고등학교</label> <br>
-												</div>
-											</div>
-											
-											<div id="made-testQ2" class="testQ">
-												<div id="made-testQ2Title" class="testQtitle">
-													Q1. 첫 만남 장소를 고르시오.
-												</div>
-												<div id="made-testQ2Content" class="testQcontent">
-													<input type="radio" name="made-testQ2A" id="made-testQ2A1">
-													<label for="made-testQ2A1">대학교 동아리</label> <br>
-													<input type="radio" name="made-testQ2A" id="made-testQ2A2">
-													<label for="made-testQ2A2">헌팅 포차</label> <br>
-													<input type="radio" name="made-testQ2A" id="made-testQ2A3">
-													<label for="made-testQ2A3">도서관</label> <br>
-													<input type="radio" name="made-testQ2A" id="made-testQ2A4">
-													<label for="made-testQ2A4">고등학교</label> <br>
-												</div>
-											</div>
-
-											<div id="made-testQ3" class="testQ">
-												<div id="made-testQ3Title" class="testQtitle">
-													Q1. 첫 만남 장소를 고르시오.
-												</div>
-												<div id="made-testQ3Content" class="testQcontent">
-													<input type="radio" name="made-testQ3A" id="made-testQ3A1">
-													<label for="made-testQ3A1">대학교 동아리</label> <br>
-													<input type="radio" name="made-testQ3A" id="made-testQ3A2">
-													<label for="made-testQ3A2">헌팅 포차</label> <br>
-													<input type="radio" name="made-testQ3A" id="made-testQ3A3">
-													<label for="made-testQ3A3">도서관</label> <br>
-													<input type="radio" name="made-testQ3A" id="made-testQ3A4">
-													<label for="made-testQ3A4">고등학교</label> <br>
-												</div>
-											</div>
-
-											<div id="made-testQ4" class="testQ">
-												<div id="made-testQ4Title" class="testQtitle">
-													Q1. 첫 만남 장소를 고르시오.
-												</div>
-												<div id="made-testQ4Content" class="testQcontent">
-													<input type="radio" name="made-testQ4A" id="made-testQ4A1">
-													<label for="made-testQ4A1">대학교 동아리</label> <br>
-													<input type="radio" name="made-testQ4A" id="made-testQ4A2">
-													<label for="made-testQ4A2">헌팅 포차</label> <br>
-													<input type="radio" name="made-testQ4A" id="made-testQ4A3">
-													<label for="made-testQ4A3">도서관</label> <br>
-													<input type="radio" name="made-testQ4A" id="made-testQ4A4">
-													<label for="made-testQ4A4">고등학교</label> <br>
-												</div>
-											</div>
-
-											<div id="made-testQ5" class="testQ">
-												<div id="made-testQ1Title" class="testQtitle">
-													Q1. 첫 만남 장소를 고르시오.
-												</div>
-												<div id="made-testQ5Content" class="testQcontent">
-													<input type="radio" name="made-testQ5A" id="made-testQ5A1">
-													<label for="made-testQ5A1">대학교 동아리</label> <br>
-													<input type="radio" name="made-testQ5A" id="made-testQ5A2">
-													<label for="made-testQ5A2">헌팅 포차</label> <br>
-													<input type="radio" name="made-testQ5A" id="made-testQ5A3">
-													<label for="made-testQ5A3">도서관</label> <br>
-													<input type="radio" name="made-testQ5A" id="made-testQ5A4">
-													<label for="made-testQ5A4">고등학교</label> <br>
-												</div>
-											</div>
-										</div>
-										<div id="made-testContentSecond" class="testContent" align="left">
-											<div id="made-testQ6" class="testQ">
-												<div id="made-testQ1Title" class="testQtitle">
-													Q1. 첫 만남 장소를 고르시오.
-												</div>
-												<div id="made-testQ6Content" class="testQcontent">
-													<input type="radio" name="made-testQ6A" id="made-testQ6A1">
-													<label for="made-testQ6A1">대학교 동아리</label> <br>
-													<input type="radio" name="made-testQ6A" id="made-testQ6A2">
-													<label for="made-testQ6A2">헌팅 포차</label> <br>
-													<input type="radio" name="made-testQ6A" id="made-testQ6A3">
-													<label for="made-testQ6A3">도서관</label> <br>
-													<input type="radio" name="made-testQ6A" id="made-testQ6A4">
-													<label for="made-testQ6A4">고등학교</label> <br>
-												</div>
-											</div>
-											
-											<div id="made-testQ7" class="testQ">
-												<div id="made-testQ1Title" class="testQtitle">
-													Q1. 첫 만남 장소를 고르시오.
-												</div>
-												<div id="made-testQ7Content" class="testQcontent">
-													<input type="radio" name="made-testQ7A" id="made-testQ7A1">
-													<label for="made-testQ7A1">대학교 동아리</label> <br>
-													<input type="radio" name="made-testQ7A" id="made-testQ7A2">
-													<label for="made-testQ7A2">헌팅 포차</label> <br>
-													<input type="radio" name="made-testQ7A" id="made-testQ7A3">
-													<label for="made-testQ7A3">도서관</label> <br>
-													<input type="radio" name="made-testQ7A" id="made-testQ7A4">
-													<label for="made-testQ7A4">고등학교</label> <br>
-												</div>
-											</div>
-
-											<div id="made-testQ8" class="testQ">
-												<div id="made-testQ1Title" class="testQtitle">
-													Q1. 첫 만남 장소를 고르시오.
-												</div>
-												<div id="made-testQ8Content" class="testQcontent">
-													<input type="radio" name="made-testQ8A" id="made-testQ8A1">
-													<label for="made-testQ8A1">대학교 동아리</label> <br>
-													<input type="radio" name="made-testQ8A" id="made-testQ8A2">
-													<label for="made-testQ8A2">헌팅 포차</label> <br>
-													<input type="radio" name="made-testQ8A" id="made-testQ8A3">
-													<label for="made-testQ8A3">도서관</label> <br>
-													<input type="radio" name="made-testQ8A" id="made-testQ8A4">
-													<label for="made-testQ8A4">고등학교</label> <br>
-												</div>
-											</div>
-
-											<div id="made-testQ9" class="testQ">
-												<div id="made-testQ1Title" class="testQtitle">
-													Q1. 첫 만남 장소를 고르시오.
-												</div>
-												<div id="made-testQ9Content" class="testQcontent">
-													<input type="radio" name="made-testQ9A" id="made-testQ9A1">
-													<label for="made-testQ9A1">대학교 동아리</label> <br>
-													<input type="radio" name="made-testQ9A" id="made-testQ9A2">
-													<label for="made-testQ9A2">헌팅 포차</label> <br>
-													<input type="radio" name="made-testQ9A" id="made-testQ9A3">
-													<label for="made-testQ9A3">도서관</label> <br>
-													<input type="radio" name="made-testQ9A" id="made-testQ9A4">
-													<label for="made-testQ9A4">고등학교</label> <br>
-												</div>
-											</div>
-
-											<div id="made-testQ10" class="testQ">
-												<div id="made-testQ1Title" class="testQtitle">
-													Q1. 첫 만남 장소를 고르시오.
-												</div>
-												<div id="made-testQ10Content" class="testQcontent">
-													<input type="radio" name="made-testQ10A" id="made-testQ10A1">
-													<label for="made-testQ10A1">대학교 동아리</label> <br>
-													<input type="radio" name="made-testQ10A" id="made-testQ10A2">
-													<label for="made-testQ10A2">헌팅 포차</label> <br>
-													<input type="radio" name="made-testQ10A" id="made-testQ10A3">
-													<label for="made-testQ10A3">도서관</label> <br>
-													<input type="radio" name="made-testQ10A" id="made-testQ10A4">
-													<label for="made-testQ10A4">고등학교</label> <br>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-
-								<br><br>
-
-								<a href="javascript:void(0)" class="btn btn-primary btn-lg" id="default-btn">채점하기</a>
-								`;
-							
 							$('#default-btn').on('click', () => {
+								let content = '';
+								let testNo = 1;
+								$.ajax({
+									url: "selectQuestion.test",
+									data: {
+										"coupleCode": 'DFGDFG5623SAD12',
+										"email": 'user01@email.com',
+									}, success: function(question) {
+										for (let i in question) {
+											$.ajax({
+												url: "selectOption.test",
+												data: {"qtestNo": testNo},
+												success: function(option) {
+													
+												}, error: function() {
+													console.log('ajax 통신 에러 : 보기 조회');
+												}
+											})
+										}
+
+										/*
+											<div id="made-testBody">
+												<div id="made-testHead">
+													<div id="made-testTitle" align="center">유진 ❤️ 애신</div>
+												</div>
+
+												<div id="made-testContent">
+													<div id="made-testContentFirst" class="testContent" align="left">
+														<div id="made-testQ1" class="testQ">
+															<div id="made-testQ1Title" class="testQtitle">
+																Q1. 첫 만남 장소를 고르시오.
+															</div>
+															<div id="made-testQ1Content" class="testQcontent">
+																<input type="radio" name="made-testQ1A" id="made-testQ1A1">
+																<label for="made-testQ1A1">대학교 동아리</label> <br>
+																<input type="radio" name="made-testQ1A" id="made-testQ1A2">
+																<label for="made-testQ1A2">헌팅 포차</label> <br>
+																<input type="radio" name="made-testQ1A" id="made-testQ1A3">
+																<label for="made-testQ1A3">도서관</label> <br>
+																<input type="radio" name="made-testQ1A" id="made-testQ1A4">
+																<label for="made-testQ1A4">고등학교</label> <br>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+
+											<br><br>
+
+											<a href="javascript:void(0)" class="btn btn-primary btn-lg" id="default-btn">채점하기</a>
+										*/
+									}, error: function() {
+										console.log('ajax 통신 에러 : 질문 조회');
+									}
+								})
+
 								$('#defaultContainerRowDiv2').html(content);
 							});
 						});
