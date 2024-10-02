@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class BudgetController {
-	@RequestMapping("budget")
+	@RequestMapping("goBudget")
 	public String goMain() {
 		return "budget/budget";
 	}
