@@ -18,4 +18,10 @@ public class MemberController {
 		session.setAttribute("loginUser", "loginUser");
 		return "home/homeMember";
 	}
+	
+	@RequestMapping("logout")
+	public String logout(HttpSession session) {
+		session.invalidate();
+		return "home/homeGuest";
+	}
 }
