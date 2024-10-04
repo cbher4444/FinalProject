@@ -84,6 +84,13 @@
 </head>
 <body>
 
+	<c:if test="${not empty alertMsg }">
+		<script type="text/javascript">
+			alert("${ alertMsg }")
+		</script>
+		<c:remove var="alertMsg" scope="session"/>
+	</c:if>
+
 	<div id="fh5co-wrapper"> <!-- footer.jsp에서 div 닫힘 -->
 	<div id="fh5co-page"> <!-- footer.jsp에서 div 닫힘 -->
 	

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="memberMapper">
+	<resultMap type="Member" id="memberResult">
+		<result column="email" property="email"/>
+		<result column="user_pwd" property="userPwd"/>
+		<result column="user_name" property="userName"/>
+		<result column="nickname" property="nickName"/>
+		<result column="gender" property="gender"/>
+		<result column="phone" property="phone"/>
+		<result column="address" property="address"/>
+		<result column="brithday" property="brithday"/>
+		<result column="enroll_date" property="enrollDate"/>
+		<result column="modify_date" property="modifyDate"/>
+		<result column="invite_code" property="inviteCode"/>
+		<result column="couple_code" property="coupleCode"/>
+		<result column="partner_email" property="partnerEmail"/>
+		<result column="origin_name" property="originName"/>
+		<result column="change_name" property="changeName"/>
+		<result column="status" property="status"/>
+	</resultMap>
+	
+	<select id="loginUser" resultMap="memberResult">
+		select email
+		     , user_pwd
+		     , user_name
+		     , nickname
+		     , gender
+		     , phone
+		     , address
+		     , brithday
+		     , invite_code
+		     , couple_code
+		     , partner_email
+		     , origin_name
+		     , change_name
+		 from c_member
+		where email = #{email}
+		   and status != 'N'
+	</select>
+	
+	<select id="selectPartnerEmail" resultMap="memberResult">
+	select
+	       email
+	     , user_pwd
+	     , user_name
+	     , nickname
+	     , gender
+	     , phone
+	     , address
+	     , brithday
+	     , invite_code
+	     , couple_code
+	     , partner_email
+	     , origin_name
+		 , change_name
+	 from c_member
+	where partner_email = #{email}
+	   and status != 'N'
+	
+	</select>
+	
+	
+</mapper>
