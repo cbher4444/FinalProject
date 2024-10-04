@@ -9,7 +9,7 @@
 		<result column="gender" property="gender"/>
 		<result column="phone" property="phone"/>
 		<result column="address" property="address"/>
-		<result column="brithday" property="brithday"/>
+		<result column="birthday" property="birthday"/>
 		<result column="enroll_date" property="enrollDate"/>
 		<result column="modify_date" property="modifyDate"/>
 		<result column="invite_code" property="inviteCode"/>
@@ -28,7 +28,7 @@
 		     , gender
 		     , phone
 		     , address
-		     , brithday
+		     , birthday
 		     , invite_code
 		     , couple_code
 		     , partner_email
@@ -48,7 +48,7 @@
 	     , gender
 	     , phone
 	     , address
-	     , brithday
+	     , birthday
 	     , invite_code
 	     , couple_code
 	     , partner_email
@@ -59,6 +59,32 @@
 	   and status != 'N'
 	
 	</select>
+	
+	<insert id="insertMember">
+		insert
+		  into c_member
+		  	 (
+		  	   email
+		  	 , user_pwd
+		  	 , user_name
+		  	 , gender
+		  	 , birthday
+		  	 , phone
+		  	 , address
+		  	 , invite_code
+		  	 )
+		values
+		     (
+		       #{email}
+		     , #{userPwd}
+		     , #{userName}
+		     , #{gender}
+		     , #{birthday}
+		     , #{phone}
+		     , #{address}   
+		     , #{inviteCode}
+		     )
+	</insert>
 	
 	
 </mapper>

@@ -40,7 +40,7 @@ public class Member {
 	private String gender;
 	private String phone;
 	private String address;
-	private Date brithday;
+	private String birthday;
 	private Date enrollDate;
 	private Date modifyDate;
 	private String inviteCode;

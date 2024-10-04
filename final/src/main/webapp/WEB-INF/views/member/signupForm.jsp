@@ -64,7 +64,7 @@
         }).open();
     }
 </script>
-
+ 
 </head>
 
 <body onload="init();">
@@ -90,62 +90,65 @@
 							<a href="#"><img class="img-responsive" src="template/images/cover_bg_1.jpg" alt=""></a>
 							<div class="blog-text">
 								<div class="prod-title">
-									<form action="" method="post" >
+									<form action="insert.me" method="post" >
 										<div style="width:300px">
 
 
-										<div style="padding: 4px;">이메일</div>
-										<input type="email" name="email" id="id" required placeholder="이메일 적어주세요" />
+										<div style="padding: 4px;">(필수) 이메일</div>
+										<input type="email" name="email" id="email" required placeholder="이메일 적어주세요" />
 										<div width="50px"><button onclick="">확인</button></div>
 
 
-										<div style="padding: 4px;">비밀번호</div>
-										<div><input type="password" name="userPwd" id="pwd"
-											placeholder="8~20자" /></div>
-
-
-										<div style="padding: 4px;">비밀번호 확인</div>
+										<div style="padding: 4px;">(필수)비밀번호</div>
 										<div>
-											<input type="password" name="checkPwd"id="checkPwd" />
+											<input type="password" name="userPwd" id="userPwd" required placeholder="8~20자" onkeyDown="check(), matching()" />
+											<div style="font-size:9px" id="text-area"></div>
 										</div>
 
-										<div>비번 확인</div>
-										<div id="eqPwd"></div>
+
+										<div style="padding: 4px;">(필수)비밀번호 확인</div>
+										<div>
+											<input type="password" name="checkPwd" id="checkPwd" onkeyDown=" matching()" />
+											<div style="font-size:9px" id="eqPwd"></div>
+										</div>
+										
+										<div style="padding: 4px;">(필수)이름</div>
+										<div><input type="text" name="userName" id="userName" required /></div>
 
 										<div style="padding: 4px;">성별</div>
 										<div>
-											<input type="radio" name="gender"value="M" />남 
-											<input type="radio" name="gender" value="F" />여
+											<input type="radio" name="gender"value="M" id="gender" />남 
+											<input type="radio" name="gender" value="F" id="gender"/>여
 										</div>
 
 
 										<div style="padding: 4px;">생년월일</div>
-										<div><input type="text" name="birthday" /></div>
+										<div><input type="date" name="birthday" id="birthday" /></div>
 
 
 										<div style="padding: 4px;">전화번호</div>
-										<div><input type="text" name="phone" /></div>
+										<div><input type="text" name="phone" id="phone" placeholder="-없이" /></div>
 
 
 										<div style="padding: 4px;">주소</div>
 										<div>
 											<input type="text" id="sample4_postcode" placeholder="우편번호">
 											<input type="button" onclick="sample4_execDaumPostcode()" value="우편번호 찾기"><br>
-											<input type="text" id="sample4_roadAddress" placeholder="도로명주소">
+											<input type="text" id="sample4_roadAddress" name="address" placeholder="도로명주소">
 											<span id="guide" style="color:#999;display:none"></span>
-											<input type="text" id="sample4_detailAddress" placeholder="상세주소">
+											<input type="text" id="sample4_detailAddress" name="address" placeholder="상세주소">
 
 										</div>
 											
 										<br>
 										
 										<div style="padding: 4px;">초대코드입력</div>
-										<div><input type="text" name="code"  /></div>
+										<div><input type="text" name="inviteCode" id="inviteCode" /></div>
 
 										<br><br>
 										<div>
-											<a href="signupForm" class="btn btn-primary btn-lg">초기화</a>
-											<a href="reEnrollFrom.me" id="create" class="btn btn-primary btn-lg">계정 생성</a>
+											<button type="reset" class="btn btn-primary btn-lg">초기화</button>
+											<button type="submit" id="create" class="btn btn-primary btn-lg">계정 생성</button>
 										</div>
 										</div>
 									</form>
@@ -159,22 +162,80 @@
 		</div>
 	</div>
 	
-	<script type="text/javascript">
-		$(function(){
-			if($("#pwd").val() === $("#checkPwd").val()){
-				$("#eqPwd").html().text('비밀번호 일치');
-			}else{
-				$("#eqPwd").html().text('비밀번호 불일치. 다시 확인해주세요');
-			}
-			
-		})
-		
-		$(function(){
-			
-		})
-		
-		
-	</script>
+	<script>
+		$("#userPwd").on('input', function(){
+  			const password = $("#userPwd").val();
+  			const regPwd = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,20}$/;
+  			var message = $('#text-area');
+  			if(!regPwd.test(password)){
+  				message.text("비밀번호는 영문자와 숫자를 포함한 8~20자로 입력해야 합니다.").css("color", "red");
+  				$("#create").hide();
+  			}else{
+  				message.text("");
+  				$("#create").show();
+  			}
+  			
+  		});
+  		</script>
+  		
+  		<script>
+  		$(document).ready(function() {
+  		    $("#checkPwd").on('input', function() {
+  		        const userPwd = $("#userPwd").val();
+  		        const checkPwd = $("#checkPwd").val();
+  		        var message = $('#eqPwd');
+
+  		        if (userPwd !== checkPwd) {
+  		            message.text("일치하지 않습니다.").css("color", "red");
+  		            $("#create").hide(); // 이 버튼의 ID가 "create"가 맞는지 확인
+  		        } else {
+  		            message.text("일치합니다.").css("color", "green");
+  		            $("#create").show();
+  		        }
+  		    });
+  		});
+  		</script>
+  		
+  		
+  		 <script>
+		/*	
+    // 비밀번호 정규식 (8~14자, 영문자와 숫자 필수)
+      function check() {
+    	var password = document.getElementById("userPwd").value;
+        var regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,20}$/;
+        var message1 = document.getElementById("text-area");
+        if (!regex.test(password)) {
+            message1.textContent = "비밀번호는 영문자와 숫자를 포함한 8~20자로 입력해야 합니다.";
+        } else {
+            message1.textContent = ""; // 조건에 맞으면 메시지 숨김
+        }
+    }
+
+    // 비밀번호 일치 확인
+   function matching() {
+	    	 var password = document.getElementById("userPwd").value;
+	         var checkPwd = document.getElementById("checkPwd").value;
+	         var message2 = document.getElementById("eqPwd");
+	    	 
+	       	if (password !== checkPwd) {
+	            message2.textContent = "비밀번호가 일치하지 않습니다.";
+	            message2.style.color = "red";
+	        } else {
+	            message2.textContent = "비밀번호가 일치합니다.";
+	            message2.style.color = "green"; // 일치하면 메시지 녹색
+	      	}
+   		 }
+  		
+    */  
+
+   
+</script>
+	
+	
+	 
+   
+
+ 
 	
 	
 
