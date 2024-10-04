@@ -45,7 +45,7 @@ public class FunController {
 	
 	@ResponseBody
 	@RequestMapping(value="selectOption.test", produces = "application/json; charset=utf-8")
-	public String selectOption(int qtestNo) {
-		return new Gson().toJson(fService.selectOption(qtestNo));
+	public String selectOption(int testNo) {
+		return new Gson().toJson(fService.selectOption(testNo));
 	}
 }

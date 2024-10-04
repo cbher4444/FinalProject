@@ -9,6 +9,16 @@
 		<result column="COUPLE_CODE" property="coupleCode" />
 	</resultMap>
 	
+	<resultMap type="OptionTest" id="optionTestResult">
+		<result column="OPTION_NO" property="optionNo" />
+		<result column="OPTION_CONTENT" property="optionContent" />
+		<result column="OPTION_TRUE" property="optionTrue" />
+		<result column="QTEST_NO" property="qtestNo" />
+		<result column="TEST_NO" property="testNo" />
+		<result column="EMAIL" property="email" />
+		<result column="COUPLE_CODE" property="coupleCode" />
+	</resultMap>
+	
 	<select id="selectQuestion" resultMap="qtestResult">
 		select qtest_no
 		     , qtest_content
@@ -26,5 +36,15 @@
 		                            )
 		                     where rownum = 1 
 		                  )
+	</select>
+	
+	<select id="selectOption" resultMap="optionTestResult">
+		select option_no
+		     , option_content
+		     , option_true
+		     , qtest_no
+		     , test_no
+		  from f_option_test
+		 where test_no = #{ testNo }
 	</select>
 </mapper>

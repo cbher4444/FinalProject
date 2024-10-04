@@ -47,7 +47,7 @@
 		}
 
 		.today {
-			background-color: #f29b9b52;
+			background-color: #F69D9D52;
 			color: white;
 		}
 

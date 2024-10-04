@@ -7,6 +7,7 @@
 	
 	<typeAliases>
 		<typeAlias type="com.kh.usTwo.fun.model.vo.Qtest" alias="Qtest"/>
+		<typeAlias type="com.kh.usTwo.fun.model.vo.OptionTest" alias="OptionTest"/>
 	</typeAliases>
 	 
 	 <mappers>

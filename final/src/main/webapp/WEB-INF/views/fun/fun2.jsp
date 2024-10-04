@@ -20,7 +20,7 @@
 
 		#made-btn {
 			z-index : 1000;
-			background: #f29b9b;
+			background: #F69D9D;
 			margin-top: 1rem;
 			padding: .8rem 1.8rem;
 			border: none;
