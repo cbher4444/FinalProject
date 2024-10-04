@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class PlayController {
+	
 
 	@RequestMapping("play")
 	public String play() {
@@ -15,4 +16,6 @@ public class PlayController {
 	public String movie() {
 		return "play/movie";
 	}
+	
+	
 }
