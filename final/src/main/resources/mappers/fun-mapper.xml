@@ -146,6 +146,13 @@
 	</select>
 	
 	<select id="selectAlove" resultMap="aloveResult">
-		
+		select alove_no
+		     , alove_content
+		     , qlove_no
+		  from f_alove
+		 where email = #{ email }
+		   and couple_code = #{ coupleCode }
+		 order
+		    by alove_no desc
 	</select>
 </mapper>

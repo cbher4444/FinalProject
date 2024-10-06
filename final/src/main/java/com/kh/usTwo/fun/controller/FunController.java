@@ -48,4 +48,16 @@ public class FunController {
 	public String selectOption(int testNo) {
 		return new Gson().toJson(fService.selectOption(testNo));
 	}
+	
+	@ResponseBody
+	@RequestMapping(value="selectQlove.qna", produces = "application/json; charset=utf-8")
+	public String selectQlove(Member m) {
+		return new Gson().toJson(fService.selectQlove(m));
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="selectAlove.qna", produces = "application/json; charset=utf-8")
+	public String selectAlove(Member m) {
+		return new Gson().toJson(fService.selectAlove(m));
+	}
 }
