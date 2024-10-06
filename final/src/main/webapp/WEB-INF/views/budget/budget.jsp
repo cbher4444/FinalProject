@@ -39,8 +39,21 @@
       }
     </script>
 	<style>
+		#fh5co-guest {
+			background: #F6FAF7;
+		}
+
+		tr {
+			border-bottom: 1px solid #00000030;
+			height: 45px;
+		}
+
+		tr, th {
+			text-align: center !important;
+		}
+
 		input, progress {
-			accent-color: #f29b9b;
+			accent-color: #F69D9D;
 		}
 
 		input:focus {
@@ -54,6 +67,7 @@
 		* {
 			box-sizing: border-box;
 		}
+
 		#made-defaultCategory {
 			width: 100%;
 			display: flex;
@@ -74,7 +88,7 @@
 		}
 
 		.select {
-			border-bottom: 3px solid #f29b9b;
+			border-bottom: 3px solid #F69D9D;
 		}
 
 		.made-head {
@@ -140,7 +154,7 @@
 		}
 
 		.today {
-			background-color: #f29b9b52;
+			background-color: #F69D9D52;
 			color: white;
 		}
 
@@ -153,10 +167,33 @@
 
 		#made-listBtns {
 			display: flex;
+			justify-content: start;
+			margin: 10px 0 25px 0;
+			position: relative;
 		}
 
 		#made-listBtns > div:not(:last-child) {
 			margin-right: 10px;
+		}
+
+		.hight {
+			height: 24px;
+		}
+
+		#made-search {
+			position: absolute;
+			top: 0;
+			right: 24px;
+			border: none;
+			border-bottom: 1px solid #00000030;
+			background-color: #F6FAF7;
+		}
+
+		#made-searchIcon {
+			position: absolute;
+			top: 0;
+			right: 0;
+			cursor: pointer;
 		}
 	</style>
 </head>
@@ -238,10 +275,9 @@
 					<div id="made-content">
 						<!-- 리스트 -->
 						<div id="made-content-big1" name="made-head4Btn1" class="made-content-big selectContent">
-							<!-- 그 아래 어떤 통장(은행(계좌번호))에 변화가 생겼는지, 날짜, 입금?출금?, 상세 설명, 금액, 총액 -->
-							<div id="made-listBtns" align="right">
+							<div id="made-listBtns">
 								<div id="made-selectMethod">
-									<select name="methodCategory" id="made-methodCategory">
+									<select name="methodCategory" id="made-methodCategory" class="hight">
 										<option value="1">전체 조회</option>
 										<option value="2">토스뱅크</option>
 										<option value="3">국민은행</option>
@@ -249,36 +285,119 @@
 									</select>
 								</div>
 								<div id="made-selectCategory">
-									<select name="searchCategory" id="made-searchCategory">
+									<select name="searchCategory" id="made-searchCategory" class="hight">
 										<option value="1">입·출금 내역 조회</option>
 										<option value="2">입금 내역 조회</option>
 										<option value="3">출금 내역 조회</option>
 									</select>
 								</div>
 								<div id="made-howLong">
-									<input type="date" id="made-firstDate" name="firstDate">&nbsp; ~ &nbsp;<input type="date" id="made-secondDate" name="secondDate">
+									<input type="date" id="made-firstDate" name="firstDate" class="hight">&nbsp; ~ &nbsp;<input type="date" id="made-secondDate" name="secondDate" class="hight">
 								</div>
-								<div id="made-searchBar">
-									<input type="text" id="made-search" name="keyword">
+								<div id="made-searchBar" class="hight">
+									<input type="text" id="made-search" name="keyword" class="hight">
 									<div id="made-searchIcon" class="material-symbols-outlined">search</div>
 								</div>
 							</div>
 							
-							<table>
+							<!-- 그 아래 어떤 통장(은행(계좌번호))에 변화가 생겼는지, 날짜, 입금?출금?, 상세 설명, 금액, 총액 -->
+							<table style="width: 100%;">
 								<thead>
 									<tr>	
-										<td></td>
+										<th>은행 / 카드사</th>
+										<th>계좌번호 / 카드번호</th>
+										<th>일시</th>
+										<th>적요</th>
+										<th>입금액</th>
+										<th>출금액</th>
+										<th>잔액</th>
 									</tr>
 								</thead>
 
 								<tbody>
 									<tr>
+										<td>토스뱅크</td>
+										<td>1000-1234-1234</td>
+										<td>2024-10-04 10:42:00</td>
+										<td>인터파크</td>
 										<td></td>
+										<td>192,000</td>
+										<td>121,400</td>
+									</tr>
+									<tr>
+										<td>토스뱅크</td>
+										<td>1000-1234-1234</td>
+										<td>2024-10-04 10:42:00</td>
+										<td>인터파크</td>
+										<td>192,000</td>
+										<td></td>
+										<td>121,400</td>
+									</tr>
+									<tr>
+										<td>토스뱅크</td>
+										<td>1000-1234-1234</td>
+										<td>2024-10-04 10:42:00</td>
+										<td>인터파크</td>
+										<td></td>
+										<td>192,000</td>
+										<td>121,400</td>
+									</tr>
+									<tr>
+										<td>토스뱅크</td>
+										<td>1000-1234-1234</td>
+										<td>2024-10-04 10:42:00</td>
+										<td>인터파크</td>
+										<td></td>
+										<td>192,000</td>
+										<td>121,400</td>
+									</tr>
+									<tr>
+										<td>토스뱅크</td>
+										<td>1000-1234-1234</td>
+										<td>2024-10-04 10:42:00</td>
+										<td>인터파크</td>
+										<td>192,000</td>
+										<td></td>
+										<td>121,400</td>
+									</tr>
+									<tr>
+										<td>토스뱅크</td>
+										<td>1000-1234-1234</td>
+										<td>2024-10-04 10:42:00</td>
+										<td>인터파크</td>
+										<td></td>
+										<td>192,000</td>
+										<td>121,400</td>
+									</tr>
+									<tr>
+										<td>토스뱅크</td>
+										<td>1000-1234-1234</td>
+										<td>2024-10-04 10:42:00</td>
+										<td>인터파크</td>
+										<td></td>
+										<td>192,000</td>
+										<td>121,400</td>
+									</tr>
+									<tr>
+										<td>토스뱅크</td>
+										<td>1000-1234-1234</td>
+										<td>2024-10-04 10:42:00</td>
+										<td>인터파크</td>
+										<td>192,000</td>
+										<td></td>
+										<td>121,400</td>
+									</tr>
+									<tr>
+										<td>토스뱅크</td>
+										<td>1000-1234-1234</td>
+										<td>2024-10-04 10:42:00</td>
+										<td>인터파크</td>
+										<td></td>
+										<td>192,000</td>
+										<td>121,400</td>
 									</tr>
 								</tbody>
 							</table>
-							
-							<img src="resources/images/1111.png" alt="" style="width: 800px;">
 						</div>
 						
 						<!-- 캘린더 -->

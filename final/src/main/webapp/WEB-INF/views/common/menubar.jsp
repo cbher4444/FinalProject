@@ -120,7 +120,7 @@
 										<li id="menubar_fun1"><a href="goFun1">연애고사</a></li>
 										<li id="menubar_fun2"><a href="goFun2">오늘 뭐 먹지?</a></li>
 										<li id="menubar_fun3"><a href="goFun3">오늘의 질문</a></li>
-										<li id="menubar_fun4"><a href="goFun4">커플 랜덤퀴즈</a></li>
+										<li id="menubar_fun4"><a href="goFun4">AI 연애 상담</a></li>
 									</ul>
 								</li>
 								<li id="menubar_myPage"><a href="myPage">MyPage</a></li>

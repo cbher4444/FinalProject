@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="funMapper">
+	<resultMap type="Qtest" id="qtestResult">
+		<result column="QTEST_NO" property="qtestNo" />
+		<result column="QTEST_CONTENT" property="qtestContent" />
+		<result column="TEST_NO" property="testNo" />
+		<result column="EMAIL" property="email" />
+		<result column="COUPLE_CODE" property="coupleCode" />
+	</resultMap>
+	
+	<resultMap type="OptionTest" id="optionTestResult">
+		<result column="OPTION_NO" property="optionNo" />
+		<result column="OPTION_CONTENT" property="optionContent" />
+		<result column="OPTION_TRUE" property="optionTrue" />
+		<result column="QTEST_NO" property="qtestNo" />
+		<result column="TEST_NO" property="testNo" />
+		<result column="EMAIL" property="email" />
+		<result column="COUPLE_CODE" property="coupleCode" />
+	</resultMap>
+	
+	<resultMap type="Qservey" id="qserveyResult">
+		<result column="QSERVEY_NO" property="qserveyNo" />
+		<result column="QSERVEY_CONTENT" property="qserveyContent" />
+	</resultMap>
+	
+	<resultMap type="Aservey" id="aserveyResult">
+		<result column="ASERVEY_NO" property="aserveyNo" />
+		<result column="ASERVEY_CONTENT" property="aserveyContent" />
+		<result column="QSERVEY_NO" property="qserveyNo" />
+		<result column="EMAIL" property="email" />
+		<result column="COUPLE_CODE" property="coupleCode" />
+	</resultMap>
+	
+	<resultMap type="Qlove" id="qloveResult">
+		<result column="QLOVE_NO" property="qloveNo" />
+		<result column="QLOVE_CONTENT" property="qloveContent" />
+		<result column="QLOVE_DATE" property="qloveDate" />
+		<result column="EMAIL" property="email" />
+		<result column="COUPLE_CODE" property="coupleCode" />
+	</resultMap>
+	
+	<resultMap type="Alove" id="aloveResult">
+		<result column="ALOVE_NO" property="aloveNo" />
+		<result column="ALOVE_CONTENT" property="aloveContent" />
+		<result column="ALOVE_DATE" property="aloveDate" />
+		<result column="EMAIL" property="email" />
+		<result column="COUPLE_CODE" property="coupleCode" />
+	</resultMap>
+	
+	<select id="selectQuestion" resultMap="qtestResult">
+		select qtest_no
+		     , qtest_content
+		     , test_no
+		  from f_qtest
+		 where test_no = (
+		                    select test_no
+		                      from (
+		                            select test_no
+		                              from f_test
+		                             where email = #{ email }
+		                               and couple_code = #{ coupleCode }
+		                             order
+		                                by test_date desc
+		                            )
+		                     where rownum = 1 
+		                  )
+	</select>
+	
+	<select id="selectOption" resultMap="optionTestResult">
+		select option_no
+		     , option_content
+		     , option_true
+		     , qtest_no
+		     , test_no
+		  from f_option_test
+		 where test_no = #{ testNo }
+	</select>
+	
+	<select id="selectQservey" resultMap="qserveyResult">
+		select qservey_no
+			 , qservey_content
+		  from f_qservey
+	</select>
+	
+	<select id="selectAservey" resultMap="aserveyResult">
+		select aservey_no
+			 , aservey_content
+			 , qservey_no
+		  from f_aservey
+		 where email = #{ email }
+		   and couple_code = #{ coupleCode }
+	</select>
+	
+	<insert id="insertQlove">
+		INSERT
+		  INTO F_QLOVE
+		VALUES(
+				SEQ_QLOVE_NO.NEXTVAL
+			  , #{ qloveContent }
+			  , SYSDATE
+			  , #{ email }
+			  , #{ coupleCode }
+			  )
+	</insert>
+	
+	<insert id="insertAlove">
+		INSERT
+		  INTO F_ALOVE
+		VALUES(
+				SEQ_ALOVE_NO.NEXTVAL
+			  , #{ aloveContent }
+			  , #{ qloveNo }
+			  , #{ email }
+			  , #{ coupleCode }
+			  )
+	</insert>
+	
+	<select id="selectQlove" resultMap="qloveResult">
+		select qlove_no
+		     , qlove_content
+		     , qlove_date
+		  from f_qlove
+		 where email = #{ email }
+		   and couple_code = #{ coupleCode }
+		 order
+		    by qlove_date desc
+	</select>
+	
+	<select id="selectQloveOne" resultMap="qloveResult">
+		select qlove_no
+		     , qlove_content
+		     , qlove_date
+		     , rownum
+		  from (
+		         select qlove_no
+		             , qlove_content
+		             , qlove_date
+		          from f_qlove
+		         where email = #{ email }
+		  		   and couple_code = #{ coupleCode }
+		         order
+		            by qlove_date desc
+		  )
+		 where rownum between 1 and 1
+	</select>
+	
+	<select id="selectAlove" resultMap="aloveResult">
+		
+	</select>
+</mapper>
