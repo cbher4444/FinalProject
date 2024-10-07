@@ -100,11 +100,7 @@ public class GeminiController {
                 JSONObject content = (JSONObject) ((JSONObject) candidate).get("content");
                 JSONArray parts = (JSONArray) content.get("parts");
                 for (Object part : parts) {
-<<<<<<< HEAD
-                    message.append(((JSONObject) part).get("text").toString().replace("\n", "<br/>").replace("**", "").replace("답변 : ", "")).append("<br />");
-=======
                     message.append(((JSONObject) part).get("text").toString().replace("\n", "<br/>").replace("**", "").replace("답변 : ", "")).append("<br/>");
->>>>>>> ae69d4ab4ae3ab2fc28c9627392b60ed66745cc7
                 }
             }
             return message.toString().trim();
