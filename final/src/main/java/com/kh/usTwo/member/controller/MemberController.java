@@ -2,6 +2,7 @@ package com.kh.usTwo.member.controller;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,9 +34,6 @@ public class MemberController {
 			session.setAttribute("alertMsg", "로그인 실패");
 			return "member/loginForm";
 		}
-		
-		
-		
 	}
 	
 	@RequestMapping("logout")
@@ -49,9 +47,26 @@ public class MemberController {
 		return "member/loginConditions";
 	}
 	
-	@RequestMapping("enterSignupForm")
-	public String signupForm() {
+	@RequestMapping("signupPage.me")
+	public String enterSignupForm() {
 		return "member/signupForm";
+	}
+	
+	@RequestMapping(value="insert.me")
+	public String insertMember(Member m, HttpSession session) {
+		int result = mService.insertMember(m);
+		
+		System.out.println(result);
+		
+		if(result > 0) {
+			session.setAttribute("alertMsg", "회원가입 성공하였습니다.");
+			return "member/loginForm";
+		}else {
+			session.setAttribute("alertMsg", "회원가입 실패");
+			return "member/signupForm";
+		}
+		
+		
 	}
 	
 	

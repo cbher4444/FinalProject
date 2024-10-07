@@ -16,4 +16,8 @@ public class MemberDao {
 		return sqlSession.selectOne("memberMapper.selectPartnerEmail", m);
 	}
 
+	public int insertMember(SqlSessionTemplate sqlSession, Member m) {
+		return sqlSession.insert("memberMapper.insertMember", m);
+	}
+
 }

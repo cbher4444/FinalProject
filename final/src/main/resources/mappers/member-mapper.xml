@@ -60,5 +60,31 @@
 	
 	</select>
 	
+	<insert id="insertMember">
+		insert
+		  into c_member
+		  	 (
+		  	   email
+		  	 , user_pwd
+		  	 , user_name
+		  	 , gender
+		  	 , brithday
+		  	 , phone
+		  	 , address
+		  	 ,invite_code
+		  	 )
+		values
+		     (
+		       #{email}
+		     , #{userPwd}
+		     , #{userName}
+		     , #{gender}
+		     , #{brithday}
+		     , #{phone}
+		     , #{address}   
+		     , #{inviteCode}
+		     )
+	</insert>
+	
 	
 </mapper>
