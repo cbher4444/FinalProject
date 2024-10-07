@@ -19,5 +19,7 @@
 		<mapper resource="/mappers/member-mapper.xml"/>
 		<mapper resource="/mappers/fun-mapper.xml"/>
 	</mappers>
+	
+	
 
 </configuration>

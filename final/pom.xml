@@ -132,8 +132,14 @@
 			<artifactId>spring-jdbc</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
-
-
+		
+		 <!-- // 채팅 위한 socket -->
+		<dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.9.6</version>
+        </dependency>
+        
 		<!-- 1_3. 순수 myBatis 라이브러리 -->
 		<dependency>
 			<groupId>org.mybatis</groupId>
@@ -232,6 +238,8 @@
 		    <artifactId>jakarta.mail</artifactId>
 		    <version>1.6.7</version>
 		</dependency>
+		
+		
 
 
 

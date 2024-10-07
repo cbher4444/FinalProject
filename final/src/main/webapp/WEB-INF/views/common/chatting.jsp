@@ -58,9 +58,9 @@
 	position: fixed;
 	bottom: 50px;
 	right: 50px;
-	z-index: 1000;
+	z-index: 1200;
 	}
-	#textbox{
+	form>#textbox{
 	width:270px;
 	height:400px;
 	border: 1px solid black;
@@ -74,7 +74,7 @@
 	}
 	#chat-head-line{
 	margin-top: 10px;
-	margin-left: 100px;
+	margin-left: 40px;
 	}
 	
 	</style>
@@ -83,10 +83,10 @@
 	<button id="chatting-btn" >chat</button>
 
 <!-- 사각형 창 -->
-<div id="chat-popup">
+<div id="chat-popup" align="center">
     <h2 id="chat-head-line">커플 채팅</h2>
     <button id="close-popup">X</button>
-    <form action="" method="get" align="center">
+    <form action="" method="get">
     <textarea id="textbox" disabled readonly>Here is your chat content.</textarea>
     <input type="text"/>
     <button type="submit">전송</button>
@@ -117,7 +117,7 @@ $(document).ready(function() {
     });
 
     // 팝업 닫기 버튼
-    $('#close-popup').click(function() {
+    $('#close-popup').click(function(){
         $('#chat-popup').fadeOut();
         $('#chatting-btn').fadeIn();
     });
