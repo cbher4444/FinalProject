@@ -215,9 +215,10 @@ public class GeminiController {
 			
 			String[] parts = response.split("<br/>");
 			
-			int result = fService.insertTest(new Test(0, 0, null, m.getEmail(), m.getCoupleCode()));
+			int result = fService.insertTest(new Test(0, 0, null, "user02@email.com", m.getCoupleCode()));
 			
 			if (result > 0) {
+				m.setEmail("user02@email.com");
 				testNo = fService.selectTestOne(m).getTestNo();
 				
 				for (int i = 0; i < parts.length; i++) {
@@ -225,14 +226,14 @@ public class GeminiController {
 						if (parts[i].contains("A")) {
 							if (parts[i].contains("(answer)")) {
 								// 정답
-								fService.insertAtest(new Atest(0, parts[i].substring(5).replace("(answer)", "").replace("<br/>", "").trim(), "Y", fService.selectQtestOne(m).getQtestNo(), testNo, m.getEmail(), m.getCoupleCode()));
+								fService.insertAtest(new Atest(0, parts[i].substring(5).replace("(answer)", "").replace("<br/>", "").trim(), "Y", fService.selectQtestOne(m).getQtestNo(), testNo, "user02@email.com", m.getCoupleCode()));
 							} else {
 								// 오답
-								fService.insertAtest(new Atest(0, parts[i].substring(5).replace("<br/>", "").trim(), "N", fService.selectQtestOne(m).getQtestNo(), testNo, m.getEmail(), m.getCoupleCode()));
+								fService.insertAtest(new Atest(0, parts[i].substring(5).replace("<br/>", "").trim(), "N", fService.selectQtestOne(m).getQtestNo(), testNo, "user02@email.com", m.getCoupleCode()));
 							}
 						} else {
 							// 질문
-							fService.insertQtest(new Qtest(0, parts[i].substring(4).trim(), testNo, m.getEmail(), m.getCoupleCode()));
+							fService.insertQtest(new Qtest(0, parts[i].substring(4).trim(), testNo, "user02@email.com", m.getCoupleCode()));
 						}
 					}
 				}
