@@ -9,7 +9,7 @@
 		<result column="gender" property="gender"/>
 		<result column="phone" property="phone"/>
 		<result column="address" property="address"/>
-		<result column="birthday" property="birthday"/>
+		<result column="brithday" property="brithday"/>
 		<result column="enroll_date" property="enrollDate"/>
 		<result column="modify_date" property="modifyDate"/>
 		<result column="invite_code" property="inviteCode"/>
@@ -28,7 +28,7 @@
 		     , gender
 		     , phone
 		     , address
-		     , birthday
+		     , brithday
 		     , invite_code
 		     , couple_code
 		     , partner_email
@@ -48,7 +48,7 @@
 	     , gender
 	     , phone
 	     , address
-	     , birthday
+	     , brithday
 	     , invite_code
 	     , couple_code
 	     , partner_email
@@ -68,10 +68,10 @@
 		  	 , user_pwd
 		  	 , user_name
 		  	 , gender
-		  	 , birthday
+		  	 , brithday
 		  	 , phone
 		  	 , address
-		  	 , invite_code
+		  	 ,invite_code
 		  	 )
 		values
 		     (
@@ -79,7 +79,7 @@
 		     , #{userPwd}
 		     , #{userName}
 		     , #{gender}
-		     , #{birthday}
+		     , #{brithday}
 		     , #{phone}
 		     , #{address}   
 		     , #{inviteCode}

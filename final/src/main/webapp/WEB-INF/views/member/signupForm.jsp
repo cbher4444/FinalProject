@@ -94,57 +94,70 @@
 										<div style="width:300px">
 
 
-										<div style="padding: 4px;">(필수) 이메일</div>
-										<input type="email" name="email" id="email" required placeholder="이메일 적어주세요" />
-										<div width="50px"><button onclick="">확인</button></div>
-
-
+										<div class="form-group email-form">
+											 <label for="email">이메일</label>
+											 <div class="input-group">
+											<input type="text" class="form-control" name="userEmail1" id="userEmail1" placeholder="이메일" onchange="combineEmail()" >
+											<select class="form-control" name="userEmail2" id="userEmail2" onchange="combineEmail()" >
+												<option value="@naver.com">@naver.com</option>
+												<option value="@daum.net">@daum.net</option>
+												<option value="@gmail.com">@gmail.com</option>
+												<option value="@hanmail.com">@hanmail.com</option>
+												<option value="@yahoo.co.kr">@yahoo.co.kr</option>
+											</select>
+											<input type="hidden" name="email" id="email">
+											</div>   
+										<div class="input-group-addon">
+											<button type="button" class="btn btn-primary" id="mail-Check-Btn">본인인증</button>
+										</div>
+											<div class="mail-check-box">
+										<input class="form-control mail-check-input" placeholder="인증번호 6자리를 입력해주세요!" disabled="disabled" maxlength="6">
+										</div>
+											<span id="mail-check-warn"></span>
+										</div>
 										<div style="padding: 4px;">(필수)비밀번호</div>
 										<div>
-											<input type="password" name="userPwd" id="userPwd" required placeholder="8~20자" onkeyDown="check(), matching()" />
-											<div style="font-size:9px" id="text-area"></div>
+											<input class="form-control" type="password" name="userPwd" id="userPwd" required placeholder="8~20자" onkeyDown="check(), matching()" />
+											<div style="font-size:10px" id="text-area"></div>
 										</div>
 
 
 										<div style="padding: 4px;">(필수)비밀번호 확인</div>
 										<div>
-											<input type="password" name="checkPwd" id="checkPwd" onkeyDown=" matching()" />
-											<div style="font-size:9px" id="eqPwd"></div>
+											<input class="form-control" type="password" name="checkPwd" id="checkPwd" onkeyDown=" matching()" />
+											<div style="font-size:11px" id="eqPwd"></div>
 										</div>
 										
 										<div style="padding: 4px;">(필수)이름</div>
-										<div><input type="text" name="userName" id="userName" required /></div>
+										<div><input class="form-control" type="text" name="userName" id="userName" required /></div>
 
 										<div style="padding: 4px;">성별</div>
 										<div>
-											<input type="radio" name="gender"value="M" id="gender" />남 
+											<input  type="radio" name="gender"value="M" id="gender" />남 
 											<input type="radio" name="gender" value="F" id="gender"/>여
 										</div>
 
 
 										<div style="padding: 4px;">생년월일</div>
-										<div><input type="date" name="birthday" id="birthday" /></div>
+										<div><input class="form-control" type="date" name="brithday" id="brithday" /></div>
 
 
 										<div style="padding: 4px;">전화번호</div>
-										<div><input type="text" name="phone" id="phone" placeholder="-없이" /></div>
+										<div><input class="form-control" type="text" name="phone" id="phone" placeholder="-없이" /></div>
 
 
 										<div style="padding: 4px;">주소</div>
-										<div>
-											<input type="text" id="sample4_postcode" placeholder="우편번호">
+										<div >
+											<input type="text"   id="sample4_postcode" class="form-control" placeholder="우편번호">
 											<input type="button" onclick="sample4_execDaumPostcode()" value="우편번호 찾기"><br>
-											<input type="text" id="sample4_roadAddress" name="address" placeholder="도로명주소">
+											<input type="text"  id="sample4_roadAddress" class="form-control" name="address" placeholder="도로명주소">
 											<span id="guide" style="color:#999;display:none"></span>
-											<input type="text" id="sample4_detailAddress" name="address" placeholder="상세주소">
-
+											<input type="text"  id="sample4_detailAddress" class="form-control" name="address" placeholder="상세주소">
 										</div>
 											
 										<br>
 										
-										<div style="padding: 4px;">초대코드입력</div>
-										<div><input type="text" name="inviteCode" id="inviteCode" /></div>
-
+										
 										<br><br>
 										<div>
 											<button type="reset" class="btn btn-primary btn-lg">초기화</button>
@@ -195,6 +208,61 @@
   		    });
   		});
   		</script>
+  		
+  		<script>
+  		$('#mail-Check-Btn').click(function() {
+  			const eamil = $('#userEmail1').val() + $('#userEmail2').val(); // 이메일 주소값 얻어오기!
+  			console.log('완성된 이메일 : ' + eamil); // 이메일 오는지 확인
+  			const checkInput = $('.mail-check-input') // 인증번호 입력하는곳 
+  			
+  			$.ajax({
+  				type : 'get',
+  				url : '/final/mailCheck?email='+eamil, // GET방식이라 Url 뒤에 email을 뭍힐수있다.
+  				success : function (data) {
+  					console.log("data : " +  data);
+  					checkInput.attr('disabled',false);
+  					code =data;
+  					alert('인증번호가 전송되었습니다.')
+  				}			
+  			}); // end ajax
+  		}); // end send eamil
+  		
+  		// 인증번호 비교 
+  		// blur -> focus가 벗어나는 경우 발생
+  		$('.mail-check-input').blur(function () {
+  			const inputCode = $(this).val();
+  			const $resultMsg = $('#mail-check-warn');
+  			
+  			if(inputCode === code){
+  				$resultMsg.html('인증번호가 일치합니다.');
+  				$resultMsg.css('color','green');
+  				$('#mail-Check-Btn').attr('disabled',true);
+  				$('#userEamil1').attr('readonly',true);
+  				$('#userEamil2').attr('readonly',true);
+  				$('#userEmail2').attr('onFocus', 'this.initialSelect = this.selectedIndex');
+  		        $('#userEmail2').attr('onChange', 'this.selectedIndex = this.initialSelect');
+  		        $("#create").show();
+  			}else{
+  				$resultMsg.html('인증번호가 불일치 합니다. 다시 확인해주세요!.');
+  				$resultMsg.css('color','red');
+  				$("#create").hide();
+  			}
+  		});
+  		
+  		</script>
+  		
+  		<script>
+			function combineEmail() {
+			    const emailInput = document.getElementById("userEmail1").value;
+			    const emailDomain = document.getElementById("userEmail2").value;
+			    const fullEmail = emailInput + emailDomain;
+			    
+			    console.log(fullEmail);
+			    
+			    document.getElementById("email").value = fullEmail;
+			}
+		</script>
+  		
   		
   		
   		 <script>
