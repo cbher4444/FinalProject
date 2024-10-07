@@ -12,9 +12,11 @@
 		<typeAlias type="com.kh.usTwo.fun.model.vo.Aservey" alias="Aservey"/>
 		<typeAlias type="com.kh.usTwo.fun.model.vo.Qlove" alias="Qlove"/>
 		<typeAlias type="com.kh.usTwo.fun.model.vo.Alove" alias="Alove"/>
+		<typeAlias type="com.kh.usTwo.member.model.vo.Member" alias="Member"/>
 	</typeAliases>
 	 
 	 <mappers>
 	 	<mapper resource="/mappers/fun-mapper.xml"/>
+		<mapper resource="/mappers/member-mapper.xml"/>
 	 </mappers>
 </configuration>

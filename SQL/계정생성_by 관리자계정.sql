@@ -1,0 +1,2 @@
+CREATE USER final IDENTIFIED BY final;
+grant RESOURCE, CONNECT TO final;
