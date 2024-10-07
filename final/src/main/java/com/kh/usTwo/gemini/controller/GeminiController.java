@@ -95,7 +95,7 @@ public class GeminiController {
                 JSONObject content = (JSONObject) ((JSONObject) candidate).get("content");
                 JSONArray parts = (JSONArray) content.get("parts");
                 for (Object part : parts) {
-                    message.append(((JSONObject) part).get("text").toString().replace("\n", "<br/>").replace("**", "")).append("<br />");
+                    message.append(((JSONObject) part).get("text").toString().replace("\n", "<br/>").replace("**", "").replace("답변 : ", "")).append("<br />");
                 }
             }
             System.out.println(message);
