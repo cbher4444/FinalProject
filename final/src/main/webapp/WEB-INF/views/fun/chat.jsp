@@ -6,66 +6,69 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
-<body>
-	<div id="made-textBox">
-	</div>
+	<body>
+		<div id="made-textBox">
+		</div>
 
-	<script>
-		$(() => {
-			function chatUpdate() {
-				let value = '';
-
-				$.ajax({
-					url: "selectQlove.qna",
-					data: {
-						"coupleCode": 'DFGDFG5623SAD12',
-						"email": 'user02@email.com',
-					}, success: function(qData) {
-						$.ajax({
-							url: "selectAlove.qna",
-							data: {
-								"coupleCode": 'DFGDFG5623SAD12',
-								"email": 'user02@email.com',
-							}, success: function(aData) {
-								for (let i in qData) {
-									if (aData[i] === null) {
-										value += `
-											<div class="aiMsg">
-												<div class="aiText">답변 준비 중...</div>
-											</div>
-											<div class="userMsg">
-												<div class="userText">` + qData[i].qloveContent + `</div>
-											</div>
-										`;
+		<script>
+			$(() => {
+				function chatUpdate() {
+					let messages = []; // 메시지를 담을 배열
+		
+					$.ajax({
+						url: "selectQlove.qna",
+						data: {
+							"coupleCode": 'DFGDFG5623SAD12',
+							"email": 'user02@email.com',
+						}, success: function(qData) {
+							$.ajax({
+								url: "selectAlove.qna",
+								data: {
+									"coupleCode": 'DFGDFG5623SAD12',
+									"email": 'user02@email.com',
+								}, success: function(aData) {
+									if (Array.isArray(aData) && Array.isArray(qData)) {
+										for (let i in qData) {
+											let aiLoveContent = aData[i] && aData[i].aloveContent !== undefined 
+																? aData[i].aloveContent 
+																: '답변 준비 중...';
+											
+											// 메시지를 배열에 추가
+											messages.push(`
+												<div class="aiMsg">
+													<div class="aiText">` + aiLoveContent + `</div>
+												</div>
+												<div class="userMsg">
+													<div class="userText">` + qData[i].qloveContent + `</div>
+												</div>
+											`);
+										}
+		
+										// 배열을 역순으로 정렬
+										messages.reverse();
+										$('#made-textBox').html(messages.join(''));
 									} else {
-										value += `
-											<div class="aiMsg">
-												<div class="aiText">` + aData[i].aloveContent + `</div>
-											</div>
-											<div class="userMsg">
-												<div class="userText">` + qData[i].qloveContent + `</div>
-											</div>
-										`;
+										console.error("Received data is not an array", aData, qData);
 									}
+								}, error: function(jqXHR, textStatus, errorThrown) {
+									console.error("AJAX Error: " + textStatus, errorThrown);
+									console.log('Error Answer loading');
 								}
-
-								$('#made-textBox').html(value);
-							}, error: function() {
-								console.log("ajax 통신 오류(답변 로딩)")
-							}
-						});
-					}, error: function() {
-						console.log("ajax 통신 오류(질문 로딩)")
-					}
-				});
-			};
-
-			chatUpdate();
-
-			setInterval(function() {
+							});
+						}, error: function(jqXHR, textStatus, errorThrown) {
+							console.error("AJAX Error: " + textStatus, errorThrown);
+							console.log('Error Question loading');
+						}
+					});
+				};
+		
 				chatUpdate();
-			}, 100)
-		});
-	</script>
-</body>
+		
+				setInterval(function() {
+					chatUpdate();
+				}, 1000);
+			});
+		</script>
+		
+	</body>
 </html>

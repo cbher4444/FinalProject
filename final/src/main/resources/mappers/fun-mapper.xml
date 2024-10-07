@@ -43,7 +43,7 @@
 	<resultMap type="Alove" id="aloveResult">
 		<result column="ALOVE_NO" property="aloveNo" />
 		<result column="ALOVE_CONTENT" property="aloveContent" />
-		<result column="ALOVE_DATE" property="aloveDate" />
+		<result column="QLOVE_NO" property="qloveNo" />
 		<result column="EMAIL" property="email" />
 		<result column="COUPLE_CODE" property="coupleCode" />
 	</resultMap>
@@ -124,7 +124,7 @@
 		 where email = #{ email }
 		   and couple_code = #{ coupleCode }
 		 order
-		    by qlove_date desc
+		    by qlove_date
 	</select>
 	
 	<select id="selectQloveOne" resultMap="qloveResult">
@@ -153,6 +153,6 @@
 		 where email = #{ email }
 		   and couple_code = #{ coupleCode }
 		 order
-		    by alove_no desc
+		    by alove_no
 	</select>
 </mapper>

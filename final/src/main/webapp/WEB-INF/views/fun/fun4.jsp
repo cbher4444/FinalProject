@@ -95,18 +95,21 @@
 			if ($('#made-q').val() === null || $('#made-q').val() === '') {
 				alert('고민을 입력해주세요.');
 			} else {
+				let questionContent = $('#made-q').val();
+				$('#made-q').val('');
+
 				$.ajax({
 					url: 'geminiQnA',
 					data: {
-						'prompt': $('#made-q').val(),
+						'prompt': questionContent,
 						"coupleCode": 'DFGDFG5623SAD12',
 						"email": 'user02@email.com',
 					},
 					success: function(result) {
-						console.log(result)
-						$('#made-q').val('');
-					}, error() {
-						console.log('ajax 통신 오류(고민 답변)');
+						
+					}, error: function(jqXHR, textStatus, errorThrown) {
+						console.error("AJAX Error: " + textStatus, errorThrown);
+						console.log('Error QnA')
 					}
 				});
 			}
