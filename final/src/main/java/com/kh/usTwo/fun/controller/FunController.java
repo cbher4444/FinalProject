@@ -38,15 +38,15 @@ public class FunController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value="selectQuestion.test", produces = "application/json; charset=utf-8")
-	public String selectQuestion(Member m) {
-		return new Gson().toJson(fService.selectQuestion(m));
+	@RequestMapping(value="selectQtest.test", produces = "application/json; charset=utf-8")
+	public String selectQtest(Member m) {
+		return new Gson().toJson(fService.selectQtest(m));
 	}
 	
 	@ResponseBody
-	@RequestMapping(value="selectOption.test", produces = "application/json; charset=utf-8")
-	public String selectOption(int testNo) {
-		return new Gson().toJson(fService.selectOption(testNo));
+	@RequestMapping(value="selectOptionTest.test", produces = "application/json; charset=utf-8")
+	public String selectOptionTest(int testNo) {
+		return new Gson().toJson(fService.selectOptionTest(testNo));
 	}
 	
 	@ResponseBody

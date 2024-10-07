@@ -48,7 +48,25 @@
 		<result column="COUPLE_CODE" property="coupleCode" />
 	</resultMap>
 	
-	<select id="selectQuestion" resultMap="qtestResult">
+	<resultMap type="Test" id="testResult">
+		<result column="TEST_NO" property="testNo" />
+		<result column="TEST_SCORE" property="testScore" />
+		<result column="TEST_DATE" property="testDate" />
+		<result column="EMAIL" property="email" />
+		<result column="COUPLE_CODE" property="coupleCode" />
+	</resultMap>
+	
+	<resultMap type="Atest" id="aestResult">
+		<result column="ATEST_NO" property="ateatNo" />
+		<result column="ATEST_CONTENT" property="atestContent" />
+		<result column="ATEST_TRUE" property="atestTrue" />
+		<result column="QTEST_NO" property="qtestNo" />
+		<result column="TEST_NO" property="testNo" />
+		<result column="EMAIL" property="email" />
+		<result column="COUPLE_CODE" property="coupleCode" />
+	</resultMap>
+	
+	<select id="selectQtest" resultMap="qtestResult">
 		select qtest_no
 		     , qtest_content
 		     , test_no
@@ -67,7 +85,7 @@
 		                  )
 	</select>
 	
-	<select id="selectOption" resultMap="optionTestResult">
+	<select id="selectOptionTest" resultMap="optionTestResult">
 		select option_no
 		     , option_content
 		     , option_true
@@ -154,5 +172,112 @@
 		   and couple_code = #{ coupleCode }
 		 order
 		    by alove_no
+	</select>
+	
+		<select id="selectTest" resultMap="testResult">
+		select test_no
+		     , test_score
+		     , test_date
+		     , email
+		     , couple_code
+		  from f_test
+		 where email = #{ email }
+		   and couple_code = #{ coupleCode }
+		 order
+		    by test_date
+	</select>
+	
+	<select id="selectTestOne" resultMap="testResult">
+		select test_no
+		     , test_score
+		     , test_date
+		     , email
+		     , couple_code
+		  from (select test_no
+		             , test_score
+		             , test_date
+		             , email
+		             , couple_code
+		          from f_test
+		         where email = #{ email }
+		           and couple_code = #{ coupleCode }
+		         order
+		            by test_date desc)
+		 where rownum between 1 and 1
+	</select>
+	
+	<insert id="insertTest">
+		INSERT 
+		  INTO F_TEST
+		VALUES
+		     (
+		       SEQ_TEST_NO.NEXTVAL
+		     , #{ testScore }
+		     , SYSDATE
+		     , #{ email }
+		     , #{ coupleCode }
+		     )
+	</insert>
+	
+	<insert id="insertQtest">
+		INSERT
+		  INTO F_QTEST
+		VALUES
+		     (
+		       SEQ_QTEST_NO.NEXTVAL
+		     , #{ qtestContent }
+		     , #{ testNo }
+		     , #{ email }
+			 , #{ coupleCode }
+			 )
+	</insert>
+	
+	<insert id="insertOptionTest">
+		INSERT
+		  INTO F_OPTION_TEST
+		VALUES
+		     (
+		       SEQ_OPTION_NO.NEXTVAL
+		     , #{ optionContent }
+		     , #{ optionTrue }
+		     , #{ qtestNo }
+		     , #{ testNo }
+		     , #{ email }
+			 , #{ coupleCode }
+		     )
+	</insert>
+	
+	<insert id="insertAtest">
+		INSERT
+		  INTO F_OPTION_TEST
+		VALUES
+		     (
+		       SEQ_OPTION_NO.NEXTVAL
+		     , #{ atestContent }
+		     , #{ atestTrue }
+		     , #{ qtestNo }
+		     , #{ testNo }
+		     , #{ email }
+			 , #{ coupleCode }
+			 )
+	</insert>
+	
+	<select id="selectQtestOne" resultMap="qtestResult">
+		select qtest_no
+		     , qtest_content
+		     , test_no
+		     , email
+		     , couple_code
+		  from (select qtest_no
+		             , qtest_content
+		             , test_no
+		             , email
+		             , couple_code
+		          from f_qtest
+		         where email = #{ email }
+		           and couple_code = #{ coupleCode }
+		         order
+		            by qtest_no desc)
+		 where rownum between 1 and 1
 	</select>
 </mapper>
