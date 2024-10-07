@@ -6,9 +6,13 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
+import org.json.simple.JSONObject;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.google.gson.JsonObject;
 
 @Controller
 public class PlayController {
@@ -36,9 +40,22 @@ public class PlayController {
 			    .build();
 			HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
 			return response.body();
+	}
+	
+	@RequestMapping("movieDetail")
+	public String movieDetail(int id, Model model) throws IOException, InterruptedException {
 		
+		HttpRequest request = HttpRequest.newBuilder()
+			    .uri(URI.create("https://api.themoviedb.org/3/movie/"+ id +"?language=ko-KR"))
+			    .header("accept", "application/json")
+			    .header("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwYjI3MjU0NjIzZTEyNTZmMjU5YTBiMGFjOWQ4YWY5MyIsIm5iZiI6MTcyODI1OTc4Ny42MjEzLCJzdWIiOiI2NmYyNmFlNmE4MmIwMDU3MDMyNmNjZmYiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.TMODsVUJWpLfSV3DYVFb7uQr5JiQSwL8WtnMbobD2dU")
+			    .method("GET", HttpRequest.BodyPublishers.noBody())
+			    .build();
+			HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+
+			model.addAttribute("response", response.body());
 		
-		
+		return "play/movieDetailView";
 	}
 	
 	

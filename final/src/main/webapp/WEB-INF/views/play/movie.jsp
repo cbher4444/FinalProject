@@ -5,9 +5,6 @@
 <head>
 <meta charset="UTF-8">
 <title>UsTwo</title>
-<link rel="stylesheet" href="https://unpkg.com/swiper@6.8.4/swiper-bundle.min.css" />
-    <script src="https://unpkg.com/swiper@6.8.4/swiper-bundle.min.js"></script>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
     	
     	.swiper-slide img:hover{
@@ -328,7 +325,8 @@ div.media.discover ul.multi_select.text a:hover, div.media.discover ul.multi_sel
 	div.media.discover ul.multi_select.text li:hover a {
 	background-color: rgba(var(- -tmdbLightBlue), 1);
 	color: #F69D9D;
-	border-color: rgba(var(- -tmdbLightBlue), 1)
+	border-color: #F69D9D;
+	cursor: pointer;
 }
 
 div.media.discover ul.multi_select.text li.no_hover a, div.media.discover ul.multi_select.text li.no_hover:hover
@@ -489,6 +487,9 @@ div.media.discover div.card.style_1 div.content p {
     	
     	
     </style>
+    <link rel="stylesheet" href="https://unpkg.com/swiper@6.8.4/swiper-bundle.min.css" />
+    <script src="https://unpkg.com/swiper@6.8.4/swiper-bundle.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
 	
@@ -506,7 +507,7 @@ div.media.discover div.card.style_1 div.content p {
 			style="position: absolute; top: 300px; left: 150px;">
 
 			
-
+			<!-- 카테고리 선택 필터 -->
 			<div class="filter_panel card">
 				<div class="name" data-callback="filterCallback()">
 					<h2>필터</h2>
@@ -564,7 +565,7 @@ div.media.discover div.card.style_1 div.content p {
 
 			</div>
 
-
+		<!-- 영화 스와이퍼 -->
 		</div>
 		<div class="container">
 			<div class="row animate-box">
@@ -591,7 +592,7 @@ div.media.discover div.card.style_1 div.content p {
 			  </section>
 			  
 		<script>
-
+			// 영화 api
 			const options = {
 					  method: 'GET',
 					  headers: {
@@ -615,7 +616,7 @@ div.media.discover div.card.style_1 div.content p {
 							let date = a['release_date'];
 							
 							template += " <div class='swiper-slide'>" 
-						                + "<a href=''>"
+						                + "<a href='movieDetail?id="+ movieid +"'>"
 						                + 	"<img src="+ image + " alt=''>"
 						                + "</a>"
 						               	+  "<p style='text-align:center; margin:0;'>" + title + "</p>"
@@ -627,12 +628,14 @@ div.media.discover div.card.style_1 div.content p {
 						            	
 						    
 						  })
-						
-						  $(".movie.swiper .swiper-container .swiper-wrapper").html(template);
+						  swiper.appendSlide(template);
+						  swiper.update();
+						  //$(".movie.swiper .swiper-container .swiper-wrapper").html(template);
 						  
 					  })
 					  .catch(err => console.error(err));
 		</script>
+			<!-- tv프로그램 스와이퍼 -->
 			</div>
 			<div class="row animate-box">
 				<div class="col-md-8 col-md-offset-2 text-center heading-section">
@@ -693,10 +696,17 @@ div.media.discover div.card.style_1 div.content p {
 	
 	
 
-	<script>
+	<script defer>
 	
-	
+	// 카테고리 변경 함수
 	function changeGenre(genreCode){
+		$(".filter #with_genres li").each(function(i, item){
+					if(item.dataset.value == genreCode){
+						$(item).css({color:'#f69d9d', border:'1px solid #f69d9d'});
+					}else{
+						$(item).css({color:'#848484', border:'1px solid #848484'});
+					}
+				})
 		$.ajax({
 			url:"discoverMovie",
 			data:{genre:genreCode},
@@ -709,7 +719,7 @@ div.media.discover div.card.style_1 div.content p {
 					let row = movieList[i];
 					
 					movie +=  " <div class='swiper-slide'>" 
-				                + "<a href=''>"
+				                + "<a href='movieDetail?id="+ row.id +"'>"
 				                + 	"<img src='http://media.themoviedb.org/t/p/w220_and_h330_face"+ row.poster_path + "' alt=''>"
 				                + "</a>"
 				               	+  "<p style='text-align:center; margin:0;'>" + row.title + "</p>"
@@ -719,13 +729,10 @@ div.media.discover div.card.style_1 div.content p {
 					            + "</div></div>"
 				            	+ "</div>";
 				}
+				swiper.removeAllSlides();
+				swiper.appendSlide(movie);
+				swiper.update();
 				
-				$(".movie.swiper .swiper-container .swiper-wrapper").html(movie);
-				$(".filter #with_genres li").each(function(i, item){
-					if(item.dataset.value == genreCode){
-						console.log(item.firstChild);
-					}
-				})
 				
 			}, error:function(){
 				console.log("장르 변경 ajax 통신 실패")
@@ -737,10 +744,10 @@ div.media.discover div.card.style_1 div.content p {
 
 	
 	
-	 new Swiper('.movie.swiper .swiper-container',{
+	const swiper = new Swiper('.movie.swiper .swiper-container',{
 	        slidesPerView: 3, // 한번에 보여줄 슬라이드 개수
 	        spaceBetween: 0, // 슬라이드 사이 여백
-	        loop:true,
+	        loop:false,
 	        navigation : {
 	            prevEl : '.movie .swiper-prev',
 	            nextEl : '.movie .swiper-next',
