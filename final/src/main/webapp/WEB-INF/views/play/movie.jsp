@@ -518,45 +518,45 @@ div.media.discover div.card.style_1 div.content p {
 				<div class="filter">
 					<h3>장르</h3>
 					<ul id="with_genres" class="multi_select text" name="with_genres[]">
-						<li data-value="878"><a class="no_click"
-							href="/discover/movie?with_genres=878&amp;language=ko">SF</a></li>
-						<li data-value="10770"><a class="no_click"
-							href="/discover/movie?with_genres=10770&amp;language=ko">TV
-								영화</a></li>
-						<li data-value="10751"><a class="no_click"
-							href="/discover/movie?with_genres=10751&amp;language=ko">가족</a></li>
-						<li data-value="27"><a class="no_click"
-							href="/discover/movie?with_genres=27&amp;language=ko">공포</a></li>
-						<li data-value="99"><a class="no_click"
-							href="/discover/movie?with_genres=99&amp;language=ko">다큐멘터리</a></li>
-						<li data-value="18"><a class="no_click"
-							href="/discover/movie?with_genres=18&amp;language=ko">드라마</a></li>
-						<li data-value="10749"><a class="no_click"
-							href="/discover/movie?with_genres=10749&amp;language=ko">로맨스</a></li>
-						<li data-value="12"><a class="no_click"
-							href="/discover/movie?with_genres=12&amp;language=ko">모험</a></li>
-						<li data-value="9648"><a class="no_click"
-							href="/discover/movie?with_genres=9648&amp;language=ko">미스터리</a></li>
-						<li data-value="80"><a class="no_click"
-							href="/discover/movie?with_genres=80&amp;language=ko">범죄</a></li>
-						<li data-value="37"><a class="no_click"
-							href="/discover/movie?with_genres=37&amp;language=ko">서부</a></li>
-						<li data-value="53"><a class="no_click"
-							href="/discover/movie?with_genres=53&amp;language=ko">스릴러</a></li>
-						<li data-value="16"><a class="no_click"
-							href="/discover/movie?with_genres=16&amp;language=ko">애니메이션</a></li>
-						<li data-value="28"><a class="no_click"
-							href="/discover/movie?with_genres=28&amp;language=ko">액션</a></li>
-						<li data-value="36"><a class="no_click"
-							href="/discover/movie?with_genres=36&amp;language=ko">역사</a></li>
-						<li data-value="10402"><a class="no_click"
-							href="/discover/movie?with_genres=10402&amp;language=ko">음악</a></li>
-						<li data-value="10752"><a class="no_click"
-							href="/discover/movie?with_genres=10752&amp;language=ko">전쟁</a></li>
-						<li data-value="35"><a class="no_click"
-							href="/discover/movie?with_genres=35&amp;language=ko">코미디</a></li>
-						<li data-value="14"><a class="no_click"
-							href="/discover/movie?with_genres=14&amp;language=ko">판타지</a></li>
+						<li data-value="878"><span class="no_click"
+							onclick="changeGenre(878)">SF</span></li>
+						<li data-value="10770"><span class="no_click"
+							onclick="changeGenre(10770)">TV
+								영화</span></li>
+						<li data-value="10751"><span class="no_click"
+							onclick="changeGenre(10751)">가족</span></li>
+						<li data-value="27"><span class="no_click"
+							onclick="changeGenre(27)">공포</span></li>
+						<li data-value="99"><span class="no_click"
+							onclick="changeGenre(99)">다큐멘터리</span></li>
+						<li data-value="18"><span class="no_click"
+							onclick="changeGenre(18)">드라마</span></li>
+						<li data-value="10749"><span class="no_click"
+							onclick="changeGenre(10749)">로맨스</span></li>
+						<li data-value="12"><span class="no_click"
+							onclick="changeGenre(12)">모험</span></li>
+						<li data-value="9648"><span class="no_click"
+							onclick="changeGenre(9648)">미스터리</span></li>
+						<li data-value="80"><span class="no_click"
+							onclick="changeGenre(80)">범죄</span></li>
+						<li data-value="37"><span class="no_click"
+							onclick="changeGenre(37)">서부</span></li>
+						<li data-value="53"><span class="no_click"
+							onclick="changeGenre(53)">스릴러</span></li>
+						<li data-value="16"><span class="no_click"
+							onclick="changeGenre(16)">애니메이션</span></li>
+						<li data-value="28"><span class="no_click"
+							onclick="changeGenre(28)">액션</span></li>
+						<li data-value="36"><span class="no_click"
+							onclick="changeGenre(36)">역사</span></li>
+						<li data-value="10402"><span class="no_click"
+							onclick="changeGenre(10402)">음악</span></li>
+						<li data-value="10752"><span class="no_click"
+							onclick="changeGenre(10752)">전쟁</span></li>
+						<li data-value="35"><span class="no_click"
+							onclick="changeGenre(35)">코미디</span></li>
+						<li data-value="14"><span class="no_click"
+							onclick="changeGenre(14)">판타지</span></li>
 					</ul>
 				</div>
 
@@ -591,51 +591,48 @@ div.media.discover div.card.style_1 div.content p {
 			  </section>
 			  
 		<script>
-				$(function(){
-					
-						const options = {
-								  method: 'GET',
-								  headers: {
-								    accept: 'application/json',
-								    Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwYjI3MjU0NjIzZTEyNTZmMjU5YTBiMGFjOWQ4YWY5MyIsIm5iZiI6MTcyODAwODUzMy44NjgyMzYsInN1YiI6IjY2ZjI2YWU2YTgyYjAwNTcwMzI2Y2NmZiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.rlGTYNGlYvpSKbsyEdcLBIGG-Ij0Mr2ra3UtH2IOUlE'
-								  }
-								};
-					
-								fetch('https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=1', options)
-								  .then(response => response.json())
-								  .then((data) =>{
-									  let movieList = data['results'];
-									  
-									  let template = "";
-									  movieList.forEach(a => {
-										let image = 'http://media.themoviedb.org/t/p/w220_and_h330_face' + a['poster_path'];
-										let title = a['title'];
-										let overview = a['overview'];
-										let vote = a['vote_average'].toFixed(1);
-										let movieid = a['id'];
-										let date = a['release_date'];
-										
-										template += " <div class='swiper-slide'>" 
-									                + "<a href=''>"
-									                + 	"<img src="+ image + " alt=''>"
-									                + "</a>"
-									               	+  "<p style='text-align:center; margin:0;'>" + title + "</p>"
-									                +  "<p style='text-align:center; margin:0;'>" + date + "</p>"
-									                +  "<div class='circle' style='background:conic-gradient(yellowgreen "+ vote * 36 +"deg, white 0deg)' ><div class='inner-circle'>"
-										            +  "<span>" + (vote * 10) + "%</span>"
-										            + "</div></div>"
-									            	+ "</div>";
-									            	
-									    
-									  })
-									
-									  $(".movie.swiper .swiper-container .swiper-wrapper").html(template);
-									  
-								  })
-								  .catch(err => console.error(err));
-					})
-	
-	</script>
+
+			const options = {
+					  method: 'GET',
+					  headers: {
+					    accept: 'application/json',
+					    Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwYjI3MjU0NjIzZTEyNTZmMjU5YTBiMGFjOWQ4YWY5MyIsIm5iZiI6MTcyODAwODUzMy44NjgyMzYsInN1YiI6IjY2ZjI2YWU2YTgyYjAwNTcwMzI2Y2NmZiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.rlGTYNGlYvpSKbsyEdcLBIGG-Ij0Mr2ra3UtH2IOUlE'
+					  }
+					};
+		
+					fetch('https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=1', options)
+					  .then(response => response.json())
+					  .then((data) =>{
+						  let movieList = data['results'];
+						  
+						  let template = "";
+						  movieList.forEach(a => {
+							let image = 'http://media.themoviedb.org/t/p/w220_and_h330_face' + a['poster_path'];
+							let title = a['title'];
+							let overview = a['overview'];
+							let vote = a['vote_average'].toFixed(1);
+							let movieid = a['id'];
+							let date = a['release_date'];
+							
+							template += " <div class='swiper-slide'>" 
+						                + "<a href=''>"
+						                + 	"<img src="+ image + " alt=''>"
+						                + "</a>"
+						               	+  "<p style='text-align:center; margin:0;'>" + title + "</p>"
+						                +  "<p style='text-align:center; margin:0;'>" + date + "</p>"
+						                +  "<div class='circle' style='background:conic-gradient(yellowgreen "+ vote * 36 +"deg, white 0deg)' ><div class='inner-circle'>"
+							            +  "<span>" + (vote * 10) + "%</span>"
+							            + "</div></div>"
+						            	+ "</div>";
+						            	
+						    
+						  })
+						
+						  $(".movie.swiper .swiper-container .swiper-wrapper").html(template);
+						  
+					  })
+					  .catch(err => console.error(err));
+		</script>
 			</div>
 			<div class="row animate-box">
 				<div class="col-md-8 col-md-offset-2 text-center heading-section">
@@ -698,10 +695,46 @@ div.media.discover div.card.style_1 div.content p {
 
 	<script>
 	
-	function discoverMovie(url){
-		fetch('~~' + url,option)
-		.then()
+	
+	function changeGenre(genreCode){
+		$.ajax({
+			url:"discoverMovie",
+			data:{genre:genreCode},
+			success:function(data){
+				let movieList = data.results;
+				movie = "";
+				
+				for(let i in movieList){
+					
+					let row = movieList[i];
+					
+					movie +=  " <div class='swiper-slide'>" 
+				                + "<a href=''>"
+				                + 	"<img src='http://media.themoviedb.org/t/p/w220_and_h330_face"+ row.poster_path + "' alt=''>"
+				                + "</a>"
+				               	+  "<p style='text-align:center; margin:0;'>" + row.title + "</p>"
+				                +  "<p style='text-align:center; margin:0;'>" + row.release_date + "</p>"
+				                +  "<div class='circle' style='background:conic-gradient(yellowgreen "+ row.vote_average.toFixed(1) * 36 +"deg, white 0deg)' ><div class='inner-circle'>"
+					            +  "<span>" + (row.vote_average.toFixed(1) * 10) + "%</span>"
+					            + "</div></div>"
+				            	+ "</div>";
+				}
+				
+				$(".movie.swiper .swiper-container .swiper-wrapper").html(movie);
+				$(".filter #with_genres li").each(function(i, item){
+					if(item.dataset.value == genreCode){
+						console.log(item.firstChild);
+					}
+				})
+				
+			}, error:function(){
+				console.log("장르 변경 ajax 통신 실패")
+			}
+		})
+		
 	}
+	
+
 	
 	
 	 new Swiper('.movie.swiper .swiper-container',{
