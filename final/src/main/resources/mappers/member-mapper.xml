@@ -86,5 +86,29 @@
 		     )
 	</insert>
 	
+	<select id="findId" resultType="String">
+		select email
+		  from c_member
+		 where user_name = #{userName}
+		   and phone = #{phone}
+		   and status != 'N'
+	
+	</select>
+	
+	<select id="checkUser" resultType="String">
+		select email
+		  from c_member
+		 where user_name = #{userName}
+		   and email = #{email}
+		   and status != 'N'
+	</select>
+	
+	<update id="updatePwd">
+		update c_member
+			set user_pwd = #{userPwd}
+		  where email = #{email}
+			and status != 'N'
+	</update>
+	
 	
 </mapper>

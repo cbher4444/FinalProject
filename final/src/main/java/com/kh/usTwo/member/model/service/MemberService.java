@@ -11,5 +11,10 @@ public interface MemberService {
 	int insertMember(Member m);
 	
 	int updateMember(Member m);
-
+	
+	String findId(Member m);
+	
+	String checkUser(Member m);
+	
+	int updatePwd(Member m);
 }

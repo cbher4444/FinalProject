@@ -14,7 +14,9 @@
 <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js"
   integrity="sha384-TiCUE00h649CAMonG018J2ujOgDKW/kVWlChEuu4jK2vxfAAD0eZxzCKakxg55G4" crossorigin="anonymous"></script>
 
-
+<!-- modal용 스크립트  -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous"></head>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
 
 	
 </head>
@@ -55,7 +57,8 @@
 									<span id="message" style="font-size:12px; color:red;"></span> 
 									<br>
 									
-									<a href="#">아이디 찾기</a> | <a href="#">비밀번호 찾기</a>
+									<a href="findIdForm" class="btn btn-light btn-sm">아이디 찾기</a> | 
+									<a href="findPwdForm" class="btn btn-light btn-sm">비밀번호 찾기</a>
 									<br>
 									<span style="width:120px;" id="kakaoLogin" align="left">
 										<a id="kakao-login-btn" href="javascript:loginWithKakao()">
@@ -82,6 +85,8 @@
 			</div>
 		</div>
 	</div>
+	
+	
 
 <script>
 function checkCapsLock(event)  {
