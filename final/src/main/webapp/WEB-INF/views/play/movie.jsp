@@ -501,7 +501,7 @@ div.media.discover div.card.style_1 div.content p {
 	</script>
 	
 	<!-- 내용 -->
-	<div id="fh5co-guest">
+	
 	
 			<!-- 카테고리 선택 필터 -->
 		<div class="media discover"
@@ -563,16 +563,8 @@ div.media.discover div.card.style_1 div.content p {
 			</div>
 		</div>
 
-
-
-			</div>
-		</div>
-
-
-
-
 		<!-- 영화 스와이퍼 -->
-		<div class="container">
+		<div class="container" style="padding-top:50px;">
 			<div class="row animate-box">
 				<div class="col-md-8 col-md-offset-2 text-center heading-section">
 					<h2>인기 영화 둘러보기</h2>
