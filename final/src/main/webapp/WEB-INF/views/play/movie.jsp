@@ -484,6 +484,7 @@ div.media.discover div.card.style_1 div.content p {
 	padding: 0;
 	color: rgba(0, 0, 0, .6)
 }
+
     	
     	
     </style>
@@ -503,12 +504,12 @@ div.media.discover div.card.style_1 div.content p {
 	<!-- 내용 -->
 	<div id="fh5co-guest">
 	
+			<!-- 카테고리 선택 필터 -->
 		<div class="media discover"
 			style="position: absolute; top: 300px; left: 150px;">
 
 			
-			<!-- 카테고리 선택 필터 -->
-			<div class="filter_panel card">
+			<div class="filter_panel card movie">
 				<div class="name" data-callback="filterCallback()">
 					<h2>필터</h2>
 					<span class="glyphicons_v2 chevron-right"></span>
@@ -516,7 +517,7 @@ div.media.discover div.card.style_1 div.content p {
 
 				
 
-				<div class="filter">
+				<div class="filter movie">
 					<h3>장르</h3>
 					<ul id="with_genres" class="multi_select text" name="with_genres[]">
 						<li data-value="878"><span class="no_click"
@@ -560,13 +561,13 @@ div.media.discover div.card.style_1 div.content p {
 							onclick="changeGenre(14)">판타지</span></li>
 					</ul>
 				</div>
-
-
-
 			</div>
+		</div>
+
+
+
 
 		<!-- 영화 스와이퍼 -->
-		</div>
 		<div class="container">
 			<div class="row animate-box">
 				<div class="col-md-8 col-md-offset-2 text-center heading-section">
@@ -592,88 +593,165 @@ div.media.discover div.card.style_1 div.content p {
 			  </section>
 			  
 		<script>
-			// 영화 api
-			const options = {
-					  method: 'GET',
-					  headers: {
-					    accept: 'application/json',
-					    Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwYjI3MjU0NjIzZTEyNTZmMjU5YTBiMGFjOWQ4YWY5MyIsIm5iZiI6MTcyODAwODUzMy44NjgyMzYsInN1YiI6IjY2ZjI2YWU2YTgyYjAwNTcwMzI2Y2NmZiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.rlGTYNGlYvpSKbsyEdcLBIGG-Ij0Mr2ra3UtH2IOUlE'
-					  }
-					};
+		// 영화 api
+		const options = {
+				  method: 'GET',
+				  headers: {
+				    accept: 'application/json',
+				    Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwYjI3MjU0NjIzZTEyNTZmMjU5YTBiMGFjOWQ4YWY5MyIsIm5iZiI6MTcyODAwODUzMy44NjgyMzYsInN1YiI6IjY2ZjI2YWU2YTgyYjAwNTcwMzI2Y2NmZiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.rlGTYNGlYvpSKbsyEdcLBIGG-Ij0Mr2ra3UtH2IOUlE'
+				  }
+				};
+	
+		fetch('https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=1', options)
+		  .then(response => response.json())
+		  .then((data) =>{
+			  let movieList = data['results'];
+			  
+			  let template = "";
+			  movieList.forEach(a => {
+				let image = 'http://media.themoviedb.org/t/p/w220_and_h330_face' + a['poster_path'];
+				let title = a['title'];
+				let overview = a['overview'];
+				let vote = a['vote_average'].toFixed(1);
+				let movieid = a['id'];
+				let date = a['release_date'];
+				
+				template += " <div class='swiper-slide'>" 
+			                + "<a href='movieDetail?id="+ movieid +"'>"
+			                + 	"<img src="+ image + " alt=''>"
+			                + "</a>"
+			               	+  "<p style='text-align:center; margin:0;'>" + title + "</p>"
+			                +  "<p style='text-align:center; margin:0;'>" + date + "</p>"
+			                +  "<div class='circle' style='background:conic-gradient(yellowgreen "+ vote * 36 +"deg, white 0deg)' ><div class='inner-circle'>"
+				            +  "<span>" + (vote * 10) + "%</span>"
+				            + "</div></div>"
+			            	+ "</div>";
+			            	
+			    
+			  })
+			  swiper.appendSlide(template);
+			  swiper.update();
+			  //$(".movie.swiper .swiper-container .swiper-wrapper").html(template);
+			  
+		  })
+		  .catch(err => console.error(err));
+			
 		
-					fetch('https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=1', options)
-					  .then(response => response.json())
-					  .then((data) =>{
-						  let movieList = data['results'];
-						  
-						  let template = "";
-						  movieList.forEach(a => {
-							let image = 'http://media.themoviedb.org/t/p/w220_and_h330_face' + a['poster_path'];
-							let title = a['title'];
-							let overview = a['overview'];
-							let vote = a['vote_average'].toFixed(1);
-							let movieid = a['id'];
-							let date = a['release_date'];
-							
-							template += " <div class='swiper-slide'>" 
-						                + "<a href='movieDetail?id="+ movieid +"'>"
-						                + 	"<img src="+ image + " alt=''>"
-						                + "</a>"
-						               	+  "<p style='text-align:center; margin:0;'>" + title + "</p>"
-						                +  "<p style='text-align:center; margin:0;'>" + date + "</p>"
-						                +  "<div class='circle' style='background:conic-gradient(yellowgreen "+ vote * 36 +"deg, white 0deg)' ><div class='inner-circle'>"
-							            +  "<span>" + (vote * 10) + "%</span>"
-							            + "</div></div>"
-						            	+ "</div>";
-						            	
-						    
-						  })
-						  swiper.appendSlide(template);
-						  swiper.update();
-						  //$(".movie.swiper .swiper-container .swiper-wrapper").html(template);
-						  
-					  })
-					  .catch(err => console.error(err));
+		// 카테고리 변경 함수
+		function changeGenre(genreCode){
+			$(".filter.movie #with_genres li").each(function(i, item){
+						if(item.dataset.value == genreCode){
+							$(item).css({color:'#f69d9d', border:'1px solid #f69d9d'});
+						}else{
+							$(item).css({color:'#848484', border:'1px solid #848484'});
+						}
+					})
+			$.ajax({
+				url:"discoverMovie",
+				data:{genre:genreCode},
+				success:function(data){
+					let movieList = data.results;
+					movie = "";
+					
+					for(let i in movieList){
+						
+						let row = movieList[i];
+						
+						movie +=  " <div class='swiper-slide'>" 
+					                + "<a href='movieDetail?id="+ row.id +"'>"
+					                + 	"<img src='http://media.themoviedb.org/t/p/w220_and_h330_face"+ row.poster_path + "' alt=''>"
+					                + "</a>"
+					               	+  "<p style='text-align:center; margin:0;'>" + row.title + "</p>"
+					                +  "<p style='text-align:center; margin:0;'>" + row.release_date + "</p>"
+					                +  "<div class='circle' style='background:conic-gradient(yellowgreen "+ row.vote_average.toFixed(1) * 36 +"deg, white 0deg)' ><div class='inner-circle'>"
+						            +  "<span>" + (row.vote_average.toFixed(1) * 10) + "%</span>"
+						            + "</div></div>"
+					            	+ "</div>";
+					}
+					swiper.removeAllSlides();
+					swiper.appendSlide(movie);
+					swiper.update();
+					
+					
+				}, error:function(){
+					console.log("장르 변경 ajax 통신 실패")
+				}
+			})
+			
+		}
+		
+
+		
+		
+		const swiper = new Swiper('.movie.swiper .swiper-container',{
+		        slidesPerView: 3, // 한번에 보여줄 슬라이드 개수
+		        spaceBetween: 0, // 슬라이드 사이 여백
+		        loop:false,
+		        navigation : {
+		            prevEl : '.movie .swiper-prev',
+		            nextEl : '.movie .swiper-next',
+		        },
+		        effect: 'coverflow',
+		        coverflowEffect: {
+		          rotate: 30,
+		          slideShadows: false,
+		        },
+
+		    });		
+		
+
 		</script>
-			<!-- tv프로그램 스와이퍼 -->
+		
+					<div class="media discover"
+			style="position: absolute; top: 980px; left: 150px;">
+
+			
+			<!-- 카테고리 선택 필터 -->
+			<div class="filter_panel card tv">
+				<div class="name" data-callback="filterCallback()">
+					<h2>필터</h2>
+					<span class="glyphicons_v2 chevron-right"></span>
+				</div>
+
+				
+
+				<div class="filter tv">
+					<h3>장르</h3>
+					<ul id="with_genres" class="multi_select text" name="with_genres[]">
+						<li data-value="10759"><span onclick="changeTV(10759)" class="no_click">Action &amp; Adventure</span></li>
+	                    <li data-value="10762"><span onclick="changeTV(10762)" class="no_click" >Kids</span></li>
+	                    <li data-value="10763"><span onclick="changeTV(10763)" class="no_click" >News</span></li>
+	                    <li data-value="10764"><span onclick="changeTV(10764)" class="no_click" >Reality</span></li>
+	                    <li data-value="10765"><span onclick="changeTV(10765)" class="no_click" >Sci-Fi &amp; Fantasy</span></li>
+	                    <li data-value="10766"><span onclick="changeTV(10766)" class="no_click" >Soap</span></li>
+	                    <li data-value="10767"><span onclick="changeTV(10767)" class="no_click" >Talk</span></li>
+	                    <li data-value="10768"><span onclick="changeTV(10768)" class="no_click">War &amp; Politics</span></li>
+	                    <li data-value="10751"><span onclick="changeTV(10751)" class="no_click">가족</span></li>
+	                    <li data-value="99"><span onclick="changeTV(99)" class="no_click" >다큐멘터리</span></li>
+	                    <li data-value="18"><span onclick="changeTV(18)" class="no_click" >드라마</span></li>
+	                    <li data-value="9648"><span onclick="changeTV(9648)" class="no_click" >미스터리</span></li>
+	                    <li data-value="80"><span onclick="changeTV(80)" class="no_click" >범죄</span></li>
+	                    <li data-value="37"><span onclick="changeTV(37)" class="no_click" >서부</span></li>
+	                    <li data-value="16"><span onclick="changeTV(16)" class="no_click" >애니메이션</span></li>
+	                    <li data-value="35"><span onclick="changeTV(35)" class="no_click" >코미디</span></li>
+					</ul>
+				</div>
 			</div>
+		</div>
+			
+		
+			<!-- tv프로그램 스와이퍼 -->
+			
 			<div class="row animate-box">
 				<div class="col-md-8 col-md-offset-2 text-center heading-section">
-					<h2>OTT든 뭐든 보여드림</h2>
+					<h2>인기있는 tv프로그램</h2>
 				</div>
 			</div>
 			<div class="row">
 				<section class="ott swiper">
 			            <div class="swiper-container">
 			                <div class="swiper-wrapper">
-			                    <div class="swiper-slide">
-			                        <a href="">
-			                            <img src="https://i.namu.wiki/i/HMgOJ9qu5qJn3YWIJe4ttQNI25P0uxJ6u6_zNaJhJYDF3vnypCBBOd0vrHyeeOzMYIkuJmcvu4RcpkqXp2EG2A.webp" alt="">
-			                        </a>
-			                        <p style="text-align:center; margin:0;">흑백요리사</p>
-			                        <p style="text-align:center; margin:0;">2024.09.17</p>
-			                    </div>
-			                    <div class="swiper-slide">
-			                        <a href="">
-			                            <img src="https://i.namu.wiki/i/HMgOJ9qu5qJn3YWIJe4ttQNI25P0uxJ6u6_zNaJhJYDF3vnypCBBOd0vrHyeeOzMYIkuJmcvu4RcpkqXp2EG2A.webp" alt="">
-			                        </a>
-			                        <p style="text-align:center; margin:0;">흑백요리사</p>
-			                        <p style="text-align:center; margin:0;">2024.09.17</p>
-			                    </div>
-			                    <div class="swiper-slide">
-			                        <a href="">
-			                            <img src="https://i.namu.wiki/i/HMgOJ9qu5qJn3YWIJe4ttQNI25P0uxJ6u6_zNaJhJYDF3vnypCBBOd0vrHyeeOzMYIkuJmcvu4RcpkqXp2EG2A.webp" alt="">
-			                        </a>
-			                        <p style="text-align:center; margin:0;">흑백요리사</p>
-			                        <p style="text-align:center; margin:0;">2024.09.17</p>
-			                    </div>
-			                    <div class="swiper-slide">
-			                        <a href="">
-			                            <img src="https://i.namu.wiki/i/HMgOJ9qu5qJn3YWIJe4ttQNI25P0uxJ6u6_zNaJhJYDF3vnypCBBOd0vrHyeeOzMYIkuJmcvu4RcpkqXp2EG2A.webp" alt="">
-			                        </a>
-			                        <p style="text-align:center; margin:0;">흑백요리사</p>
-			                        <p style="text-align:center; margin:0;">2024.09.17</p>
-			                    </div>
+			                    
 			                </div>
 			            </div>
 			
@@ -698,87 +776,109 @@ div.media.discover div.card.style_1 div.content p {
 
 	<script defer>
 	
-	// 카테고리 변경 함수
-	function changeGenre(genreCode){
-		$(".filter #with_genres li").each(function(i, item){
-					if(item.dataset.value == genreCode){
+	const optionsW = {
+			  method: 'GET',
+			  headers: {
+			    accept: 'application/json',
+			    Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwYjI3MjU0NjIzZTEyNTZmMjU5YTBiMGFjOWQ4YWY5MyIsIm5iZiI6MTcyODM1MzM2Ny40MjE1MjksInN1YiI6IjY2ZjI2YWU2YTgyYjAwNTcwMzI2Y2NmZiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.YooNx68pHwTbLmCGiGpKofZvG4zieyXeJp6i0SkfjSs'
+			  }
+			};
+
+			fetch('https://api.themoviedb.org/3/discover/tv?include_adult=false&include_null_first_air_dates=false&language=ko&sort_by=first_air_date.desc&vote_average.gte=8&with_original_language=ko', optionsW)
+			  .then(response => response.json())
+			  .then((data) =>{
+				  let tvList = data['results'];
+				  
+				  let template = "";
+				  tvList.forEach(a => {
+					  let image = 'http://media.themoviedb.org/t/p/w220_and_h330_face' + a['poster_path'];
+					  let title = a['name'];
+					  let overview = a['overview'];
+					  let vote = a['vote_average'].toFixed(1);
+					  let tvId = a['id'];
+					  let date = a['first_air_date'];
+					  
+					  template += " <div class='swiper-slide'>" 
+						                + "<a href='tvDetail?id="+ tvId +"'>"
+						                + 	"<img src="+ image + " alt=''>"
+						                + "</a>"
+						               	+  "<p style='text-align:center; margin:0;'>" + title + "</p>"
+						                +  "<p style='text-align:center; margin:0;'>" + date + "</p>"
+						                +  "<div class='circle' style='background:conic-gradient(yellowgreen "+ vote * 36 +"deg, white 0deg)' ><div class='inner-circle'>"
+							            +  "<span>" + (vote * 10) + "%</span>"
+							            + "</div></div>"
+						            	+ "</div>";
+				  })
+				  
+				  swiperW.appendSlide(template);
+				  swiperW.update();
+				  
+			  })
+			  .catch(err => console.error(err));
+			
+			
+			function changeTV(genre){
+				$(".filter.tv #with_genres li").each(function(i, item){
+					if(item.dataset.value == genre){
 						$(item).css({color:'#f69d9d', border:'1px solid #f69d9d'});
 					}else{
 						$(item).css({color:'#848484', border:'1px solid #848484'});
 					}
 				})
-		$.ajax({
-			url:"discoverMovie",
-			data:{genre:genreCode},
-			success:function(data){
-				let movieList = data.results;
-				movie = "";
 				
-				for(let i in movieList){
-					
-					let row = movieList[i];
-					
-					movie +=  " <div class='swiper-slide'>" 
-				                + "<a href='movieDetail?id="+ row.id +"'>"
-				                + 	"<img src='http://media.themoviedb.org/t/p/w220_and_h330_face"+ row.poster_path + "' alt=''>"
-				                + "</a>"
-				               	+  "<p style='text-align:center; margin:0;'>" + row.title + "</p>"
-				                +  "<p style='text-align:center; margin:0;'>" + row.release_date + "</p>"
-				                +  "<div class='circle' style='background:conic-gradient(yellowgreen "+ row.vote_average.toFixed(1) * 36 +"deg, white 0deg)' ><div class='inner-circle'>"
-					            +  "<span>" + (row.vote_average.toFixed(1) * 10) + "%</span>"
-					            + "</div></div>"
-				            	+ "</div>";
-				}
-				swiper.removeAllSlides();
-				swiper.appendSlide(movie);
-				swiper.update();
+				$.ajax({
+					url:"discoverTv",
+					data:{genre:genre},
+					success:function(data){
+						let tvList = data.results;
+						tv = "";
+						
+						for(let i in tvList){
+							
+							let row = tvList[i];
+							
+							tv +=  " <div class='swiper-slide'>" 
+						                + "<a href='tvDetail?id="+ row.id +"'>"
+						                + 	"<img src='http://media.themoviedb.org/t/p/w220_and_h330_face"+ row.poster_path + "' alt=''>"
+						                + "</a>"
+						               	+  "<p style='text-align:center; margin:0;'>" + row.name + "</p>"
+						                +  "<p style='text-align:center; margin:0;'>" + row.first_air_date + "</p>"
+						                +  "<div class='circle' style='background:conic-gradient(yellowgreen "+ row.vote_average.toFixed(1) * 36 +"deg, white 0deg)' ><div class='inner-circle'>"
+							            +  "<span>" + (row.vote_average.toFixed(1) * 10) + "%</span>"
+							            + "</div></div>"
+						            	+ "</div>";
+						}
+						swiperW.removeAllSlides();
+						swiperW.appendSlide(tv);
+						swiperW.update();
+					},error:function(){
+						
+					}
+				})
 				
-				
-			}, error:function(){
-				console.log("장르 변경 ajax 통신 실패")
 			}
-		})
-		
-	}
 	
 
-	
-	
-	const swiper = new Swiper('.movie.swiper .swiper-container',{
-	        slidesPerView: 3, // 한번에 보여줄 슬라이드 개수
-	        spaceBetween: 0, // 슬라이드 사이 여백
-	        loop:false,
-	        navigation : {
-	            prevEl : '.movie .swiper-prev',
-	            nextEl : '.movie .swiper-next',
-	        },
-	        effect: 'coverflow',
-	        coverflowEffect: {
-	          rotate: 30,
-	          slideShadows: false,
-	        },
-
-	    });
 	 
-	 new Swiper('.ott.swiper .swiper-container',{
-	        slidesPerView: 3, // 한번에 보여줄 슬라이드 개수
-	        spaceBetween: 20, // 슬라이드 사이 여백
-	        // 1번 슬라이드가 가운데 보이기
-	        loop:true,
-	        // autoplay: {
-	        //     delay : 5000,
-	        // },
-	        navigation : {
-	            prevEl : '.ott .swiper-prev',
-	            nextEl : '.ott .swiper-next',
-	        },
-	        effect: 'coverflow',
-	        coverflowEffect: {
-	          rotate: 30,
-	          slideShadows: false,
-	        },
-
-	    });
+			 const swiperW = new Swiper('.ott.swiper .swiper-container',{
+			        slidesPerView: 3, // 한번에 보여줄 슬라이드 개수
+			        spaceBetween: 20, // 슬라이드 사이 여백
+			        // 1번 슬라이드가 가운데 보이기
+			        loop:false,
+			        // autoplay: {
+			        //     delay : 5000,
+			        // },
+			        navigation : {
+			            prevEl : '.ott .swiper-prev',
+			            nextEl : '.ott .swiper-next',
+			        },
+			        effect: 'coverflow',
+			        coverflowEffect: {
+			          rotate: 30,
+			          slideShadows: false,
+			        },
+		
+			    });
 	</script>
 </body>
 </html>

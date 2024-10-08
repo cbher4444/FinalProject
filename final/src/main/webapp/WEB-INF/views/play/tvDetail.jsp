@@ -116,15 +116,16 @@
 		$(()=>{ $(".nav-header #menubar_map").addClass("active"); })
 		
 		// json 객체 데이터 뽑기(영화 정보)
-		let movieInfo = ${ response }
-		let backPoster = 'https://image.tmdb.org/t/p/w1920_and_h800_multi_faces' + movieInfo.backdrop_path;
-		let mainPoster = 'http://media.themoviedb.org/t/p/w220_and_h330_face' + movieInfo.poster_path ;
-		let overview = movieInfo.overview;
-		let title = movieInfo.title;
-		let vote = movieInfo.vote_average.toFixed(1) * 10;
-		let date = movieInfo.release_date;
+		let tvInfo = ${ detail }
+		let backPoster = 'https://image.tmdb.org/t/p/w1920_and_h800_multi_faces' + tvInfo.backdrop_path;
+		let mainPoster = 'http://media.themoviedb.org/t/p/w220_and_h330_face' + tvInfo.seasons[0].poster_path ;
+		let overview = tvInfo.overview;
+		let title = tvInfo.name;
+		let vote = tvInfo.vote_average.toFixed(1) * 10;
+		let date = tvInfo.seasons[0].air_date;
 		
-		// 영화 정보 데이터 넣기
+		
+		// tv 정보 데이터 넣기
 		$(".backPoster").css("background-image","url("+ backPoster +")");
 		$('.mainPoster').attr("src", mainPoster);
 		$(".overView").text(overview);
@@ -175,26 +176,27 @@
     });
 	
 	// json 객체 데이터 뽑기 (출연진 정보)
-	  let credit = ${credit}.cast;
+	   let credit = ${credit}.cast;
 	    
 	    value = "";
+	    
 	    $(credit).each(function(i, item){
-	    	if(i < 13){
+	   
 	    		value += "<div class='swiper-slide'>"
 						+	"<div class='col-md-3 text-center animate-box fadeInUp animated'>"
 						+		"<div class='groom-men'>"
-						+			"<img src='https://media.themoviedb.org/t/p/w138_and_h175_face"+ item.profile_path + "' class='img-responsive' alt='Free HTML5 Bootstrap Template by FreeHTML5.co'>"
+						+			"<img src='https://media.themoviedb.org/t/p/w138_and_h175_face"+ item.profile_path + "' class='img-responsive' alt='"+ item.name +"'>"
 						+			"<h3 style='margin-bottom:10px;'>"+ item.name +"</h3>"
 						+			"<h3>"+ item.character + "</h3>"
 						+		"</div>"
 						+	"</div>"
 						+ "</div>";
-	    	}
+	    	
 	    })
 	    
 		swiper.appendSlide(value);
 	    swiper.update();
- 
+ 		
 
 
 	</script>
