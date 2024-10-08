@@ -328,7 +328,8 @@ div.media.discover ul.multi_select.text a:hover, div.media.discover ul.multi_sel
 	div.media.discover ul.multi_select.text li:hover a {
 	background-color: rgba(var(- -tmdbLightBlue), 1);
 	color: #F69D9D;
-	border-color: rgba(var(- -tmdbLightBlue), 1)
+	border-color: #F69D9D;
+	cursor:pointer;
 }
 
 div.media.discover ul.multi_select.text li.no_hover a, div.media.discover ul.multi_select.text li.no_hover:hover
