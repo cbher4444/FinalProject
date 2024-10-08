@@ -32,4 +32,5 @@ public interface FunService {
 	ArrayList<Atest> selectAtest(Test t);
 	int updateAtest(Atest a);
 	int updateTest(Test t);
+	int countAtest(Member m);
 }

@@ -93,6 +93,10 @@ public class FunDao {
 	public int updateTest(Test t, SqlSessionTemplate sqlSession) {
 		return sqlSession.update("funMapper.updateTest", t);
 	}
+
+	public int countAtest(Member m, SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("funMapper.countAtest", m);
+	}
 	
 	
 }

@@ -310,4 +310,17 @@
 		   and email = #{ email }
 		   and couple_code = #{ coupleCode }
 	</update>
+	
+	<select id="countAtest" resultType="_int">
+		select count(*) as num
+		  from f_atest
+		 where test_no = (select test_no
+		                    from (select test_no
+		                            from f_test
+		                           where email = 'user02@email.com'
+		                             and couple_code = 'DFGDFG5623SAD12'
+		                           order
+		                              by test_no desc)
+		                   where rownum between 1 and 1)
+	</select>
 </mapper>

@@ -127,14 +127,14 @@
 														let countFirst = 0;
 														for (let j in option) {
 															if (question[i].qtestNo === option[j].qtestNo) {
-																value += '<input type="radio" name="made-testQ' + (Number(i) + 1) + 'A" id="' + option[j].optionNo + 'made-testQ' + (Number(i) + 1) + 'A' + (Number(j) + 1) + '">';
-																value += '<label for="' + option[j].optionNo + 'made-testQ' + (Number(i) + 1) + 'A' + (Number(j) + 1) + '">&nbsp;&nbsp;' + option[j].optionContent + '</label> <br>'; // 반복(4)
+																value += '<input type="radio" name="made-testQ' + question[i].qtestNo + 'A" id="' + option[j].optionNo + 'made-testQ' + question[i].qtestNo + 'A' + (Number(j) + 1) + '">';
+																value += '<label for="' + option[j].optionNo + 'made-testQ' + question[i].qtestNo + 'A' + (Number(j) + 1) + '">&nbsp;&nbsp;' + option[j].optionContent + '</label> <br>'; // 반복(4)
 															
 																countFirst = 1;
 															}
 														}
 														if (!countFirst) {
-															value += '<input type="text" name="made-testQ' + (Number(i) + 1) + 'A" id="made-testQ' + (Number(i) + 1) + 'Ainput' + (Number(i) + 1)
+															value += '<input type="text" name="made-testQ' + question[i].qtestNo + 'A" id="made-testQ' + question[i].qtestNo + 'Ainput' + question[i].qtestNo
 																		+ '" style="width: 87%; margin: 0 3% 0 10%; background-color: #00000000; border: none; border-bottom: 1px solid #000;">';
 														}
 													value += '</div>';
@@ -151,8 +151,8 @@
 														let countSecond = 0;
 														for (let j in option) {
 															if (question[i].qtestNo === option[j].qtestNo) {
-																value += '<input type="radio" name="made-testQ' + (Number(i) + 1) + 'A" id="' + option[j].optionNo + 'made-testQ' + (Number(i) + 1) + 'A' + (Number(j) + 1) + '">';
-																value += '<label for="' + option[j].optionNo + 'made-testQ' + (Number(i) + 1) + 'A' + (Number(j) + 1) + '">&nbsp;&nbsp;' + option[j].optionContent + '</label> <br>'; // 반복(4)
+																value += '<input type="radio" name="made-testQ' + question[i].qtestNo + 'A" id="' + option[j].optionNo + 'made-testQ' + question[i].qtestNo + 'A' + (Number(j) + 1) + '">';
+																value += '<label for="' + option[j].optionNo + 'made-testQ' + question[i].qtestNo + 'A' + (Number(j) + 1) + '">&nbsp;&nbsp;' + option[j].optionContent + '</label> <br>'; // 반복(4)
 															
 																countSecond = 1;
 															}
@@ -176,6 +176,30 @@
 													`;
 
 											$('#defaultContainerRowDiv2').html(value);
+
+											$.ajax({
+												url: 'selectAtest.test',
+												data: {
+													'testNo': question[0].testNo,
+													'email': '${ loginUser.email }',
+													'coupleCode': '${ loginUser.coupleCode }'
+												},
+												success: function(atest) {
+													if (atest.length !== 0) { // 선택했던 값이 존재할 때
+														for (let i in atest) {
+															for (let j in optionSave) {
+																if (atest[i].atestContent === optionSave[j].optionContent) {
+																	$('input[id^=' + optionSave[j].optionNo +'made-testQ]').attr('checked', true);
+																}
+															}
+														}
+
+														if (atest.length === 10) {
+															$('input[type=radio]').attr('disabled', true);
+														}
+													}
+												}
+											});
 										}, error: function() {
 											console.log('ajax 통신 에러 : 보기 조회');
 										}
@@ -185,21 +209,43 @@
 								}
 							});	
 						}
+
+						function callGemini() {
+							$.ajax({
+								url: "geminiTest",
+								data: {
+									"email": '${ loginUser.partnerEmail }', // 상대방 email(상대방 설문조사 결과 조회)
+									"coupleCode": '${ loginUser.coupleCode }',
+									"myEmail": '${ loginUser.email}',
+								}, success: function(testNo) {
+									selectLastTest();
+								}, error: function() {
+									console.log("Error insertTest")
+								},
+							});
+						}
 						
 						$(() => {
 							$('#default-btn').on('click', () => {
-								let content = '';
 								$.ajax({
-									url: "geminiTest",
+									url: 'countAtest.test',
 									data: {
-										"email": '${ loginUser.partnerEmail }', // 상대방 email(상대방 설문조사 결과 조회)
+										"email": '${ loginUser.email }',
 										"coupleCode": '${ loginUser.coupleCode }',
-										"myEmail": '${ loginUser.email}',
-									}, success: function(testNo) {
-										selectLastTest();
-									}, error: function() {
-										console.log("Error insertTest")
 									},
+									success: function(num) {
+										if (num === 10) {
+											callGemini();
+										} else {
+											if(confirm('기존에 풀던 고사가 아직 완료되지 않았습니다. 이어서 푸시겠습니까?')) {
+												selectLastTest();
+											} else {
+												callGemini();
+											}
+										}
+									}, error: function() {
+										console.log('ajax : countAtest');
+									}
 								});							
 							});
 						
@@ -301,9 +347,9 @@
 						function checkDone() {
 							let count = 0;
 
-							for (let i = 1; i < 11; i++) {
+							for (let i in optionSave) {
 								for (let j = 0; j < 4; j++) {
-									let checkedOption = $('input[name^=made-testQ' + i +'A]')[j];
+									let checkedOption = $('input[name^=made-testQ' + optionSave[i].optionNo +'A]')[j];
 									if ($(checkedOption).prop('checked')) {
 										count = count + 1;
 									}
@@ -322,9 +368,9 @@
 						function grading() {
 							let count = 0;
 
-							for (let i = 1; i < 11; i++) {
+							for (let i in optionSave) {
 								for (let j = 0; j < 4; j++) {
-									let checkedOption = $('input[name^=made-testQ' + i +'A]')[j];
+									let checkedOption = $('input[name^=made-testQ' + optionSave[i].optionNo +'A]')[j];
 									if ($(checkedOption).prop('checked')) {
 										let optionContent = $(checkedOption).next('label').text().trim();
 										let qtestContent = cutStringAfterChar($(checkedOption).closest('.testQ').children('.testQtitle').text(), '.').trim();
@@ -350,7 +396,7 @@
 									'coupleCode': '${ loginUser.coupleCode }'
 								},
 								success: function() {
-									console.log('dd')
+									console.log('업데이트 성공')
 								}, error: function() {
 									console.log('ajax : updateTest')
 								}
