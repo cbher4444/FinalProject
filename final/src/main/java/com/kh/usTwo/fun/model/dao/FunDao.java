@@ -81,6 +81,18 @@ public class FunDao {
 	public Qtest selectQtestOne(Member m, SqlSessionTemplate sqlSession) {
 		return sqlSession.selectOne("funMapper.selectQtestOne", m);
 	}
+
+	public ArrayList<Atest> selectAtest(Test t, SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("funMapper.selectAtest", t);
+	}
+
+	public int updateAtest(Atest a, SqlSessionTemplate sqlSession) {
+		return sqlSession.update("funMapper.updateAtest", a);
+	}
+
+	public int updateTest(Test t, SqlSessionTemplate sqlSession) {
+		return sqlSession.update("funMapper.updateTest", t);
+	}
 	
 	
 }

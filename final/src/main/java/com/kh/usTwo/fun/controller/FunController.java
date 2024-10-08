@@ -9,7 +9,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 import com.kh.usTwo.fun.model.service.FunServiceImpl;
+import com.kh.usTwo.fun.model.vo.Atest;
+import com.kh.usTwo.fun.model.vo.OptionTest;
 import com.kh.usTwo.fun.model.vo.Qtest;
+import com.kh.usTwo.fun.model.vo.Test;
 import com.kh.usTwo.member.model.vo.Member;
 
 @Controller
@@ -59,5 +62,29 @@ public class FunController {
 	@RequestMapping(value="selectAlove.qna", produces = "application/json; charset=utf-8")
 	public String selectAlove(Member m) {
 		return new Gson().toJson(fService.selectAlove(m));
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="selectAtest.test", produces = "application/json; charset=utf-8")
+	public String selectAtest(Test t) {
+		return new Gson().toJson(fService.selectAtest(t));
+	}
+	
+	@ResponseBody
+	@RequestMapping("updateAtest.test")
+	public int updateAtest(Atest a) {
+		return fService.updateAtest(a);
+	}
+	
+	@ResponseBody
+	@RequestMapping("insertAtest.test")
+	public int insertAtest(Atest a) {
+		return fService.insertAtest(a);
+	}
+	
+	@ResponseBody
+	@RequestMapping("updateTest.test")
+	public int updateTest(Test t) {
+		return fService.updateTest(t);
 	}
 }
