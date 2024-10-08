@@ -9,4 +9,9 @@ import com.kh.usTwo.gemini.model.dao.GeminiDao;
 public class GeminiServiceImpl implements GeminiService {
 	@Autowired
 	private GeminiDao gDao;
+	
+	@Override
+	public String callGemini(String prompt) throws Exception {
+		return gDao.callGemini(prompt);
+	}
 }

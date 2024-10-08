@@ -89,122 +89,104 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-md-4 col-md-offset-4 text-center animate-box" id="defaultContainerRowDiv2">
-					<a href="javascript:void(0)" class="btn btn-primary btn-lg" id="default-btn">고사 시작</a>
-					<a href="javascript:void(0)" class="btn btn-primary btn-lg" id="made-btn">지난 시험 조회</a>
+					<a href="javascript:void(0)" class="btn btn-primary btn-lg" id="default-btn">시험 치러 가기</a>
 
 					<script>
 						let questionSave;
 						let optionSave;
-
-						function selectLastTest() {
-							$.ajax({
-								url: "selectQtest.test",
-								data: {
-									"email": 'user02@email.com', // 고사 응시자 email
-									"coupleCode": 'DFGDFG5623SAD12',
-								}, success: function(question) {
-									questionSave = question;
-									$.ajax({
-										url: "selectOptionTest.test",
-										data: {"testNo": question[0].testNo},
-										success: function(option) {
-											optionSave = option;
-											let value = `
-													<div id="made-testBody">
-														<div id="made-testHead">
-															<div id="made-testTitle" align="center">유진 ❤️ 애신</div>
-														</div>
-
-														<div id="made-testContent">
-															<div id="made-testContentFirst" class="testContent" align="left">
-												`;
-											for (let i = 0; i < 5; i++) {
-												value += '<div id="made-testQ' + (Number(i) + 1) + '" class="testQ">';
-													value += '<div id="made-testQ' + (Number(i) + 1) + 'Title" class="testQtitle">';
-														value += 'Q' + (Number(i) + 1) + '. ' + question[i].qtestContent;
-													value += '</div>';
-													value += '<div id="made-testQ' + (Number(i) + 1) + 'Content" class="testQcontent">';
-														let countFirst = 0;
-														for (let j in option) {
-															if (question[i].qtestNo === option[j].qtestNo) {
-																value += '<input type="radio" name="made-testQ' + (Number(i) + 1) + 'A" id="made-testQ' + (Number(i) + 1) + 'A' + (Number(j) + 1) + '">';
-																value += '<label for="made-testQ' + (Number(i) + 1) + 'A' + (Number(j) + 1) + '">&nbsp;&nbsp;' + option[j].optionContent + '</label> <br>'; // 반복(4)
-															
-																countFirst = 1;
-															}
-														}
-														if (!countFirst) {
-															value += '<input type="text" name="made-testQ' + (Number(i) + 1) + 'A" id="made-testQ' + (Number(i) + 1) + 'Ainput' + (Number(i) + 1)
-																		+ '" style="width: 87%; margin: 0 3% 0 10%; background-color: #00000000; border: none; border-bottom: 1px solid #000;">';
-														}
-													value += '</div>';
-												value += '</div>';
-											};
-											value += '</div>';
-											value += '<div id="made-testContentSecond" class="testContent" align="left">';
-												for (let i = 5; i < 10; i++) {
-												value += '<div id="made-testQ' + (Number(i) + 1) + '" class="testQ">';
-													value += '<div id="made-testQ' + (Number(i) + 1) + 'Title" class="testQtitle">';
-														value += 'Q' + (Number(i) + 1) + '. ' + question[i].qtestContent;
-													value += '</div>';
-													value += '<div id="made-testQ' + (Number(i) + 1) + 'Content" class="testQcontent">';
-														let countSecond = 0;
-														for (let j in option) {
-															if (question[i].qtestNo === option[j].qtestNo) {
-																value += '<input type="radio" name="made-testQ' + (Number(i) + 1) + 'A" id="made-testQ' + (Number(i) + 1) + 'A' + (Number(j) + 1) + '">';
-																value += '<label for="made-testQ' + (Number(i) + 1) + 'A' + (Number(j) + 1) + '">&nbsp;&nbsp;' + option[j].optionContent + '</label> <br>'; // 반복(4)
-															
-																countSecond = 1;
-															}
-														}
-
-														if (!countSecond) {
-															value += '<input type="text" name="made-testQ' + (Number(i) + 1) + 'A" id="made-testQ' + (Number(i) + 1) + 'Ainput' + (Number(i) + 1)
-																		+ '" style="width: 87%; margin: 0 3% 0 10%; background-color: #00000000; border: none; border-bottom: 1px solid #000;">';
-														}
-													value += '</div>';
-												value += '</div>';
-											};
-											value += `
-															</div>
-														</div>
-														</div>
-
-														<br><br>
-
-														<a href="javascript:void(0)" class="btn btn-primary btn-lg" id="default-btn" onclick="checkDone()">채점하기</a>
-													`;
-
-											$('#defaultContainerRowDiv2').html(value);
-										}, error: function() {
-											console.log('ajax 통신 에러 : 보기 조회');
-										}
-									});
-								}, error: function() {
-									console.log('ajax 통신 에러 : 질문 조회');
-								}
-							});	
-						}
 						
 						$(() => {
 							$('#default-btn').on('click', () => {
 								let content = '';
+								let testNo = 1;
 								$.ajax({
-									url: "geminiTest",
+									url: "selectQuestion.test",
 									data: {
-										"email": 'user01@email.com', // 상대방 email(상대방 설문조사 결과 조회)
 										"coupleCode": 'DFGDFG5623SAD12',
-									}, success: function(testNo) {
-										selectLastTest();
+										"email": 'user01@email.com',
+									}, success: function(question) {
+										questionSave = question;
+										$.ajax({
+											url: "selectOption.test",
+											data: {"testNo": testNo},
+											success: function(option) {
+												optionSave = option;
+												let value = `
+														<div id="made-testBody">
+															<div id="made-testHead">
+																<div id="made-testTitle" align="center">유진 ❤️ 애신</div>
+															</div>
+
+															<div id="made-testContent">
+																<div id="made-testContentFirst" class="testContent" align="left">
+													`;
+												for (let i = 0; i < 5; i++) {
+													value += '<div id="made-testQ' + (Number(i) + 1) + '" class="testQ">';
+														value += '<div id="made-testQ' + (Number(i) + 1) + 'Title" class="testQtitle">';
+															value += 'Q' + (Number(i) + 1) + '. ' + question[i].qtestContent;
+														value += '</div>';
+														value += '<div id="made-testQ' + (Number(i) + 1) + 'Content" class="testQcontent">';
+															let countFirst = 0;
+															for (let j in option) {
+																if (question[i].qtestNo === option[j].qtestNo) {
+																	value += '<input type="radio" name="made-testQ' + (Number(i) + 1) + 'A" id="made-testQ' + (Number(i) + 1) + 'A' + (Number(j) + 1) + '">';
+																	value += '<label for="made-testQ' + (Number(i) + 1) + 'A' + (Number(j) + 1) + '">&nbsp;&nbsp;' + option[j].optionContent + '</label> <br>'; // 반복(4)
+																
+																	countFirst = 1;
+																}
+															}
+															if (!countFirst) {
+																value += '<input type="text" name="made-testQ' + (Number(i) + 1) + 'A" id="made-testQ' + (Number(i) + 1) + 'Ainput' + (Number(i) + 1)
+																			+ '" style="width: 87%; margin: 0 3% 0 10%; background-color: #00000000; border: none; border-bottom: 1px solid #000;">';
+															}
+														value += '</div>';
+													value += '</div>';
+												};
+												value += '</div>';
+												value += '<div id="made-testContentSecond" class="testContent" align="left">';
+													for (let i = 5; i < 10; i++) {
+													value += '<div id="made-testQ' + (Number(i) + 1) + '" class="testQ">';
+														value += '<div id="made-testQ' + (Number(i) + 1) + 'Title" class="testQtitle">';
+															value += 'Q' + (Number(i) + 1) + '. ' + question[i].qtestContent;
+														value += '</div>';
+														value += '<div id="made-testQ' + (Number(i) + 1) + 'Content" class="testQcontent">';
+															let countSecond = 0;
+															for (let j in option) {
+																if (question[i].qtestNo === option[j].qtestNo) {
+																	value += '<input type="radio" name="made-testQ' + (Number(i) + 1) + 'A" id="made-testQ' + (Number(i) + 1) + 'A' + (Number(j) + 1) + '">';
+																	value += '<label for="made-testQ' + (Number(i) + 1) + 'A' + (Number(j) + 1) + '">&nbsp;&nbsp;' + option[j].optionContent + '</label> <br>'; // 반복(4)
+																
+																	countSecond = 1;
+																}
+															}
+
+															if (!countSecond) {
+																value += '<input type="text" name="made-testQ' + (Number(i) + 1) + 'A" id="made-testQ' + (Number(i) + 1) + 'Ainput' + (Number(i) + 1)
+																			+ '" style="width: 87%; margin: 0 3% 0 10%; background-color: #00000000; border: none; border-bottom: 1px solid #000;">';
+															}
+														value += '</div>';
+													value += '</div>';
+												};
+												value += `
+																</div>
+															</div>
+															</div>
+
+															<br><br>
+
+															<a href="javascript:void(0)" class="btn btn-primary btn-lg" id="default-btn" onclick="checkDone()">채점하기</a>
+														`;
+
+												$('#defaultContainerRowDiv2').html(value);
+											}, error: function() {
+												console.log('ajax 통신 에러 : 보기 조회');
+											}
+										});
 									}, error: function() {
-										console.log("Error insertTest")
+										console.log('ajax 통신 에러 : 질문 조회');
 									}
-								});							
+								});								
 							});
-						
-							$('#made-btn').on('click', () => {
-								selectLastTest();
-							})
 						});
 
 						function checkDone() {
