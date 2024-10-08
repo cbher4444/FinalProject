@@ -13,6 +13,8 @@
 		<typeAlias type="com.kh.usTwo.fun.model.vo.Aservey" alias="Aservey"/>
 		<typeAlias type="com.kh.usTwo.fun.model.vo.Qlove" alias="Qlove"/>
 		<typeAlias type="com.kh.usTwo.fun.model.vo.Alove" alias="Alove"/>
+		<typeAlias type="com.kh.usTwo.fun.model.vo.Test" alias="Test"/>
+		<typeAlias type="com.kh.usTwo.fun.model.vo.Atest" alias="Atest"/>
 	</typeAliases>
 
 	<mappers>
