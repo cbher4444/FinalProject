@@ -56,8 +56,8 @@
 		<result column="COUPLE_CODE" property="coupleCode" />
 	</resultMap>
 	
-	<resultMap type="Atest" id="aestResult">
-		<result column="ATEST_NO" property="ateatNo" />
+	<resultMap type="Atest" id="atestResult">
+		<result column="ATEST_NO" property="atestNo" />
 		<result column="ATEST_CONTENT" property="atestContent" />
 		<result column="ATEST_TRUE" property="atestTrue" />
 		<result column="QTEST_NO" property="qtestNo" />
@@ -249,10 +249,10 @@
 	
 	<insert id="insertAtest">
 		INSERT
-		  INTO F_OPTION_TEST
+		  INTO F_ATEST
 		VALUES
 		     (
-		       SEQ_OPTION_NO.NEXTVAL
+		       SEQ_ATEST_NO.NEXTVAL
 		     , #{ atestContent }
 		     , #{ atestTrue }
 		     , #{ qtestNo }
@@ -280,4 +280,34 @@
 		            by qtest_no desc)
 		 where rownum between 1 and 1
 	</select>
+	
+	<select id="selectAtest" resultMap="atestResult">
+		select atest_no
+			 , atest_content
+			 , atest_true
+			 , qtest_no
+		  from f_atest
+		 where test_no = #{ testNo }
+		   and email = #{ email }
+		   and couple_code = #{ coupleCode }
+	</select>
+	
+	<update id="updateAtest">
+		update f_atest
+		   set atest_content = #{ atestContent }
+		     , atest_true = #{ atestTrue }
+		 where qtest_no = #{ qtestNo }
+		   and test_no = #{ testNo }
+		   and email = #{ email }
+		   and couple_code = #{ coupleCode }
+	</update>
+	
+	<update id="updateTest">
+		update f_test
+		   set test_score = #{ testScore }
+		     , test_date = sysdate
+		 where test_no = #{ testNo }
+		   and email = #{ email }
+		   and couple_code = #{ coupleCode }
+	</update>
 </mapper>

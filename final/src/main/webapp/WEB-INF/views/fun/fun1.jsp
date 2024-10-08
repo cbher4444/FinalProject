@@ -100,8 +100,8 @@
 							$.ajax({
 								url: "selectQtest.test",
 								data: {
-									"email": 'user02@email.com', // 고사 응시자 email
-									"coupleCode": 'DFGDFG5623SAD12',
+									"email": '${ loginUser.email }', // 고사 응시자 email
+									"coupleCode": '${ loginUser.coupleCode }',
 								}, success: function(question) {
 									questionSave = question;
 									$.ajax({
@@ -127,8 +127,8 @@
 														let countFirst = 0;
 														for (let j in option) {
 															if (question[i].qtestNo === option[j].qtestNo) {
-																value += '<input type="radio" name="made-testQ' + (Number(i) + 1) + 'A" id="made-testQ' + (Number(i) + 1) + 'A' + (Number(j) + 1) + '">';
-																value += '<label for="made-testQ' + (Number(i) + 1) + 'A' + (Number(j) + 1) + '">&nbsp;&nbsp;' + option[j].optionContent + '</label> <br>'; // 반복(4)
+																value += '<input type="radio" name="made-testQ' + (Number(i) + 1) + 'A" id="' + option[j].optionNo + 'made-testQ' + (Number(i) + 1) + 'A' + (Number(j) + 1) + '">';
+																value += '<label for="' + option[j].optionNo + 'made-testQ' + (Number(i) + 1) + 'A' + (Number(j) + 1) + '">&nbsp;&nbsp;' + option[j].optionContent + '</label> <br>'; // 반복(4)
 															
 																countFirst = 1;
 															}
@@ -151,8 +151,8 @@
 														let countSecond = 0;
 														for (let j in option) {
 															if (question[i].qtestNo === option[j].qtestNo) {
-																value += '<input type="radio" name="made-testQ' + (Number(i) + 1) + 'A" id="made-testQ' + (Number(i) + 1) + 'A' + (Number(j) + 1) + '">';
-																value += '<label for="made-testQ' + (Number(i) + 1) + 'A' + (Number(j) + 1) + '">&nbsp;&nbsp;' + option[j].optionContent + '</label> <br>'; // 반복(4)
+																value += '<input type="radio" name="made-testQ' + (Number(i) + 1) + 'A" id="' + option[j].optionNo + 'made-testQ' + (Number(i) + 1) + 'A' + (Number(j) + 1) + '">';
+																value += '<label for="' + option[j].optionNo + 'made-testQ' + (Number(i) + 1) + 'A' + (Number(j) + 1) + '">&nbsp;&nbsp;' + option[j].optionContent + '</label> <br>'; // 반복(4)
 															
 																countSecond = 1;
 															}
@@ -192,19 +192,110 @@
 								$.ajax({
 									url: "geminiTest",
 									data: {
-										"email": 'user01@email.com', // 상대방 email(상대방 설문조사 결과 조회)
-										"coupleCode": 'DFGDFG5623SAD12',
+										"email": '${ loginUser.partnerEmail }', // 상대방 email(상대방 설문조사 결과 조회)
+										"coupleCode": '${ loginUser.coupleCode }',
+										"myEmail": '${ loginUser.email}',
 									}, success: function(testNo) {
 										selectLastTest();
 									}, error: function() {
 										console.log("Error insertTest")
-									}
+									},
 								});							
 							});
 						
 							$('#made-btn').on('click', () => {
 								selectLastTest();
-							})
+							});
+
+							$(document).on('click', 'input[type=radio]', function() {
+								let id = $(this).attr('id');
+
+								let optionNo = Number(id.substring(0, id.indexOf('m')));
+								let qtestNo = Number(id.substring(id.indexOf('Q') + 1, id.indexOf('A')));
+
+								for (let i in optionSave) {
+									if (optionNo === optionSave[i].optionNo) {
+										let myOption = optionSave[i];
+										$.ajax({
+											url: 'selectAtest.test',
+											data: {
+												'testNo': myOption.testNo,
+												'email': '${ loginUser.email }',
+												'coupleCode': '${ loginUser.coupleCode }'
+											},
+											success: function(atest) {
+												if (atest.length === 0) {
+													// 답변한 질문이 없다면
+													$.ajax({
+														url: 'insertAtest.test',
+														data: {
+															'atestContent': myOption.optionContent,
+															'atestTrue': myOption.optionTrue,
+															'qtestNo': qtestNo,
+															'testNo': myOption.testNo,
+															'email': '${ loginUser.email }',
+															'coupleCode': '${ loginUser.coupleCode }'
+														},
+														success: function(result) {
+															console.log(result)
+														}, error: function() {
+															console.log('ajax : insertAtest');
+														},
+													});
+												} else {
+													let flag = 0;
+
+													for (let i in atest) {
+														if (qtestNo === atest[i].qtestNo) {
+															flag = 1;
+														}
+													}
+
+													if (flag) {
+														// 답변한 질문 중에 있다면
+														$.ajax({
+															url: 'updateAtest.test',
+															data: {
+																'atestContent': myOption.optionContent,
+																'atestTrue': myOption.optionTrue,
+																'qtestNo': qtestNo,
+																'testNo': myOption.testNo,
+																'email': '${ loginUser.email }',
+																'coupleCode': '${ loginUser.coupleCode }'
+															},
+															success: function(result) {
+																console.log(result)
+															}, error: function() {
+																console.log('ajax : updateAtest')
+															},
+														});
+													} else {
+														// 답변한 질문 중에 없다면
+														$.ajax({
+															url: 'insertAtest.test',
+															data: {
+																'atestContent': myOption.optionContent,
+																'atestTrue': myOption.optionTrue,
+																'qtestNo': qtestNo,
+																'testNo': myOption.testNo,
+																'email': '${ loginUser.email }',
+																'coupleCode': '${ loginUser.coupleCode }'
+															},
+															success: function(result) {
+																console.log(result)
+															}, error: function() {
+																console.log('ajax : insertAtest');
+															},
+														});
+													}
+												}
+											}, error: function() {
+												console.log('ajax : selectAtest');
+											}
+										});
+									}
+								};
+							});
 						});
 
 						function checkDone() {
@@ -249,6 +340,21 @@
 									}
 								}
 							}
+
+							$.ajax({
+								url: 'updateTest.test',
+								data: {
+									'testScore': count,
+									'testNo': optionSave[0].testNo,
+									'email': '${ loginUser.email }',
+									'coupleCode': '${ loginUser.coupleCode }'
+								},
+								success: function() {
+									console.log('dd')
+								}, error: function() {
+									console.log('ajax : updateTest')
+								}
+							})
 
 							let comment = "";
 

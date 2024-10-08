@@ -106,4 +106,19 @@ public class FunServiceImpl implements FunService {
 		return fDao.selectQtestOne(m, sqlSession);
 	}
 
+	@Override
+	public ArrayList<Atest> selectAtest(Test t) {
+		return fDao.selectAtest(t, sqlSession);
+	}
+
+	@Override
+	public int updateAtest(Atest a) {
+		return fDao.updateAtest(a, sqlSession);
+	}
+
+	@Override
+	public int updateTest(Test t) {
+		return fDao.updateTest(t, sqlSession);
+	}
+
 }

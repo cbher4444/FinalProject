@@ -24,6 +24,7 @@ import com.kh.usTwo.fun.model.service.FunServiceImpl;
 import com.kh.usTwo.fun.model.vo.Alove;
 import com.kh.usTwo.fun.model.vo.Aservey;
 import com.kh.usTwo.fun.model.vo.Atest;
+import com.kh.usTwo.fun.model.vo.OptionTest;
 import com.kh.usTwo.fun.model.vo.Qlove;
 import com.kh.usTwo.fun.model.vo.Qservey;
 import com.kh.usTwo.fun.model.vo.Qtest;
@@ -176,7 +177,7 @@ public class GeminiController {
 
     @ResponseBody
 	@RequestMapping(value="geminiTest", method = RequestMethod.GET)
-	public int callGeminiTest(Member m) {
+	public int callGeminiTest(Member m, String myEmail) {
 		ArrayList<Qservey> qList = fService.selectQservey();
 		ArrayList<Aservey> aList = fService.selectAservey(m);
 		
@@ -211,14 +212,14 @@ public class GeminiController {
 		int testNo = 1;
 		
 	 	try {
+	 		m.setEmail(myEmail);
 			String response = callGemini(list);
 			
 			String[] parts = response.split("<br/>");
 			
-			int result = fService.insertTest(new Test(0, 0, null, "user02@email.com", m.getCoupleCode()));
+			int result = fService.insertTest(new Test(0, 0, null, m.getEmail(), m.getCoupleCode()));
 			
 			if (result > 0) {
-				m.setEmail("user02@email.com");
 				testNo = fService.selectTestOne(m).getTestNo();
 				
 				for (int i = 0; i < parts.length; i++) {
@@ -226,10 +227,10 @@ public class GeminiController {
 						if (parts[i].contains("A")) {
 							if (parts[i].contains("(answer)")) {
 								// 정답
-								fService.insertAtest(new Atest(0, parts[i].substring(5).replace("(answer)", "").replace("<br/>", "").trim(), "Y", fService.selectQtestOne(m).getQtestNo(), testNo, "user02@email.com", m.getCoupleCode()));
+								fService.insertOptionTest(new OptionTest(0, parts[i].substring(5).replace("(answer)", "").replace("<br/>", "").trim(), "Y", fService.selectQtestOne(m).getQtestNo(), testNo, m.getEmail(), m.getCoupleCode()));
 							} else {
 								// 오답
-								fService.insertAtest(new Atest(0, parts[i].substring(5).replace("<br/>", "").trim(), "N", fService.selectQtestOne(m).getQtestNo(), testNo, "user02@email.com", m.getCoupleCode()));
+								fService.insertOptionTest(new OptionTest(0, parts[i].substring(5).replace("<br/>", "").trim(), "N", fService.selectQtestOne(m).getQtestNo(), testNo, m.getEmail(), m.getCoupleCode()));
 							}
 						} else {
 							// 질문

@@ -29,4 +29,7 @@ public interface FunService {
 	int insertOptionTest(OptionTest o);
 	int insertAtest(Atest a);
 	Qtest selectQtestOne(Member m);
+	ArrayList<Atest> selectAtest(Test t);
+	int updateAtest(Atest a);
+	int updateTest(Test t);
 }
