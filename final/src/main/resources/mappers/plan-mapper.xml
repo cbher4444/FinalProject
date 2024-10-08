@@ -2,4 +2,76 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
 <mapper namespace="planMapper">
 
+	<resultMap id="scheduleResult" type="Schedule">
+		<result column="schedule_no" property="scheduleNo"/>
+		<result column="calendar_no" property="calendarNo"/>
+		<result column="schedule_title" property="scheduleTitle"/>
+		<result column="schedule_content" property="scheduleContent"/>
+		<result column="start_date" property="startDate"/>
+		<result column="end_date" property="endDate"/>
+		<result column="create_date" property="createDate"/>
+		<result column="writer_email" property="writerEmail"/>
+		<result column="color" property="color"/>
+		<result column="is_anniversary" property="isAnniversary"/>
+		<result column="alert_date" property="alertDate"/>
+		<result column="status" property="status"/>
+	</resultMap>
+
+	<select id="selectScheduleList" resultMap="scheduleResult">
+		select 
+		       schedule_no
+		     , calendar_no
+		     , schedule_title
+		     , schedule_content
+		     , to_char(start_date, 'YYYY-MM-DD"T"HH24:MI:SS') as "start_date"
+		     , to_char(end_date, 'YYYY-MM-DD"T"HH24:MI:SS') as "end_date"
+		     , create_date
+		     , writer_email
+		     , color
+		     , is_anniversary
+		     , alert_date
+		     , status
+		  from p_schedule
+		 where start_date between to_date('2024-09-01', 'YYYY-MM-DD')-14 and last_day(to_date('2024-09-01', 'YYYY-MM-DD'))+14
+		   and status = 'Y'
+	</select>
+	
+	<insert id="insertSchedule">
+		insert
+		  into p_schedule
+		  (
+		      schedule_no
+		    , calendar_no
+		    , schedule_title
+		    , schedule_content
+		    , start_date
+		    , end_date
+		    , create_date
+		    , writer_email
+		    , color
+		    , is_anniversary
+		  )
+		  values
+		  (
+		      seq_schedule_no.nextval
+		    , #{calendarNo}
+		    , #{scheduleTitle}
+		    , #{scheduleContent}
+		    , CASE
+			        WHEN LENGTH(#{startDate}) = 10 THEN TO_DATE(#{startDate}, 'YYYY-MM-DD')
+			        WHEN LENGTH(#{startDate}) = 19 THEN TO_DATE(#{startDate}, 'YYYY-MM-DD"T"HH24:MI:SS')
+			        ELSE NULL
+			  END
+			, CASE
+			        WHEN LENGTH(#{endDate}) = 10 THEN TO_DATE(#{endDate}, 'YYYY-MM-DD')
+			        WHEN LENGTH(#{endDate}) = 19 THEN TO_DATE(#{endDate}, 'YYYY-MM-DD"T"HH24:MI:SS')
+			        ELSE NULL
+			  END
+		    , sysdate
+		    , #{writerEmail}
+		    , #{color}
+		    , #{isAnniversary}
+		   )
+	</insert>
+
 </mapper>

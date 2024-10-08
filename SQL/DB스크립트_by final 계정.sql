@@ -228,7 +228,7 @@ VALUES
      , '시크릿사격연습'
      , '늘만나던곳에서...'
      , TO_DATE('2024-09-01 17:00:00', 'YYYY-MM-DD HH24:MI:SS')
-     , TO_DATE('2024-09-01 19:00:00', 'YYYY-MM-DD HH24:MI:SS')
+     , TO_DATE('2024-09-02 19:00:00', 'YYYY-MM-DD HH24:MI:SS')
      , TO_DATE('2024-08-25', 'YYYY-MM-DD')
      , 'user01@email.com'
      , NULL

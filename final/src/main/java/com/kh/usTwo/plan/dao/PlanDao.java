@@ -10,8 +10,13 @@ import com.kh.usTwo.plan.model.vo.Schedule;
 @Repository
 public class PlanDao {
 
-	public ArrayList<Schedule> selectScheduleList(SqlSessionTemplate sqlSession) {
-		return (ArrayList)sqlSession.selectList("");
+	public ArrayList<Schedule> selectScheduleList(SqlSessionTemplate sqlSession, String yearMonth) {
+		return (ArrayList)sqlSession.selectList("planMapper.selectScheduleList", yearMonth);
+	}
+
+	public int insertSchedule(SqlSessionTemplate sqlSession, Schedule s) {
+		System.out.println(s);
+		return sqlSession.insert("planMapper.insertSchedule", s);
 	}
 
 

@@ -15,11 +15,13 @@
 		<typeAlias type="com.kh.usTwo.fun.model.vo.Alove" alias="Alove"/>
 		<typeAlias type="com.kh.usTwo.fun.model.vo.Test" alias="Test"/>
 		<typeAlias type="com.kh.usTwo.fun.model.vo.Atest" alias="Atest"/>
+		<typeAlias type="com.kh.usTwo.plan.model.vo.Schedule" alias="Schedule"/>
 	</typeAliases>
 
 	<mappers>
 		<mapper resource="/mappers/member-mapper.xml"/>
 		<mapper resource="/mappers/fun-mapper.xml"/>
+		<mapper resource="/mappers/plan-mapper.xml"/>
 	</mappers>
 
 </configuration>

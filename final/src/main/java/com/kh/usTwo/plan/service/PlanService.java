@@ -6,5 +6,8 @@ import com.kh.usTwo.plan.model.vo.Schedule;
 
 public interface PlanService {
 
-	ArrayList<Schedule> selectScheduleList();
+	ArrayList<Schedule> selectScheduleList(String yearMonth);
+	
+	int insertSchedule(Schedule s);
+	
 }

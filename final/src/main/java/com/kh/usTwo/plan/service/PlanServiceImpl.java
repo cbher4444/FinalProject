@@ -19,8 +19,13 @@ public class PlanServiceImpl implements PlanService{
 	private SqlSessionTemplate sqlSession;
 	
 	@Override
-	public ArrayList<Schedule> selectScheduleList() {
-		return pDao.selectScheduleList(sqlSession);
+	public ArrayList<Schedule> selectScheduleList(String yearMonth) {
+		return pDao.selectScheduleList(sqlSession, yearMonth);
+	}
+
+	@Override
+	public int insertSchedule(Schedule s) {
+		return pDao.insertSchedule(sqlSession, s);
 	}
 	
 	
