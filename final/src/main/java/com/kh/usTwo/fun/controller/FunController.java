@@ -87,4 +87,10 @@ public class FunController {
 	public int updateTest(Test t) {
 		return fService.updateTest(t);
 	}
+	
+	@ResponseBody
+	@RequestMapping("countAtest.test")
+	public int countAtest(Member m) {
+		return fService.countAtest(m);
+	}
 }

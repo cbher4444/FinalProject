@@ -121,4 +121,9 @@ public class FunServiceImpl implements FunService {
 		return fDao.updateTest(t, sqlSession);
 	}
 
+	@Override
+	public int countAtest(Member m) {
+		return fDao.countAtest(m, sqlSession);
+	}
+
 }
