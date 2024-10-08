@@ -15,6 +15,25 @@ import lombok.ToString;
 @Getter
 @ToString
 public class Member {
+	
+	/*
+	 * EMAIL
+		USER_PWD
+		USER_NAME
+		NICKNAME
+		GENDER
+		PHONE
+		ADDRESS
+		BRITHDAY
+		ENROLL_DATE
+		MODIFY_DATE
+		INVITE_CODE
+		COUPLE_CODE
+		PARTNER_EMAIL
+		ORIGIN_NAME
+		CHANGE_NAME
+		STATUS
+	 */
 	private String email;
 	private String userPwd;
 	private String userName;
@@ -31,4 +50,15 @@ public class Member {
 	private String originName;
 	private String changeName;
 	private String status;
+	
+	
+	
+	
+
+
+	
+	
+	
+	
+	
 }

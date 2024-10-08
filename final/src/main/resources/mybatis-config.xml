@@ -6,6 +6,7 @@
 	</settings>
 	
 	<typeAliases>
+		<typeAlias type="com.kh.usTwo.member.model.vo.Member" alias="Member"/>
 		<typeAlias type="com.kh.usTwo.fun.model.vo.Qtest" alias="Qtest"/>
 		<typeAlias type="com.kh.usTwo.fun.model.vo.OptionTest" alias="OptionTest"/>
 		<typeAlias type="com.kh.usTwo.fun.model.vo.Qservey" alias="Qservey"/>
@@ -15,8 +16,10 @@
 		<typeAlias type="com.kh.usTwo.fun.model.vo.Test" alias="Test"/>
 		<typeAlias type="com.kh.usTwo.fun.model.vo.Atest" alias="Atest"/>
 	</typeAliases>
-	 
-	 <mappers>
-	 	<mapper resource="/mappers/fun-mapper.xml"/>
-	 </mappers>
+
+	<mappers>
+		<mapper resource="/mappers/member-mapper.xml"/>
+		<mapper resource="/mappers/fun-mapper.xml"/>
+	</mappers>
+
 </configuration>
