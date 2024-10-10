@@ -97,6 +97,14 @@ public class FunDao {
 	public int countAtest(Member m, SqlSessionTemplate sqlSession) {
 		return sqlSession.selectOne("funMapper.countAtest", m);
 	}
+
+	public int countAservey(Member m, SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("funMapper.countAservey", m);
+	}
+
+	public int countTest(Member m, SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("funMapper.countTest", m);
+	}
 	
 	
 }
