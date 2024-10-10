@@ -33,4 +33,6 @@ public interface FunService {
 	int updateAtest(Atest a);
 	int updateTest(Test t);
 	int countAtest(Member m);
+	int countAservey(Member m);
+	int countTest(Member m);
 }

@@ -122,12 +122,18 @@
 								</li>
 								<li id="menubar_budget"><a href="goBudget">Budget</a></li>
 								<li id="menubar_fun">
-									<a href="goFun1" class="fh5co-sub-ddown">Fun</a>
+									<a href="javascript:void(0)" class="fh5co-sub-ddown" onclick="$('#made-form').submit(); return false;">Fun</a>
 									<ul class="fh5co-sub-menu">
-										<li id="menubar_fun1"><a href="goFun1">연애고사</a></li>
+										<li id="menubar_fun1"><a href="javascript:void(0)" onclick="$('#made-form').submit(); return false;">연애고사</a></li>
 										<li id="menubar_fun2"><a href="goFun2">오늘 뭐 먹지?</a></li>
 										<li id="menubar_fun3"><a href="goFun3">오늘의 질문</a></li>
 										<li id="menubar_fun4"><a href="goFun4">AI 연애 상담</a></li>
+
+										<form action="goFun1" method="POST" id="made-form">
+											<input type="hidden" name="email" value="${ loginUser.email }">
+											<input type="hidden" name="partnerEmail" value="${ loginUser.partnerEmail }">
+											<input type="hidden" name="coupleCode" value="${ loginUser.coupleCode }">
+										</form>
 									</ul>
 								</li>
 								<li id="menubar_myPage"><a href="myPage">MyPage</a></li>

@@ -126,4 +126,14 @@ public class FunServiceImpl implements FunService {
 		return fDao.countAtest(m, sqlSession);
 	}
 
+	@Override
+	public int countAservey(Member m) {
+		return fDao.countAservey(m, sqlSession);
+	}
+
+	@Override
+	public int countTest(Member m) {
+		return fDao.countTest(m, sqlSession);
+	}
+
 }

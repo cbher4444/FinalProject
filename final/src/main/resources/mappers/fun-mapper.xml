@@ -317,10 +317,28 @@
 		 where test_no = (select test_no
 		                    from (select test_no
 		                            from f_test
-		                           where email = 'user02@email.com'
-		                             and couple_code = 'DFGDFG5623SAD12'
+		                           where email = #{ email }
+		                             and couple_code = #{ coupleCode }
 		                           order
 		                              by test_no desc)
 		                   where rownum between 1 and 1)
+	</select>
+	
+	<select id="countAservey" resultType="_int">
+		select count(*) as count
+		  from f_aservey
+		 where email = #{ email }
+		   and couple_code = #{ coupleCode }
+	</select>
+	
+	<select id="countTest" resultType="_int">
+		select count(*) as count
+		  from (select test_no
+		          from f_test
+		         where email = #{ email }
+		           and couple_code = #{ coupleCode }
+		         order
+		            by test_date desc)
+		 where rownum between 1 and 1
 	</select>
 </mapper>

@@ -2,6 +2,8 @@ package com.kh.usTwo.fun.controller;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +23,19 @@ public class FunController {
 	private FunServiceImpl fService;
 	
 	@RequestMapping("goFun1")
-	public String goFun1() {
+	public String goFun1(HttpSession session, Member m) {
+		// 1. A -> X / B -> X : 바로 설문조사 화면 출력, 연애고사 응시 불가
+		// 2. A -> X / B -> O : 바로 설문조사 화면 출력, 연애고사 응시 불가
+		// 3. A -> O / B -> X : 상대방 재촉(알람), 연애고사 응시 불가
+		// 4. A -> O / B -> O : 연애 고사 응시 가능
+		
+		// A와 B의 설문조사 결과를 모두 받아와야 함.
+		String result = fService.countTest(m) + "/";
+		result += fService.countAservey(m) + "/";
+		m.setEmail(m.getPartnerEmail());
+		result += fService.countAservey(m);
+		
+		session.setAttribute("count", result);
 		return "fun/fun1";
 	}
 	
@@ -92,5 +106,11 @@ public class FunController {
 	@RequestMapping("countAtest.test")
 	public int countAtest(Member m) {
 		return fService.countAtest(m);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="selectQservey.test", produces = "application/json; charset=utf-8")
+	public String selectQservey() {
+		return new Gson().toJson(fService.selectQservey());
 	}
 }
