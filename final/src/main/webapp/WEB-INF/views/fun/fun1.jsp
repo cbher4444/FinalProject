@@ -383,7 +383,10 @@
 									});
 									changeNum = 15;
 									$('#made-serveyQ' + (Number(i) + 1) + 'Title').css('color', '#F69D9D');
-									$('#made-serveyQ' + (Number(i) + 1) + 'Input').css('border-bottom', '1px solid #F69D9D');
+									$('#made-serveyQ' + (Number(i) + 1) + 'Input').css({
+										'border-bottom': '1px solid #F69D9D',
+										'color': '#F69D9D'
+									});
 									return 0;
 								} 
 							} else if (i < 20) {
@@ -398,14 +401,20 @@
 									});
 									changeNum = 15;
 									$('#made-serveyQ' + (Number(i) + 1) + 'Title').css('color', '#F69D9D');
-									$('#made-serveyQ' + (Number(i) + 1) + 'Input').css('border-bottom', '1px solid #F69D9D');
+									$('#made-serveyQ' + (Number(i) + 1) + 'Input').css({
+										'border-bottom': '1px solid #F69D9D',
+										'color': '#F69D9D'
+									});
 									return 0;
 								} 
 							} else if (i < 30) {
 								if (!checkForm(inputValues['thirdPage'][i - 20])) {
 									alert('YYYY-MM-DD 형식에 맞춰 답변을 다시 입력해주세요.');
 									$('#made-serveyQ' + (Number(i) + 1) + 'Title').css('color', '#F69D9D');
-									$('#made-serveyQ' + (Number(i) + 1) + 'Input').css('border-bottom', '1px solid #F69D9D');
+									$('#made-serveyQ' + (Number(i) + 1) + 'Input').css({
+										'border-bottom': '1px solid #F69D9D',
+										'color': '#F69D9D'
+									});
 									return 0;
 								} 
 							}
@@ -560,7 +569,7 @@
 					$("#defaultContainerRowDiv2 input").each(function(index) {
 						inputValues['thirdPage'][index] = $(this).val();
 					});
-
+ 
 					let one;
 					let eleven;
 
@@ -572,16 +581,23 @@
 							eleven = i;
 						}
 					}
-					console.log(one);
-					console.log(eleven);
 					if (one < eleven) {
 						if (check1and11(1)) {
-							// 1 -> 이상 없음
+							$(".serveyQtitle").css('color', '#848484');
+							$('.serveyQinput').css({
+								'color': '#848484',
+								'border-bottom': '1px solid #848484'
+							})
 							check1and11(11);
 						}
 					} else {
 						if (check1and11(11)) {
-							console.log('11 정상임')
+							$(".serveyQtitle").css('color', '#848484');
+							$('.serveyQinput').css({
+								'color': '#848484',
+								'border-bottom': '1px solid #848484'
+							})
+							check1and11(1);
 						}
 					}
 				})
