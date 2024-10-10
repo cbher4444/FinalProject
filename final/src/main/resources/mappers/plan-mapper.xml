@@ -5,15 +5,16 @@
 	<resultMap id="scheduleResult" type="Schedule">
 		<result column="schedule_no" property="scheduleNo"/>
 		<result column="calendar_no" property="calendarNo"/>
-		<result column="schedule_title" property="scheduleTitle"/>
-		<result column="schedule_content" property="scheduleContent"/>
+		<result column="title" property="title"/>
+		<result column="content" property="content"/>
 		<result column="start_date" property="startDate"/>
+		<result column="start_time" property="startTime"/>
 		<result column="end_date" property="endDate"/>
+		<result column="end_time" property="endTime"/>
 		<result column="create_date" property="createDate"/>
-		<result column="writer_email" property="writerEmail"/>
-		<result column="color" property="color"/>
-		<result column="is_anniversary" property="isAnniversary"/>
 		<result column="alert_date" property="alertDate"/>
+		<result column="color" property="color"/>
+		<result column="writer" property="writer"/>
 		<result column="status" property="status"/>
 	</resultMap>
 
@@ -21,19 +22,22 @@
 		select 
 		       schedule_no
 		     , calendar_no
-		     , schedule_title
-		     , schedule_content
-		     , to_char(start_date, 'YYYY-MM-DD"T"HH24:MI:SS') as "start_date"
-		     , to_char(end_date, 'YYYY-MM-DD"T"HH24:MI:SS') as "end_date"
+		     , title
+		     , content
+		     , to_char(start_date, 'YYYY-MM-DD') as "start_date"
+		     , nvl(to_char(start_time, 'HH24:MI:SS'), '') as "start_time"
+		     , to_char(end_date, 'YYYY-MM-DD') as "end_date"
+		     , nvl(to_char(end_time, 'HH24:MI:SS'), '') as "end_time"
 		     , create_date
-		     , writer_email
-		     , color
-		     , is_anniversary
 		     , alert_date
-		     , status
-		  from p_schedule
-		 where start_date between to_date('2024-09-01', 'YYYY-MM-DD')-14 and last_day(to_date('2024-09-01', 'YYYY-MM-DD'))+14
-		   and status = 'Y'
+		     , nvl(color, default_color) as "color"
+		     , writer
+		     , s.status
+		  from p_schedule s
+          join p_calendar c using(calendar_no)
+		 where couple_code = #{coupleCode}
+           and start_date between to_date(#{yearMonth}, 'YYYY-MM-DD')-14 and last_day(to_date(#{yearMonth}, 'YYYY-MM-DD'))+14
+		   and s.status = 'Y'
 	</select>
 	
 	<insert id="insertSchedule">

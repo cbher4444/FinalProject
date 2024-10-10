@@ -6,16 +6,16 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.usTwo.plan.model.vo.Schedule;
+import com.kh.usTwo.plan.model.vo.SelectSchedule;
 
 @Repository
 public class PlanDao {
 
-	public ArrayList<Schedule> selectScheduleList(SqlSessionTemplate sqlSession, String yearMonth) {
-		return (ArrayList)sqlSession.selectList("planMapper.selectScheduleList", yearMonth);
+	public ArrayList<Schedule> selectScheduleList(SqlSessionTemplate sqlSession, SelectSchedule ss) {
+		return (ArrayList)sqlSession.selectList("planMapper.selectScheduleList", ss);
 	}
 
 	public int insertSchedule(SqlSessionTemplate sqlSession, Schedule s) {
-		System.out.println(s);
 		return sqlSession.insert("planMapper.insertSchedule", s);
 	}
 

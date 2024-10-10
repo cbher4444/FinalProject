@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.usTwo.plan.dao.PlanDao;
 import com.kh.usTwo.plan.model.vo.Schedule;
+import com.kh.usTwo.plan.model.vo.SelectSchedule;
 
 @Service
 public class PlanServiceImpl implements PlanService{
@@ -19,8 +20,8 @@ public class PlanServiceImpl implements PlanService{
 	private SqlSessionTemplate sqlSession;
 	
 	@Override
-	public ArrayList<Schedule> selectScheduleList(String yearMonth) {
-		return pDao.selectScheduleList(sqlSession, yearMonth);
+	public ArrayList<Schedule> selectScheduleList(SelectSchedule ss) {
+		return pDao.selectScheduleList(sqlSession, ss);
 	}
 
 	@Override

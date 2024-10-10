@@ -25,7 +25,6 @@
 		.fc-toolbar-chunk:nth-child(2){
 			display: flex;
 		}
-
 	</style>
 	<script>
 		// ----------------------- full calendar -----------------------
@@ -71,21 +70,32 @@
 				navLinks: true, // can click day/week names to navigate views
 				selectable: true,
 				selectMirror: true,
-				select: function(arg) { // 달력 빈공간 클릭시
-					clickCalendar(arg);
+				select: function(arg) { // 달력 빈공간 클릭시 -> 일정추가 modal
+					showAddModal(arg);
 					calendar.unselect();
 				},
-				eventClick: function(arg) { // 달력 일정 클릭시
-					clickSchedule(arg);
+				eventClick: function(arg) { // 달력 일정 클릭시 -> 일정수정 modal
+					showEditModal(arg);
 				},
 				editable: true,
 				dayMaxEvents: true, // allow "more" link when too many events
 				height: 'auto', // 스크롤 없앰
+				viewDidMount: function() {
+					// '우리일정'버튼에 active 클래스 추가
+					const buttonGroup = document.querySelector(".fc-button-group");
+					if (buttonGroup) {
+						const firstButton = buttonGroup.querySelector("button");
+						if (firstButton) {
+							firstButton.classList.add("fc-button-active");
+						}
+					}
+    			},
 				// ----------------------- google calendar -----------------------
-				googleCalendarApiKey: '',
-				events: {
-					googleCalendarId: '',
-				},
+				// 작동 잘됨. 나중에 주석 풀어주기~
+				// googleCalendarApiKey: 'apikey',
+				// events: {
+				// 	googleCalendarId: 'calendarid',
+				// },
 			});
 		
 			calendar.render();
@@ -168,12 +178,12 @@
 									<td>색상 :</td>
 									<td>
 										<select id="color" class="form-control">
-											<option value="#3788d8" style="background: #3788d8;"></option>
-											<option value="rgb(247, 120, 120)" style="background: rgb(247, 120, 120);"></option>
-											<option value="rgb(253, 204, 113)" style="background: rgb(253, 204, 113);"></option>
-											<option value="rgb(95, 180, 95)" style="background: rgb(95, 180, 95);"></option>
-											<option value="rgb(120, 120, 247)" style="background: rgb(120, 120, 247);"></option>
-											<option value="rgb(236, 154, 236)" style="background: rgb(236, 154, 236);"></option>
+											<option value="#3788d8">파랑</option>
+											<option value="rgb(247, 120, 120)">빨강</option>
+											<option value="rgb(253, 204, 113)">노랑</option>
+											<option value="rgb(95, 180, 95)">초록</option>
+											<option value="rgb(120, 120, 247)">보라</option>
+											<option value="rgb(236, 154, 236)">핑크</option>
 										</select>
 									</td>
 								</tr>
@@ -181,18 +191,23 @@
 									<td>상세내용 :</td>
 									<td><textarea id="content" class="form-control" style="width:100%; height:100px; resize:none;"></textarea></td>
 								</tr>
+								<tr>
+									<td>기념일 :</td>
+									<td>
+										<select id="isAnniversary" class="form-control">
+											<option>N</option>
+											<option>Y</option>
+										</select>
+									</td>
+								</tr>
+								<tr>
+									<td>알림 :</td>
+									<td>
+										<input type="date" class="form-control" id="endDate">
+										<input type="time" class="form-control" id="endTime">
+									</td>
+								</tr>
 							</table>
-
-							<script>
-								// Set initial color based on the selected option
-								const colorSelect = document.getElementById('color');
-								colorSelect.style.backgroundColor = colorSelect.value;
-
-								// Update background color when a new color is selected
-								colorSelect.addEventListener('change', function () {
-									colorSelect.style.backgroundColor = this.value;
-								});
-							</script>
 						</div>
 					</div>
 					<div class="modal-footer" style="display: flex; align-items: center; justify-content: center;">
@@ -266,15 +281,51 @@
 	
 
 	<script>
+		$(".fc-button-group button:first-child").addClass("fc-button-active");
+
+		// ----------------------- 현재 달 데이터 가져오기 -----------------------
 		$(function(){
 			// 현재 '달' 데이터 가져오기
-			selectScheduleList(getCurrentYearMonth());
+			selectScheduleList();
 			
 			// '달'이 바뀌었을때 해당 달 데이터 가져오기
 			calendar.on('datesSet', function(info) {
-				selectScheduleList(getCurrentYearMonth());
+				selectScheduleList();
 			});
 		})
+
+		// ----------------------- DB에서 일정가져오기 -----------------------
+		function selectScheduleList(){
+			$.ajax({
+				url:"slist.pl",
+				data:{
+					coupleCode: '${loginUser.coupleCode}',
+					yearMonth: getCurrentYearMonth(),
+				},
+				success:function(list){
+					console.log(list);
+
+					const events = list.map(item => ({
+						title: item.title,
+						start: item.startTime ? item.startDate + "T" + item.startTime : item.startDate,
+						end: item.endTime ? item.endDate + "T" + item.endTime : item.endDate,
+						color: item.color,
+					}));
+
+					console.log("--------- events ----------")
+					console.log(events);
+
+					// Clear previous events if needed
+					calendar.getEvents().forEach(event => event.remove());
+
+					// Add events to FullCalendar
+					calendar.addEventSource(events);
+
+				}, error:function(){
+					console.log("일정조회용 ajax 통신 실패");
+				}
+			})
+		}
 
 		// ----------------------- 현재 달 구하기 -----------------------
 		function getCurrentYearMonth(){
@@ -284,20 +335,24 @@
 			let currentYearMonth = currentYear + "-" + currentMonth.padStart(2, '0') + "-01";
 			return currentYearMonth;
 		}
-		
 
-		// ----------------------- 달력 빈공간 클릭시 -----------------------
-		function clickCalendar(arg){
+		// ----------------------- 달력 빈공간 클릭시 -> 일정추가 modal -----------------------
+		function showAddModal(arg){
 			// 모달 띄우기
 			$("#addModal").modal("show");
 			
 			// 클릭된 날짜 모달에 반영
 			$("#startDate").val(arg.startStr);
-			$("#endDate").val(arg.endStr);
+
+			// 하루만 클릭된 경우는 값을 종료일 안넣어줌. 2일 이상 드래그 해서 선택한경우만 종료일+1일로 넣어줌.
+			// 수정필요!!!!! 달이 바뀌는 경우는 적용안됨. ex) 30일 - 1일 인 경우
+			if(arg.start.getDate() + 1 !== arg.end.getDate()) {
+				$("#endDate").val(arg.endStr);
+			}
 		}
 
-		// ----------------------- 일정 클릭시 -----------------------
-		function clickSchedule(arg){
+		// ----------------------- 일정 클릭시 -> 일정수정 modal -----------------------
+		function showEditModal(arg){
 			let currentEvent = arg.event; // Store the currently selected event
 
 			// 모달 띄우기
@@ -316,34 +371,6 @@
 			$("#edit-endTime").val(endTime);
 		}
 
-		// ----------------------- DB에서 일정가져오기 -----------------------
-		function selectScheduleList(yearMonth){
-			$.ajax({
-				url:"slist.pl",
-				data:{
-					yearMonth:yearMonth,
-				},
-				success:function(list){
-					// console.log(list);
-
-					const events = list.map(item => ({
-						title: item.scheduleTitle,        
-						start: item.startDate,
-						end: item.endDate,
-						color: item.color,
-					}));
-
-					// Clear previous events if needed
-					calendar.getEvents().forEach(event => event.remove());
-
-					// Add events to FullCalendar
-					calendar.addEventSource(events);
-							
-				}, error:function(){
-					console.log("일정조회용 ajax 통신 실패");
-				}
-			})
-		}
 
 		// ----------------------- 일정 추가 (Front-end) -----------------------
 		function addSchedule(){
@@ -364,8 +391,8 @@
 				color: $("#color").val(),
 			};
 			
-			if (eventData.title == "" || eventData.start == "" || eventData.end == "") { //빈값입력시 오류
-				alert("입력하지 않은 값이 있습니다.");
+			if (eventData.title == "" || eventData.start == "") { //빈값입력시 오류
+				alert("입력하지 않은 값이 있습니다.\n제목과 시작일은 필수 입력사항입니다.");
 			} else if ($("#start").val() > $("#end").val()) { //끝나는 날짜가 시작하는 날짜보다 값이 크면 안됨
 				alert("시간을 잘못입력 하셨습니다.");
 			} else { // 정상 => 이벤트 추가

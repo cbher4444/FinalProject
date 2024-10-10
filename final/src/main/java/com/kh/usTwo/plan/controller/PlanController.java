@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 import com.kh.usTwo.plan.model.vo.Schedule;
+import com.kh.usTwo.plan.model.vo.SelectSchedule;
 import com.kh.usTwo.plan.service.PlanServiceImpl;
 
 @Controller
@@ -34,8 +35,8 @@ public class PlanController {
 	
 	@ResponseBody
 	@RequestMapping(value="slist.pl", produces="application/json; charset=utf-8")
-	public String ajaxSelectScheduleList(String yearMonth) {
-		ArrayList<Schedule> list = pService.selectScheduleList(yearMonth);
+	public String ajaxSelectScheduleList(SelectSchedule ss) {
+		ArrayList<Schedule> list = pService.selectScheduleList(ss);
 		return new Gson().toJson(list);
 	}
 	
