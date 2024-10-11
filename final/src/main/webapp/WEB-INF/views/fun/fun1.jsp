@@ -113,7 +113,8 @@
 				firstPage: [],
 				secondPage: [],
 				thirdPage: [],
-			}
+			};
+			let insertAserveyResult = 0;
 	
 			function selectLastTest() {
 				$.ajax({
@@ -383,7 +384,10 @@
 									});
 									changeNum = 15;
 									$('#made-serveyQ' + (Number(i) + 1) + 'Title').css('color', '#F69D9D');
-									$('#made-serveyQ' + (Number(i) + 1) + 'Input').css('border-bottom', '1px solid #F69D9D');
+									$('#made-serveyQ' + (Number(i) + 1) + 'Input').css({
+										'border-bottom': '1px solid #F69D9D',
+										'color': '#F69D9D'
+									});
 									return 0;
 								} 
 							} else if (i < 20) {
@@ -398,14 +402,20 @@
 									});
 									changeNum = 15;
 									$('#made-serveyQ' + (Number(i) + 1) + 'Title').css('color', '#F69D9D');
-									$('#made-serveyQ' + (Number(i) + 1) + 'Input').css('border-bottom', '1px solid #F69D9D');
+									$('#made-serveyQ' + (Number(i) + 1) + 'Input').css({
+										'border-bottom': '1px solid #F69D9D',
+										'color': '#F69D9D'
+									});
 									return 0;
 								} 
 							} else if (i < 30) {
 								if (!checkForm(inputValues['thirdPage'][i - 20])) {
 									alert('YYYY-MM-DD 형식에 맞춰 답변을 다시 입력해주세요.');
 									$('#made-serveyQ' + (Number(i) + 1) + 'Title').css('color', '#F69D9D');
-									$('#made-serveyQ' + (Number(i) + 1) + 'Input').css('border-bottom', '1px solid #F69D9D');
+									$('#made-serveyQ' + (Number(i) + 1) + 'Input').css({
+										'border-bottom': '1px solid #F69D9D',
+										'color': '#F69D9D'
+									});
 									return 0;
 								} 
 							}
@@ -414,7 +424,27 @@
 				}
 				return 1;
 			}
-			
+
+			function insertAservey(str, index, originIndex) {
+				$.ajax({
+					url: 'insertAservey.servey',
+					data: {
+						'aserveyContent': inputValues[str][index],
+						'qserveyNo': randomSave[originIndex],
+						'email': '${ loginUser.email }',
+						'coupleCode': '${ loginUser.coupleCode }'
+					}, success: function(num) {
+						insertAserveyResult += num;
+
+						if (insertAserveyResult === 30) {
+							// 모두 정상적으로 들어감
+							location.reload(true);
+						}
+					}, error: function() {
+						console.log('ajax : insertAservey');
+					}
+				})
+			}
 			$(() => {
 				let exist = '${ count }'.split('/');
 
@@ -427,13 +457,13 @@
 						`
 					)
 				} else {
-					if ((exist[1] === '20') && (exist[2] === '20')) {
+					if ((exist[1] === '30') && (exist[2] === '30')) {
 						// 둘 다 존재 -> 고사 시작 버튼
 						$('#defaultContainerRowDiv2').html('<a href="javascript:void(0)" class="btn btn-primary btn-lg" id="default-btn">고사 시작</a>');
-					} else if (exist[1] === '20') {
+					} else if (exist[1] === '30') {
 						// 나만 존재 -> 재촉하기 버튼
 						$('#defaultContainerRowDiv2').html('<a href="javascript:void(0)" class="btn btn-primary btn-lg" id="made-btn-alarm">재촉하기</a>');
-					} else if (exist[2] === '20' || (exist[1] === '0' && exist[2] === '0')) {
+					} else if (exist[2] === '30' || (exist[1] === '0' && exist[2] === '0')) {
 						// 상대방만 존재 or 둘 다 존재 X -> 설문조사 창 띄우기
 						$.ajax({
 							url: "selectQservey.test",
@@ -560,7 +590,7 @@
 					$("#defaultContainerRowDiv2 input").each(function(index) {
 						inputValues['thirdPage'][index] = $(this).val();
 					});
-
+ 
 					let one;
 					let eleven;
 
@@ -572,16 +602,47 @@
 							eleven = i;
 						}
 					}
-					console.log(one);
-					console.log(eleven);
 					if (one < eleven) {
 						if (check1and11(1)) {
-							// 1 -> 이상 없음
-							check1and11(11);
+							$(".serveyQtitle").css('color', '#848484');
+							$('.serveyQinput').css({
+								'color': '#848484',
+								'border-bottom': '1px solid #848484'
+							})
+							if (check1and11(11)) {
+								if (confirm('제출 후에는 답변을 수정할 수 없습니다. 정말 제출하시겠습니까?')) {
+									for (let i in randomSave) {
+										if (i < 10) {
+											insertAservey('firstPage', i, i);
+										} else if (i < 20) {
+											insertAservey('secondPage', (i - 10), i);
+										} else {
+											insertAservey('thirdPage', (i - 20), i);
+										}
+									}
+								}
+							}
 						}
 					} else {
 						if (check1and11(11)) {
-							console.log('11 정상임')
+							$(".serveyQtitle").css('color', '#848484');
+							$('.serveyQinput').css({
+								'color': '#848484',
+								'border-bottom': '1px solid #848484'
+							})
+							if (check1and11(1)) {
+								if (confirm('제출 후에는 답변을 수정할 수 없습니다. 정말 제출하시겠습니까?')) {
+									for (let i in randomSave) {
+										if (i < 10) {
+											insertAservey('firstPage', i, i);
+										} else if (i < 20) {
+											insertAservey('secondPage', (i - 10), i);
+										} else {
+											insertAservey('thirdPage', (i - 20), i);
+										}
+									}
+								}
+							}
 						}
 					}
 				})
