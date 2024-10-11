@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,7 +11,7 @@
 	<meta name="description" content="Free HTML5 Template by FREEHTML5.CO" />
 	<meta name="keywords" content="free html5, free template, free bootstrap, html5, css3, mobile first, responsive" />
 	<meta name="author" content="FREEHTML5.CO" />
-
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js" integrity="sha512-1QvjE7BtotQjkq8PxLeF6P46gEpBRXuskzIVgjFpekzFVF4yjRgrQvTG1MTOJ3yQgvTteKAcO7DSZI92+u/yZw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <!-- 
 	//////////////////////////////////////////////////////
 
@@ -24,12 +25,7 @@
 
 	//////////////////////////////////////////////////////
 	 -->
-
-  
-
-
-</head>
-	<style>
+<style>
 		#chatting-btn { 
 	    
 	    position: fixed;
@@ -60,7 +56,7 @@
 	right: 50px;
 	z-index: 1200;
 	}
-	form>#textbox{
+	#messageArea{
 	width:270px;
 	height:400px;
 	border: 1px solid black;
@@ -79,6 +75,11 @@
 	
 	</style>
 
+  
+
+
+</head>
+	
 <body>
 	<button id="chatting-btn" >chat</button>
 
@@ -86,11 +87,10 @@
 <div id="chat-popup" align="center">
     <h2 id="chat-head-line">커플 채팅</h2>
     <button id="close-popup">X</button>
-    <form action="" method="get">
-    <textarea id="textbox" disabled readonly>Here is your chat content.</textarea>
-    <input type="text"/>
-    <button type="submit">전송</button>
-    </form>
+    <div id="messageArea"></div>
+    <input type="hidden" id="userName" value="${loginUser.userName }" />
+    <input type="text" id="message"/>
+    <button type="button" id="sendBtn" value="submit">전송</button>
     
 </div>
 
@@ -123,6 +123,33 @@ $(document).ready(function() {
     });
 
 });
+</script>
+
+<script>
+$("#sendBtn").click(function(){
+	sendMessage();
+	$('#message').val('')
+});
+
+	let sock = new SockJS("http://localhost:8444/final/chat/");
+	sock.onmessage = onMessage;
+	sock.onclose = onClose;
+	
+	function sendMessage(){
+		sock.send($("#userName").val());
+		sock.send($("#message").val());
+		
+	}
+	
+	function onMessage(msg){
+		var data = msg.data;
+		$("#messageArea").append(data + "<br/>")
+	}
+	
+	function onClose(evt){
+		$("#messageArea").append("연결끊김");
+	}
+
 </script>
 	<!--  -->
 </body>
