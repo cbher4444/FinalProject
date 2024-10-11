@@ -66,6 +66,21 @@
 		<result column="COUPLE_CODE" property="coupleCode" />
 	</resultMap>
 	
+	<resultMap type="Qtoday" id="qtodayResult">
+		<result column="QTODAY_NO" property="qtodayNo" />
+		<result column="QTODAY_CONTENT" property="qtodayContent" />
+	</resultMap>
+	
+	<resultMap type="Atoday" id="atodayResult">
+		<result column="ATODAY_NO" property="atodayNo" />
+		<result column="ATODAY_CONTENT" property="atodayContent" />
+		<result column="ATODAY_DATE" property="atodayDate" />
+		<result column="QTODAY_DATE" property="qtodayDate" />
+		<result column="QTODAY_NO" property="qtodayNo" />
+		<result column="EMAIL" property="eamil" />
+		<result column="COUPLE_CODE" property="coupleCode" />
+	</resultMap>
+	
 	<select id="selectQtest" resultMap="qtestResult">
 		select qtest_no
 		     , qtest_content
@@ -354,4 +369,40 @@
 		     , #{ coupleCode }
 		     )
 	</insert>
+	
+	<select id="selectQtoday" resultMap="qtodayResult">
+		select QTODAY_NO
+			 , QTODAY_CONTENT
+	      from f_qtoday
+	</select>
+	
+	<select id="selectAtoday" resultMap="atodayResult">
+		select ATODAY_NO
+		     , ATODAY_CONTENT
+		     , ATODAY_DATE
+		     , QTODAY_DATE
+		     , QTODAY_NO
+		     , EMAIL
+		     , COUPLE_CODE
+		 from f_atoday
+		where email = #{ eamil }
+	      and couple_code = #{ coupleCode }
+	</select>
+	
+	<select id="checkDuplication" resultMap="qtodayResult">
+		select qtoday_no
+		  from f_atoday
+		 where email = #{ email }
+		   and couple_code = #{ coupleCode }
+		 group
+		    by qtoday_no
+		having count(qtoday_no) > #{ num }
+	</select>
+	
+	<select id="countAtoday" resultType="_int">
+		select count(*) as count
+		  from f_atoday
+		 where email = #{ email }
+		   and couple_code = #{ coupleCode }
+	</select>
 </mapper>

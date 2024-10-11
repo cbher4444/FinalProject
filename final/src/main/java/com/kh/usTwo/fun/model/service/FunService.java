@@ -5,10 +5,12 @@ import java.util.ArrayList;
 import com.kh.usTwo.fun.model.vo.Alove;
 import com.kh.usTwo.fun.model.vo.Aservey;
 import com.kh.usTwo.fun.model.vo.Atest;
+import com.kh.usTwo.fun.model.vo.Atoday;
 import com.kh.usTwo.fun.model.vo.OptionTest;
 import com.kh.usTwo.fun.model.vo.Qlove;
 import com.kh.usTwo.fun.model.vo.Qservey;
 import com.kh.usTwo.fun.model.vo.Qtest;
+import com.kh.usTwo.fun.model.vo.Qtoday;
 import com.kh.usTwo.fun.model.vo.Test;
 import com.kh.usTwo.member.model.vo.Member;
 
@@ -36,4 +38,6 @@ public interface FunService {
 	int countAservey(Member m);
 	int countTest(Member m);
 	int insertAservey(Aservey a);
+	ArrayList<Qtoday> selectQtoday(Member m);
+	ArrayList<Atoday> selectAtoday(Member m);
 }
