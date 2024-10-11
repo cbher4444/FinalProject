@@ -11,10 +11,12 @@ import com.kh.usTwo.fun.model.dao.FunDao;
 import com.kh.usTwo.fun.model.vo.Alove;
 import com.kh.usTwo.fun.model.vo.Aservey;
 import com.kh.usTwo.fun.model.vo.Atest;
+import com.kh.usTwo.fun.model.vo.Atoday;
 import com.kh.usTwo.fun.model.vo.OptionTest;
 import com.kh.usTwo.fun.model.vo.Qlove;
 import com.kh.usTwo.fun.model.vo.Qservey;
 import com.kh.usTwo.fun.model.vo.Qtest;
+import com.kh.usTwo.fun.model.vo.Qtoday;
 import com.kh.usTwo.fun.model.vo.Test;
 import com.kh.usTwo.member.model.vo.Member;
 
@@ -139,6 +141,16 @@ public class FunServiceImpl implements FunService {
 	@Override
 	public int insertAservey(Aservey a) {
 		return fDao.insertAservey(a, sqlSession);
+	}
+
+	@Override
+	public ArrayList<Qtoday> selectQtoday(Member m) {
+		return fDao.selectQtoday(m, sqlSession);
+	}
+
+	@Override
+	public ArrayList<Atoday> selectAtoday(Member m) {
+		return fDao.selectAtoday(m, sqlSession);
 	}
 
 }
