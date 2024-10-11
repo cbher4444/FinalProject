@@ -51,11 +51,23 @@ public class PlanController {
 	@ResponseBody
 	@RequestMapping(value="sinsert.pl")
 	public String ajaxInsertSchedule(Schedule s) {
-		System.out.println(s);
 		int result = pService.insertSchedule(s);
 		return result > 0 ? "success" : "fail";
 	}
 	
+	@ResponseBody
+	@RequestMapping(value="supdate.pl")
+	public String ajaxUpdateSchedule(Schedule s) {
+		int result = pService.updateSchedule(s);
+		return result > 0 ? "success" : "fail";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="sdelete.pl")
+	public String ajaxDeleteSchedule(int scheduleNo) {
+		int result = pService.deleteSchedule(scheduleNo);
+		return result > 0 ? "success" : "fail";
+	}
 }
 
 

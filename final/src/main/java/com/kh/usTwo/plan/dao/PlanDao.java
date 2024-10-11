@@ -24,6 +24,14 @@ public class PlanDao {
 		return sqlSession.insert("planMapper.insertSchedule", s);
 	}
 
+	public int updateSchedule(SqlSessionTemplate sqlSession, Schedule s) {
+		return sqlSession.update("planMapper.updateSchedule", s);
+	}
+
+	public int deleteSchedule(SqlSessionTemplate sqlSession, int scheduleNo) {
+		return sqlSession.update("planMapper.deleteSchedule", scheduleNo);
+	}
+
 
 
 

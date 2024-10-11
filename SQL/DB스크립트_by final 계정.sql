@@ -187,11 +187,11 @@ CREATE TABLE P_SCHEDULE(
     TITLE VARCHAR2(100) NOT NULL,
     CONTENT VARCHAR2(500),
     START_DATE DATE NOT NULL,
-    START_TIME TIMESTAMP,
+    START_TIME DATE,
     END_DATE DATE,
-    END_TIME TIMESTAMP,
+    END_TIME DATE,
     CREATE_DATE DATE DEFAULT SYSDATE NOT NULL,
-    ALERT_DATE TIMESTAMP,
+    ALERT_DATE DATE,
     COLOR VARCHAR2(20),
     WRITER VARCHAR2(100) NOT NULL,
     STATUS CHAR(1) DEFAULT 'Y' NOT NULL,
@@ -223,8 +223,8 @@ VALUES
      (
        SEQ_SCHEDULE_NO.NEXTVAL
      , 1
-     , '커플일정 제목 (하루종일)'
-     , '커플일정 내용'
+     , '온전히 하루 같이 보내기'
+     , '하루종일 뭐할까~'
      , TO_DATE('2024-10-09', 'YYYY-MM-DD')
      , NULL
      , NULL
@@ -242,13 +242,13 @@ VALUES
      (
        SEQ_SCHEDULE_NO.NEXTVAL
      , 2
-     , 'user01 제목 (시간있음)'
+     , '한국어 수업'
      , NULL
      , TO_DATE('2024-10-20', 'YYYY-MM-DD')
-     , TO_TIMESTAMP('10:00:00', 'HH24:MI:SS')
+     , TO_TIMESTAMP('08:00:00', 'HH24:MI:SS')
      , TO_DATE('2024-10-20', 'YYYY-MM-DD')
-     , TO_TIMESTAMP('15:00:00', 'HH24:MI:SS')
-     , TO_DATE('2024-10-02', 'YYYY-MM-DD')
+     , TO_TIMESTAMP('12:00:00', 'HH24:MI:SS')
+     , TO_DATE('2024-10-05', 'YYYY-MM-DD')
      , NULL
      , NULL
      , 'user01@email.com'
@@ -261,13 +261,13 @@ VALUES
      (
        SEQ_SCHEDULE_NO.NEXTVAL
      , 3
-     , 'user02 제목 (시간없음)'
+     , '제주도 가족여행'
      , NULL
      , TO_DATE('2024-10-15', 'YYYY-MM-DD')
      , NULL
      , TO_DATE('2024-10-18', 'YYYY-MM-DD')
      , NULL
-     , TO_DATE('2024-10-02', 'YYYY-MM-DD')
+     , TO_DATE('2024-10-03', 'YYYY-MM-DD')
      , NULL
      , NULL
      , 'user02@email.com'

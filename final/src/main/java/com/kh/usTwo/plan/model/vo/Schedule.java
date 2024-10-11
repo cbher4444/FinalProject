@@ -1,7 +1,5 @@
 package com.kh.usTwo.plan.model.vo;
 
-import java.sql.Date;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,10 +19,11 @@ public class Schedule {
 	private String startTime;
 	private String endDate;
 	private String endTime;
-	private Date createDate;
+	private String createDate;
 	private String alertDate;
 	private String color;
-	private String writer;
+	private String writer; // email
+	private String writerName;
 	private String status;
 	
 }

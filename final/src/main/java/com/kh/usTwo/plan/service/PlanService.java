@@ -14,4 +14,7 @@ public interface PlanService {
 	
 	int insertSchedule(Schedule s);
 	
+	int updateSchedule(Schedule s);
+	
+	int deleteSchedule(int scheduleNo);
 }

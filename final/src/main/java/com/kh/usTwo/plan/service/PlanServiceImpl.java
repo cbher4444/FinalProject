@@ -36,6 +36,16 @@ public class PlanServiceImpl implements PlanService{
 		return pDao.insertSchedule(sqlSession, s);
 	}
 
+	@Override
+	public int updateSchedule(Schedule s) {
+		return pDao.updateSchedule(sqlSession, s);
+	}
+
+	@Override
+	public int deleteSchedule(int scheduleNo) {
+		return pDao.deleteSchedule(sqlSession, scheduleNo);
+	}
+
 	
 	
 
