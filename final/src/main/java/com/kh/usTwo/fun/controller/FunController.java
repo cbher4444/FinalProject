@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 import com.kh.usTwo.fun.model.service.FunServiceImpl;
+import com.kh.usTwo.fun.model.vo.Aservey;
 import com.kh.usTwo.fun.model.vo.Atest;
 import com.kh.usTwo.fun.model.vo.OptionTest;
 import com.kh.usTwo.fun.model.vo.Qtest;
@@ -112,5 +113,11 @@ public class FunController {
 	@RequestMapping(value="selectQservey.test", produces = "application/json; charset=utf-8")
 	public String selectQservey() {
 		return new Gson().toJson(fService.selectQservey());
+	}
+	
+	@ResponseBody
+	@RequestMapping("insertAservey.servey")
+	public int insertAservey(Aservey a) {
+		return fService.insertAservey(a);
 	}
 }

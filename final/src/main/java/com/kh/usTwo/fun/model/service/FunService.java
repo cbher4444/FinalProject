@@ -35,4 +35,5 @@ public interface FunService {
 	int countAtest(Member m);
 	int countAservey(Member m);
 	int countTest(Member m);
+	int insertAservey(Aservey a);
 }

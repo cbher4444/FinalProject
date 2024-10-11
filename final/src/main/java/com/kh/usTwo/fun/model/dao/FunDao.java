@@ -105,6 +105,10 @@ public class FunDao {
 	public int countTest(Member m, SqlSessionTemplate sqlSession) {
 		return sqlSession.selectOne("funMapper.countTest", m);
 	}
+
+	public int insertAservey(Aservey a, SqlSessionTemplate sqlSession) {
+		return sqlSession.insert("funMapper.insertAservey", a);
+	}
 	
 	
 }

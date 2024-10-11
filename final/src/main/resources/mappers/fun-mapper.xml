@@ -341,4 +341,17 @@
 		            by test_date desc)
 		 where rownum between 1 and 1
 	</select>
+	
+	<insert id="insertAservey">
+		INSERT
+		  INTO F_ASERVEY
+		VALUES
+		     (
+		       SEQ_ASERVEY_NO.NEXTVAL
+		     , #{ aserveyContent }
+		     , #{ qserveyNo }
+		     , #{ email }
+		     , #{ coupleCode }
+		     )
+	</insert>
 </mapper>
