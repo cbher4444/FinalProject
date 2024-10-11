@@ -4,6 +4,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
+		<script type="text/JavaScript" src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
 		<style>
 			#defaultContainerRowDiv2 {
 				width: 70%;
@@ -445,6 +446,14 @@
 					}
 				})
 			}
+
+			function urgeKakao() {
+				Kakao.init('fe56683314fec289f4d5c7945794e119');
+				Kakao.Link.sendCustom({
+					templateId: 113039
+				});
+			}
+			
 			$(() => {
 				let exist = '${ count }'.split('/');
 
@@ -462,7 +471,7 @@
 						$('#defaultContainerRowDiv2').html('<a href="javascript:void(0)" class="btn btn-primary btn-lg" id="default-btn">고사 시작</a>');
 					} else if (exist[1] === '30') {
 						// 나만 존재 -> 재촉하기 버튼
-						$('#defaultContainerRowDiv2').html('<a href="javascript:void(0)" class="btn btn-primary btn-lg" id="made-btn-alarm">재촉하기</a>');
+						$('#defaultContainerRowDiv2').html('<a href="javascript:void(0)" class="btn btn-primary btn-lg" onClick="urgeKakao();" id="made-btn-alarm">재촉하기</a>');
 					} else if (exist[2] === '30' || (exist[1] === '0' && exist[2] === '0')) {
 						// 상대방만 존재 or 둘 다 존재 X -> 설문조사 창 띄우기
 						$.ajax({
