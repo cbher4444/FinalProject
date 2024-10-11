@@ -110,7 +110,13 @@
 							</c:when>
 							<c:otherwise>
 								<!-- case2. 로그인 후 -->
-								<li id="menubar_album"><a href="album">Album</a></li>
+								<li id="menubar_album">
+								<a href="album">Album</a>
+								<ul class="fh5co-sub-menu" style="min-width: fit-content;">
+										<li id="menubar_album"><a href="album">앨범</a></li>
+										<li id="menubar_story"><a href="story">스토리</a></li>
+									</ul>
+								</li>
 								<li id="menubar_map"><a href="play">Play</a></li>
 								<li id="menubar_plan">
 									<a href="calendar">Plan</a>
