@@ -22,7 +22,7 @@ public class Schedule {
 	private String endDate;
 	private String endTime;
 	private Date createDate;
-	private Date alertDate;
+	private String alertDate;
 	private String color;
 	private String writer;
 	private String status;

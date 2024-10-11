@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.usTwo.plan.dao.PlanDao;
+import com.kh.usTwo.plan.model.vo.Calendar;
 import com.kh.usTwo.plan.model.vo.Schedule;
 import com.kh.usTwo.plan.model.vo.SelectSchedule;
 
@@ -19,6 +20,12 @@ public class PlanServiceImpl implements PlanService{
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 	
+
+	@Override
+	public ArrayList<Calendar> selectCalendarList(String coupleCode) {
+		return pDao.selectCalendarList(sqlSession, coupleCode);
+	}
+	
 	@Override
 	public ArrayList<Schedule> selectScheduleList(SelectSchedule ss) {
 		return pDao.selectScheduleList(sqlSession, ss);
@@ -28,6 +35,7 @@ public class PlanServiceImpl implements PlanService{
 	public int insertSchedule(Schedule s) {
 		return pDao.insertSchedule(sqlSession, s);
 	}
+
 	
 	
 

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
+import com.kh.usTwo.plan.model.vo.Calendar;
 import com.kh.usTwo.plan.model.vo.Schedule;
 import com.kh.usTwo.plan.model.vo.SelectSchedule;
 import com.kh.usTwo.plan.service.PlanServiceImpl;
@@ -34,6 +35,13 @@ public class PlanController {
 	}
 	
 	@ResponseBody
+	@RequestMapping(value="clist.pl", produces="application/json; charset=utf-8")
+	public String ajaxSelectCalendarList(String coupleCode) {
+		ArrayList<Calendar> list = pService.selectCalendarList(coupleCode);
+		return new Gson().toJson(list);
+	}
+	
+	@ResponseBody
 	@RequestMapping(value="slist.pl", produces="application/json; charset=utf-8")
 	public String ajaxSelectScheduleList(SelectSchedule ss) {
 		ArrayList<Schedule> list = pService.selectScheduleList(ss);
@@ -43,6 +51,7 @@ public class PlanController {
 	@ResponseBody
 	@RequestMapping(value="sinsert.pl")
 	public String ajaxInsertSchedule(Schedule s) {
+		System.out.println(s);
 		int result = pService.insertSchedule(s);
 		return result > 0 ? "success" : "fail";
 	}

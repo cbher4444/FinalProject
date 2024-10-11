@@ -2,6 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
 <mapper namespace="planMapper">
 
+	<resultMap id="calendarResult" type="Calendar">
+		<result column="calendar_no" property="calendarNo"/>
+		<result column="couple_code" property="coupleCode"/>
+		<result column="owner" property="owner"/>
+		<result column="default_color" property="defaultColor"/>
+		<result column="status" property="status"/>
+	</resultMap>
+
 	<resultMap id="scheduleResult" type="Schedule">
 		<result column="schedule_no" property="scheduleNo"/>
 		<result column="calendar_no" property="calendarNo"/>
@@ -17,6 +25,17 @@
 		<result column="writer" property="writer"/>
 		<result column="status" property="status"/>
 	</resultMap>
+
+	<select id="selectCalendarList" resultMap="calendarResult">
+		select
+		       calendar_no
+		     , couple_code
+		     , owner
+		     , default_color
+		  from p_calendar
+		 where couple_code = #{coupleCode}
+		   and status = 'Y'
+	</select>
 
 	<select id="selectScheduleList" resultMap="scheduleResult">
 		select 
@@ -46,35 +65,31 @@
 		  (
 		      schedule_no
 		    , calendar_no
-		    , schedule_title
-		    , schedule_content
+		    , title
+		    , content
 		    , start_date
+		    , start_time
 		    , end_date
+		    , end_time
 		    , create_date
-		    , writer_email
+		    , alert_date
 		    , color
-		    , is_anniversary
+		    , writer
 		  )
 		  values
 		  (
 		      seq_schedule_no.nextval
 		    , #{calendarNo}
-		    , #{scheduleTitle}
-		    , #{scheduleContent}
-		    , CASE
-			        WHEN LENGTH(#{startDate}) = 10 THEN TO_DATE(#{startDate}, 'YYYY-MM-DD')
-			        WHEN LENGTH(#{startDate}) = 19 THEN TO_DATE(#{startDate}, 'YYYY-MM-DD"T"HH24:MI:SS')
-			        ELSE NULL
-			  END
-			, CASE
-			        WHEN LENGTH(#{endDate}) = 10 THEN TO_DATE(#{endDate}, 'YYYY-MM-DD')
-			        WHEN LENGTH(#{endDate}) = 19 THEN TO_DATE(#{endDate}, 'YYYY-MM-DD"T"HH24:MI:SS')
-			        ELSE NULL
-			  END
+		    , #{title}
+		    , #{content}
+		    , nvl(to_date(#{startDate}, 'YYYY-MM-DD'), null)
+		    , nvl(to_timestamp(#{startTime}, 'HH24:MI'), null)
+  		    , nvl(to_date(#{endDate}, 'YYYY-MM-DD'), null)
+		    , nvl(to_timestamp(#{endTime}, 'HH24:MI'), null)
 		    , sysdate
-		    , #{writerEmail}
+		    , nvl(to_timestamp(#{alertDate}, 'YYYY-MM-DD"T"HH24:MI'), null)
 		    , #{color}
-		    , #{isAnniversary}
+		    , #{writer}
 		   )
 	</insert>
 
