@@ -58,6 +58,7 @@
           join p_calendar c using(calendar_no)
           join c_member m on (s.writer = m.email)
 		 where c.couple_code = #{coupleCode}
+		   and calendar_no = #{calendarNo}
            and start_date between to_date(#{yearMonth}, 'YYYY-MM-DD')-14 and last_day(to_date(#{yearMonth}, 'YYYY-MM-DD'))+14
 		   and s.status = 'Y'
 	</select>

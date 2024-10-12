@@ -33,29 +33,38 @@
 			calendar = new FullCalendar.Calendar(calendarEl, {
 				locale: 'ko', // 언어 설정
 				customButtons: { // 커스텀 버튼
+					all: {
+						text: '모든일정',
+						click: function() {
+							onClickCalendarOption("all");
+						}
+					},
 					both: {
 						text: '우리일정',
 						click: function() {
-								alert('clicked the both button!');
+							onClickCalendarOption("both");
 						}
 					},
 					mine: {
 						text: '내일정',
 						click: function() {
-								alert('clicked the mine button!');
+							onClickCalendarOption("mine");
 						}
 					},
 					partner: {
 						text: '상대방일정',
 						click: function() {
-								alert('clicked the partner button!');
+							onClickCalendarOption("partner");
 						}
 					},
 				},
 				headerToolbar: { // 헤더 버튼 구성 설정
-					left: 'both,mine,partner today',
+					left: 'all,both,mine,partner',
 					center: 'prev title next',
-					right: 'multiMonthYear,dayGridMonth,timeGridWeek,timeGridDay listMonth',
+					right: 'today multiMonthYear,dayGridMonth,timeGridWeek,timeGridDay listMonth',
+				},
+				footerToolbar: {
+					
 				},
 				buttonText: { // 버튼 이름 바꾸기
 					today: '오늘',
@@ -168,8 +177,8 @@
 									<td>캘린더 :</td>
 									<td>
 										<select name="calendarNo" id="calendarNo" class="form-control" >
-											<option id="bothCalendarNo">우리일정</option>
 											<option id="myCalendarNo">내일정</option>
+											<option id="bothCalendarNo">우리일정</option>
 											<option id="partnerCalendarNo">상대방일정</option>
 										</select>
 									</td>
@@ -246,8 +255,8 @@
 									<td>캘린더 :</td>
 									<td>
 										<select name="calendarNo" id="edit-calendarNo" class="form-control" >
-											<option id="edit-bothCalendarNo">우리일정</option>
 											<option id="edit-myCalendarNo">내일정</option>
+											<option id="edit-bothCalendarNo">우리일정</option>
 											<option id="edit-partnerCalendarNo">상대방일정</option>
 										</select>
 									</td>
@@ -303,56 +312,71 @@
 
 	<script>
 		let scheduleList;
-		// ----------------------- 페이지 로딩후 기본 실행 -----------------------
-		$(function(){
-			selectCalendarList() // 캘린더 리스트 가져오기
-			asyncSelectScheduleList(); // db에서 일정리스트 가져온후 scheduleList에 보관
+		let calendarNo_both;
+		let calendarNo_mine;
+		let calendarNo_partner;
+		let currentCalendarNoList;
+
+		initialSetting();
+
+		// ----------------------- 초기 세팅 -----------------------
+		async function initialSetting(){
+			let calendarList = await selectCalendarList();
+			setCalendarNo(calendarList);
+			setCalendarNoList("all");
+			fetchAndDisplaySchedule();
+
+			// '달'이 바뀌었을때 해당 달 데이터 가져오기
+			calendar.on('datesSet', async function(info) {
+				fetchAndDisplaySchedule();
+			});
 
 			// Attach reset function to modal close event
 			$('#addModal').on('hide.bs.modal', resetAddModal);
-		})
+		}
+
+		async function fetchAndDisplaySchedule(){
+			scheduleList = await selectScheduleList(); // 현재 '달' 데이터 가져오기
+			console.log(scheduleList)
+			displayOnFullCalendar(scheduleList);
+		}
 
 		// ----------------------- DB에서 캘린더 가져오기 -----------------------
 		function selectCalendarList(){
-			$.ajax({
-				url:"clist.pl",
-				data:{
-					coupleCode: '${loginUser.coupleCode}',
-				},
-				success:function(list){
-					// console.log(list);
-					setCalendarNo(list);
-				}, error:function(){
-					console.log("캘린더 조회용 ajax 통신 실패");
-				}
+			return new Promise((resolve, reject) => {
+				$.ajax({
+					url:"clist.pl",
+					data:{
+						coupleCode: '${loginUser.coupleCode}',
+					},
+					success:function(list){
+						// console.log(list);
+						resolve(list);
+					}, error:function(){
+						reject(new Error('캘린더 조회용 ajax 통신 실패'));
+					}
+				})
 			})
 		}
 
-		// ----------------------- 모달에 캘린더 번호 세팅하기 -----------------------
-		function setCalendarNo(list){
-			for (let i in list) {
-				let item = list[i];
+		// ----------------------- 캘린더 번호 세팅하기 -----------------------
+		function setCalendarNo(calendarList){
+			for (let i in calendarList) {
+				let item = calendarList[i];
 				if (item.owner === 'BOTH') {
+					calendarNo_both = item.calendarNo;
 					$("#bothCalendarNo").val(item.calendarNo);
 					$("#edit-bothCalendarNo").val(item.calendarNo);
 				}else if(item.owner === '${loginUser.email}'){
+					calendarNo_mine = item.calendarNo;
 					$("#myCalendarNo").val(item.calendarNo);
 					$("#edit-myCalendarNo").val(item.calendarNo);
 				}else {
+					calendarNo_partner = item.calendarNo;
 					$("#partnerCalendarNo").val(item.calendarNo);
 					$("#edit-partnerCalendarNo").val(item.calendarNo);
 				}
 			};
-		}
-
-		// ----------------------- selectScheduleList 호출 (async) -----------------------
-		async function asyncSelectScheduleList(){
-			scheduleList = await selectScheduleList(); // 현재 '달' 데이터 가져오기
-			
-			// '달'이 바뀌었을때 해당 달 데이터 가져오기
-			calendar.on('datesSet', async function(info) {
-				scheduleList = await selectScheduleList();
-			});
 		}
 
 		// ----------------------- DB에서 일정 가져오기 -----------------------
@@ -363,30 +387,54 @@
 					data:{
 						coupleCode: '${loginUser.coupleCode}',
 						yearMonth: getCurrentYearMonth(),
+						calendarNoList: currentCalendarNoList,
 					},
 					success:function(list){
 						// console.log(list);
-
-						const events = list.map(item => ({
-							id: item.scheduleNo,
-							title: item.title,
-							start: item.startTime ? item.startDate + "T" + item.startTime : item.startDate,
-							end: item.endTime ? item.endDate + "T" + item.endTime : item.endDate,
-							color: item.color,
-						}));
-
-						// console.log(events);
-
-						calendar.getEvents().forEach(event => event.remove()); // Clear previous events if needed
-						calendar.addEventSource(events); // Add events to FullCalendar
-
 						resolve(list);
 					}, error:function(){
 						reject(new Error('일정 조회용 ajax 통신 실패'));
 					}
 				})
 			})
-			
+		}
+
+		function onClickCalendarOption(option){
+			setCalendarNoList(option);
+			fetchAndDisplaySchedule();
+		}
+
+		function setCalendarNoList(option){
+			switch (option) {
+				case "all":
+					currentCalendarNoList = [calendarNo_both, calendarNo_mine, calendarNo_partner];
+					break;
+				case "both":
+					currentCalendarNoList = [calendarNo_both];
+					break;
+				case "mine":
+					currentCalendarNoList = [calendarNo_mine];
+					break;
+				case "partner":
+					currentCalendarNoList = [calendarNo_partner];
+					break;
+				default:
+					console.log("setCalendarNoList(option) -> 잘못된 입력:" + option);
+			}
+		}
+
+		// ----------------------- Full Calendar에 일정 표시하기 -----------------------
+		function displayOnFullCalendar(list){
+			const events = list.map(item => ({
+							id: item.scheduleNo,
+							title: item.title,
+							start: item.startTime ? item.startDate + "T" + item.startTime : item.startDate,
+							end: item.endTime ? item.endDate + "T" + item.endTime : item.endDate,
+							color: item.color,
+						}));
+			// console.log(events);
+			calendar.getEvents().forEach(event => event.remove()); // Clear previous events
+			calendar.addEventSource(events); // Add events to FullCalendar
 		}
 
 		// ----------------------- 현재 달 구하기 -----------------------
@@ -400,9 +448,6 @@
 
 		// ----------------------- 달력 빈공간 클릭시 -> 일정추가 modal -----------------------
 		function showAddModal(arg){
-			// 모달 띄우기
-			$("#addModal").modal("show");
-			
 			// 클릭된 날짜 모달에 반영
 			$("#startDate").val(arg.startStr);
 
@@ -410,6 +455,9 @@
 			if(arg.start.getDate() + 1 !== arg.end.getDate()) {
 				$("#endDate").val(arg.endStr);
 			}
+
+			// 모달 띄우기
+			$("#addModal").modal("show");
 		}
 
 		// ----------------------- 일정 추가 (검증) -----------------------
@@ -460,7 +508,7 @@
 				}, success:function(status){
 					// console.log(status);
 					if(status === 'success') {
-						scheduleList = selectScheduleList();
+						fetchAndDisplaySchedule();
 					}else {
 						console.log("insertSchedule() 결과: " + status);
 					}
@@ -478,7 +526,7 @@
 			$("#startTime").val("");
 			$("#endDate").val("");
 			$("#endTime").val("");
-			$("#calendarNo").val($("#bothCalendarNo").val());
+			$("#calendarNo").val($("#myCalendarNo").val());
 			$("#color").val("");
 			$("#content").val("");
 			$("#alertDate").val("");
@@ -584,9 +632,10 @@
 				}, success:function(status){
 					// console.log(status);
 					if(status === 'success') {
-						scheduleList = selectScheduleList();
+						fetchAndDisplaySchedule();
 						$("#editModal").modal("hide");
 						resetEditModal(); // input 초기화
+						alert("성공적으로 해당 일정을 수정하였습니다.");
 					}else {
 						console.log("updateSchedule() 결과: " + status);
 					}
@@ -630,9 +679,9 @@
 				data:{
 					scheduleNo: $("#edit-scheduleNo").val(),
 				}, success:function(status){
-					console.log(status);
+					// console.log(status);
 					if(status === 'success') {
-						scheduleList = selectScheduleList();
+						fetchAndDisplaySchedule();
 						alert("성공적으로 해당 일정을 삭제하였습니다.")
 					}else {
 						console.log("deleteSchedule() 결과: " + status);
