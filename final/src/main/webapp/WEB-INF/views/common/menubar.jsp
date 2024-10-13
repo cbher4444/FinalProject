@@ -102,36 +102,49 @@
 				<!-- START #fh5co-menu-wrap -->
 				<nav id="fh5co-menu-wrap" role="navigation">
 					<ul class="sf-menu" id="fh5co-primary-menu">
-						<li id="menubar_home"><a href="home">Home</a></li>
 						<c:choose>
 							<c:when test="${ empty loginUser }">
 								<!-- case1. 로그인 전 -->
+								<li id="menubar_home"><a href="home">Home</a></li>
 								<li id="menubar_login"><a href="loginForm">Login</a></li>
 							</c:when>
 							<c:otherwise>
 								<!-- case2. 로그인 후 -->
-								<li id="menubar_album"><a href="album">Album</a></li>
-								<li id="menubar_map"><a href="play">Play</a></li>
-								<li id="menubar_plan">
-									<a href="calendar">Plan</a>
-									<ul class="fh5co-sub-menu" style="min-width: fit-content;">
-										<li id="menubar_calendar"><a href="calendar">캘린더</a></li>
-										<li id="menubar_todo"><a href="todo">할일</a></li>
-										<li id="menubar_bucket"><a href="bucket">버킷리스트</a></li>
-									</ul>
-								</li>
-								<li id="menubar_budget"><a href="goBudget">Budget</a></li>
-								<li id="menubar_fun">
-									<a href="goFun1" class="fh5co-sub-ddown">Fun</a>
-									<ul class="fh5co-sub-menu">
-										<li id="menubar_fun1"><a href="goFun1">연애고사</a></li>
-										<li id="menubar_fun2"><a href="goFun2">오늘 뭐 먹지?</a></li>
-										<li id="menubar_fun3"><a href="goFun3">오늘의 질문</a></li>
-										<li id="menubar_fun4"><a href="goFun4">AI 연애 상담</a></li>
-									</ul>
-								</li>
-								<li id="menubar_myPage"><a href="myPage">MyPage</a></li>
-								<li id="menubar_adminPage"><a href="adminPage">AdminPage</a></li> <!-- 나중에 어드민일경우만 볼수 있도록 수정 할 예정 - 동규-->
+								<c:choose>
+								    <c:when test="${ loginUser.email eq 'admin@email.com'}">
+										<!-- case2-1. 어드인인 경우 -->
+								    	<li id="menubar_adminPage"><a href="adminPage">AdminPage</a></li> <!-- 나중에 어드민일경우만 볼수 있도록 수정 할 예정 - 동규-->
+								    </c:when>
+								    <c:when test="${ loginUser.status ne 'Y'}">
+										<!-- case2-2. 커플등록이 미완료된경우, 탈퇴대기 상태인경우 -->
+										<li id="menubar_myPage"><a href="myPage">MyPage</a></li>
+								    </c:when>
+									<c:otherwise>
+										<!-- case2-3. 커플등록완료된 회원 -->
+										<li id="menubar_home"><a href="home">Home</a></li>
+										<li id="menubar_album"><a href="album">Album</a></li>
+										<li id="menubar_map"><a href="play">Play</a></li>
+										<li id="menubar_plan">
+											<a href="calendar">Plan</a>
+											<ul class="fh5co-sub-menu" style="min-width: fit-content;">
+												<li id="menubar_calendar"><a href="calendar">캘린더</a></li>
+												<li id="menubar_todo"><a href="todo">할일</a></li>
+												<li id="menubar_bucket"><a href="bucket">버킷리스트</a></li>
+											</ul>
+										</li>
+										<li id="menubar_budget"><a href="goBudget">Budget</a></li>
+										<li id="menubar_fun">
+											<a href="goFun1" class="fh5co-sub-ddown">Fun</a>
+											<ul class="fh5co-sub-menu">
+												<li id="menubar_fun1"><a href="goFun1">연애고사</a></li>
+												<li id="menubar_fun2"><a href="goFun2">오늘 뭐 먹지?</a></li>
+												<li id="menubar_fun3"><a href="goFun3">오늘의 질문</a></li>
+												<li id="menubar_fun4"><a href="goFun4">AI 연애 상담</a></li>
+											</ul>
+										</li>
+										<li id="menubar_myPage"><a href="myPage">MyPage</a></li>
+									</c:otherwise>
+								</c:choose>
 								<li id="menubar_logout"><a href="logout">Logout</a></li>
 							</c:otherwise>
 						</c:choose>

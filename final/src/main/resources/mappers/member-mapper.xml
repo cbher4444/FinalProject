@@ -34,9 +34,10 @@
 		     , partner_email
 		     , origin_name
 		     , change_name
+		     , status -- status 추가함 - by 동규 (2024.10.13)
 		 from c_member
 		where email = #{email}
-		   and status != 'N'
+		   -- and status != 'N' -- 'N' 상태도 로그인할 수 있게 수정 - by 동규 (2024.10.13)
 	</select>
 	
 	<select id="selectPartnerEmail" resultMap="memberResult">
@@ -56,7 +57,7 @@
 		 , change_name
 	 from c_member
 	where partner_email = #{email}
-	   and status != 'N'
+	   and status != 'N' -- 'N' 상태도 검색 될 수 있게 수정 - by 동규 (2024.10.13)
 	
 	</select>
 	

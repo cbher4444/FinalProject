@@ -13,16 +13,19 @@ public class HomeController {
 	@RequestMapping("home")
 	public String home(HttpSession session) {
 		
-		Member loginUser = null;
-		
-		if(session.getAttribute("loginUser") != null) {
-			loginUser = (Member)session.getAttribute("loginUser");
-		}
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		System.out.println(loginUser.getStatus());
 		
 		if(loginUser == null) {
 			return "home/homeGuest";
 		}else {
-			return "home/homeMember";
+			if(loginUser.getEmail().equals("admin@email.com")) { // 관리자인 경우
+				return "adminPage/adminPage";
+			}else if(!loginUser.getStatus().equals("Y")){ // 커플등록이 미완료된 경우, 탈퇴대기 상태인경우,
+				return "mypage/myPage";
+			}else { // 커플등록 완료
+				return "home/homeMember";
+			}
 		}
 		
 	}
