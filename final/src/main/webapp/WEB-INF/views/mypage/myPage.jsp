@@ -76,8 +76,8 @@
 			<div class="row padding">
 				<div class="couple-wrap">
 					<div class="col-md-6 nopadding animate-box" style="position: relative;">
-						<img src="resources/images/groom.jpg" class="img-responsive" alt="Free HTML5 Bootstrap Template by FreeHTML5.co">
-						<button type="button" class="btn btn-primary btn-block" style="position:absolute; bottom:10px; right:10px; width: fit-content; background-color: rgb(125, 125, 125);">사진변경</button>
+						<img src="resources/images/groom.jpg" class="img-responsive" alt="profile picture">
+						<button type="button" class="btn btn-primary btn-block" style="position:absolute; bottom:10px; right:10px; width: fit-content; background-color: rgb(125, 125, 125);"  onclick="onclickImgEditBtn()">사진변경</button>
 					</div>
 					<div class="col-md-6 nopadding animate-box">
 						<div class="couple-desc" style="padding: 20px 0 0;">
@@ -169,7 +169,43 @@
 		</div>
 	</div>
 	
-
+	<!-- 사진변경 Modal -->
+	<div class="modal fade" id="imgModal" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content" style="padding-top: 10px; margin-top: 150px;">
+				<form class="form-inline" action="" method="post">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" style="font-size: 30px;">&times;</button>
+						<h3 class="modal-title">사진 등록/변경</h3>
+					</div>
+					<div class="modal-body">
+						<div class="form-group" style="width: 100%;">
+							<table style="width: 95%;">
+								<tr>
+									<td>첨부파일</td>
+									<td>
+										<c:choose>
+											<c:when test="${ empty loginUser.originName }">
+												<!-- 첨부파일이 없는 경우 -->
+												첨부파일이 없습니다.
+											</c:when>
+											<c:otherwise>
+												<!-- 첨부파일이 있는 경우-->
+												<a href="${ loginUser.changeName }" download="${ loginUser.originName }">${ loginUser.originName }</a>
+											</c:otherwise>
+										</c:choose>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+					<div class="modal-footer" style="display: flex; align-items: center; justify-content: center;">
+						<button type="button" class="btn btn-primary btn-block" style="width: 100px; height: 50px; margin-right: 10px;">사진 등록</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 
 	<script>
 		setGender();
@@ -186,6 +222,10 @@
 			$("#deleteModal").modal("show");
 		}
 
+		// ----------------------- 사진변경 버튼 클릭시 -> 사진변경 모달 띄움 -----------------------
+		function onclickImgEditBtn(){
+			$("#imgModal").modal("show");
+		}
 	</script>
 </body>
 </html>
