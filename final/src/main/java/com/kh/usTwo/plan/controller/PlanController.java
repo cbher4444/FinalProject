@@ -44,7 +44,6 @@ public class PlanController {
 	@ResponseBody
 	@RequestMapping(value="slist.pl", produces="application/json; charset=utf-8")
 	public String ajaxSelectScheduleList(SelectSchedule ss) {
-		System.out.println(ss);
 		ArrayList<Schedule> list = pService.selectScheduleList(ss);
 		return new Gson().toJson(list);
 	}

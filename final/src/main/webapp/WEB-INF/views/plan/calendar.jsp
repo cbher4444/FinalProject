@@ -8,21 +8,28 @@
 	<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
 	<script src='https://cdn.jsdelivr.net/npm/@fullcalendar/google-calendar@6.1.15/index.global.min.js'></script>
 	<style>
-		option:hover {
-			opacity: .5 !important;
-		}
 
-
+		/* 모달 -> 요소 간격 띄우기*/
 		.modal td{
 			padding: 10px !important;
 		}
 
+		/* 모달 왼쪽열 -> 오른쪽 정렬*/
 		.modal td:first-child{
 			text-align: right;
 		}
 
+		/* 캘린더 중앙 날짜부분 -> 정렬 한줄로. ex) "<", "2024년 10월", ">" */
 		.fc-toolbar-chunk:nth-child(2){
 			display: flex;
+		}
+
+		/* 캘린더 각각의 뷰 -> 커서 포인터로 바꾸기 */
+		.fc-daygrid-day-frame, /* 월 */
+		.fc-scrollgrid-section-body, /* 주, 일 */
+		.fc-list-event-title /* 목록 (일정제목)*/
+		{
+			cursor: pointer;
 		}
 	</style>
 	<script>
@@ -36,25 +43,25 @@
 					all: {
 						text: '모든일정',
 						click: function() {
-							onClickCalendarOption("all");
+							onClickCalendarOption("all", this);
 						}
 					},
 					both: {
 						text: '우리일정',
 						click: function() {
-							onClickCalendarOption("both");
+							onClickCalendarOption("both", this);
 						}
 					},
 					mine: {
 						text: '내일정',
 						click: function() {
-							onClickCalendarOption("mine");
+							onClickCalendarOption("mine", this);
 						}
 					},
 					partner: {
 						text: '상대방일정',
 						click: function() {
-							onClickCalendarOption("partner");
+							onClickCalendarOption("partner", this);
 						}
 					},
 				},
@@ -62,9 +69,6 @@
 					left: 'all,both,mine,partner',
 					center: 'prev title next',
 					right: 'today multiMonthYear,dayGridMonth,timeGridWeek,timeGridDay listMonth',
-				},
-				footerToolbar: {
-					
 				},
 				buttonText: { // 버튼 이름 바꾸기
 					today: '오늘',
@@ -84,9 +88,13 @@
 				},
 				eventClick: function(info) { // 달력 일정 클릭시 -> 일정수정 modal
 					info.jsEvent.preventDefault(); // 구글일정링크 타지 않도록.
-					showEditModal(info);
+					if (info.event.url) { // url이 있는 경우 -> 구글 일정임!
+						showGoogleModal(info);
+					} else { // url 없는 경우 -> 우리 db에서 가져온 일정.
+						showEditModal(info);
+					}
 				},
-				editable: true, // 드래그로 수정가능
+				//editable: true, // 드래그로 수정가능
 				dayMaxEvents: true, // allow "more" link when too many events
 				height: 'auto', // 스크롤 없앰
 				viewDidMount: function() {
@@ -97,14 +105,14 @@
 						if (firstButton) {
 							firstButton.classList.add("fc-button-active");
 						}
-					}
+					};
     			},
 				// ----------------------- google calendar -----------------------
-				// 작동 잘됨. 나중에 주석 풀어주기~
-				googleCalendarApiKey: '',
+				googleCalendarApiKey: '', // api는 git에 안올라가게 비워둠. 넣으면 공휴일도 보임!
 				events: {
-					googleCalendarId: '',
+					googleCalendarId: 'ko.south_korea#holiday@group.v.calendar.google.com', // 한국 공휴일
 				},
+				eventColor: '#ff0000', // 빨간색
 			});
 		
 			calendar.render();
@@ -188,11 +196,11 @@
 									<td>
 										<select id="color" class="form-control">
 											<option value=""></option>
-											<option value="#3788d8">파랑</option>
 											<option value="rgb(240, 48, 48)">빨강</option>
 											<option value="#ff5733">주황</option>
 											<option value="rgb(253, 204, 113)">노랑</option>
 											<option value="#27ae60">초록</option>
+											<option value="#3788d8">파랑</option>
 											<option value="rgb(120, 120, 247)">보라</option>
 											<option value="rgb(236, 154, 236)">핑크</option>
 										</select>
@@ -266,11 +274,11 @@
 									<td>
 										<select id="edit-color" class="form-control">
 											<option value=""></option>
-											<option value="#3788d8">파랑</option>
 											<option value="rgb(240, 48, 48)">빨강</option>
 											<option value="#ff5733">주황</option>
 											<option value="rgb(253, 204, 113)">노랑</option>
 											<option value="#27ae60">초록</option>
+											<option value="#3788d8">파랑</option>
 											<option value="rgb(120, 120, 247)">보라</option>
 											<option value="rgb(236, 154, 236)">핑크</option>
 										</select>
@@ -304,6 +312,54 @@
 		</div>
 	</div>
 
+	<!-- 구글 일정 Modal -->
+	<div class="modal fade" id="googleModal" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content" style="padding-top: 10px;">
+				<form class="form-inline">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" style="font-size: 30px;">&times;</button>
+						<h3 class="modal-title">일정 (from 구글 캘린더)</h3>
+					</div>
+					<div class="modal-body">
+						<div class="form-group" style="width: 100%;">
+							<table style="width: 95%;">
+								<tr>
+									<td>제목 :</td>
+									<td><input type="text" class="form-control" id="google-title" style="width: 80%;" readonly></td>
+								</tr>
+								<tr>
+									<td>일시 :</td>
+									<td>
+										<input type="date" class="form-control" id="google-startDate" readonly>
+									</td>
+								</tr>
+								<tr>
+									<td>캘린더 :</td>
+									<td>
+										<select name="calendarNo" class="form-control" disabled>
+											<option>구글캘린더 (공휴일)</option>
+										</select>
+									</td>
+								</tr>
+								<tr>
+									<td>색상 :</td>
+									<td>
+										<select class="form-control" disabled>
+											<option>빨강</option>
+										</select>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+					<div class="modal-footer" style="display: flex; align-items: center; justify-content: center;">
+						* 구글캘린더의 일정은 조회만 가능합니다.
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 
 
 	<!-- ---------------------------------------- html 끝 ---------------------------------------- -->
@@ -326,18 +382,13 @@
 			setCalendarNoList("all");
 			fetchAndDisplaySchedule();
 
-			// '달'이 바뀌었을때 해당 달 데이터 가져오기
-			calendar.on('datesSet', async function(info) {
-				fetchAndDisplaySchedule();
-			});
-
 			// Attach reset function to modal close event
 			$('#addModal').on('hide.bs.modal', resetAddModal);
 		}
 
 		async function fetchAndDisplaySchedule(){
-			scheduleList = await selectScheduleList(); // 현재 '달' 데이터 가져오기
-			console.log(scheduleList)
+			scheduleList = await selectScheduleList();
+			// console.log(scheduleList);
 			displayOnFullCalendar(scheduleList);
 		}
 
@@ -386,7 +437,7 @@
 					url:"slist.pl",
 					data:{
 						coupleCode: '${loginUser.coupleCode}',
-						yearMonth: getCurrentYearMonth(),
+						currentYear: new Date().getFullYear(),
 						calendarNoList: currentCalendarNoList,
 					},
 					success:function(list){
@@ -399,11 +450,27 @@
 			})
 		}
 
-		function onClickCalendarOption(option){
+		// ----------------------- 선택된 캘린더번호에 대한 event 실행 -----------------------
+		function onClickCalendarOption(option, el){
 			setCalendarNoList(option);
+			setActiveButton(el);
 			fetchAndDisplaySchedule();
 		}
 
+		// -----------------------  현재 선택된 캘린더번호 버튼에 active 클래스 추가 -----------------------
+		function setActiveButton(clickedButton) {
+			const buttonGroup = document.querySelector(".fc-button-group");
+			if (buttonGroup) {
+				// Remove "fc-button-active" class from all buttons in the group
+				buttonGroup.querySelectorAll("button").forEach(button => {
+					button.classList.remove("fc-button-active");
+				});
+				// Add "fc-button-active" class to the clicked button
+				clickedButton.classList.add("fc-button-active");
+			}
+		}
+
+		// ----------------------- 현재 선택된 캘린더번호를 리스트에 보관. -----------------------
 		function setCalendarNoList(option){
 			switch (option) {
 				case "all":
@@ -433,31 +500,52 @@
 							color: item.color,
 						}));
 			// console.log(events);
-			calendar.getEvents().forEach(event => event.remove()); // Clear previous events
+			calendar.getEvents().forEach(event => {
+				if(event.url.length == 0) {
+					event.remove();
+				}
+			});  // Clear previous events
 			calendar.addEventSource(events); // Add events to FullCalendar
-		}
-
-		// ----------------------- 현재 달 구하기 -----------------------
-		function getCurrentYearMonth(){
-			let currentDate = calendar.getDate();
-			let currentYear = currentDate.getFullYear();
-			let currentMonth = String(currentDate.getMonth() + 1);
-			let currentYearMonth = currentYear + "-" + currentMonth.padStart(2, '0') + "-01";
-			return currentYearMonth;
 		}
 
 		// ----------------------- 달력 빈공간 클릭시 -> 일정추가 modal -----------------------
 		function showAddModal(arg){
+			let [startDate, startTime] = splitDateString(arg.startStr);
+			let [endDate, endTime]  = splitDateString(arg.endStr);
+
 			// 클릭된 날짜 모달에 반영
-			$("#startDate").val(arg.startStr);
+			$("#startDate").val(startDate);
+			$("#startTime").val(startTime);
 
 			// 하루만 클릭된 경우는 값을 종료일 안넣어줌. 2일 이상 드래그 해서 선택한경우만 종료일+1일로 넣어줌.
-			if(arg.start.getDate() + 1 !== arg.end.getDate()) {
-				$("#endDate").val(arg.endStr);
-			}
+			// if(arg.start.getDate() + 1 !== arg.end.getDate()) {
+			// 	$("#endDate").val(endDate);
+			// }
+			$("#endDate").val(endDate);
+			$("#endTime").val(endTime);
 
 			// 모달 띄우기
 			$("#addModal").modal("show");
+		}
+
+		// ----------------------- 날짜시간 텍스트 나누기 -----------------------
+		function splitDateString(originalText){
+			// let originalText = "2024-10-13T01:30:00+09:00";
+
+			// Split the string at 'T'
+			let [startDateTime, timezone] = originalText.split('+'); // Split to ignore timezone
+			let [startDate, startTimeWithSeconds] = startDateTime.split('T'); // Split date and time
+			
+			// Cut the startTime to remove seconds
+			let startTime;
+			if(startTimeWithSeconds) {
+				startTime = startTimeWithSeconds.substring(0, 5); // Get only HH:MM
+			}
+
+			//console.log("Start Date:", startDate); // Output: 2024-10-13
+			//console.log("Start Time:", startTime); // Output: 01:30
+
+			return [startDate, startTime];
 		}
 
 		// ----------------------- 일정 추가 (검증) -----------------------
@@ -532,7 +620,19 @@
 			$("#alertDate").val("");
 		}	
 
-		// ----------------------- 일정 클릭시 -> 일정수정 modal 띄우기 -----------------------
+		// ----------------------- 구글 일정 클릭시 -> 구글 modal 띄우기 -----------------------
+		function showGoogleModal(arg){
+			let currentEvent = arg.event; // Store the currently selected event
+			
+			$("#google-title").val(currentEvent.title);
+			$("#google-startDate").val(currentEvent.startStr);
+
+			// 모달 띄우기
+			$("#googleModal").modal("show");
+		}
+
+
+		// ----------------------- 일반(우리DB) 일정 클릭시 -> 일정수정 modal 띄우기 -----------------------
 		async function showEditModal(arg){
 			let currentEvent = arg.event; // Store the currently selected event
 			const [startDate, startTime] = currentEvent.startStr.split(/[T+]/);
@@ -682,7 +782,7 @@
 					// console.log(status);
 					if(status === 'success') {
 						fetchAndDisplaySchedule();
-						alert("성공적으로 해당 일정을 삭제하였습니다.")
+						// alert("성공적으로 해당 일정을 삭제하였습니다.")
 					}else {
 						console.log("deleteSchedule() 결과: " + status);
 					}

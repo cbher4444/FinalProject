@@ -22,8 +22,6 @@ public class PlanDao {
 			ss.setCalendarNo(i);
 			list.addAll((ArrayList)sqlSession.selectList("planMapper.selectScheduleList", ss));
 		}
-		System.out.println("-------- selectScheduleList -------- planDao -------------");
-		System.out.println(list);
 		return list;
 	}
 

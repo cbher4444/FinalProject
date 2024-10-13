@@ -173,9 +173,9 @@ COMMENT ON COLUMN P_CALENDAR.STATUS IS '상태(삭제전:Y, 삭제후:N)';
 CREATE SEQUENCE SEQ_CALENDAR_NO
 NOCACHE;
 
-INSERT INTO P_CALENDAR VALUES(SEQ_CALENDAR_NO.NEXTVAL, 'DFGDFG5623SAD12', 'BOTH', '#ff5733', 'Y');
-INSERT INTO P_CALENDAR VALUES(SEQ_CALENDAR_NO.NEXTVAL, 'DFGDFG5623SAD12', 'user01@email.com', '#3788d8', 'Y');
-INSERT INTO P_CALENDAR VALUES(SEQ_CALENDAR_NO.NEXTVAL, 'DFGDFG5623SAD12', 'user02@email.com', '#27ae60', 'Y');
+INSERT INTO P_CALENDAR VALUES(SEQ_CALENDAR_NO.NEXTVAL, 'DFGDFG5623SAD12', 'BOTH', 'rgb(236, 154, 236)', 'Y'); -- 우리일정 : 핑크
+INSERT INTO P_CALENDAR VALUES(SEQ_CALENDAR_NO.NEXTVAL, 'DFGDFG5623SAD12', 'user01@email.com', '#3788d8', 'Y'); -- 내일정 : 파랑
+INSERT INTO P_CALENDAR VALUES(SEQ_CALENDAR_NO.NEXTVAL, 'DFGDFG5623SAD12', 'user02@email.com', 'rgb(253, 204, 113)', 'Y'); -- 상대방일정 : 노랑
 
 
 --------------------------------------------------
@@ -223,8 +223,8 @@ VALUES
      (
        SEQ_SCHEDULE_NO.NEXTVAL
      , 1
-     , '온전히 하루 같이 보내기'
-     , '하루종일 뭐할까~'
+     , '당일치기 여행'
+     , '어디로 갈진 정해야함!!'
      , TO_DATE('2024-10-09', 'YYYY-MM-DD')
      , NULL
      , NULL
@@ -242,13 +242,13 @@ VALUES
      (
        SEQ_SCHEDULE_NO.NEXTVAL
      , 2
-     , '한국어 수업'
+     , '한국어 시험'
      , NULL
-     , TO_DATE('2024-10-20', 'YYYY-MM-DD')
-     , TO_TIMESTAMP('08:00:00', 'HH24:MI:SS')
-     , TO_DATE('2024-10-20', 'YYYY-MM-DD')
+     , TO_DATE('2024-10-07', 'YYYY-MM-DD')
+     , TO_TIMESTAMP('09:00:00', 'HH24:MI:SS')
+     , TO_DATE('2024-10-07', 'YYYY-MM-DD')
      , TO_TIMESTAMP('12:00:00', 'HH24:MI:SS')
-     , TO_DATE('2024-10-05', 'YYYY-MM-DD')
+     , TO_DATE('2024-10-01', 'YYYY-MM-DD')
      , NULL
      , NULL
      , 'user01@email.com'
@@ -263,9 +263,9 @@ VALUES
      , 3
      , '제주도 가족여행'
      , NULL
-     , TO_DATE('2024-10-15', 'YYYY-MM-DD')
+     , TO_DATE('2024-10-11', 'YYYY-MM-DD')
      , NULL
-     , TO_DATE('2024-10-18', 'YYYY-MM-DD')
+     , TO_DATE('2024-10-14', 'YYYY-MM-DD')
      , NULL
      , TO_DATE('2024-10-03', 'YYYY-MM-DD')
      , NULL

@@ -14,7 +14,7 @@ import lombok.ToString;
 public class SelectSchedule {
 
 	private String coupleCode;
-	private String yearMonth;
+	private String currentYear;
 	private ArrayList<Integer> calendarNoList;
 	private int calendarNo;
 	

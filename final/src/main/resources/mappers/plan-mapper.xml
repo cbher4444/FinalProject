@@ -59,7 +59,7 @@
           join c_member m on (s.writer = m.email)
 		 where c.couple_code = #{coupleCode}
 		   and calendar_no = #{calendarNo}
-           and start_date between to_date(#{yearMonth}, 'YYYY-MM-DD')-14 and last_day(to_date(#{yearMonth}, 'YYYY-MM-DD'))+14
+	       and start_date between to_date(#{currentYear} || '-01-01', 'YYYY-MM-DD') and to_date(#{currentYear} || '-12-31', 'YYYY-MM-DD')
 		   and s.status = 'Y'
 	</select>
 	
