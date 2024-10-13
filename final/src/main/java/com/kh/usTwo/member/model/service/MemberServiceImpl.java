@@ -32,8 +32,12 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public int updateMember(Member m) {
-		// TODO Auto-generated method stub
-		return 0;
+		return mDao.updateMember(sqlSession, m);
+	}
+
+	@Override
+	public int deleteMember(String email) {
+		return mDao.deleteMember(sqlSession, email);
 	}
 
 	

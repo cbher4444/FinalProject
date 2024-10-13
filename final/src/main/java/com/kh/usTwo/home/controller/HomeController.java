@@ -14,7 +14,6 @@ public class HomeController {
 	public String home(HttpSession session) {
 		
 		Member loginUser = (Member)session.getAttribute("loginUser");
-		System.out.println(loginUser.getStatus());
 		
 		if(loginUser == null) {
 			return "home/homeGuest";

@@ -5,6 +5,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.kh.usTwo.member.model.service.MemberServiceImpl;
@@ -73,6 +74,60 @@ public class MemberController {
 	@RequestMapping("reEnrollFrom.me")
 	public String reEnrollForm(){
 		return "member/loginForm";		
+	}
+	
+	// 회원정보수정 - 추가함 by 동규 (2024.10.13)
+	@RequestMapping("update.me")
+	public String updateMember(Member m, HttpSession session) {
+		
+		int result = mService.updateMember(m);
+		
+		if(result > 0) { // 수정 성공
+			// db로부터 수정된 회원정보를 다시 조회해와서
+			// session에 loginUser 키값으로 덮어씌워야됨
+			Member updateMem = mService.loginMember(m);
+			session.setAttribute("loginUser", updateMem); // 갱싱된 회원정보로 세션 갈아끼기!
+			
+			// alert 띄워 줄 문구 담기
+			session.setAttribute("alertMsg", "성공적으로 회원정보 변경되었습니다.");
+			
+		}else { // 수정 실패
+			session.setAttribute("alertMsg", "회원정보 수정 실패!");
+		}
+		
+		// 마이페이지 url 재요청
+		return "redirect:myPage";
+	}
+	
+	// 회원탈퇴 - 추가함 by 동규 (2024.10.13)
+	@RequestMapping("delete.me")
+	public String deleteMember(String email, String userPwd, HttpSession session) {
+		
+		// userId : session에 loginUser Member 객체 userId 필드
+		// userPwd : 회원탈퇴시 요청시 사용자가 입력한 비밀번호 평문
+		//         : session에 loingUser member 객체 userPwd 필드 : db로 부터 조회된 비번(암호문) => encPwd
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		
+		String encPwd = loginUser.getUserPwd();
+		
+		//if(bcryptPasswordEncoder.matches(userPwd, encPwd)) { // 비번맞음 => 탈퇴처리
+		if(encPwd.equals(userPwd)){
+			int result = mService.deleteMember(email);
+			System.out.println(result);
+			if(result > 0) { // 탈퇴처리 성공 => session에 loginUSer 지움, alert 문구 담기 => 메인페이지 url 재요청
+				session.removeAttribute("loginUser");
+				session.setAttribute("alertMsg", "성공적으로 탈퇴되었습니다. 그동안 이용해주셔서 감사합니다.");
+				return "redirect:/";
+			}else { // 탈퇴처리 실패
+				session.setAttribute("alertMsg", "회원탈퇴실패!");
+				return "redirect:myPage";
+			}
+			
+		}else { // 비번틀림 => 비밀번호가 틀림을 알리고 마이페이지 보여지게
+			session.setAttribute("alertMsg", "비밀번호를 잘못 입력하셨습니다. 확인해주세요.");
+			return "redirect:myPage";
+		}
 	}
 	
 }

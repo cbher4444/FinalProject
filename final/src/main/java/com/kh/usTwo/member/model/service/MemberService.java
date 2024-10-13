@@ -12,4 +12,5 @@ public interface MemberService {
 	
 	int updateMember(Member m);
 
+	int deleteMember(String email); // 회원탈퇴 추가 - by 동규 (2024.10.13)
 }

@@ -58,7 +58,6 @@
 	 from c_member
 	where partner_email = #{email}
 	   and status != 'N' -- 'N' 상태도 검색 될 수 있게 수정 - by 동규 (2024.10.13)
-	
 	</select>
 	
 	<insert id="insertMember">
@@ -87,5 +86,24 @@
 		     )
 	</insert>
 	
+	<!-- 회원정보수정 - 추가함 by 동규 (2024.10.13) -->
+	<update id="updateMember">
+		update c_member
+		   set user_name = #{userName}
+		     , nickName = #{nickName}
+		     , gender = #{gender}
+		     , phone = #{phone}
+		     , address = #{address}
+		     , brithday = #{brithday}
+		     , modify_date = sysdate
+		 where email = #{email}
+	</update>
+	
+	<!-- 회원탈퇴 - 추가함 by 동규 (2024.10.13) -->
+	<update id="deleteMember">
+		update c_member
+		   set status = 'N'
+		 where email = #{email}
+	</update>
 	
 </mapper>
