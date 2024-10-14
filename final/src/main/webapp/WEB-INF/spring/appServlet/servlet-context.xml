@@ -32,7 +32,7 @@
 		<websocket:sockjs websocket-enabled="true"/>
 	</websocket:handlers>	
     
-  <beans:bean id="ChatHandler" class="com.kh.usTwo.chat.ChatHandler" />
+  <beans:bean id="ChatHandler" class="com.kh.usTwo.chat.Chathandler" />
 	
 	
 	

@@ -21,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
-public class ChatHandler extends TextWebSocketHandler{
+public class Chathandler extends TextWebSocketHandler{
 	
 	private List<WebSocketSession> sessionList = new ArrayList<WebSocketSession>();
 	

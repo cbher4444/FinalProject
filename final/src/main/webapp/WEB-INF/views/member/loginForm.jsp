@@ -49,11 +49,11 @@
 								<form action="login" method="post"> 
 									<div align="center">
 									<lable> 아이디  </lable>
-									<input type="text" onkeyup="checkCapsLock(event)" id="email" name="email"/>
+									<input type="text" onkeyup="checkCapsLock(event)" id="email" name="email" required/>
 									
 									<br>
 									<lable>비밀번호</lable>
-									<input type="password" id="userPwd" name="userPwd"/>
+									<input type="password" id="userPwd" name="userPwd" required/>
 									<span id="message" style="font-size:12px; color:red;"></span> 
 									<br>
 									
@@ -80,7 +80,7 @@
 										 	<button type="submit" class="btn btn-primary btn-lg" style="display:none;">로그인</button>
 										</c:when>
 										<c:otherwise>
-											<button type="submit" class="btn btn-primary btn-lg">로그인</button>
+											<button type="submit" class="btn btn-primary btn-lg" id="login" onclick="loginTest()">로그인</button>
 										</c:otherwise>
 										</c:choose>
 										
@@ -93,6 +93,26 @@
 			</div>
 		</div>
 	</div>
+
+<script>
+	
+		 function loginTest(){
+  			const pwd = document.getElmentById("userPwd").val();
+  			const id = document.getElementById("userId").val();
+  			if(id != null){
+  				if(pwd ===null){
+  					alert("비밀번호 입력해주세요");
+  					return false;
+  				}else{
+  					return true;
+  				}
+  			}else{
+  				alert("이메일 입력해주세요");
+  				return false;
+  			}
+  			
+  		});
+  		</script>
 	
 	
 
