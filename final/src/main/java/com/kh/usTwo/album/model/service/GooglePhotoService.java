@@ -1,7 +1,10 @@
 package com.kh.usTwo.album.model.service;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -100,8 +103,6 @@ public class GooglePhotoService {
 
         ListAlbumsResponse response = photosLibrary.albums().list().execute();
         Albums ab = photosLibrary.albums();
-        System.out.println("!@#!#!@#!#@#!#@!#!@#");
-        System.out.println(ab);
         if (response != null && response.getAlbums() != null) {
             return response.getAlbums();
         } else {
@@ -130,7 +131,7 @@ public class GooglePhotoService {
         }
     }
 
-    public List<MediaItem> fetchMediaItems(String accessToken) throws IOException {
+    public List<MediaItem> fetchMediaItems(String accessToken) throws IOException { // json객체로 응답받는 메소드
     	
     	System.out.println(accessToken);
     	OkHttpClient client = new OkHttpClient();
@@ -147,22 +148,19 @@ public class GooglePhotoService {
             
             // JSON 응답을 MediaItem 객체로 파싱
             String jsonData = response.body().string();
-            System.out.println("Fetched JSON data: " + jsonData);
             
             List<MediaItem> list = parseMediaItems(jsonData);
-            System.out.println(list);
             ArrayList<CoupleAlbum> albumArr = new ArrayList<CoupleAlbum>();
             for(MediaItem item : list) {
             	albumArr.add(new CoupleAlbum(item.getId(),item.getBaseUrl(), item.getMediaMetadata().getCreationTime()));
             }
             
-            // AlbumDao aDao = new AlbumDao().insertAlbumInfo(albumArr);
 
             return list;
         }
     }
 
-    public List<MediaItem> parseMediaItems(String jsonData) throws IOException {
+    public List<MediaItem> parseMediaItems(String jsonData) throws IOException { // 응답받은 데이터(json)을 mediaItem으로 파싱하는 메소드
     	List<MediaItem> mediaItems = new ArrayList<>();
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode rootNode = objectMapper.readTree(jsonData);
@@ -186,8 +184,69 @@ public class GooglePhotoService {
 
         return mediaItems;
     }
+    
+    public String uploadMediaItem(String accessToken, String mediaItemPath) throws IOException { // 구글에 사진 업로드 하는 메소드
+        // Upload media item
+        File mediaFile = new File(mediaItemPath);
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/octet-stream"), mediaFile);
+        
+        String encodedFileName;
+        try {
+            encodedFileName = URLEncoder.encode(mediaFile.getName(), "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            throw new IOException("Encoding error: " + e.getMessage());
+        }
+        
+        Request request = new Request.Builder()
+                .url("https://photoslibrary.googleapis.com/v1/mediaItems:upload")
+                .post(requestBody)
+                .addHeader("Authorization", "Bearer " + accessToken)
+                .addHeader("Content-Type", "application/octet-stream")
+                .addHeader("X-Goog-Upload-File-Name", encodedFileName)
+                .addHeader("X-Goog-Upload-Protocol", "raw")
+                .build();
 
+        try (Response response = client.newCall(request).execute()) {
+            if (!response.isSuccessful()) {
+                throw new IOException("Unexpected code " + response);
+            }
+            String jsonResponse = response.body().string();
+            System.out.println("Upload Response: " + jsonResponse);
+
+            // Parse the response to get the media item ID
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode jsonNode = objectMapper.readTree(jsonResponse);
+            return jsonNode.get("id").asText(); // media item ID
+        }
+        
+        
+    }
     
     
+    public void addMediaItemToAlbum(String accessToken, String albumId, String mediaItemId) throws IOException { // 업로드 한 사진을 앨범에 추가하는 메소드
+        String json = "{ \"mediaItemIds\": [\"" + mediaItemId + "\"] }";
+        RequestBody body = RequestBody.create(json, MediaType.get("application/json; charset=utf-8"));
+
+        Request request = new Request.Builder()
+                .url("https://photoslibrary.googleapis.com/v1/albums/" + albumId + ":addEnrichment")
+                .post(body)
+                .addHeader("Authorization", "Bearer " + accessToken)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            if (!response.isSuccessful()) {
+                throw new IOException("Unexpected code " + response);
+            }
+            System.out.println("Added media item to album: " + response.body().string());
+        }
+    }
+    
+    public void uploadAndAddToAlbum(String accessToken, String albumId, String mediaItemPath) throws IOException {
+        String mediaItemId = uploadMediaItem(accessToken, mediaItemPath);
+        addMediaItemToAlbum(accessToken, albumId, mediaItemId);
+    }
+    
+    
+
     
 }

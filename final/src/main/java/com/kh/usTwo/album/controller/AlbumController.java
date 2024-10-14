@@ -1,5 +1,6 @@
 package com.kh.usTwo.album.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,8 +13,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.google.api.services.photoslibrary.v1.model.Album;
 import com.google.api.services.photoslibrary.v1.model.MediaItem;
@@ -63,8 +66,6 @@ public class AlbumController {
 
         try {
             List<Album> albums = gps.listAlbums(accessToken);
-            System.out.println("here!!!");
-            System.out.println(albums);
             model.addAttribute("albums", albums);
 
             // 각 앨범의 미디어 아이템을 가져옵니다.
@@ -104,8 +105,36 @@ public class AlbumController {
             return "album/album";
         }
     }
-
     
+    
+    @RequestMapping("add-photo-to-album")
+    public String addPhotoToAlbum(String albumId, MultipartFile file, HttpSession session, Model model) {
+        System.out.println("HERE" + albumId);
+    	String accessToken = (String) session.getAttribute("accessToken");
+        if (!isUserAuthenticated(accessToken, model)) {
+            return "album/album";
+        }
+
+        try {
+            // 임시 파일로 저장
+        	System.out.println(albumId);
+        	System.out.println(file);
+            File tempFile = File.createTempFile("upload_", file.getOriginalFilename());
+            file.transferTo(tempFile);
+
+            // 사진 업로드 및 앨범에 추가
+            gps.uploadAndAddToAlbum(accessToken, albumId, tempFile.getAbsolutePath());
+            
+            // 임시 파일 삭제
+            tempFile.delete();
+            
+            return "redirect:/albums"; // 앨범 목록으로 리다이렉트
+        } catch (IOException e) {
+            e.printStackTrace();
+            model.addAttribute("error", "Failed to add photo to album: " + e.getMessage());
+            return "album/album";
+        }
+    }
 
 
     
