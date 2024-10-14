@@ -40,7 +40,25 @@
 									<c:otherwise>
 										<!-- case2. 로그인 후 -->
 										<h1>"합시다, 러브. 나랑, 나랑 같이."</h1>
-										<h2>유진 &amp; 애신</h2>
+										<h2>
+											<c:choose>
+												<c:when test="${ empty loginUser.nickName }">
+													${ loginUser.userName }
+												</c:when>
+												<c:otherwise>
+													${ loginUser.nickName }
+												</c:otherwise>
+											</c:choose>
+											&amp;
+											<c:choose>
+												<c:when test="${ empty partner.nickName }">
+													${ partner.userName }
+												</c:when>
+												<c:otherwise>
+													${ partner.nickName }
+												</c:otherwise>
+											</c:choose>
+										</h2>
 										<p><span>2018.07.07</span></p>
 									</c:otherwise>
 								</c:choose>
