@@ -94,26 +94,7 @@
 		</div>
 	</div>
 
-<script>
-	
-		 function loginTest(){
-  			const pwd = document.getElmentById("userPwd").val();
-  			const id = document.getElementById("userId").val();
-  			if(id != null){
-  				if(pwd ===null){
-  					alert("비밀번호 입력해주세요");
-  					return false;
-  				}else{
-  					return true;
-  				}
-  			}else{
-  				alert("이메일 입력해주세요");
-  				return false;
-  			}
-  			
-  		};
-  		</script>
-	
+
 	
 
 <script>
