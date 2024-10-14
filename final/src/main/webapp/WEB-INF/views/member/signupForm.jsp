@@ -174,6 +174,21 @@
 
 		</div>
 	</div>
+	<script>
+	  function generateRandomString(length) {
+		  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'; // 대소문자 포함
+	    let result = '';
+	    const charactersLength = characters.length;
+	    for (let i = 0; i < length; i++) {
+	      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+	    }
+	    return result;
+	  }
+	
+	  // 8자리 랜덤 문자열 생성 예시
+	  const randomString = generateRandomString(10);
+	  document.getElementById("inviteCode").value = randomString;
+</script>
 	
 	<script>
 		$("#userPwd").on('input', function(){
