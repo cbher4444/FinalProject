@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,7 +14,9 @@
 <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js"
   integrity="sha384-TiCUE00h649CAMonG018J2ujOgDKW/kVWlChEuu4jK2vxfAAD0eZxzCKakxg55G4" crossorigin="anonymous"></script>
 
-
+<!-- modal용 스크립트  -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous"></head>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
 
 	
 </head>
@@ -47,15 +49,16 @@
 								<form action="login" method="post"> 
 									<div align="center">
 									<lable> 아이디  </lable>
-									<input type="text" onkeyup="checkCapsLock(event)" id="email" name="email"/>
+									<input type="text" onkeyup="checkCapsLock(event)" id="email" name="email" required/>
 									
 									<br>
 									<lable>비밀번호</lable>
-									<input type="password" id="userPwd" name="userPwd"/>
+									<input type="password" id="userPwd" name="userPwd" required/>
 									<span id="message" style="font-size:12px; color:red;"></span> 
 									<br>
 									
-									<a href="#">아이디 찾기</a> | <a href="#">비밀번호 찾기</a>
+									<a href="findIdForm" class="btn btn-light btn-sm">아이디 찾기</a> | 
+									<a href="findPwdForm" class="btn btn-light btn-sm">비밀번호 찾기</a>
 									<br>
 									<span style="width:120px;" id="kakaoLogin" align="left">
 										<a id="kakao-login-btn" href="javascript:loginWithKakao()">
@@ -72,7 +75,15 @@
 									</div>
 									<div align="center">
 										<a href="signupForm" class="btn btn-primary btn-lg">회원가입</a>
-										<button class="btn btn-primary btn-lg">로그인</button>
+										<c:choose>
+										<c:when test="">
+										 	<button type="submit" class="btn btn-primary btn-lg" style="display:none;">로그인</button>
+										</c:when>
+										<c:otherwise>
+											<button type="submit" class="btn btn-primary btn-lg" id="login" onclick="loginTest()">로그인</button>
+										</c:otherwise>
+										</c:choose>
+										
 									</div>
 								</form>
 							</div>
@@ -82,6 +93,28 @@
 			</div>
 		</div>
 	</div>
+
+<script>
+	
+		 function loginTest(){
+  			const pwd = document.getElmentById("userPwd").val();
+  			const id = document.getElementById("userId").val();
+  			if(id != null){
+  				if(pwd ===null){
+  					alert("비밀번호 입력해주세요");
+  					return false;
+  				}else{
+  					return true;
+  				}
+  			}else{
+  				alert("이메일 입력해주세요");
+  				return false;
+  			}
+  			
+  		};
+  		</script>
+	
+	
 
 <script>
 function checkCapsLock(event)  {

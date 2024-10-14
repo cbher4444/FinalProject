@@ -156,7 +156,7 @@
 										</div>
 											
 										<br>
-										
+										<input type="hidden" id="inviteCode" name="inviteCode">
 										
 										<br><br>
 										<div>

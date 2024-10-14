@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.usTwo.member.model.service.MemberServiceImpl;
 import com.kh.usTwo.member.model.vo.Member;
@@ -67,9 +68,7 @@ public class MemberController {
 			return "member/signupForm";
 		}
 		
-		
 	}
-	
 	
 	@RequestMapping("reEnrollFrom.me")
 	public String reEnrollForm(){
@@ -129,5 +128,64 @@ public class MemberController {
 			return "redirect:myPage";
 		}
 	}
+	
+	@RequestMapping("findIdForm")
+	public String findIdform() {
+		return "member/findId";
+	}
+	
+	@RequestMapping("findPwdForm")
+	public String findPwdform() {
+		return "member/findPwd";
+	}
+	
+	@RequestMapping("findId")
+	public String findId(Member m, HttpSession session) {
+		String email = mService.findId(m);
+		
+		if(email != null) {
+			session.setAttribute("alertMsg", "당신의 아이디는 "+email+" 입니다.");
+			session.setAttribute("email", email);
+			return "member/findId";
+		}else {
+			session.setAttribute("alertMsg", "아이디를 찾지 못했습니다.");
+			return "member/loginForm";
+		}
+		
+	}
+	
+	@RequestMapping("checkUser")
+	public String checkUser(Member m, HttpSession session) {
+		String checkUser = mService.checkUser(m);
+		System.out.println(checkUser);
+		
+		if(checkUser != null) {
+			session.setAttribute("checkUser", checkUser);
+			return "member/findPwd2";
+		}else {
+			session.setAttribute("alertMsg", "잘못 입력하셨습니다. 정확히 입력해주세요.");
+			return "member/findPwd";
+		}
+		
+	}
+	
+	@RequestMapping("updatePwd")
+	public String updatePwd(Member m , HttpSession session) {
+		
+		int updatePwd = mService.updatePwd(m);
+		
+		
+		if(updatePwd > 0) {
+			session.setAttribute("alertMsg", "비밀번호 변경 완료했습니다.");
+			return "member/loginForm";
+		}else {
+			session.setAttribute("alertMsg", "비밀번호 변경에 실패했습니다.");
+			return "member/findPwd";
+		}
+	}
+	
+	
+	
+	
 	
 }
