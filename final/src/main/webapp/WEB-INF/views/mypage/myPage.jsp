@@ -184,16 +184,7 @@
 								<tr>
 									<td>첨부파일</td>
 									<td>
-										<c:choose>
-											<c:when test="${ empty loginUser.originName }">
-												<!-- 첨부파일이 없는 경우 -->
-												첨부파일이 없습니다.
-											</c:when>
-											<c:otherwise>
-												<!-- 첨부파일이 있는 경우-->
-												<a href="${ loginUser.changeName }" download="${ loginUser.originName }">${ loginUser.originName }</a>
-											</c:otherwise>
-										</c:choose>
+										<input type="file">
 									</td>
 								</tr>
 							</table>
