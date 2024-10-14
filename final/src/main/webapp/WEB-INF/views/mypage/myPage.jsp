@@ -50,7 +50,7 @@
 								<div class="col-md-4 col-sm-4">
 									<div class="form-group">
 										<label for="name">초대코드</label>
-										<input type="text" class="form-control" id="inviteCode" value="" readonly style="width: 100%;">
+										<input type="text" class="form-control" id="inviteCode" value="${ loginUser.inviteCode }" readonly style="width: 100%;">
 									</div>
 								</div>
 								<div class="col-md-4 col-sm-4">
