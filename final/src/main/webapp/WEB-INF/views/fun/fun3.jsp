@@ -131,7 +131,7 @@
 							today.setHours(0, 0, 0, 0);
 							let currentMonth = new Date(today.getFullYear(), today.getMonth(), 1);
 
-							function renderCalendar(container, date) {
+							function renderCalendar(container, date, list) {
 								$(container).empty();
 								let month = date.getMonth();
 								let year = date.getFullYear();
@@ -175,7 +175,34 @@
 							}
 							
 							function render() {
-								renderCalendar('#made-calederCover', currentMonth);
+								let startDate = currentMonth.getFullYear().toString() +
+												'-' + 
+												('0' + (currentMonth.getMonth() + 1)).slice(-2) +
+												'-' + 
+												('0' + currentMonth.getDate()).slice(-2);
+								let endDate = currentMonth.getFullYear().toString() +
+											  '-' + 
+											  ('0' + (currentMonth.getMonth() + 1)).slice(-2) +
+											  '-' + 
+											  new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 0).getDate();
+								let list;
+								$.ajax({
+									url: 'selectQnA.today',
+									data: {
+										'email': 'user01@email.com',
+										'coupleCode': 'DFGDFG5623SAD12',
+										'partnerEmail': 'user02@email.com',
+										'startDate': startDate,
+										'endDate': endDate,
+									}, success: function(data) {
+										list = data;
+										console.log(list)
+									}, error: function() {
+										console.log('error')
+									}
+								})
+
+								renderCalendar('#made-calederCover', currentMonth, list);
 								
 								$('#made-calederCover .calendar').on('click', '.calendar-date', () => {
 									$('#made-detailQ').css('display', 'block');

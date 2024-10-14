@@ -13,12 +13,10 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString
-public class Atoday {
-	private int atodayNo;
-	private String atodayContent;
-	private Date atodayDate;
-	private Date qtodayDate;
+public class QnA {
 	private int qtodayNo;
-	private String email;
-	private String coupleCode;
+	private Date qtodayDate;
+	private String qtodayContent;
+	private String myContent;
+	private String partnerContent;
 }

@@ -1,6 +1,8 @@
 package com.kh.usTwo.fun.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Random;
 
 import javax.servlet.http.HttpSession;
 
@@ -13,8 +15,11 @@ import com.google.gson.Gson;
 import com.kh.usTwo.fun.model.service.FunServiceImpl;
 import com.kh.usTwo.fun.model.vo.Aservey;
 import com.kh.usTwo.fun.model.vo.Atest;
+import com.kh.usTwo.fun.model.vo.Atoday;
 import com.kh.usTwo.fun.model.vo.OptionTest;
+import com.kh.usTwo.fun.model.vo.QnA;
 import com.kh.usTwo.fun.model.vo.Qtest;
+import com.kh.usTwo.fun.model.vo.Qtoday;
 import com.kh.usTwo.fun.model.vo.Test;
 import com.kh.usTwo.member.model.vo.Member;
 
@@ -119,5 +124,41 @@ public class FunController {
 	@RequestMapping("insertAservey.servey")
 	public int insertAservey(Aservey a) {
 		return fService.insertAservey(a);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="selectQnA.today", produces = "application/json; charset=utf-8")
+	public ArrayList<QnA> selectQnA(String email, String coupleCode, String partnerEmail, String startDate, String endDate) {
+		HashMap<String, String> hm = new HashMap<String, String>();
+		hm.put("email", email);
+		hm.put("coupleCode", coupleCode);
+		hm.put("startDate", startDate);
+		hm.put("endDate", endDate);
+		
+		ArrayList<Qtoday> qlist = fService.selectQtoday();
+		
+		ArrayList<Atoday> myAlist = fService.selectAtoday(hm);
+		
+		hm.replace("email", partnerEmail);
+		
+		ArrayList<Atoday> partnerAlist = fService.selectAtoday(hm);
+		
+		ArrayList<QnA> allList = new ArrayList<QnA>();
+		
+		for (Qtoday q : qlist) {
+			for (Atoday my : myAlist) {
+				for (Atoday partner : partnerAlist) {
+					if (q.getQtodayNo() == my.getQtodayNo() && q.getQtodayNo() == partner.getQtodayNo()) {
+						allList.add(new QnA(q.getQtodayNo(),
+											my.getQtodayDate(),
+											q.getQtodayContent(),
+											my.getAtodayContent(),
+											partner.getAtodayContent()));
+					}
+				}
+			}
+		}
+		
+		return allList;
 	}
 }

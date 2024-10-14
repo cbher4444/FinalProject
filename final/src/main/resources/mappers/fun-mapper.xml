@@ -77,7 +77,7 @@
 		<result column="ATODAY_DATE" property="atodayDate" />
 		<result column="QTODAY_DATE" property="qtodayDate" />
 		<result column="QTODAY_NO" property="qtodayNo" />
-		<result column="EMAIL" property="eamil" />
+		<result column="EMAIL" property="email" />
 		<result column="COUPLE_CODE" property="coupleCode" />
 	</resultMap>
 	
@@ -385,11 +385,20 @@
 		     , EMAIL
 		     , COUPLE_CODE
 		 from f_atoday
-		where email = #{ eamil }
+		where email = #{ email }
 	      and couple_code = #{ coupleCode }
+          and qtoday_date between to_date(#{ startDate }, 'yyyy-mm-dd')
+                              and to_date(#{ endDate }, 'yyyy-mm-dd')
 	</select>
 	
-	<select id="checkDuplication" resultMap="qtodayResult">
+	<select id="countAtoday" resultType="_int">
+		select count(*) as count
+		  from f_atoday
+		 where email = #{ email }
+		   and couple_code = #{ coupleCode }
+	</select>
+	
+	<select id="checkAtodayDupl" resultMap="atodayResult">
 		select qtoday_no
 		  from f_atoday
 		 where email = #{ email }
@@ -399,10 +408,18 @@
 		having count(qtoday_no) > #{ num }
 	</select>
 	
-	<select id="countAtoday" resultType="_int">
-		select count(*) as count
-		  from f_atoday
-		 where email = #{ email }
-		   and couple_code = #{ coupleCode }
-	</select>
+	<insert id="insertAtoday">
+        INSERT
+		  INTO F_ATODAY
+		VALUES
+		     (
+		       SEQ_ATODAY_NO.NEXTVAL
+		     , null
+		     , null
+		     , sysdate
+		     , #{ random }
+		     , #{ email }
+		     , #{ coupleCode }
+		     )
+	</insert>
 </mapper>

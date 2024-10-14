@@ -1,6 +1,7 @@
 package com.kh.usTwo.fun.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -112,12 +113,25 @@ public class FunDao {
 		return sqlSession.insert("funMapper.insertAservey", a);
 	}
 
-	public ArrayList<Qtoday> selectQtoday(Member m, SqlSessionTemplate sqlSession) {
-		return (ArrayList)sqlSession.selectList("funMapper.selectQtoday", m);
+	public ArrayList<Qtoday> selectQtoday(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("funMapper.selectQtoday");
 	}
 
-	public ArrayList<Atoday> selectAtoday(Member m, SqlSessionTemplate sqlSession) {
-		return (ArrayList)sqlSession.selectList("funMapper.selectAtoday", m);
+	public ArrayList<Atoday> selectAtoday(HashMap<String, String> hm, SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("funMapper.selectAtoday", hm);
+	}
+
+	public int countAtoday(Member m, SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("funMapper.countAtoday", m);
+	}
+
+	public ArrayList<Atoday> checkAtodayDupl(HashMap<String, String> hm, SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("funMapper.checkAtodayDupl", hm);
+	}
+
+	public int insertAtoday(HashMap<String, String> hm, SqlSessionTemplate sqlSession) {
+		System.out.println(hm);
+		return sqlSession.insert("funMapper.insertAtoday", hm);
 	}
 	
 	

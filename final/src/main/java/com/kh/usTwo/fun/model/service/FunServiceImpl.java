@@ -1,6 +1,7 @@
 package com.kh.usTwo.fun.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -144,13 +145,27 @@ public class FunServiceImpl implements FunService {
 	}
 
 	@Override
-	public ArrayList<Qtoday> selectQtoday(Member m) {
-		return fDao.selectQtoday(m, sqlSession);
+	public ArrayList<Qtoday> selectQtoday() {
+		return fDao.selectQtoday(sqlSession);
 	}
 
 	@Override
-	public ArrayList<Atoday> selectAtoday(Member m) {
-		return fDao.selectAtoday(m, sqlSession);
+	public ArrayList<Atoday> selectAtoday(HashMap<String, String> hm) {
+		return fDao.selectAtoday(hm, sqlSession);
 	}
 
+	@Override
+	public int countAtoday(Member m) {
+		return fDao.countAtoday(m, sqlSession);
+	}
+
+	@Override
+	public ArrayList<Atoday> checkAtodayDupl(HashMap<String, String> hm) {
+		return fDao.checkAtodayDupl(hm, sqlSession);
+	}
+
+	@Override
+	public int insertAtoday(HashMap<String, String> hm) {
+		return fDao.insertAtoday(hm, sqlSession);
+	}
 }
