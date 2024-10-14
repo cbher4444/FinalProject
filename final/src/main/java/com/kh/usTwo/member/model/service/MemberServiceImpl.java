@@ -1,5 +1,6 @@
 package com.kh.usTwo.member.model.service;
 
+import org.apache.ibatis.session.SqlSessionManager;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,6 +40,33 @@ public class MemberServiceImpl implements MemberService {
 	public int deleteMember(String email) {
 		return mDao.deleteMember(sqlSession, email);
 	}
+
+	@Override
+	public String findId(Member m) {
+		return mDao.findId(sqlSession, m);
+	}
+
+	
+	@Override
+	public String checkUser(Member m) {
+		return mDao.checkUser(sqlSession, m);
+	}
+
+	@Override
+	public int updatePwd(Member m) {
+		return mDao.updatePwd(sqlSession, m);
+	}
+
+	@Override
+	public String partnerUser(Member m) {
+		return mDao.partnerUser(sqlSession, m);
+	}
+
+
+
+
+	
+
 
 	
 	
