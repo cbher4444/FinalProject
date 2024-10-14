@@ -1,5 +1,7 @@
 package com.kh.usTwo.member.model.dao;
 
+import javax.servlet.http.HttpSession;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -43,6 +45,32 @@ public class MemberDao {
 	public String partnerUser(SqlSessionTemplate sqlSession, Member m) {
 		return sqlSession.selectOne("memberMapper.partnerUser", m);
 	}
+
+	public int inviteCodeCheck(SqlSessionTemplate sqlSession, String inviteCode) {
+		return sqlSession.selectOne("memberMapper.inviteCodeCheck", inviteCode);
+	}
+	
+	public int updateInviteCode(SqlSessionTemplate sqlSession, Member m) {
+		return sqlSession.update("memberMapper.updateInviteCode", m);
+	}
+
+	public Member partnerInviteCodeCheck(SqlSessionTemplate sqlSession, String inviteCode) {
+		return sqlSession.selectOne("memberMapper.partnerInviteCodeCheck", inviteCode);
+	}
+
+	public int coupleCodeCheck(SqlSessionTemplate sqlSession, String coupleCode) {
+		return sqlSession.selectOne("memberMapper.coupleCodeCheck", coupleCode);
+	}
+
+	public int insertCouple(SqlSessionTemplate sqlSession, String coupleCode) {
+		return sqlSession.insert("memberMapper.insertCouple", coupleCode);
+	}
+
+	public int updateCoupleCodeOnMember(SqlSessionTemplate sqlSession, Member m) {
+		return sqlSession.update("memberMapper.updateCoupleCodeOnMember", m);
+	}
+
+
 
 	
 }

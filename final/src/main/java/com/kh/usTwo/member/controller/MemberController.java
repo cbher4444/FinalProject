@@ -1,5 +1,7 @@
 package com.kh.usTwo.member.controller;
 
+import java.util.Random;
+
 import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
@@ -184,6 +186,110 @@ public class MemberController {
 		}
 	}
 	
+	// 초대코드 중복체크 - 추가함 by 동규 (2024.10.14)
+	@ResponseBody
+	@RequestMapping("iccheck.me")
+	public String inviteCodeCheck(String inviteCode) {
+		int result = mService.inviteCodeCheck(inviteCode);
+		return result == 0 ? "success" : "fail";
+	}
+	
+	// 내 초대코드 업데이트 - 추가함 by 동규 (2024.10.14)
+	@ResponseBody
+	@RequestMapping("icupdate.me")
+	public String updateInviteCode(Member m, HttpSession session) {
+		int result = mService.updateInviteCode(m);
+		
+		if (result > 0) { // 성공
+			Member updateMem = mService.loginMember(m);
+			session.setAttribute("loginUser", updateMem); // 갱싱된 회원정보로 세션 갈아끼기!
+			return "success";
+		} else { // 실패
+			return "fail";
+		}
+	}
+	
+	// 상대방 초대코드 체크 - 추가함 by 동규 (2024.10.14)
+	@RequestMapping("piccheck.me")
+	public String partnerInviteCodeCheck(String inviteCode, HttpSession session) {
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		
+		if(loginUser.getInviteCode().equals(inviteCode)) { // 본인초대코드 입력한 경우
+			session.setAttribute("alertMsg", "본인의 초대코드를 입력하셨습니다.\\n상대방의 초대코드를 입력해주세요.");
+		}else { // 본인초대코드가 아닌경우
+			Member partner = mService.partnerInviteCodeCheck(inviteCode);
+			
+			if(partner != null) {
+				session.setAttribute("partner", partner);
+			}else {
+				session.setAttribute("alertMsg", "해당 초대코드와 일치하는 유저가 없습니다.\\n다시 한번 확인해주세요.");
+			}
+		}
+
+		return "redirect:myPage";
+	}
+	
+	// 상대방 세션에서 없애기 - 추가함 by 동규 (2024.10.14)
+	@ResponseBody
+	@RequestMapping("invalidatePartner.me")
+	public String invalidatePartner(HttpSession session) {
+		session.removeAttribute("partner");
+		if((Member)session.getAttribute("partner") == null) {
+			return "success";
+		}else {
+			return "fail";
+		}
+	}
+	
+	// 커플등록 - 추가함 by 동규 (2024.10.14)
+	@RequestMapping(value="insert.co")
+	public String insertCouple(HttpSession session) {
+		
+		String coupleCode = generateRandomString(15);
+		
+		int isValid;
+		while(true) {
+			isValid = mService.coupleCodeCheck(coupleCode); // 1: 중복값있음. 0: 중복값없음.
+			if (isValid == 0) { // 중복값 없을경우 -> 사용가능한 커플코드임!
+				break;
+			}
+		}
+
+		int result = mService.insertCouple(coupleCode, session);
+		
+		if(result > 0) { // 커플등록 성공 -> 새로운 정보로 세션에 갈아끼기
+			
+			Member loginUser = (Member)session.getAttribute("loginUser");
+			
+			Member updatedLoginUser = mService.loginMember(loginUser);
+			Member partner = mService.selectPartnerEmail(updatedLoginUser);
+			
+			session.setAttribute("loginUser", updatedLoginUser);
+			session.setAttribute("partner", partner);
+			
+			session.setAttribute("alertMsg", "커플등록에 성공하였습니다.");
+			return "redirect:home";
+			
+		}else {  // 커플등록 실패
+			session.setAttribute("alertMsg", "커플등록 실패");
+			return "redirect:myPage";
+		}
+		
+	}
+	
+	// 랜덤코드 생성기 -> 커플코드에 사용됨 - 추가함 by 동규 (2024.10.14)
+    public static String generateRandomString(int length) {
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        StringBuilder result = new StringBuilder();
+        Random random = new Random();
+        
+        for (int i = 0; i < length; i++) {
+            int index = random.nextInt(characters.length());
+            result.append(characters.charAt(index));
+        }
+        
+        return result.toString();
+    }
 	
 	
 	

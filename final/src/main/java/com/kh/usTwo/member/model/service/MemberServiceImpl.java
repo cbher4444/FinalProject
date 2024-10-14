@@ -1,6 +1,7 @@
 package com.kh.usTwo.member.model.service;
 
-import org.apache.ibatis.session.SqlSessionManager;
+import javax.servlet.http.HttpSession;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -61,6 +62,48 @@ public class MemberServiceImpl implements MemberService {
 	public String partnerUser(Member m) {
 		return mDao.partnerUser(sqlSession, m);
 	}
+	
+	@Override
+	public int inviteCodeCheck(String inviteCode) {
+		return mDao.inviteCodeCheck(sqlSession, inviteCode);
+	}
+	
+	@Override
+	public int updateInviteCode(Member m) {
+		return mDao.updateInviteCode(sqlSession, m);
+	}
+
+	@Override
+	public Member partnerInviteCodeCheck(String inviteCode) {
+		return mDao.partnerInviteCodeCheck(sqlSession, inviteCode);
+	}
+
+	@Override
+	public int coupleCodeCheck(String coupleCode) {
+		return mDao.coupleCodeCheck(sqlSession, coupleCode);
+	}
+
+	@Override
+	public int insertCouple(String coupleCode, HttpSession session) {
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		Member partner = (Member)session.getAttribute("partner");
+		
+		loginUser.setCoupleCode(coupleCode);
+		partner.setCoupleCode(coupleCode);
+		
+		loginUser.setPartnerEmail(partner.getEmail());
+		partner.setPartnerEmail(loginUser.getEmail());
+		
+		int result1 = mDao.insertCouple(sqlSession, coupleCode);
+		int result2 = mDao.updateCoupleCodeOnMember(sqlSession, loginUser);
+		int result3 = mDao.updateCoupleCodeOnMember(sqlSession, partner);
+		
+		return result1 * result2 * result3;
+	}
+
+
+
+
 
 
 

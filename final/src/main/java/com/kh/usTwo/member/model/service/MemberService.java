@@ -1,5 +1,7 @@
 package com.kh.usTwo.member.model.service;
 
+import javax.servlet.http.HttpSession;
+
 import com.kh.usTwo.member.model.vo.Member;
 
 public interface MemberService {
@@ -20,4 +22,14 @@ public interface MemberService {
 	int updatePwd(Member m);
 	
 	String partnerUser(Member m);
+	
+	int inviteCodeCheck(String inviteCode); // 초대코드 중복체크 - 추가함 by 동규 (2024.10.14)
+	
+	int updateInviteCode(Member m); // 내 초대코드 업데이트 - 추가함 by 동규 (2024.10.14)
+	
+	Member partnerInviteCodeCheck(String inviteCode); // 상대방 초대코드 체크 - 추가함 by 동규 (2024.10.14)
+	
+	int coupleCodeCheck(String coupleCode); // 커플코드 중복체크 - 추가함 by 동규 (2024.10.14)
+	
+	int insertCouple(String coupleCode, HttpSession session); // 커플코드 추가 - 추가함 by 동규 (2024.10.14)
 }
