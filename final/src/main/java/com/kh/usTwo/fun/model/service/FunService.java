@@ -1,6 +1,7 @@
 package com.kh.usTwo.fun.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.kh.usTwo.fun.model.vo.Alove;
 import com.kh.usTwo.fun.model.vo.Aservey;
@@ -38,6 +39,9 @@ public interface FunService {
 	int countAservey(Member m);
 	int countTest(Member m);
 	int insertAservey(Aservey a);
-	ArrayList<Qtoday> selectQtoday(Member m);
-	ArrayList<Atoday> selectAtoday(Member m);
+	ArrayList<Qtoday> selectQtoday();
+	ArrayList<Atoday> selectAtoday(HashMap<String, String> hm);
+	int countAtoday(Member m);
+	ArrayList<Atoday> checkAtodayDupl(HashMap<String, String> hm);
+	int insertAtoday(HashMap<String, String> hm);
 }
