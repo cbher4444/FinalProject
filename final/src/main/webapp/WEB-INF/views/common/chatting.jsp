@@ -88,9 +88,10 @@
     <h2 id="chat-head-line">커플 채팅</h2>
     <button id="close-popup">X</button>
     <div id="messageArea"></div>
+    <input type="hidden" name="email" value="${ loginUser.email }">
     <input type="hidden" id="userName" value="${loginUser.userName }" />
    	<input type="hidden" name="coupleCode" id="coupleCode" value="${loginUser.coupleCode}">
-    <input type="text" id="message"/>
+    <input type="text" id="message" name="myChat"/>
     <button type="button" id="sendBtn" value="submit">전송</button>
     
 </div>
@@ -99,6 +100,8 @@
 <script>
 
 $(document).ready(function() { 
+	
+	let message = 
 
     // 채팅 버튼 클릭 시 팝업 창 띄우기
     $('#chatting-btn').click(function() {
@@ -106,7 +109,8 @@ $(document).ready(function() {
         // AJAX 요청 예시
         $.ajax({
             url: 'chatbox',  // 서버로부터 데이터를 가져올 주소 (필요에 따라 변경)
-            method: 'GET',
+            data:,
+        	method: 'POST',
             success: function(response) {
                 // 응답 처리 후 팝업을 띄움
                 $('#chat-popup').fadeIn();
