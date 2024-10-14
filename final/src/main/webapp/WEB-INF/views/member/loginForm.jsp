@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -75,7 +75,15 @@
 									</div>
 									<div align="center">
 										<a href="signupForm" class="btn btn-primary btn-lg">회원가입</a>
-										<button class="btn btn-primary btn-lg">로그인</button>
+										<c:choose>
+										<c:when test="">
+										 	<button type="submit" class="btn btn-primary btn-lg" style="display:none;">로그인</button>
+										</c:when>
+										<c:otherwise>
+											<button type="submit" class="btn btn-primary btn-lg">로그인</button>
+										</c:otherwise>
+										</c:choose>
+										
 									</div>
 								</form>
 							</div>

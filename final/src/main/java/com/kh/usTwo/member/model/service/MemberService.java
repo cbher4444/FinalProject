@@ -17,4 +17,6 @@ public interface MemberService {
 	String checkUser(Member m);
 	
 	int updatePwd(Member m);
+	
+	String partnerUser(Member m);
 }

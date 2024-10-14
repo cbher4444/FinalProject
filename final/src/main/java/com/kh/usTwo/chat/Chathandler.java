@@ -4,10 +4,8 @@ import java.io.IOException;
 import java.lang.System.Logger;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.springframework.stereotype.Controller;
@@ -24,8 +22,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 public class ChatHandler extends TextWebSocketHandler{
-	
-	private Map<String, WebSocketSession> coupleSessions = new HashMap<>();
 	
 	private List<WebSocketSession> sessionList = new ArrayList<WebSocketSession>();
 	

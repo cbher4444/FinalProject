@@ -32,6 +32,10 @@ public class MemberDao {
 		return sqlSession.update("memberMapper.updatePwd", m);
 	}
 
+	public String partnerUser(SqlSessionTemplate sqlSession, Member m) {
+		return sqlSession.selectOne("memberMapper.partnerUser", m);
+	}
+
 	
 }
 

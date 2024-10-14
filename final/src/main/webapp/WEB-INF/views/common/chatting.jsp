@@ -81,7 +81,7 @@
 </head>
 	
 <body>
-	<button id="chatting-btn" >chat</button>
+	<button type="button" id="chatting-btn" >chat</button>
 
 <!-- 사각형 창 -->
 <div id="chat-popup" align="center">
@@ -89,6 +89,7 @@
     <button id="close-popup">X</button>
     <div id="messageArea"></div>
     <input type="hidden" id="userName" value="${loginUser.userName }" />
+   	<input type="hidden" name="coupleCode" id="coupleCode" value="${loginUser.coupleCode}">
     <input type="text" id="message"/>
     <button type="button" id="sendBtn" value="submit">전송</button>
     
@@ -131,14 +132,27 @@ $("#sendBtn").click(function(){
 	$('#message').val('')
 });
 
+$('#message').keydown(function(event) {
+	if (event.key === "Enter") { // Enter 키가 눌리면
+		event.preventDefault(); // 기본 Enter 동작 방지 (줄바꿈 방지)
+		sendMessage(); // 메시지 전송 함수 호출
+		$('#message').val(''); // 입력 필드 초기화
+	}
+});
+
 	let sock = new SockJS("http://localhost:8444/final/chat/");
 	sock.onmessage = onMessage;
 	sock.onclose = onClose;
 	
 	function sendMessage(){
-		sock.send($("#userName").val());
-		sock.send($("#message").val());
-		
+	    // userName과 message를 하나의 문자열로 묶기 (예: "userName: message")
+	    let fullMessage = $("#userName").val() + ": " + $("#message").val();
+	    
+	    // 결합된 메시지를 한 번에 전송
+	    sock.send(fullMessage);
+	    
+	    // 메시지 입력 필드 초기화
+	    $('#message').val('');
 	}
 	
 	function onMessage(msg){
