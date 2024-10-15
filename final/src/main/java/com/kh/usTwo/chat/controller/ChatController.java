@@ -40,4 +40,10 @@ public class ChatController {
 		return "success";
 	}
 	
+	
+	@RequestMapping("faceTalk")
+	public String faceTalk() {
+		return "common/faceTalkFrom";
+	}
+	
 }
