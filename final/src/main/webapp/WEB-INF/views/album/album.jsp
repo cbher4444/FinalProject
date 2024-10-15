@@ -213,7 +213,7 @@
 					<h2 class="album_title">Couple Album</h2>
 				</div>
 				<form id="addMedia" action="add-photo-to-album" method="post" enctype="multipart/form-data">
-				    <input type="text" name="albumId" placeholder="앨범 ID" required>
+				    <input type="hidden" name="albumId" placeholder="앨범 ID" required>
 				    <input type="file" name="file" required>
 				    <button type="submit">사진 추가</button>
 				</form>

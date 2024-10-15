@@ -117,8 +117,6 @@ public class AlbumController {
 
         try {
             // 임시 파일로 저장
-        	System.out.println(albumId);
-        	System.out.println(file);
             File tempFile = File.createTempFile("upload_", file.getOriginalFilename());
             file.transferTo(tempFile);
 

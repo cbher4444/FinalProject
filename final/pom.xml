@@ -294,6 +294,15 @@
 	        <artifactId>okhttp</artifactId>
 	        <version>4.10.0</version> <!-- OkHttp 추가 -->
 	    </dependency>
+	    
+	    <!-- https://mvnrepository.com/artifact/com.google.apis/google-api-services-drive -->
+		<dependency>
+		    <groupId>com.google.apis</groupId>
+		    <artifactId>google-api-services-drive</artifactId>
+		    <version>v3-rev197-1.25.0</version>
+		</dependency>
+	    
+	    
 
 	</dependencies>
 	<build>
