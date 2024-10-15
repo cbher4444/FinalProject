@@ -429,6 +429,6 @@
 		     , atoday_date = sysdate
 		 where email = #{ email }
 		   and couple_code = #{ coupleCode }
-		   and qtoday_date = to_date('2024-09-25', 'yyyy-mm-dd')
+		   and qtoday_date = to_date(#{ today }, 'yyyy-mm-dd')
 	</update>
 </mapper>

@@ -133,8 +133,8 @@ public class FunDao {
 		return sqlSession.insert("funMapper.insertAtoday", hm);
 	}
 
-	public int updateAtoday(Atoday a, SqlSessionTemplate sqlSession) {
-		return sqlSession.update("funMapper.updateAtoday", a);
+	public int updateAtoday(HashMap<String, String> hm, SqlSessionTemplate sqlSession) {
+		return sqlSession.update("funMapper.updateAtoday", hm);
 	}
 	
 	

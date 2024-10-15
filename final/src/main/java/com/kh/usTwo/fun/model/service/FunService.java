@@ -44,5 +44,5 @@ public interface FunService {
 	int countAtoday(Member m);
 	ArrayList<Atoday> checkAtodayDupl(HashMap<String, String> hm);
 	int insertAtoday(HashMap<String, String> hm);
-	int updateAtoday(Atoday a);
+	int updateAtoday(HashMap<String, String> hm);
 }

@@ -38,6 +38,9 @@
 			width: 150px;
 			height: 120px;
 			padding: 10px;
+		}
+
+		.abled {
 			cursor: pointer;
 		}
 
@@ -229,7 +232,7 @@
 													let qDay = list[i].qtodayDate.substring(list[i].qtodayDate.indexOf(' '), list[i].qtodayDate.indexOf(',')).trim()
 
 													if (date === Number(qDay) && (month + 1) === Number(qMonth) && year === Number(qYear)) {
-														calendarDate = $('<div>').addClass('calendar-date').html(date + '</br><p style="font-size: 13px">' + list[i].qtodayContent + '<p>');
+														calendarDate = $('<div>').addClass('calendar-date').addClass('abled').html(date + '</br><p style="font-size: 13px">' + list[i].qtodayContent + '<p>');
 													}
 												}
 											}
@@ -251,36 +254,53 @@
 							
 							function render() {
 								renderCalendar('#made-calederCover', currentMonth);
+							}
 
-								$(document).on('click', '.calendar-date', function(event) {
-									for (let i in listSave) {
-										if (listSave && listSave.length > 0) {
-											if (listSave[i].qtodayContent === $(this).children('p').text()) {
-												$('#made-q').text('Q. ' + listSave[i].qtodayContent);
-												$('#partnerAnswer').text(listSave[i].partnerContent);
-												if (listSave[i].myContent !== '아직 등록된 답변이 존재하지 않습니다.') {
-													$('#answerTextArea').val(listSave[i].myContent);
-												}
+							$(document).on('click', '.abled', function(event) {
+								for (let i in listSave) {
+									if (listSave && listSave.length > 0) {
+										if (listSave[i].qtodayContent === $(this).children('p').text()) {
+											$('#today').val(listSave[i].qtodayDate);
+											let editYear = $('#today').val().substring($('#today').val().indexOf(',') + 1).trim();
+											let editMonth = $('#today').val().substring(0, $('#today').val().indexOf('월')).trim();
+											let editDay = $('#today').val().substring($('#today').val().indexOf('월') + 1, $('#today').val().indexOf(',')).trim();
+											if (editMonth.length === 1) {
+												editMonth = '0' + editMonth;
+											}
+											if (editDay.length === 1) {
+												editDay = '0' + editDay;
+											}
+											$('#today').val(editYear + '-' + editMonth + '-' + editDay);
+											
+											$('#made-q').text('Q. ' + listSave[i].qtodayContent);
+											$('#partnerAnswer').text(listSave[i].partnerContent);
+											
+											if (listSave[i].myContent !== '아직 등록된 답변이 존재하지 않습니다.') {
+												$('#answerTextArea').val(listSave[i].myContent);
+											} else {
+												$('#answerTextArea').val('');
 											}
 										}
 									}
-									$('#made-detailQ').css('display', 'block');
-									$('#made-cover').css('display', 'block');
-									$('body').css('overflow', 'hidden');
-								});
+								}
+								$('#made-detailQ').css('display', 'block');
+								$('#made-cover').css('display', 'block');
+								$('body').css('overflow', 'hidden');
+							});
 
-								$('#made-cover').on('click', () => {
-									$('#made-detailQ').css('display', '');
-									$('#made-cover').css('display', '');
-									$('body').css('overflow', '');
-								});
+							$('#made-cover').on('click', () => {
+								$('#made-detailQ').css('display', '');
+								$('#made-cover').css('display', '');
+								$('body').css('overflow', '');
+								render();
+							});
 
-								$('#made-x').on('click', () => {
-									$('#made-detailQ').css('display', '');
-									$('#made-cover').css('display', '');
-									$('body').css('overflow', '');
-								});
-							}
+							$('#made-x').on('click', () => {
+								$('#made-detailQ').css('display', '');
+								$('#made-cover').css('display', '');
+								$('body').css('overflow', '');
+								render();
+							});
 
 							$('#made-next').on('click', function() {
 								currentMonth.setMonth(currentMonth.getMonth() + 1);
@@ -303,10 +323,11 @@
 									data: {
 										'atodayContent': $(this).val(),
 										'email': '${ loginUser.email }',
-										'coupleCode': '${ loginUser.coupleCode }'
+										'coupleCode': '${ loginUser.coupleCode }',
+										'today': $('#today').val(),
 									},
 									success: function() {
-										console.log('성공')
+										console.log('성공');
 									}, error: function() {
 										console.log('error : updateAtoday')
 									}
@@ -332,6 +353,7 @@
 						<p align="center" style="margin-bottom: 10px;">${ loginUser.nickName }</p>
 					</div>
 					<textarea name="" id="answerTextArea" placeholder="답변을 남겨보세요."></textarea>
+					<input type="hidden" id="today">
 					<div class="triangle"></div>
 				</div>
 				<div id="made-userAnswer2" class="answer">

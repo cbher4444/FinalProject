@@ -158,13 +158,18 @@ public class FunController {
 				}
 			}
 		}
-		
 		return allList;
 	}
 	
 	@ResponseBody
 	@RequestMapping("updateAtoday.today")
-	public int updateAtoday(Atoday a) {
-		return fService.updateAtoday(a);
+	public int updateAtoday(String atodayContent, String email, String coupleCode, String today) {
+		HashMap<String, String> hm = new HashMap<String, String>();
+		hm.put("atodayContent", atodayContent);
+		hm.put("email", email);
+		hm.put("coupleCode", coupleCode);
+		hm.put("today", today);
+		
+		return fService.updateAtoday(hm);
 	}
 }

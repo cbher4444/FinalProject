@@ -170,7 +170,7 @@ public class FunServiceImpl implements FunService {
 	}
 
 	@Override
-	public int updateAtoday(Atoday a) {
-		return fDao.updateAtoday(a, sqlSession);
+	public int updateAtoday(HashMap<String, String> hm) {
+		return fDao.updateAtoday(hm, sqlSession);
 	}
 }

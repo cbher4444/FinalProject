@@ -89,6 +89,12 @@
 					$('#made-q').attr('placeholder', 'AI에게 질문을 해보세요~!');
 				}
 			});
+
+			$(document).on('keyup', function(event) {
+				if (event.keyCode === 13) {
+					callGemini();
+				}
+			})
 		})
 
 		function callGemini() {
