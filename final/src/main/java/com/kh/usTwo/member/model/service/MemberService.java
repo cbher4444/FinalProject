@@ -20,4 +20,6 @@ public interface MemberService {
 	int updatePwd(Member m);
 	
 	String partnerUser(Member m);
+
+	Object kakaoLogin(String snsId);
 }

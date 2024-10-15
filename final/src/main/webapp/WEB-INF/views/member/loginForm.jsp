@@ -118,37 +118,111 @@ function checkCapsLock(event)  {
 <script>
   function loginWithKakao() {
     Kakao.Auth.authorize({
-      redirectUri: 'http://localhost:8444/final/login',
+      redirectUri: 'http://localhost:8444/final/home',
     });
   }
 
-  // 아래는 데모를 위한 UI 코드입니다.
-  displayToken()
-  function displayToken() {
-	  Kakao.Auth.login({
-	      success: function (response) {
-	        Kakao.API.request({
-	          url: '/v2/user/me',
-	          success: function (response) {
-	        	  console.log(response)
-	          },
-	          fail: function (error) {
-	            console.log(error)
-	          },
-	        })
-	      },
-	      fail: function (error) {
-	        console.log(error)
-	      },
+  function requestUserInfo() {
+	    Kakao.API.request({
+	      url: '/v2/user/me',
 	    })
+	      .then(function(res) {
+	        alert(JSON.stringify(res));
+	      })
+	      .catch(function(err) {
+	        alert(
+	          'failed to request user information: ' + JSON.stringify(err)
+	        );
+	      });
 	  }
+	  
+  function kakaoLogin() {
+      Kakao.Auth.login({
+          success: function (response) {
+              Kakao.API.request({
+                  url: '/v2/user/me',
+                  success: function (response) {
+                  	 const kakaoAccount = response.kakao_account;
+                       
+                       const id = response.id;
+                       const email = kakaoAccount.email;
+                       const name = kakaoAccount.profile.nickname;
+                       const phoneNumber = kakaoAccount.phone_number;
+						$.ajax({
+							url: 'idCheck.me',
+							data: {checkId: response.id},
+							success: function(result) {
+                  			//alert(response.id);	
+								if(result == "NNNNN") {
+									// 카카오로그인
+									loginKakaoUser(response.id);
+								} else {
+									// 카카오 회원가입
+									insertKakaoUser(response.id, response.kakao_account.email, response.kakao_account.name, response.kakao_account.nickname, response.kakao_account.phone_number);
+								}
+							},
+							error: function() {
+								console.log("카카오 로그인/회원가입용 ajax 통신 실패");
+							}
+						});
 
-  function getCookie(name) {
-    var parts = document.cookie.split(name + '=');
-    if (parts.length === 2) { return parts[1].split(';')[0]; }
+                  },
+                  fail: function (error) {
+                      alert(JSON.stringify(error));
+                  },
+              })
+          },
+          fail: function (error) {
+              alert(JSON.stringify(error));
+          },
+      })
   }
-</script>
 
+	function loginKakaoUser(id) {
+		$.ajax({
+			url: "kakaoLogin.me",
+			type: "post",
+			data: {email: email},
+			success: function() {
+				location.href="http://localhost:8444/final/home";
+			},
+			error: function() {
+				console.log("kakao user login ajax 실패");
+			}
+		});
+	}
+
+	function insertKakaoUser(id, email, name, nickname, phone) {
+	    console.log("email: " + email);
+	    console.log("name: " + name);
+	    console.log("nickname: " + nickname);  // 닉네임 확인
+	    console.log("phone: " + phone);
+	    
+	    $.ajax({
+	        url: "kakaoInsert.me",
+	        type: "post",
+	        data: {
+	            userId: id,
+	            email: email,
+	            userName: name,
+	            nickname: nickname,
+	            phone: phone
+	        },
+	        success: function() {
+	            if (nickname == null || nickname === "") {
+	                alert(name + "님, 회원가입이 완료되었습니다.");
+	            } else {
+	                alert(nickname + "님, 회원가입이 완료되었습니다.");
+	            }
+	            // Redirect to the context path after success
+	            location.href = "http://localhost:8444/final/home";
+	        },
+	        error: function() {
+	            console.error("Kakao user insert AJAX call failed");
+	        }
+	    });
+	}
+	</script>
 
 	
 	<script>

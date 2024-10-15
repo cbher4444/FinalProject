@@ -1,13 +1,20 @@
 package com.kh.usTwo.member.controller;
 
+import java.io.IOException;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 
 import com.kh.usTwo.member.model.service.MemberServiceImpl;
 import com.kh.usTwo.member.model.vo.Member;
@@ -184,8 +191,26 @@ public class MemberController {
 		}
 	}
 	
+	@RequestMapping(value="/main/kakao_login.ajax")
+	public String kakaoKogin() {
+		StringBuffer loginUrl = new StringBuffer();
+		loginUrl.append("https://kauth.kakao.com/oauth.authorize?client_id=");
+		loginUrl.append("da79f43821733191257079798f45c6e4");
+		loginUrl.append("&redirect_uri=");
+		loginUrl.append("http://localhost:8444/final/kakao_callback");
+		loginUrl.append("&response_type=code");
+		
+		return "redirect:"+loginUrl.toString();
+	}
 	
-	
-	
-	
+	@RequestMapping("idcheck")
+	@ResponseBody  // JSON 응답을 반환하기 위해 사용
+	public String checkEmail(@RequestParam("email") String email) {
+	    int count = mService.idCheck(email);  // 이메일 중복 여부 체크
+	    if (count > 0) {
+	        return "이미 존재하는 이메일입니다.";  // 중복인 경우
+	    } else {
+	        return "사용 가능한 이메일입니다.";  // 중복이 아닌 경우
+	    }
+	}
 }

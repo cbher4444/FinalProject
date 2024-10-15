@@ -62,6 +62,16 @@ public class MemberServiceImpl implements MemberService {
 		return mDao.partnerUser(sqlSession, m);
 	}
 
+	public int idCheck(String email) {
+		return mDao.idCheck(sqlSession, email);
+	}
+
+	@Override
+	public Object kakaoLogin(String snsId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 
 

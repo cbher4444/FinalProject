@@ -88,10 +88,10 @@
     <h2 id="chat-head-line">커플 채팅</h2>
     <button id="close-popup">X</button>
     <div id="messageArea"></div>
-    <input type="hidden" name="email" value="${ loginUser.email }">
+    <input type="hidden" id="email" name="email" value="${loginUser.email }" />
     <input type="hidden" id="userName" value="${loginUser.userName }" />
-   	<input type="hidden" name="coupleCode" id="coupleCode" value="${loginUser.coupleCode}">
-    <input type="text" id="message" name="myChat"/>
+   	<input type="hidden" name="coupleCode" id="coupleCode" value="${loginUser.coupleCode}" />
+    <input type="text" id="myChat" name="myChat"/>
     <button type="button" id="sendBtn" value="submit">전송</button>
     
 </div>
@@ -100,8 +100,6 @@
 <script>
 
 $(document).ready(function() { 
-	
-	let message = 
 
     // 채팅 버튼 클릭 시 팝업 창 띄우기
     $('#chatting-btn').click(function() {
@@ -109,8 +107,8 @@ $(document).ready(function() {
         // AJAX 요청 예시
         $.ajax({
             url: 'chatbox',  // 서버로부터 데이터를 가져올 주소 (필요에 따라 변경)
-            data:,
-        	method: 'POST',
+            
+            method: 'POST',
             success: function(response) {
                 // 응답 처리 후 팝업을 띄움
                 $('#chat-popup').fadeIn();
@@ -133,14 +131,14 @@ $(document).ready(function() {
 <script>
 $("#sendBtn").click(function(){
 	sendMessage();
-	$('#message').val('')
+	$('#myChat').val('')
 });
 
-$('#message').keydown(function(event) {
+$('#myChat').keydown(function(event) {
 	if (event.key === "Enter") { // Enter 키가 눌리면
 		event.preventDefault(); // 기본 Enter 동작 방지 (줄바꿈 방지)
 		sendMessage(); // 메시지 전송 함수 호출
-		$('#message').val(''); // 입력 필드 초기화
+		$('#myChat').val(''); // 입력 필드 초기화
 	}
 });
 
@@ -150,13 +148,13 @@ $('#message').keydown(function(event) {
 	
 	function sendMessage(){
 	    // userName과 message를 하나의 문자열로 묶기 (예: "userName: message")
-	    let fullMessage = $("#userName").val() + ": " + $("#message").val();
+	    let fullMessage = $("#userName").val() + ": " + $("#myChat").val();
 	    
 	    // 결합된 메시지를 한 번에 전송
 	    sock.send(fullMessage);
 	    
 	    // 메시지 입력 필드 초기화
-	    $('#message').val('');
+	    $('#myChat').val('');
 	}
 	
 	function onMessage(msg){

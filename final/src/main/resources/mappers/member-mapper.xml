@@ -137,4 +137,11 @@
 		 where email = #{email}
 	</update>
 	
+	<select id="idcheck" resultType="_int">
+		SELECT COUNT(email) 
+		  FROM c_member 
+		 WHERE email= #{email}
+	
+	</select>
+	
 </mapper>
