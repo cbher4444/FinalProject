@@ -232,6 +232,25 @@
 			}
 	
 			function callGemini() {
+				$('#defaultContainerRowDiv2').html(`
+					<img src="https://www.dujon.co.kr/img/main/loading.gif" alt="로딩" style="width: 100px; height: 100px;">
+					<br />
+					<br />
+					<div id="loadingText" style="font-size: 20px">로딩 중</div>
+				`);
+				
+				function startLoading() {
+					let count = 0;
+					const texts = ['로딩 중.', '로딩 중..', '로딩 중...', '로딩 중'];
+					
+					setInterval(() => {
+						$('#loadingText').text(texts[count % texts.length]);
+						count++;
+					}, 1000);
+				}
+
+				setTimeout(startLoading, 1000);
+
 				$.ajax({
 					url: "geminiTest",
 					data: {
@@ -468,7 +487,7 @@
 				} else {
 					if ((exist[1] === '30') && (exist[2] === '30')) {
 						// 둘 다 존재 -> 고사 시작 버튼
-						$('#defaultContainerRowDiv2').html('<a href="javascript:void(0)" class="btn btn-primary btn-lg" id="default-btn">고사 시작</a>');
+						$('#defaultContainerRowDiv2').html('<a href="javascript:void(0)" class="btn btn-primary btn-lg" id="made-newBtn" onClick="callGemini();">고사 시작</a>');
 					} else if (exist[1] === '30') {
 						// 나만 존재 -> 재촉하기 버튼
 						$('#defaultContainerRowDiv2').html('<a href="javascript:void(0)" class="btn btn-primary btn-lg" onClick="urgeKakao();" id="made-btn-alarm">재촉하기</a>');

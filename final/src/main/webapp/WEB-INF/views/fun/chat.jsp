@@ -18,14 +18,14 @@
 					$.ajax({
 						url: "selectQlove.qna",
 						data: {
-							"coupleCode": 'DFGDFG5623SAD12',
-							"email": 'user02@email.com',
+							"coupleCode": '${ loginUser.coupleCode }',
+							"email": '${ loginUser.email }',
 						}, success: function(qData) {
 							$.ajax({
 								url: "selectAlove.qna",
 								data: {
-									"coupleCode": 'DFGDFG5623SAD12',
-									"email": 'user02@email.com',
+									"coupleCode": '${ loginUser.coupleCode }',
+									"email": '${ loginUser.email }',
 								}, success: function(aData) {
 									if (Array.isArray(aData) && Array.isArray(qData)) {
 										for (let i in qData) {
