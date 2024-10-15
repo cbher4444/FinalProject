@@ -168,4 +168,9 @@ public class FunServiceImpl implements FunService {
 	public int insertAtoday(HashMap<String, String> hm) {
 		return fDao.insertAtoday(hm, sqlSession);
 	}
+
+	@Override
+	public int updateAtoday(Atoday a) {
+		return fDao.updateAtoday(a, sqlSession);
+	}
 }

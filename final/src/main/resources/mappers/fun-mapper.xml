@@ -414,7 +414,7 @@
 		VALUES
 		     (
 		       SEQ_ATODAY_NO.NEXTVAL
-		     , null
+		     , '아직 등록된 답변이 존재하지 않습니다.'
 		     , null
 		     , sysdate
 		     , #{ random }
@@ -422,4 +422,13 @@
 		     , #{ coupleCode }
 		     )
 	</insert>
+	
+	<update id="updateAtoday">
+		update f_atoday
+		   set atoday_content = #{ atodayContent }
+		     , atoday_date = sysdate
+		 where email = #{ email }
+		   and couple_code = #{ coupleCode }
+		   and qtoday_date = to_date('2024-09-25', 'yyyy-mm-dd')
+	</update>
 </mapper>

@@ -161,4 +161,10 @@ public class FunController {
 		
 		return allList;
 	}
+	
+	@ResponseBody
+	@RequestMapping("updateAtoday.today")
+	public int updateAtoday(Atoday a) {
+		return fService.updateAtoday(a);
+	}
 }
