@@ -33,6 +33,39 @@ END LOOP;
 END;
 /
 
+-- 계정영구삭제용 job 삭제 - 추가함 by 동규 (2024.10.15)
+BEGIN
+    DBMS_SCHEDULER.drop_job(
+        job_name => 'DELETE_INACTIVE_MEMBERS_JOB',
+        force    => TRUE  -- Use TRUE to forcefully drop the job if it's running
+    );
+END;
+/
+
+-- 탈퇴신청 30일 후 계정영구삭제, 안쓰는 커플코드 영구삭제. 매일 밤 12시에 실행됨 - 추가함 by 동규 (2024.10.15)
+BEGIN
+    DBMS_SCHEDULER.create_job (
+        job_name        => 'DELETE_INACTIVE_MEMBERS_JOB',
+        job_type        => 'PLSQL_BLOCK',
+        job_action      => 'BEGIN
+                                DELETE FROM C_MEMBER
+                                WHERE status = ''N''
+                                  AND modify_date <= SYSDATE - 30;
+
+                                DELETE FROM C_COUPLE
+                                WHERE couple_code IN (
+                                    SELECT cc.couple_code
+                                    FROM C_COUPLE cc
+                                    LEFT JOIN C_MEMBER cm ON cc.couple_code = cm.couple_code
+                                    WHERE cm.couple_code IS NULL
+                                );
+                            END;',
+        start_date      => SYSTIMESTAMP,
+        repeat_interval  => 'FREQ=DAILY; BYHOUR=0; BYMINUTE=0; BYSECOND=0',
+        enabled         => TRUE
+    );
+END;
+/
 --------------------------------------------------
 --------------       커플	     ------------------	
 --------------------------------------------------
@@ -106,9 +139,10 @@ COMMENT ON COLUMN C_MEMBER.STATUS IS '상태(W/Y: 커플등록전/후, 탈퇴대
 INSERT INTO C_MEMBER VALUES('admin@email.com', 'admin', '관리자', '리자', 'M', '01044858855', '서울 강서구', TO_DATE('1995-07-01', 'YYYY-MM-DD'), TO_DATE('2024-07-01', 'YYYY-MM-DD'), TO_DATE('2024-09-01', 'YYYY-MM-DD'), 'admin', 'admin', NULL, NULL, NULL, 'Y');
 INSERT INTO C_MEMBER VALUES('user01@email.com', 'pass01', '유진초이', '유진', 'M', '01055556666', '서울 강서구', TO_DATE('1995-07-01', 'YYYY-MM-DD'), TO_DATE('2024-07-01', 'YYYY-MM-DD'), TO_DATE('2024-09-01', 'YYYY-MM-DD'), 'CCCCC11111', 'DFGDFG5623SAD12', 'user02@email.com', NULL, NULL, 'Y');
 INSERT INTO C_MEMBER VALUES('user02@email.com', 'pass02', '고애신', '애신', 'F', '01066667777', '서울 강서구', TO_DATE('1997-01-20', 'YYYY-MM-DD'), TO_DATE('2024-07-01', 'YYYY-MM-DD'), TO_DATE('2024-09-01', 'YYYY-MM-DD'), 'DDDDD22222', 'DFGDFG5623SAD12', 'user01@email.com', NULL, NULL, 'Y');
-INSERT INTO C_MEMBER VALUES('user03@email.com', 'pass03', '마동석', '동석', 'M', '01022223333', '서울 강남구 삼성동', TO_DATE('1988-07-04', 'YYYY-MM-DD'), TO_DATE('2024-07-23', 'YYYY-MM-DD'), TO_DATE('2024-09-04', 'YYYY-MM-DD'), 'A1B2C3D4E5', 'A1B2C3D4E5F6G7H', 'user04@email.com', NULL, NULL, 'N');
-INSERT INTO C_MEMBER VALUES('user04@email.com', 'pass04', '장이수', '이수', 'M', '01033334444', '서울 강남구 대치동', TO_DATE('1989-05-05', 'YYYY-MM-DD'), TO_DATE('2024-07-24', 'YYYY-MM-DD'), TO_DATE('2024-09-04', 'YYYY-MM-DD'), 'F6G7H8I9J1', 'A1B2C3D4E5F6G7H', 'user03@email.com', NULL, NULL, 'N');
+INSERT INTO C_MEMBER VALUES('user03@email.com', 'pass03', '마동석', '동석', 'M', '01022223333', '서울 강남구 삼성동', TO_DATE('1988-07-04', 'YYYY-MM-DD'), TO_DATE('2024-07-23', 'YYYY-MM-DD'), TO_DATE('2024-09-15', 'YYYY-MM-DD'), 'A1B2C3D4E5', 'A1B2C3D4E5F6G7H', 'user04@email.com', NULL, NULL, 'N');
+INSERT INTO C_MEMBER VALUES('user04@email.com', 'pass04', '장이수', '이수', 'F', '01033334444', '서울 강남구 대치동', TO_DATE('1989-05-05', 'YYYY-MM-DD'), TO_DATE('2024-07-24', 'YYYY-MM-DD'), TO_DATE('2024-09-15', 'YYYY-MM-DD'), 'F6G7H8I9J1', 'A1B2C3D4E5F6G7H', 'user03@email.com', NULL, NULL, 'N');
 INSERT INTO C_MEMBER VALUES('user05@email.com', 'pass05', '차은우', '은우', 'M', '01011112222', '서울 강남구 역삼동', TO_DATE('1999-12-25', 'YYYY-MM-DD'), TO_DATE('2024-07-30', 'YYYY-MM-DD'), TO_DATE('2024-08-27', 'YYYY-MM-DD'), 'GR32A1345D', NULL, NULL, NULL, NULL, 'W');
+INSERT INTO C_MEMBER VALUES('user06@email.com', 'pass06', '장원영', '원영', 'F', NULL, NULL, TO_DATE('2000-08-08', 'YYYY-MM-DD'), TO_DATE('2024-10-10', 'YYYY-MM-DD'), TO_DATE('2024-10-10', 'YYYY-MM-DD'), NULL, NULL, NULL, NULL, NULL, 'W');
 
 --------------------------------------------------
 --------------     텍스트대치 	------------------	
@@ -160,7 +194,7 @@ CREATE TABLE P_CALENDAR(
     OWNER VARCHAR2(100) NOT NULL,
     DEFAULT_COLOR VARCHAR2(20) NOT NULL,
     STATUS CHAR(1) DEFAULT 'Y' NOT NULL,
-    FOREIGN KEY(COUPLE_CODE) REFERENCES C_COUPLE(COUPLE_CODE),
+    FOREIGN KEY(COUPLE_CODE) REFERENCES C_COUPLE(COUPLE_CODE) ON DELETE CASCADE,
     CHECK(STATUS IN ('Y', 'N'))
 );
 
@@ -196,7 +230,7 @@ CREATE TABLE P_SCHEDULE(
     WRITER VARCHAR2(100) NOT NULL,
     STATUS CHAR(1) DEFAULT 'Y' NOT NULL,
     FOREIGN KEY(CALENDAR_NO) REFERENCES P_CALENDAR(CALENDAR_NO),
-    FOREIGN KEY(WRITER) REFERENCES C_MEMBER(EMAIL),
+    FOREIGN KEY(WRITER) REFERENCES C_MEMBER(EMAIL) ON DELETE CASCADE,
     CHECK(STATUS IN ('Y', 'N'))
 );
 
@@ -289,10 +323,10 @@ CREATE TABLE P_TODO(
     WRITER_EMAIL VARCHAR2(100) NOT NULL,
     ORDER_NO NUMBER NOT NULL,
     STATUS CHAR(1) DEFAULT 'Y' NOT NULL,
-    FOREIGN KEY(COUPLE_CODE) REFERENCES C_COUPLE(COUPLE_CODE),
+    FOREIGN KEY(COUPLE_CODE) REFERENCES C_COUPLE(COUPLE_CODE) ON DELETE CASCADE,
     CHECK(IS_COMPLETED IN ('Y', 'N')),
     CHECK(PRIORITY IN ('L', 'M', 'H')),
-    FOREIGN KEY(WRITER_EMAIL) REFERENCES C_MEMBER(EMAIL)
+    FOREIGN KEY(WRITER_EMAIL) REFERENCES C_MEMBER(EMAIL) ON DELETE CASCADE
 );
 
 COMMENT ON COLUMN P_TODO.TODO_NO IS '할일번호';
@@ -331,8 +365,8 @@ CREATE TABLE P_BUCKET_LIST(
     ORDER_NO NUMBER NOT NULL,
     COMPLETE_DATE DATE,
     STATUS CHAR(1) DEFAULT 'Y' NOT NULL,
-    FOREIGN KEY(COUPLE_CODE) REFERENCES C_COUPLE(COUPLE_CODE),
-    FOREIGN KEY(WRITER_EMAIL) REFERENCES C_MEMBER(EMAIL),
+    FOREIGN KEY(COUPLE_CODE) REFERENCES C_COUPLE(COUPLE_CODE) ON DELETE CASCADE,
+    FOREIGN KEY(WRITER_EMAIL) REFERENCES C_MEMBER(EMAIL) ON DELETE CASCADE,
     CHECK(STATUS IN ('Y', 'N'))
 );
 
@@ -366,7 +400,7 @@ CREATE TABLE P_BUCKET_REVIEW(
     REVIEW_TEXT VARCHAR2(300) NOT NULL,
     CREATE_DATE DATE DEFAULT SYSDATE NOT NULL,
     FOREIGN KEY(BUCKET_NO) REFERENCES P_BUCKET_LIST(BUCKET_NO),
-    FOREIGN KEY(WRITER_EMAIL) REFERENCES C_MEMBER(EMAIL)
+    FOREIGN KEY(WRITER_EMAIL) REFERENCES C_MEMBER(EMAIL) ON DELETE CASCADE
 );
 
 COMMENT ON COLUMN P_BUCKET_REVIEW.REVIEW_NO IS '소감번호';

@@ -23,6 +23,7 @@ public class HomeController {
 			}else if(!loginUser.getStatus().equals("Y")){ // 커플등록이 미완료된 경우, 탈퇴대기 상태인경우,
 				return "mypage/myPage";
 			}else { // 커플등록 완료
+				
 				return "home/homeMember";
 			}
 		}

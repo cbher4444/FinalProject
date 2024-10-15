@@ -31,39 +31,17 @@
 		$(()=>{ $(".nav-header #menubar_myPage").addClass("active"); })
 	</script>
 	
-	<!-- 커플등록 -->
-	<c:if test="${ loginUser.status eq 'W' }">
-		<div id="fh5co-couple" class="fh5co-section-gray">
-			<div class="container">
-				<div class="row animate-box">
-					<div class="col-md-8 col-md-offset-2">
-						<div class="col-md-12 text-center heading-section" style="margin-bottom: 0;">
-							<h2>😅 커플 등록을 완료하여 주세요.</h2>
-							<p>아래 코드를 상대방에 전송하세요.<br>상대방이 요청을 수락하면 서비스를 이용하실 수 있습니다.</p>
-							<form class="form-inline" style="display: flex; flex-direction: column; align-items: center;">
-								<div class="col-md-4 col-sm-4">
-									<div class="form-group">
-										<label for="email">상대방 Email</label>
-										<input type="email" class="form-control" id="email" placeholder="Email" style="width: 100%;">
-									</div>
-								</div>
-								<div class="col-md-4 col-sm-4">
-									<div class="form-group">
-										<label for="name">초대코드</label>
-										<input type="text" class="form-control" id="inviteCode" value="" readonly style="width: 100%;">
-									</div>
-								</div>
-								<div class="col-md-4 col-sm-4">
-									<label for="" >요청보내기</label>
-									<button type="submit" class="btn btn-primary btn-block">이메일 전송</button>
-								</div>
-							</form>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</c:if>
+	<c:choose>
+		<c:when test="${ loginUser.status eq 'W' }">
+			<!-- 커플등록 -->
+			<jsp:include page="../mypage/coupleRegister.jsp"/>
+		</c:when>
+		<c:when test="${ loginUser.status eq 'N' }">
+			<!-- 탈퇴대기 -->
+			<jsp:include page="../mypage/deleteAccount.jsp"/>
+		</c:when>
+	</c:choose>
+
 
 	<!-- 마이페이지 -->
 	<div id="fh5co-groom-bride">
@@ -77,7 +55,10 @@
 				<div class="couple-wrap">
 					<div class="col-md-6 nopadding animate-box" style="position: relative;">
 						<img src="resources/images/groom.jpg" class="img-responsive" alt="profile picture">
-						<button type="button" class="btn btn-primary btn-block" style="position:absolute; bottom:10px; right:10px; width: fit-content; background-color: rgb(125, 125, 125);"  onclick="onclickImgEditBtn()">사진변경</button>
+						<c:if test="${ loginUser.status ne 'N' }">
+							<!-- 회원탈퇴 대기중이 아닌경우 -->
+							<button type="button" class="btn btn-primary btn-block" style="position:absolute; bottom:10px; right:10px; width: fit-content; background-color: rgb(125, 125, 125);"  onclick="onclickImgEditBtn()">사진변경</button>
+						</c:if>
 					</div>
 					<div class="col-md-6 nopadding animate-box">
 						<div class="couple-desc" style="padding: 20px 0 0;">
@@ -85,7 +66,7 @@
 								<table id="personal-info" align="center">
 									<tr>
 										<td>* 이메일</td>
-										<td><input type="email" name="email" value="${ loginUser.email }" readonly required></td>
+										<td><input type="email" name="email" value="${ loginUser.email }" required disabled></td>
 									</tr>
 									<tr>
 										<td>* 이름</td>
@@ -118,12 +99,28 @@
 									</tr>
 									<tr>
 										<td colspan="2" style="padding: 10px;">
-											<button type="submit" class="btn btn-primary btn-block" style="margin: 0;">수정</button>
-											<button type="button" class="btn btn-primary btn-block" style="margin: 10px 0; background-color: rgb(125, 125, 125);">비밀번호 변경</button>
-											<button type="button" class="btn btn-secondary btn-block" style="margin: 0;" onclick="onclickDeleteBtn()">회원탈퇴</button>
+											<c:choose>
+												<c:when test="${ loginUser.status eq 'N' }">
+													<!-- 탈퇴대기중 -->
+													<br>
+													<span>- 탈퇴대기 중에는 회원정보를 수정할 수 없습니다. -</span>
+												</c:when>
+												<c:otherwise>
+													<!-- 그외 -->
+													<button type="submit" class="btn btn-primary btn-block" style="margin: 0;">수정</button>
+													<button type="button" class="btn btn-primary btn-block" style="margin: 10px 0; background-color: rgb(125, 125, 125);">비밀번호 변경</button>
+													<button type="button" class="btn btn-secondary btn-block" style="margin: 0;" onclick="onclickDeleteBtn()">회원탈퇴</button>													
+												</c:otherwise>
+											</c:choose>
 										</td>
 									</tr>
 								</table>
+								<c:if test="${ loginUser.status eq 'N' }">
+									<!-- 탈퇴대기중 -> 회원정보 수정불가  -->
+									<script>
+										$('#personal-info input').attr('disabled', true);
+									</script>
+								</c:if>
 							</form>
 						</div>
 					</div>
@@ -143,7 +140,6 @@
 		<div class="modal-dialog">
 			<div class="modal-content" style="padding-top: 10px; margin-top: 150px;">
 				<form class="form-inline" action="delete.me" method="post">
-					<input type="hidden" name="email" value="${ loginUser.email }">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" style="font-size: 30px;">&times;</button>
 						<h3 class="modal-title">회원탈퇴</h3>
@@ -152,7 +148,12 @@
 						<div class="form-group" style="width: 100%;">
 							<table style="width: 95%;">
 								<tr>
-									<td colspan="2" style="text-align: center;">탈퇴 후 복구가 불가능합니다.<br>정말로 탈퇴 하시겠습니까?</td>
+									<td colspan="2" style="text-align: center;">
+										<c:if test="${ not empty partner }">
+											회원탈퇴시, 상대방 계정도 같이 탈퇴처리 됩니다.<br><br>
+										</c:if>
+										탈퇴신청후 30일동안만 복구 가능합니다.<br><br>정말로 탈퇴 하시겠습니까?
+									</td>
 								</tr>
 								<tr>
 									<td>* 비밀번호 :</td>
@@ -217,6 +218,9 @@
 		function onclickImgEditBtn(){
 			$("#imgModal").modal("show");
 		}
+
+
+
 	</script>
 </body>
 </html>

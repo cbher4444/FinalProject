@@ -154,11 +154,10 @@
 											<span id="guide" style="color:#999;display:none"></span>
 											<input type="text"  id="sample4_detailAddress" class="form-control" name="address" placeholder="상세주소">
 										</div>
-											
-										<br>
-										<input type="hidden" id="inviteCode" name="inviteCode">
 										
-										<br><br>
+										<!-- 초대코드 입력할 수 있게 수정 - by 동규 (2024.10.15) -->
+										<div style="padding: 4px;">초대코드</div>
+										<div><input type="text" id="inviteCode" name="inviteCode" value="${ inviteCode }" class="form-control" maxlength="15" placeholder="초대코드"></div><br>
 										<div>
 											<button type="reset" class="btn btn-primary btn-lg">초기화</button>
 											<button type="submit" id="create" class="btn btn-primary btn-lg">계정 생성</button>
@@ -169,26 +168,10 @@
 							</div> 
 						</div>
 					</div>
-					
 			</div>
 
 		</div>
 	</div>
-	<script>
-	  function generateRandomString(length) {
-		  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'; // 대소문자 포함
-	    let result = '';
-	    const charactersLength = characters.length;
-	    for (let i = 0; i < length; i++) {
-	      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-	    }
-	    return result;
-	  }
-	
-	  // 8자리 랜덤 문자열 생성 예시
-	  const randomString = generateRandomString(10);
-	  document.getElementById("inviteCode").value = randomString;
-</script>
 	
 	<script>
 		$("#userPwd").on('input', function(){
