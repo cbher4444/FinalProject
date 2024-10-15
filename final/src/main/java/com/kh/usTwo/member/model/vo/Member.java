@@ -2,6 +2,7 @@
 package com.kh.usTwo.member.model.vo;
 
 import java.sql.Date;
+import java.util.Calendar;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -52,13 +53,12 @@ public class Member {
 	private String status;
 	
 	
-	
-	
-
-
-	
-	
-	
-	
+	// 계정삭제일 구하는 메소드 - 추가함 by 동규 (2024.10.15)
+	public Date getDeleteDate() {
+	    Calendar cal = Calendar.getInstance();
+	    cal.setTime(this.modifyDate);
+	    cal.add(Calendar.DATE, 30);
+	    return new Date(cal.getTimeInMillis());
+	}
 	
 }

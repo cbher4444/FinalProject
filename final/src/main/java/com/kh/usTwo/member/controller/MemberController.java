@@ -102,7 +102,7 @@ public class MemberController {
 	
 	// 회원탈퇴 - 추가함 by 동규 (2024.10.13)
 	@RequestMapping("delete.me")
-	public String deleteMember(String email, String userPwd, HttpSession session) {
+	public String deleteMember(String userPwd, HttpSession session) {
 		
 		// userId : session에 loginUser Member 객체 userId 필드
 		// userPwd : 회원탈퇴시 요청시 사용자가 입력한 비밀번호 평문
@@ -114,8 +114,7 @@ public class MemberController {
 		
 		//if(bcryptPasswordEncoder.matches(userPwd, encPwd)) { // 비번맞음 => 탈퇴처리
 		if(encPwd.equals(userPwd)){
-			int result = mService.deleteMember(email);
-			System.out.println(result);
+			int result = mService.deleteMember(loginUser);
 			if(result > 0) { // 탈퇴처리 성공 => session에 loginUSer 지움, alert 문구 담기 => 메인페이지 url 재요청
 				session.removeAttribute("loginUser");
 				session.setAttribute("alertMsg", "성공적으로 탈퇴되었습니다. 그동안 이용해주셔서 감사합니다.");
@@ -290,8 +289,46 @@ public class MemberController {
         
         return result.toString();
     }
-	
-	
-	
+    
+	// 계정복구 - 추가함 by 동규 (2024.10.15)
+	@RequestMapping("revert.me")
+	public String revertMember(HttpSession session) {
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		Member partner = null;
+		
+		// 1. 상대방이 있는 경우
+		int result1 = 1;
+		if (loginUser.getPartnerEmail() != null) {
+			// 2_1. 커플코드 복구
+			result1 = mService.revertCoupleCode(loginUser.getCoupleCode());
+			
+			// 2_2. 상대방 계정 복구
+			partner = mService.selectPartnerEmail(loginUser);
+			result1 *= mService.revertMember(partner);
+		}
+			
+		// 2. 내 계정 복구
+		int result2 = mService.revertMember(loginUser);
+		
+		// 3. 결과
+		if (result1 * result2 > 0) { // 성공
+			Member updateloginUser = mService.loginMember(loginUser);
+			session.setAttribute("loginUser", updateloginUser); // 갱싱된 회원정보로 세션 갈아끼기!
+			
+			// 상대방이 있는 경우
+			if (updateloginUser.getPartnerEmail() != null) {
+				Member updatePartner = mService.loginMember(partner);
+				session.setAttribute("partner", updatePartner); // 갱싱된 회원정보로 세션 갈아끼기!
+			}
+			
+			session.setAttribute("alertMsg", "성공적으로 계정 복구하였습니다.");
+			return "redirect:home";
+			
+		} else { // 실패
+			session.setAttribute("alertMsg", "계정복구 실패");
+			return "redirect:myPage";
+		}
+	}  
+
 	
 }

@@ -14,7 +14,8 @@ public interface MemberService {
 	
 	int updateMember(Member m);
 	
-	int deleteMember(String email); // 회원탈퇴 추가 - by 동규 (2024.10.13)
+	int deleteMember(Member loginUser); // 회원탈퇴 추가 - by 동규 (2024.10.13)
+	
 	String findId(Member m);
 	
 	String checkUser(Member m);
@@ -32,4 +33,8 @@ public interface MemberService {
 	int coupleCodeCheck(String coupleCode); // 커플코드 중복체크 - 추가함 by 동규 (2024.10.14)
 	
 	int insertCouple(String coupleCode, HttpSession session); // 커플코드 추가 - 추가함 by 동규 (2024.10.14)
+
+	int revertCoupleCode(String coupleCode); // 커플코드 되살리기 - 추가함 by 동규 (2024.10.15)
+
+	int revertMember(Member m); // 계정 복구 - 추가함 by 동규 (2024.10.15)
 }

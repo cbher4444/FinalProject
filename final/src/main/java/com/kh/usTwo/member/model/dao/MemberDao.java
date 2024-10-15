@@ -26,8 +26,8 @@ public class MemberDao {
 		return sqlSession.update("memberMapper.updateMember", m);
 	}
 
-	public int deleteMember(SqlSessionTemplate sqlSession, String email) {
-		return sqlSession.update("memberMapper.deleteMember", email);
+	public int deleteMember(SqlSessionTemplate sqlSession, Member m) {
+		return sqlSession.update("memberMapper.deleteMember", m);
 	}
 
 	public String findId(SqlSessionTemplate sqlSession, Member m) {
@@ -68,6 +68,22 @@ public class MemberDao {
 
 	public int updateCoupleCodeOnMember(SqlSessionTemplate sqlSession, Member m) {
 		return sqlSession.update("memberMapper.updateCoupleCodeOnMember", m);
+	}
+
+	public int deleteCoupleCode(SqlSessionTemplate sqlSession, String coupleCode) {
+		return sqlSession.update("memberMapper.deleteCoupleCode", coupleCode);
+	}
+
+	public int revertCoupleCode(SqlSessionTemplate sqlSession, String coupleCode) {
+		return sqlSession.update("memberMapper.revertCoupleCode", coupleCode);
+	}
+
+	public int revertMember(SqlSessionTemplate sqlSession, Member m) {
+		if (m.getPartnerEmail() != null) { // 상대방이 있으면 -> status = 'Y'로
+			return sqlSession.update("memberMapper.revertMemberToY", m);
+		}else { // 상대방이 없으면 -> status = 'W'로
+			return sqlSession.update("memberMapper.revertMemberToW", m);
+		}
 	}
 
 

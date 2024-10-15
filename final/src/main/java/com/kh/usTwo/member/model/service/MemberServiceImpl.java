@@ -38,8 +38,22 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public int deleteMember(String email) {
-		return mDao.deleteMember(sqlSession, email);
+	public int deleteMember(Member loginUser) { // 회원탈퇴 - by 동규
+		// 1. 내 계정 회원탈퇴
+		int result1 = mDao.deleteMember(sqlSession, loginUser);
+
+		// 2. 상대방이 있다면,
+		int result2 = 1;
+		if (loginUser.getPartnerEmail() != null) {
+			// 2_1. 상대방 회원탈퇴
+			Member partner = mDao.selectPartnerEmail(sqlSession, loginUser);
+			result2 = mDao.deleteMember(sqlSession, partner);
+			
+			// 2_2.  커플코드 비활성화
+			result2 *= mDao.deleteCoupleCode(sqlSession, loginUser.getCoupleCode());
+		}
+		
+		return result1 * result2;
 	}
 
 	@Override
@@ -99,6 +113,16 @@ public class MemberServiceImpl implements MemberService {
 		int result3 = mDao.updateCoupleCodeOnMember(sqlSession, partner);
 		
 		return result1 * result2 * result3;
+	}
+
+	@Override
+	public int revertCoupleCode(String coupleCode) {
+		return mDao.revertCoupleCode(sqlSession, coupleCode);
+	}
+
+	@Override
+	public int revertMember(Member m) {
+		return mDao.revertMember(sqlSession, m);
 	}
 
 
