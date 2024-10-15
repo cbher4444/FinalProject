@@ -6,6 +6,8 @@
 <html>
 <head>
 	<meta charset="UTF-8">
+	<!-- 카카오톡으로 공유 -->
+	<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js" integrity="sha384-TiCUE00h649CAMonG018J2ujOgDKW/kVWlChEuu4jK2vxfAAD0eZxzCKakxg55G4" crossorigin="anonymous"></script>
 </head>
 <body>
 
@@ -21,14 +23,16 @@
 			<div class="row animate-box">
 				<div class="col-md-6 text-center heading-section" style="margin-bottom: 0;">
 					<h3>방법 1. 초대코드 공유</h3>
-					<p>본인의 초대코드를 공유하세요.</p>
+					<p>상대방에게 본인의 초대코드를 공유하세요.</p>
 					<form class="form-inline" style="display: flex; flex-direction: column; align-items: center;">
-						<div class="col-md-6 col-sm-6">
+						<div class="col-md-12 col-sm-12">
 							<div class="form-group">
 								<label for="name">나의 초대코드</label>
-								<input type="text" class="form-control" id="myInviteCode" value="${ loginUser.inviteCode }" readonly style="width: 100%;">
-								<br><br>
-								<button type="submit" class="btn btn-primary btn-block">초대코드 공유</button>
+								<input type="text" class="form-control" id="myInviteCode" value="${ loginUser.inviteCode }" readonly style="width: 100%;"><br><br>
+								<a id="kakaotalk-sharing-btn" href="javascript:;">
+									<img src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_medium.png" alt="카카오톡 공유 보내기 버튼"/>
+								</a>
+								<p>카카오톡으로 전송하거나,<br>초대코드를 직접 복사해서 공유해도 됩니다.</p>
 							</div>
 						</div>
 					</form>
@@ -187,6 +191,36 @@
 				}
 			})
 		}
+	</script>
+
+    <!-- ----------------------- 초대코드 카카오톡으로 공유하기 ----------------------- -->
+	<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js" integrity="sha384-TiCUE00h649CAMonG018J2ujOgDKW/kVWlChEuu4jK2vxfAAD0eZxzCKakxg55G4" crossorigin="anonymous"></script>
+	<script>
+		const url = "http://localhost:8444/final/signupForm?inviteCode=${ loginUser.inviteCode }";
+		Kakao.init('fb8e12d8ae688060346152c72f9805cf'); // 사용하려는 앱의 JavaScript 키 입력
+		Kakao.Share.createDefaultButton({
+			container: '#kakaotalk-sharing-btn',
+			objectType: 'feed',
+			content: {
+				title: '${ loginUser.userName }님이 커플웹에 초대하셨습니다.',
+				description: '우리 둘만의 특별한 공간, 함께 만드는 추억 - 커플 웹사이트(UsTwo)',
+				imageUrl: 'https://www.mordeo.org/files/uploads/2017/05/Kissing-Love-Couple-HD-Mobile-Wallpaper-Preview.jpg',
+				link: {
+					// [내 애플리케이션] > [플랫폼] 에서 등록한 사이트 도메인과 일치해야 함
+					mobileWebUrl: url,
+					webUrl: url,
+				},
+			},
+			buttons: [
+				{
+					title: '회원가입하기',
+					link: {
+					mobileWebUrl: url,
+					webUrl: url,
+					},
+				},
+			],
+		});
 	</script>
 
 </body>

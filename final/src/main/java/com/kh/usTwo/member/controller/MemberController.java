@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.usTwo.member.model.service.MemberServiceImpl;
@@ -47,12 +48,16 @@ public class MemberController {
 	}
 	
 	@RequestMapping("signupForm")
-	public String loginConditions() {
+	public String loginConditions(@RequestParam(value = "inviteCode", required = false) String inviteCode, Model model) {
+		// 초대코드 url로 전달받고, 다음 페이지로 넘어갈때 가져감. - 수정 by 동규 (2024.10.15)
+		model.addAttribute("inviteCode", inviteCode);
 		return "member/loginConditions";
 	}
 	
 	@RequestMapping("signupPage.me")
-	public String enterSignupForm() {
+	public String enterSignupForm(String inviteCode, Model model) {
+		// 초대코드 url로 전달받고, 다음 페이지로 넘어갈때 가져감. - 수정 by 동규 (2024.10.15)
+		model.addAttribute("inviteCode", inviteCode);
 		return "member/signupForm";
 	}
 	

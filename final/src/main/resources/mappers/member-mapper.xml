@@ -72,7 +72,7 @@
 		  	 , brithday
 		  	 , phone
 		  	 , address
-		  	 ,invite_code
+		  	 -- ,invite_code -- invite_code 삭제함 - by 동규 (2024.10.15)
 		  	 )
 		values
 		     (
@@ -83,7 +83,7 @@
 		     , #{brithday}
 		     , #{phone}
 		     , #{address}   
-		     , #{inviteCode}
+		     -- , #{inviteCode} -- invite_code 삭제함 - by 동규 (2024.10.15)
 		     )
 	</insert>
 	
