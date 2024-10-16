@@ -40,7 +40,7 @@ public class GeminiController {
 	@Autowired 
 	private FunServiceImpl fService;
 	
-    private static final String API_KEY = "AIzaSyBpZ1NaMkkfmSIOHcMPs74kzGDAcnNHz6Q";
+    private static final String API_KEY = "Gemini api 키";
     private static final String MODEL_NAME = "gemini-pro";
 
     public String callGemini(String prompt) throws Exception {
@@ -177,7 +177,7 @@ public class GeminiController {
 
     @ResponseBody
 	@RequestMapping(value="geminiTest", method = RequestMethod.GET)
-	public int callGeminiTest(Member m, String myEmail) {
+	public int callGeminiTest(Member m, String myEmail, String myName) {
 		ArrayList<Qservey> qList = fService.selectQservey();
 		ArrayList<Aservey> aList = fService.selectAservey(m);
 		
@@ -192,22 +192,22 @@ public class GeminiController {
 			}
 		}
 		
-		list += "위 설문조사에는 '유진'이 참여하였습니다.";
+		list += "위 설문조사에는 '" + m.getNickName() + "'이 참여하였습니다.";
 		list += "위 설문조사를 결과를 바탕으로 질문 10개를 작성하세요.";
 		list += "질문의 개수는 꼭 10개여야 합니다.";
 		list += "각 질문에 대한 보기를 각각 4개씩 제시하세요.";
-		list += "작성된 질문에는 '애신'이 답을 할 것입니다. 고로 질문의 주어는 '유진'이 되어야합니다.";
-		list += "'애신'과 '유진'은 연인 관계입니다.";
+		list += "작성된 질문에는 '" + myName + "'이 답을 할 것입니다. 고로 질문의 주어는 '" +  m.getNickName() + "'이 되어야합니다.";
+		list += "'" + m.getNickName() + "'과 '" + myName + "'은 연인 관계입니다.";
 		list += "아래와 같은 형식으로 답을 작성하세요.";
-		list += "Q1. 유진이 좋아하는 사람은?\n";
+		list += "Q1. " + m.getNickName() + "이 좋아하는 사람은?\n";
 		list += "Q1A. 김태희\n";
 		list += "Q1A. 전지현\n";
 		list += "Q1A. 장나라\n";
-		list += "Q1A. 애신(answer)\n";
+		list += "Q1A. " + myName + "(answer)\n";
 		list += "설문조사 결과에 존재하지 않는 정보에 기반한 질문은 존재하지 않습니다.";
 		list += "(answer) 표시는 누락될 수 없습니다.";
 		list += "(answer) 표시는 필수 표시 사항입니다.";
-		list += "예시에 사용된 'A가 좋아하는 사람은?'이라는 문제는 출제될 수 없습니다.";
+		list += "예시에 사용된 '" + m.getNickName() + "가 좋아하는 사람은?'이라는 문제는 출제될 수 없습니다.";
 		
 		int testNo = 1;
 		
@@ -234,7 +234,7 @@ public class GeminiController {
 							}
 						} else {
 							// 질문
-							fService.insertQtest(new Qtest(0, parts[i].substring(4).trim(), testNo, "user02@email.com", m.getCoupleCode()));
+							fService.insertQtest(new Qtest(0, parts[i].substring(4).trim(), testNo, m.getEmail(), m.getCoupleCode()));
 						}
 					}
 				}

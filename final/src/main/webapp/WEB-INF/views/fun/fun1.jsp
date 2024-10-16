@@ -193,7 +193,7 @@
 	
 											<br><br>
 	
-											<a href="javascript:void(0)" class="btn btn-primary btn-lg" id="default-btn" onclick="checkDone()">채점하기</a>
+											<a href="javascript:void(0)" class="btn btn-primary btn-lg" id="made-count" onclick="checkDone()">채점하기</a>
 										`;
 	
 								$('#defaultContainerRowDiv2').html(value);
@@ -254,9 +254,11 @@
 				$.ajax({
 					url: "geminiTest",
 					data: {
-						"email": '${ loginUser.partnerEmail }', // 상대방 email(상대방 설문조사 결과 조회)
+						"email": '${ partner.email }', // 상대방 email(상대방 설문조사 결과 조회)
 						"coupleCode": '${ loginUser.coupleCode }',
+						"nickName": '${ partner.nickName }',
 						"myEmail": '${ loginUser.email}',
+						"myName": '${ loginUser.nickName}',
 					}, success: function(testNo) {
 						selectLastTest();
 					}, error: function() {
@@ -467,7 +469,7 @@
 			}
 
 			function urgeKakao() {
-				Kakao.init('fe56683314fec289f4d5c7945794e119');
+				Kakao.init('카톡 api 키');
 				Kakao.Link.sendCustom({
 					templateId: 113039
 				});

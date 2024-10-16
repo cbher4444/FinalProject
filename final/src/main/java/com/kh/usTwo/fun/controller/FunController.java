@@ -60,6 +60,11 @@ public class FunController {
 		return "fun/fun4";
 	}
 	
+	@RequestMapping("goGame")
+	public String goGame() {
+		return "fun/game";
+	}
+	
 	@ResponseBody
 	@RequestMapping(value="selectQtest.test", produces = "application/json; charset=utf-8")
 	public String selectQtest(Member m) {
