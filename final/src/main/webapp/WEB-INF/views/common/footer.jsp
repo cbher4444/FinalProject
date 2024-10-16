@@ -19,13 +19,31 @@
                 <div class="row">
                     <div class="col-md-12 text-center">
                     	<c:choose>
-							<c:when test="${ empty loginUser }">
-								<!-- case1. 로그인 전 -->
+							<c:when test="${ empty loginUser or loginUser.status ne 'Y'}">
+								<!-- case1. 로그인 전 or 커플등록이 안됨 or 탈퇴대기 중 -->
 								<h2>UsTwo</h2>
 							</c:when>
 							<c:otherwise>
-								<!-- case2. 로그인 후 -->
-								<h2>유진 &amp; 애신</h2>
+								<!-- case2. 로그인 후 and 커플등록완료 -->
+								<h2>
+									<c:choose>
+										<c:when test="${ empty loginUser.nickName }">
+											${ loginUser.userName }
+										</c:when>
+										<c:otherwise>
+											${ loginUser.nickName }
+										</c:otherwise>
+									</c:choose>
+									&amp;
+									<c:choose>
+										<c:when test="${ empty partner.nickName }">
+											${ partner.userName }
+										</c:when>
+										<c:otherwise>
+											${ partner.nickName }
+										</c:otherwise>
+									</c:choose>
+								</h2>
 							</c:otherwise>
 						</c:choose>
                     </div>
