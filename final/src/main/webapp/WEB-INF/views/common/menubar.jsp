@@ -155,6 +155,7 @@
 	</header>
 	<c:if test="${not empty loginUser}">
 		<jsp:include page="chatting.jsp"></jsp:include>
+		<jsp:include page="faceTalk.jsp"></jsp:include>
 	</c:if>
 	<!-- end:header-top -->
 

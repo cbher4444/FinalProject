@@ -8,9 +8,11 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 
 import com.kh.usTwo.member.model.service.MemberServiceImpl;
 import com.kh.usTwo.member.model.vo.Member;
@@ -48,28 +50,35 @@ public class MemberController {
 	}
 	
 	@RequestMapping("signupForm")
-	public String loginConditions(@RequestParam(value = "inviteCode", required = false) String inviteCode, Model model) {
+	public String loginConditions(@RequestParam(value = "checkCode", required = false) String checkCode, Model model) {
 		// 초대코드 url로 전달받고, 다음 페이지로 넘어갈때 가져감. - 수정 by 동규 (2024.10.15)
-		model.addAttribute("inviteCode", inviteCode);
+		model.addAttribute("checkCode", checkCode);
 		return "member/loginConditions";
 	}
 	
 	@RequestMapping("signupPage.me")
-	public String enterSignupForm(String inviteCode, Model model) {
+	public String enterSignupForm(String checkCode, Model model) {
 		// 초대코드 url로 전달받고, 다음 페이지로 넘어갈때 가져감. - 수정 by 동규 (2024.10.15)
-		model.addAttribute("inviteCode", inviteCode);
+		model.addAttribute("checkCode", checkCode);
 		return "member/signupForm";
 	}
 	
 	@RequestMapping(value="insert.me")
-	public String insertMember(Member m, HttpSession session) {
+	public String insertMember(Member m, String checkCode, HttpSession session) {
 		int result = mService.insertMember(m);
 		
 		System.out.println(result);
 		
 		if(result > 0) {
-			session.setAttribute("alertMsg", "회원가입 성공하였습니다.");
-			return "member/loginForm";
+			Member loginUser = mService.loginMember(m);
+			if(loginUser != null) {
+				session.setAttribute("loginUser", loginUser);
+				session.setAttribute("checkCode", checkCode);
+				return "mypage/myPage"; // 홈으로 리다이렉트 되도록 수정함. - by 동규 (2024.10.13)
+			}else {
+				session.setAttribute("alertMsg", "로그인 실패");
+				return "member/loginForm";
+			}
 		}else {
 			session.setAttribute("alertMsg", "회원가입 실패");
 			return "member/signupForm";

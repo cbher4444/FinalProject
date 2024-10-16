@@ -105,10 +105,12 @@
 												<option value="@hanmail.com">@hanmail.com</option>
 												<option value="@yahoo.co.kr">@yahoo.co.kr</option>
 											</select>
-											<input type="hidden" name="email" id="email">
+											<input type="hidden" name="email" id="email"> 
 											</div>   
+											  <div class="check-area" style="display:none; color:green;">사용 가능한 이메일입니다.</div> 
 										<div class="input-group-addon">
 											<button type="button" class="btn btn-primary" id="mail-Check-Btn">본인인증</button>
+											 <button type="button" class="btn btn-primary" id="email-Check-Btn" onclick="checkEmail()">중복체크</button>
 										</div>
 											<div class="mail-check-box">
 										<input class="form-control mail-check-input" placeholder="인증번호 6자리를 입력해주세요!" disabled="disabled" maxlength="6">
@@ -131,11 +133,12 @@
 										<div style="padding: 4px;">(필수)이름</div>
 										<div><input class="form-control" type="text" name="userName" id="userName" required /></div>
 
-										<div style="padding: 4px;">성별</div>
-										<div>
-											<input  type="radio" name="gender"value="M" id="gender" />남 
-											<input type="radio" name="gender" value="F" id="gender"/>여
-										</div>
+										<div style="padding: 4px;">(필수)성별</div>
+									    <div>
+									        <input type="radio" name="gender" value="M" id="genderM" />남
+									        <input type="radio" name="gender" value="F" id="genderF" />여
+									        <span id="genderError" style="color:red; display:none;">성별을 선택해주세요.</span>
+									    </div>
 
 
 										<div style="padding: 4px;">생년월일</div>
@@ -157,7 +160,7 @@
 										
 										<!-- 초대코드 입력할 수 있게 수정 - by 동규 (2024.10.15) -->
 										<div style="padding: 4px;">초대코드</div>
-										<div><input type="text" id="inviteCode" name="inviteCode" value="${ inviteCode }" class="form-control" maxlength="15" placeholder="초대코드"></div><br>
+										<div><input type="text" id="checkCode" name="checkCode" value="${ checkCode }" class="form-control" maxlength="15" placeholder="초대코드"></div><br>
 										<div>
 											<button type="reset" class="btn btn-primary btn-lg">초기화</button>
 											<button type="submit" id="create" class="btn btn-primary btn-lg">계정 생성</button>
@@ -187,7 +190,7 @@
   			}
   			
   		});
-  		</script>
+		</script>
   		
   		<script>
   		$(document).ready(function() {
@@ -261,9 +264,64 @@
 			}
 		</script>
   		
+  		<script>
+		    function validateForm() {
+		        const genderM = document.getElementById("genderM").checked;
+		        const genderF = document.getElementById("genderF").checked;
+		
+		        if (!genderM && !genderF) {
+		            document.getElementById("genderError").style.display = "inline"; // 성별 오류 메시지 표시
+		            return false; // 폼 제출 중지
+		        }
+		
+		        document.getElementById("genderError").style.display = "none"; // 오류 메시지 숨기기
+		        return true; // 폼 제출 허용
+		    }
+		</script>
+		
+
+
+   
+  <script type="text/javascript">
+    function combineEmail() {
+        const emailInput = document.getElementById("userEmail1").value;
+        const emailDomain = document.getElementById("userEmail2").value;
+        const fullEmail = emailInput + emailDomain;
+        
+        document.getElementById("email").value = fullEmail;
+    }
+
+    function checkEmail() {
+    	const email = document.getElementById("email").value;
+
+        $.ajax({
+            url: 'idcheck',  // Controller의 이메일 중복 체크를 위한 URL
+            type: 'POST',
+            data: { email: email },
+            success: function(response) {
+                const checkArea = document.querySelector('.check-area');
+
+                if (response === '이미 존재하는 이메일입니다.') {
+                    checkArea.style.display = 'block';
+                    checkArea.style.color = 'red';
+                    checkArea.textContent = '이미 존재하는 이메일입니다.';
+                } else {
+                    checkArea.style.display = 'block';
+                    checkArea.style.color = 'green';
+                    checkArea.textContent = '사용 가능한 이메일입니다.';
+                }
+            },
+            error: function() {
+                alert('서버 통신 오류입니다.');
+            }
+        });
+    }
+</script>
+
   		
-  		
+ <!--   	-->	
   		 <script>
+  				 
 		/*	
     // 비밀번호 정규식 (8~14자, 영문자와 숫자 필수)
       function check() {
