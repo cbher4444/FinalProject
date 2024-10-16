@@ -29,8 +29,8 @@
 		     , phone
 		     , address
 		     , brithday
-		     , modify_date -- modify_date 추가함 - by 동규 (2024.10.15)
 		     , invite_code
+		     , modify_date -- modify_date 추가함 - by 동규 (2024.10.15)
 		     , couple_code
 		     , partner_email
 		     , origin_name
@@ -72,7 +72,6 @@
 		  	 , brithday
 		  	 , phone
 		  	 , address
-		  	 -- ,invite_code -- invite_code 삭제함 - by 동규 (2024.10.15)
 		  	 )
 		values
 		     (
@@ -83,7 +82,6 @@
 		     , #{brithday}
 		     , #{phone}
 		     , #{address}   
-		     -- , #{inviteCode} -- invite_code 삭제함 - by 동규 (2024.10.15)
 		     )
 	</insert>
 	

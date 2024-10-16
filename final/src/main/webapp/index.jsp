@@ -9,7 +9,7 @@
 </head>
 <body>
 
-<jsp:forward page="WEB-INF/home/homeGuest.jsp"/>
+<jsp:forward page="WEB-INF/views/home/homeGuest.jsp"/>
 
 </body>
 </html>

@@ -44,7 +44,7 @@
 						<div class="col-md-6 col-sm-6">
 							<div class="form-group">
 								<label for="email">상대방 초대코드</label>
-								<input type="text" class="form-control" name="inviteCode" style="width: 100%;" maxlength="15" required>
+								<input type="text" class="form-control" name="inviteCode" style="width: 100%;" maxlength="15" required value="${ checkCode }">
 								<br><br>
 								<button type="submit" class="btn btn-primary btn-block">커플등록</button>
 							</div>
@@ -196,7 +196,7 @@
     <!-- ----------------------- 초대코드 카카오톡으로 공유하기 ----------------------- -->
 	<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js" integrity="sha384-TiCUE00h649CAMonG018J2ujOgDKW/kVWlChEuu4jK2vxfAAD0eZxzCKakxg55G4" crossorigin="anonymous"></script>
 	<script>
-		const url = "http://localhost:8444/final/signupForm?inviteCode=${ loginUser.inviteCode }";
+		const url = "http://localhost:8444/final/signupForm?checkCode=${ loginUser.inviteCode }";
 		Kakao.init('fb8e12d8ae688060346152c72f9805cf'); // 사용하려는 앱의 JavaScript 키 입력
 		Kakao.Share.createDefaultButton({
 			container: '#kakaotalk-sharing-btn',
