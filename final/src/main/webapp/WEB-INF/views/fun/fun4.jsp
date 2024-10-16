@@ -82,7 +82,6 @@
 			text-align: center;
 			margin: 10px;
 			font-size: 12px;
-			padding: auto;
 		}
 
 		.corrent {
@@ -100,10 +99,15 @@
 			width: 700px;
 			position: fixed;
 			background-color: #fff;
-			padding: 30px 20px;
+			padding: 40px 50px;
 			z-index: 1000;
 			border-radius: 25px;
+			height: 483.516px;
 			margin: auto;
+			right: 0;
+			left: 0;
+			top: 0;
+			bottom: 0;
 		}
 
 		#made-cover {
@@ -116,7 +120,7 @@
 
 		#made-closeBtn {
 			position: absolute;
-			right: 20px;
+			right: 50px;
 			font-size: 20px;
 			cursor: pointer;
 		}
@@ -207,7 +211,12 @@
 		$(()=>{ $(".nav-header #menubar_fun4").addClass("active"); })
 
 		$(() => {
+			if (getCookie('usTwoPopup')) {
+				closePopup();
+			}
+
 			$('#made-q').on('focus', () => {$('#made-q').attr('placeholder', '')});
+			
 			$('#made-q').on('blur', () => {
 				if ($('#made-q').val() === '') {
 					$('#made-q').attr('placeholder', 'AI에게 질문을 해보세요~!');
@@ -222,28 +231,38 @@
 
 			$('#made-guideDiv').html(guides[0]);
 
-			$('#made-guide1').on('click', function() {
-				$('#made-guideDiv').html(guides[0]);
-			})
+			$('#made-guide1').on('click', function(event) {
+				guideSetting(0, '483.516px', event.target);
+				
+			});
 
-			$('#made-guide2').on('click', function() {
-				$('div[id^=made-guide]').removeClass('corrent');
-				$(this).addClass('corrent');
-				$('#made-guideDiv').html(guides[1]);
-			})
+			$('#made-guide2').on('click', function(event) {
+				guideSetting(1, '688.266px', event.target);
+			});
 
-			$('#made-guide3').on('click', function() {
-				$('div[id^=made-guide]').removeClass('corrent');
-				$(this).addClass('corrent');
-				$('#made-guideDiv').html(guides[2]);
-			})
+			$('#made-guide3').on('click', function(event) {
+				guideSetting(2, '329.953px', event.target);
+			});
 
-			$('#made-guide4').on('click', function() {
-				$('div[id^=made-guide]').removeClass('corrent');
-				$(this).addClass('corrent');
-				$('#made-guideDiv').html(guides[3]);
-			})
+			$('#made-guide4').on('click', function(event) {
+				guideSetting(3, '381.141px', event.target);
+			});
 		})
+
+		function guideSetting(index, height, event) {
+			$('div[id^=made-guide]').removeClass('corrent');
+			$(event).addClass('corrent');
+			$('#made-content').css('height', height);
+			$('#made-guideDiv').html(guides[index]);
+		}
+
+		function closePopup() {
+			$('#made-cover').css('display', 'none');
+			$('#made-content').css('display', 'none');
+			if ($('#noMoreSeeInput').is(':checked') == true) {
+				setCookie("usTwoPopup", "done");
+			}
+		}
 
 		function callGemini() {
 			if ($('#made-q').val() === null || $('#made-q').val() === '') {
@@ -268,11 +287,35 @@
 				});
 			}
 		}
+
+		function getCookie(name) {
+			var nameOfCookie = name + "=";
+			var x = 0;
+			while (x <= document.cookie.length) {
+				var y = (x + nameOfCookie.length);
+
+				if (document.cookie.substring(x, y) === nameOfCookie) {
+					if ((endOfCookie = document.cookie.indexOf(";", y)) === -1)
+						endOfCookie = document.cookie.length;
+					return unescape(document.cookie.substring(y, endOfCookie));
+				}
+
+				x = document.cookie.indexOf(' ', x) + 1;
+
+				if (x === 0) break;
+			}
+
+			return "";
+		}
+
+		function setCookie(name, value) {
+			document.cookie = name + '=' + escape(value) + '; path=/;';
+		}
 	</script>
 
 	<div id="made-cover"></div>
 	<div id="made-content">
-		<div id="made-closeBtn" class="material-symbols-outlined">close</div>
+		<div id="made-closeBtn" class="material-symbols-outlined" onclick="closePopup()">close</div>
 		<div id="made-guideDiv"></div>
 		<div align="center" id="made-miniPageBar">
 			<div id="made-guide1" class="corrent made-btns">1</div>	
@@ -285,9 +328,8 @@
 				<label for="noMoreSeeInput" id="noMoreSeeText">더이상 보지않기</label>
 				<input type="checkbox" id="noMoreSeeInput" />
 			</div>
-			<div id="made-closeText">닫기</div>
+			<div id="made-closeText" onclick="closePopup()">닫기</div>
 		</div>
-		<br>
 	</div>
 
 	<div id="fh5co-blog-section" class="fh5co-section-gray">
