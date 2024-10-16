@@ -69,7 +69,7 @@ public class GooglePhotoService {
         return tokenResponse.getAccessToken();
     }
 
-    public void createAlbum(String accessToken, String albumTitle) throws IOException {
+    public String createAlbum(String accessToken, String albumTitle) throws IOException {
         String json = "{ \"album\": { \"title\": \"" + albumTitle + "\" } }";
         RequestBody body = RequestBody.create(json, MediaType.get("application/json; charset=utf-8"));
 
@@ -81,9 +81,18 @@ public class GooglePhotoService {
 
         try (Response response = client.newCall(request).execute()) {
             if (!response.isSuccessful()) {
+                System.out.println("앨범 생성 실패");
+                System.out.println("Response Code: " + response.code());
+                System.out.println("Response Body: " + response.body().string());
                 throw new IOException("Unexpected code " + response);
             }
-            System.out.println("Album created: " + response.body().string());
+            String responseBody = response.body().string();
+            System.out.println("Created album: " + responseBody);
+            
+            // JSON 응답에서 앨범 ID를 파싱
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode jsonNode = objectMapper.readTree(responseBody);
+            return jsonNode.get("id").asText(); // 앨범 ID 반환
         }
     }
 
@@ -178,14 +187,14 @@ public class GooglePhotoService {
     }
     
     public String uploadMediaItem(String accessToken, String mediaItemPath) throws IOException {
-    	// Upload media item
-        File mediaFile = new File(mediaItemPath);
+    	File mediaFile = new File(mediaItemPath);
         if (!mediaFile.exists()) {
             throw new IOException("Media file not found: " + mediaItemPath);
         }
 
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/octet-stream"), mediaFile);
         String encodedFileName = URLEncoder.encode(mediaFile.getName(), "UTF-8");
+        String contentType = "image/jpeg"; // 여기에서 파일 타입을 동적으로 결정할 수 있습니다.
 
         Request request = new Request.Builder()
                 .url("https://photoslibrary.googleapis.com/v1/uploads")
@@ -193,35 +202,64 @@ public class GooglePhotoService {
                 .addHeader("Authorization", "Bearer " + accessToken)
                 .addHeader("Content-Type", "application/octet-stream")
                 .addHeader("X-Goog-Upload-File-Name", encodedFileName)
+                .addHeader("X-Goog-Upload-Content-Type", contentType)
                 .addHeader("X-Goog-Upload-Protocol", "raw")
                 .build();
 
         try (Response response = client.newCall(request).execute()) {
             if (!response.isSuccessful()) {
-            	System.out.println("업로드 실패");
+                System.out.println("업로드 실패");
                 System.out.println("Response Code: " + response.code());
                 System.out.println("Response Body: " + response.body().string());
                 throw new IOException("Unexpected code " + response);
             }
-            
-            // 응답은 단순한 문자열 (media item ID)
-            String mediaItemId = response.body().string();
+            String uploadToken = response.body().string(); // 업로드 토큰
             System.out.println("Response Code: " + response.code());
-            System.out.println("Upload Response: " + mediaItemId);
-            return mediaItemId; // media item ID
+            System.out.println("Upload Response: " + uploadToken);
+            return uploadToken; // 업로드 토큰 반환
         }
     }
 
     
     
-    public void addMediaItemToAlbum(String accessToken, String albumId, String mediaItemId) throws IOException { // 업로드 한 사진을 앨범에 추가하는 메소드
-    	String json = "{ \"mediaItemIds\": [\"" + mediaItemId + "\"] }"; // 올바른 JSON 형식
-    	
-    	System.out.println(accessToken);
+    public void addMediaItemToAlbum(String accessToken, String albumId, String uploadToken) throws IOException { // 업로드 한 사진을 앨범에 추가하는 메소드
+    		String mediaItemId = createMediaItem(accessToken, uploadToken);
+    		
+    		String json = "{ \"mediaItemIds\": [\"" + mediaItemId + "\"] }";
+    		System.out.println("mediaItemId : " + mediaItemId); 
+    	    RequestBody body = RequestBody.create(json, MediaType.get("application/json; charset=utf-8"));
+    	    System.out.println("albumId : " + albumId);
+    	    
+    	    Request request = new Request.Builder()
+    	            .url("https://photoslibrary.googleapis.com/v1/albums/" + albumId + ":batchAddMediaItems")
+    	            .post(body)
+    	            .addHeader("Authorization", "Bearer " + accessToken)
+    	            .addHeader("Content-Type", "application/json")
+    	            .build();
+
+    	    try (Response response = client.newCall(request).execute()) {
+    	        if (!response.isSuccessful()) {
+    	            System.out.println("추가 실패");
+    	            System.out.println("Response Code: " + response.code());
+    	            System.out.println("Response Body: " + response.body().string());
+    	            throw new IOException("Unexpected code " + response);
+    	        }
+    	        System.out.println("Added media item to album: " + response.body().string());
+    	    }
+    }
+    
+    public void uploadAndAddToAlbum(String accessToken, String albumId, String mediaItemPath) throws IOException {
+        String uploadToken = uploadMediaItem(accessToken, mediaItemPath);
+        addMediaItemToAlbum(accessToken, albumId, uploadToken);
+    }
+    
+    public String createMediaItem(String accessToken, String uploadToken) throws IOException {
+    	 String json = "{ \"newMediaItems\": [{ \"simpleMediaItem\": { \"uploadToken\": \"" + uploadToken + "\" } }] }";
+
         RequestBody body = RequestBody.create(json, MediaType.get("application/json; charset=utf-8"));
 
         Request request = new Request.Builder()
-                .url("https://photoslibrary.googleapis.com/v1/albums/" + albumId + ":batchAddMediaItems")
+                .url("https://photoslibrary.googleapis.com/v1/mediaItems:batchCreate")
                 .post(body)
                 .addHeader("Authorization", "Bearer " + accessToken)
                 .addHeader("Content-Type", "application/json")
@@ -229,20 +267,20 @@ public class GooglePhotoService {
 
         try (Response response = client.newCall(request).execute()) {
             if (!response.isSuccessful()) {
-            	System.out.println("추가 실패");
+                System.out.println("미디어 항목 생성 실패");
                 System.out.println("Response Code: " + response.code());
                 System.out.println("Response Body: " + response.body().string());
                 throw new IOException("Unexpected code " + response);
             }
-            System.out.println("Added media item to album: " + response.body().string());
+            String jsonResponse = response.body().string();
+            System.out.println("Created media item: " + jsonResponse);
+
+            // JSON 응답에서 mediaItemId 추출
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode jsonNode = objectMapper.readTree(jsonResponse);
+            return jsonNode.get("newMediaItemResults").get(0).get("mediaItem").get("id").asText();
         }
     }
-    
-    public void uploadAndAddToAlbum(String accessToken, String albumId, String mediaItemPath) throws IOException {
-        String mediaItemId = uploadMediaItem(accessToken, mediaItemPath);
-        addMediaItemToAlbum(accessToken, albumId, mediaItemId);
-    }
-    
     
 
     

@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -194,6 +193,14 @@
 	#addMedia{
 		display:none;
 	}
+	
+	#create-form{
+		text-align:center;
+	}
+	
+	#create-form input[type=file]{
+		margin-left:434px;
+	}
 	</style>
 </head>
 <body>
@@ -210,85 +217,19 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-md-8 col-md-offset-2 text-center heading-section animate-box">
-					<h2 class="album_title">Couple Album</h2>
+					<h2 class="album_title">앨범 만들기</h2>
 				</div>
-				<form id="addMedia" action="add-photo-to-album" method="post" enctype="multipart/form-data">
-				    <input type="hidden" name="albumId" placeholder="앨범 ID" required>
-				    <input type="file" name="file" required>
-				    <button type="submit">사진 추가</button>
-				</form>
 			</div>
-				<ul class="row" align="center" style="display:flex; list-style: none; flex-wrap: wrap; justify-content: start; padding-left:133px">
-					<c:choose>
-						<c:when test="${ not empty albums }">
-							<c:forEach var="item" items="${ albums }">
-								<li class="gallery animate-box album">
-									<div class="album_img"><img src="${item.coverPhotoBaseUrl}" class="img-responsive" alt="Free HTML5 Bootstrap Template by FreeHTML5.co"></div>
-				                   	<p class="title">${item.title}</p>
-		                   			<input class="albumId" type="hidden" value="${ item.id }" />
-								</li>
-							</c:forEach>
-						</c:when>
-						<c:otherwise>
-							<h3 align="center" style="padding:50px;margin-left:338px;">앨범이 없습니다.</h3>
-						</c:otherwise>
-					</c:choose>
-				</ul>
-				<a href="authorize" class="btn btn-primary btn-lg" id="btn" style="position:relative;top:45%;left:38%;">앨범 가져오기</a>
-				<a href="create" class="btn btn-primary btn-lg" id="create" style="position:relative;top:45%;left:38%;">앨범 생성하기</a>
-				<a href="albums" class="btn btn-primary btn-lg" id="back" style="position:relative;top:45%;left:45%;">뒤로가기</a>
+			    <form id="create-form" action="createAlbum" method="post" enctype="multipart/form-data">
+			        <label for="title">앨범 제목:</label>
+			        <input type="text" id="title" name="title" required >
+			        <input type="file" id="file" name="file" required >
+			        <br>
+			        <input type="submit" value="앨범 생성">
+			    </form>
 		</div>
 	</div>
 	<!-- footer -->
 	<jsp:include page="../common/footer.jsp"/>
-	
-	<script>
-    	console.log(${albums})
-    	$(function(){
-    		$(".album").click(function(){
-    			var data = {'albumId':$(this).children().eq(2).val()};
-    			var accessToken = '${accessToken}';
-    			var title = $(this).children().eq(1).text();
-    			var id = $(this).children().eq(2).val();
-    			$.ajax({
-    				type:"post",
-    				url:"https://photoslibrary.googleapis.com/v1/mediaItems:search",
-    				headers : {
-    					'Authorization' : "Bearer " + accessToken,
-    					},
-    				data: data,
-    				dataType : 'JSON',
-    				success:function(result){
-    					$(".album_title").text(title);
-    					var value = "";
-    					for(var i = 0; i<result.mediaItems.length;i++){
-    						var item = result.mediaItems[i];
-    						
-    						value += "<li>"
-	    							+ "<a href='"+ item.baseUrl +"' target='blank'><img src='"+ item.baseUrl +"' class='img-responsive' alt='Free HTML5 Bootstrap Template by FreeHTML5.co'/></a>"
-    								+ "</li>";
-    					}
-    					$("ul.row").html(value);
-    					$("#btn").hide();
-    					$("#create").hide();
-    					$("#back").show();
-    					$("#addMedia").show();
-    					$("input[name=albumId]").val(id);
-    					console.log(id);
-    					console.log(result);
-    				},error:function(xhr, status, error){
-    					console.log("Error:", error);
-    	                console.log("Status:", status);
-    	                console.log("Response:", xhr.responseText);
-    	                console.log("Album ID:", data.albumId);
-    	                console.log("Data sent:", data);
-    				}
-    			})
-    			
-    		})
-    	})
-    	
-    </script>
-
 </body>
 </html>
