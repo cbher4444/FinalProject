@@ -72,6 +72,30 @@
 				border: 3px solid #fff;
 				box-shadow: 0 0 0 1px #111;
 			}
+			
+			table {
+				width: 100%;
+			}
+
+			table td {
+				height: 40px;
+			}
+			
+			table > thead > tr > td {
+				font-weight: bold;
+			}
+
+			table, thead, tbody, tr, td {
+				border: 1px solid #00000080;
+  				border-collapse: collapse;
+			}
+
+			button {
+				background-color: #F69D9D;
+				color: white !important;
+				border: none;
+				border-radius: 5px;
+			}
 		</style>
 	</head>
 	<body>
@@ -193,7 +217,7 @@
 	
 											<br><br>
 	
-											<a href="javascript:void(0)" class="btn btn-primary btn-lg" id="default-btn" onclick="checkDone()">채점하기</a>
+											<a href="javascript:void(0)" class="btn btn-primary btn-lg" id="made-count" onclick="checkDone()">채점하기</a>
 										`;
 	
 								$('#defaultContainerRowDiv2').html(value);
@@ -254,9 +278,11 @@
 				$.ajax({
 					url: "geminiTest",
 					data: {
-						"email": '${ loginUser.partnerEmail }', // 상대방 email(상대방 설문조사 결과 조회)
+						"email": '${ partner.email }', // 상대방 email(상대방 설문조사 결과 조회)
 						"coupleCode": '${ loginUser.coupleCode }',
+						"nickName": '${ partner.nickName }',
 						"myEmail": '${ loginUser.email}',
+						"myName": '${ loginUser.nickName}',
 					}, success: function(testNo) {
 						selectLastTest();
 					}, error: function() {
@@ -324,7 +350,7 @@
 					}, error: function() {
 						console.log('ajax : updateTest')
 					}
-				})
+				});
 	
 				let comment = "";
 	
@@ -463,11 +489,11 @@
 					}, error: function() {
 						console.log('ajax : insertAservey');
 					}
-				})
+				});
 			}
 
 			function urgeKakao() {
-				Kakao.init('fe56683314fec289f4d5c7945794e119');
+				Kakao.init('카톡 api 키');
 				Kakao.Link.sendCustom({
 					templateId: 113039
 				});
@@ -569,7 +595,7 @@
 						$("#defaultContainerRowDiv2").append('<a href="javascript:void(0)" class="btn btn-primary btn-lg" id="made-next2">다음 페이지</a>');
 						secondPage = $("#defaultContainerRowDiv2").html();
 					}
-				})
+				});
 
 				$(document).on('click', '#made-next2', function() {
 					// 2 -> 3
@@ -588,7 +614,7 @@
 						$('#made-next2').attr('id', 'made-done').text('제출하기');
 						thirdPage = $("#defaultContainerRowDiv2").html();
 					}
-				})
+				});
 
 				$(document).on('click', '#made-pre1', function() {
 					// 2 -> 1
@@ -600,7 +626,7 @@
 						$(this).val(inputValues['firstPage'][index] || '');
 					});
 					changeNum = 5;
-				})
+				});
 
 				$(document).on('click', '#made-pre2', function() {
 					// 3 -> 2
@@ -612,7 +638,7 @@
 						$(this).val(inputValues['secondPage'][index] || '');
 					});
 					changeNum = 15;
-				})
+				});
 
 				$(document).on('click', '#made-done', function() {
 					$("#defaultContainerRowDiv2 input").each(function(index) {
@@ -636,7 +662,7 @@
 							$('.serveyQinput').css({
 								'color': '#848484',
 								'border-bottom': '1px solid #848484'
-							})
+							});
 							if (check1and11(11)) {
 								if (confirm('제출 후에는 답변을 수정할 수 없습니다. 정말 제출하시겠습니까?')) {
 									for (let i in randomSave) {
@@ -657,7 +683,7 @@
 							$('.serveyQinput').css({
 								'color': '#848484',
 								'border-bottom': '1px solid #848484'
-							})
+							});
 							if (check1and11(1)) {
 								if (confirm('제출 후에는 답변을 수정할 수 없습니다. 정말 제출하시겠습니까?')) {
 									for (let i in randomSave) {
@@ -673,7 +699,7 @@
 							}
 						}
 					}
-				})
+				});
 				
 				$(document).on('click', '#default-btn', () => {
 					$.ajax({
@@ -697,9 +723,52 @@
 						}
 					});							
 				});
-			
+
 				$(document).on('click', '#made-btn', () => {
-					selectLastTest();
+					// selectLastTest();
+					$.ajax({
+						url: 'selectAllTest.test',
+						data: {'coupleCode': '${ loginUser.coupleCode }'},
+						success: function(allTest) {
+							let tableStr = `<table>
+												<thead>
+													<tr>
+														<td>응시일</td>
+														<td>응시자</td>
+														<td>점수</td>
+														<td></td>
+													</tr>
+												</thead>
+											<tbody>`;
+							for (let i in allTest) {
+								let name = '';
+								if (allTest[i].email === '${ loginUser.email }') {
+									name = '${ loginUser.nickName }';
+								} else {
+									name = '${ partner.nickName }';
+								}
+
+								let testDate = allTest[i].testDate;
+								let editDate = testDate.substring(testDate.indexOf(',') + 1).trim()
+											   + '-'
+											   + testDate.substring(0, testDate.indexOf('월')).trim()
+											   + '-'
+											   + testDate.substring(testDate.indexOf('월') + 1, testDate.indexOf(',')).trim()
+
+								tableStr += '<tr>'
+									tableStr += '<td>' + editDate + '</td>'
+									tableStr += '<td>' + name + '</td>'
+									tableStr += '<td>' + allTest[i].testScore + '</td>'
+									tableStr += '<td>'
+										tableStr += '<button type="button" id="btnbtnbtn' + allTest[i].testNo + '">자세히 보기</button>'	
+									tableStr += '</td>'
+								tableStr += '</tr>'
+							}
+							tableStr += '</tbody></table>';
+
+							$('#defaultContainerRowDiv2').html(tableStr);
+						}
+					})
 				});
 	
 				$(document).on('click', 'input[type=radio]', function() {

@@ -136,6 +136,10 @@ public class FunDao {
 	public int updateAtoday(HashMap<String, String> hm, SqlSessionTemplate sqlSession) {
 		return sqlSession.update("funMapper.updateAtoday", hm);
 	}
+
+	public ArrayList<Test> selectAllTest(String coupleCode, SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("funMapper.selectAllTest", coupleCode);
+	}
 	
 	
 }

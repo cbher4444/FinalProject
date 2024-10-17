@@ -77,7 +77,7 @@
 			width: 20px;
 			height: 20px;
 			border-radius: 50%;
-			border: 1px solid #00000050;
+			border: 1px solid #00000080;
 			cursor: pointer;
 			text-align: center;
 			margin: 10px;
@@ -114,7 +114,7 @@
 			width: 100%;
 			height: 100%;
 			position: fixed;
-			background-color: #00000050;
+			background-color: #00000080;
 			z-index: 999;
 		}
 
@@ -207,8 +207,8 @@
 		];
 
 		// 메뉴바에 클릭된 메뉴 하이라이트
-		$(()=>{ $(".nav-header #menubar_fun").addClass("active"); })
-		$(()=>{ $(".nav-header #menubar_fun4").addClass("active"); })
+		$(()=>{ $(".nav-header #menubar_fun").addClass("active"); });
+		$(()=>{ $(".nav-header #menubar_fun4").addClass("active"); });
 
 		$(() => {
 			if (getCookie('usTwoPopup')) {
@@ -247,7 +247,7 @@
 			$('#made-guide4').on('click', function(event) {
 				guideSetting(3, '381.141px', event.target);
 			});
-		})
+		});
 
 		function guideSetting(index, height, event) {
 			$('div[id^=made-guide]').removeClass('corrent');

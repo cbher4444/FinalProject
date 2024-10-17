@@ -173,4 +173,9 @@ public class FunServiceImpl implements FunService {
 	public int updateAtoday(HashMap<String, String> hm) {
 		return fDao.updateAtoday(hm, sqlSession);
 	}
+
+	@Override
+	public ArrayList<Test> selectAllTest(String coupleCode) {
+		return fDao.selectAllTest(coupleCode,sqlSession);
+	}
 }

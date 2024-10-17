@@ -60,6 +60,11 @@ public class FunController {
 		return "fun/fun4";
 	}
 	
+	@RequestMapping("goGame")
+	public String goGame() {
+		return "fun/game";
+	}
+	
 	@ResponseBody
 	@RequestMapping(value="selectQtest.test", produces = "application/json; charset=utf-8")
 	public String selectQtest(Member m) {
@@ -171,5 +176,11 @@ public class FunController {
 		hm.put("today", today);
 		
 		return fService.updateAtoday(hm);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="selectAllTest.test", produces = "application/json; charset=utf-8")
+	public String selectTest(String coupleCode) {
+		return new Gson().toJson(fService.selectAllTest(coupleCode));
 	}
 }

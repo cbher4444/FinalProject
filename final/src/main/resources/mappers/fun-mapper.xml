@@ -431,4 +431,16 @@
 		   and couple_code = #{ coupleCode }
 		   and qtoday_date = to_date(#{ today }, 'yyyy-mm-dd')
 	</update>
+	
+	<select id="selectAllTest" resultMap="testResult">
+		select test_no
+			 , test_score
+		     , test_date
+		     , email
+		     , couple_code
+	      from f_test
+		 where couple_code = #{ coupleCode }
+		 order
+		    by test_date desc
+	</select>
 </mapper>
