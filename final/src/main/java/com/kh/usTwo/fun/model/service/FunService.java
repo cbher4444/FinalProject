@@ -45,4 +45,5 @@ public interface FunService {
 	ArrayList<Atoday> checkAtodayDupl(HashMap<String, String> hm);
 	int insertAtoday(HashMap<String, String> hm);
 	int updateAtoday(HashMap<String, String> hm);
+	ArrayList<Test> selectAllTest(String coupleCode);
 }

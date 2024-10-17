@@ -117,9 +117,9 @@
 		.triangle {
 			width: 0;
 			height: 0;
-			border-top: 15px solid #00000050;
+			border-top: 15px solid #00000080;
 			border-bottom: 15px solid white;
-			border-left: 15px solid #00000050;
+			border-left: 15px solid #00000080;
 			border-right: 15px solid white;
 			position: absolute;
 			bottom: 0;
@@ -140,7 +140,7 @@
 		}
 
 		#answerTextArea::placeholder {
-			color: #00000050;
+			color: #00000080;
 		}
 	</style>
 </head>
@@ -149,8 +149,8 @@
 	<jsp:include page="../common/menubar.jsp"/>
 	<script>
 		// 메뉴바에 클릭된 메뉴 하이라이트
-		$(()=>{ $(".nav-header #menubar_fun").addClass("active"); })
-		$(()=>{ $(".nav-header #menubar_fun3").addClass("active"); })
+		$(()=>{ $(".nav-header #menubar_fun").addClass("active"); });
+		$(()=>{ $(".nav-header #menubar_fun3").addClass("active"); });
 	</script>
 
 	<!-- 내용 -->
@@ -210,7 +210,7 @@
 										
 										let calendar = $('<div>').addClass('calendar');
 										
-										calendar.append($('<div>').addClass('calendar-header').text(date.toLocaleString('en-us', { month: 'long' }) + ' ' + year));
+										calendar.append($('<div>').addClass('calendar-header').text(date.toLocaleString('en-us', { month: 'long' }); + ' ' + year));
 										
 										const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 										for (let day of daysOfWeek) {
@@ -331,8 +331,8 @@
 									}, error: function() {
 										console.log('error : updateAtoday')
 									}
-								})
-							})
+								});
+							});
 
 							render();
 						});

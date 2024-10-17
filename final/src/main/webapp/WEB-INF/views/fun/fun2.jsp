@@ -27,6 +27,7 @@
 			<div class="row">
 				<div class="col-md-8 col-md-offset-2 text-center heading-section">
 					<h2>오늘 뭐 먹지?</h2>
+					<h4>마우스로 선을 그려보세요!</h4>
 				</div>
 			</div>
 		</div>

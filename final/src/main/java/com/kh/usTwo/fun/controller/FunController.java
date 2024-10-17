@@ -177,4 +177,10 @@ public class FunController {
 		
 		return fService.updateAtoday(hm);
 	}
+	
+	@ResponseBody
+	@RequestMapping(value="selectAllTest.test", produces = "application/json; charset=utf-8")
+	public String selectTest(String coupleCode) {
+		return new Gson().toJson(fService.selectAllTest(coupleCode));
+	}
 }

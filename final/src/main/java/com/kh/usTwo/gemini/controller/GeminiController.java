@@ -40,7 +40,7 @@ public class GeminiController {
 	@Autowired 
 	private FunServiceImpl fService;
 	
-    private static final String API_KEY = "Gemini api 키";
+    private static final String API_KEY = "Gemini Api 키";
     private static final String MODEL_NAME = "gemini-pro";
 
     public String callGemini(String prompt) throws Exception {
@@ -245,5 +245,26 @@ public class GeminiController {
 		}
 	 	
 	 	return testNo;
+	}
+    
+    @ResponseBody
+	@RequestMapping(value="geminiFood", method = RequestMethod.GET, produces="text/html; charset=utf-8")
+	public String callGeminiFood() {
+		try {	 		
+	 		String question = "특이한 음식 5개를 다양하게 추천해주십시오.";
+	 		question += "A. 음식1";
+	 		question += "B. 음식2";
+	 		question += "C. 음식3";
+	 		question += "D. 음식4";
+	 		question += "E. 음식5";
+			question += "위와 같은 형태로 출력하십시오.";
+	 		question += "설명 없이 음식명만 기재하십시오.";
+	 		question += "세상에 존재하지 않는 음식은 기재할 수 없습니다.";
+	 		
+	 		return callGemini(question);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "A. 치킨<br/>B. 피자<br/>C. 햄버거<br/>D. 떡볶이<br/>E. 우동";
+		}
 	}
 }
