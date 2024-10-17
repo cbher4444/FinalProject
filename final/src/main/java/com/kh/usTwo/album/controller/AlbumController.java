@@ -117,7 +117,6 @@ public class AlbumController {
     
     @RequestMapping("add-photo-to-album")
     public String addPhotoToAlbum(String albumId, MultipartFile file, HttpSession session, Model model) {
-        System.out.println("HERE" + albumId);
     	String accessToken = (String) session.getAttribute("accessToken");
         if (!isUserAuthenticated(accessToken, model)) {
             return "album/album";
@@ -147,7 +146,7 @@ public class AlbumController {
         try {
         	String accessToken = (String) session.getAttribute("accessToken");
             String albumId = gps.createAlbum(accessToken, title);
-            System.out.println(file);
+            
             File tempFile = File.createTempFile("upload_", file.getOriginalFilename());
             file.transferTo(tempFile);
             
@@ -159,6 +158,18 @@ public class AlbumController {
         } catch (IOException e) {
             return "album/album";
         }
+    }
+    
+    @RequestMapping("deleteMediaItem")
+    public String deleteMediaItemToAlbum(String albumId, String mediaItemId, HttpSession session) {
+    	String accessToken = (String)session.getAttribute("accessToken");
+    	try {
+			gps.deleteMediaItemToAlbum(accessToken, albumId, mediaItemId);
+			return "album/album";
+		} catch (IOException e) {
+			e.printStackTrace();
+			return "album/album";
+		}
     }
     
 }

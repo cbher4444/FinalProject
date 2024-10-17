@@ -214,8 +214,6 @@ public class GooglePhotoService {
                 throw new IOException("Unexpected code " + response);
             }
             String uploadToken = response.body().string(); // 업로드 토큰
-            System.out.println("Response Code: " + response.code());
-            System.out.println("Upload Response: " + uploadToken);
             return uploadToken; // 업로드 토큰 반환
         }
     }
@@ -226,9 +224,7 @@ public class GooglePhotoService {
     		String mediaItemId = createMediaItem(accessToken, uploadToken);
     		
     		String json = "{ \"mediaItemIds\": [\"" + mediaItemId + "\"] }";
-    		System.out.println("mediaItemId : " + mediaItemId); 
     	    RequestBody body = RequestBody.create(json, MediaType.get("application/json; charset=utf-8"));
-    	    System.out.println("albumId : " + albumId);
     	    
     	    Request request = new Request.Builder()
     	            .url("https://photoslibrary.googleapis.com/v1/albums/" + albumId + ":batchAddMediaItems")
@@ -244,7 +240,6 @@ public class GooglePhotoService {
     	            System.out.println("Response Body: " + response.body().string());
     	            throw new IOException("Unexpected code " + response);
     	        }
-    	        System.out.println("Added media item to album: " + response.body().string());
     	    }
     }
     
@@ -273,7 +268,6 @@ public class GooglePhotoService {
                 throw new IOException("Unexpected code " + response);
             }
             String jsonResponse = response.body().string();
-            System.out.println("Created media item: " + jsonResponse);
 
             // JSON 응답에서 mediaItemId 추출
             ObjectMapper objectMapper = new ObjectMapper();
@@ -281,6 +275,28 @@ public class GooglePhotoService {
             return jsonNode.get("newMediaItemResults").get(0).get("mediaItem").get("id").asText();
         }
     }
+    
+    public void deleteMediaItemToAlbum(String accessToken, String albumId, String mediaItemId) throws IOException { // 업로드 한 사진을 앨범에 추가하는 메소드
+		
+		String json = "{ \"mediaItemIds\": [\"" + mediaItemId + "\"] }";
+	    RequestBody body = RequestBody.create(json, MediaType.get("application/json; charset=utf-8"));
+	    
+	    Request request = new Request.Builder()
+	            .url("https://photoslibrary.googleapis.com/v1/albums/" + albumId + ":batchRemoveMediaItems")
+	            .post(body)
+	            .addHeader("Authorization", "Bearer " + accessToken)
+	            .addHeader("Content-Type", "application/json")
+	            .build();
+
+	    try (Response response = client.newCall(request).execute()) {
+	        if (!response.isSuccessful()) {
+	            System.out.println("삭제 실패");
+	            System.out.println("Response Code: " + response.code());
+	            System.out.println("Response Body: " + response.body().string());
+	            throw new IOException("Unexpected code " + response);
+	        }
+	    }
+}
     
 
     
