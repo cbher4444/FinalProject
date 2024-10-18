@@ -129,16 +129,6 @@ public class MemberServiceImpl implements MemberService {
 
 
 
-	public int idCheck(String email) {
-		return mDao.idCheck(sqlSession, email);
-	}
-
-	@Override
-	public Object kakaoLogin(String snsId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 
 
 

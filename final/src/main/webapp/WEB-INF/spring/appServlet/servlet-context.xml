@@ -35,5 +35,7 @@
   <beans:bean id="ChatHandler" class="com.kh.usTwo.chat.Chathandler" />
 	
 	
+
+
 	
 </beans:beans>

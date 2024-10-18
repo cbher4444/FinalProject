@@ -6,6 +6,8 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,8 +23,14 @@ import com.kh.usTwo.member.model.vo.Member;
 @Controller
 public class MemberController {
 	
+	
 	@Autowired
 	private MemberServiceImpl mService;
+	
+
+	@Autowired
+	private BCryptPasswordEncoder bcryptPasswordEncoder;
+	
 	
 	@RequestMapping("loginForm")
 	public String loginForm() {
@@ -32,7 +40,7 @@ public class MemberController {
 	@RequestMapping("login")
 	public String homeMember(HttpSession session, Member m) {
 		Member loginUser = mService.loginMember(m);
-		if(loginUser != null) {
+		if(loginUser != null && bcryptPasswordEncoder.matches(m.getUserPwd(), loginUser.getUserPwd())) {
 			Member partner = mService.selectPartnerEmail(m);
 			session.setAttribute("loginUser", loginUser);
 			session.setAttribute("partner", partner);
@@ -65,6 +73,9 @@ public class MemberController {
 	
 	@RequestMapping(value="insert.me")
 	public String insertMember(Member m, String checkCode, HttpSession session) {
+		
+		String encPwd = bcryptPasswordEncoder.encode(m.getUserPwd());
+		m.setUserPwd(encPwd); 
 		int result = mService.insertMember(m);
 		
 		System.out.println(result);

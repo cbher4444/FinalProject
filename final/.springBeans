@@ -6,8 +6,6 @@
 		<configSuffix><![CDATA[xml]]></configSuffix>
 	</configSuffixes>
 	<enableImports><![CDATA[true]]></enableImports>
-	<configs>
-	</configs>
 	<configSets>
 	</configSets>
 </beansProjectDescription>
