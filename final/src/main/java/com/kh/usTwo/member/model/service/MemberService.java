@@ -22,6 +22,8 @@ public interface MemberService {
 	
 	int updatePwd(Member m);
 	
+	int updatePwdMember(Member m); // 비밀번호 변경(마이페이지서 사용. 기존 Pwd과 일치하는지 포함) - 추가함 by 동규 (2024.10.18)
+	
 	String partnerUser(Member m);
 	
 	int inviteCodeCheck(String inviteCode); // 초대코드 중복체크 - 추가함 by 동규 (2024.10.14)

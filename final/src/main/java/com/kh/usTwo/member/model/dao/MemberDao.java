@@ -41,6 +41,10 @@ public class MemberDao {
 	public int updatePwd(SqlSessionTemplate sqlSession, Member m) {
 		return sqlSession.update("memberMapper.updatePwd", m);
 	}
+	
+	public int updatePwdMember(SqlSessionTemplate sqlSession, Member m) {
+		return sqlSession.update("memberMapper.updatePwdMember", m);
+	}
 
 	public String partnerUser(SqlSessionTemplate sqlSession, Member m) {
 		return sqlSession.selectOne("memberMapper.partnerUser", m);
@@ -89,6 +93,8 @@ public class MemberDao {
 	public int updateProfile(SqlSessionTemplate sqlSession, Member m) {
 		return sqlSession.update("memberMapper.updateProfile", m);
 	}
+
+
 
 
 

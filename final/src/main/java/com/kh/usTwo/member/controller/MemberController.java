@@ -203,6 +203,21 @@ public class MemberController {
 		}
 	}
 	
+	// "마이페이지" 비밀변호 변경 - 추가함 by 동규 (2024.10.18)
+	@RequestMapping("updatePwd.me")
+	public String updatePwdMember(Member m, HttpSession session) {
+		
+		int updatePwd = mService.updatePwdMember(m);
+		
+		if(updatePwd > 0) {
+			session.setAttribute("alertMsg", "성공적으로 비밀번호 변경 됐습니다.");
+		}else {
+			session.setAttribute("alertMsg", "비밀번호 변경에 실패했습니다. 현재 비밀번호를 확인해주세요.");
+		}
+
+		return "redirect:myPage";
+	}
+	
 	// 초대코드 중복체크 - 추가함 by 동규 (2024.10.14)
 	@ResponseBody
 	@RequestMapping("iccheck.me")
@@ -400,5 +415,6 @@ public class MemberController {
 		return changeName;
 	}
 	
+
 	
 }

@@ -222,7 +222,7 @@
 	<div class="modal fade" id="updatePwdModal" role="dialog">
 		<div class="modal-dialog">
 			<div class="modal-content" style="padding-top: 10px; margin-top: 150px;">
-				<form class="form-inline" action="/updatePwd.me" method="post">
+				<form class="form-inline" action="updatePwd.me" method="post">
 					<input type="hidden" name="email" value="${ loginUser.email }">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" style="font-size: 30px;">&times;</button>
