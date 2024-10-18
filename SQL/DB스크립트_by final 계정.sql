@@ -89,7 +89,7 @@ COMMENT ON COLUMN C_COUPLE.STATUS IS '상태(Y:교제중, N:헤어짐)';
 
 INSERT INTO C_COUPLE VALUES('admin', NULL, NULL, NULL, NULL, 'Y');
 INSERT INTO C_COUPLE VALUES('DFGDFG5623SAD12', TO_DATE('2018-07-07', 'YYYY-MM-DD'),'Eugene_Aesin.jpg', 'resources/uploadFiles/Eugene_Aesin.jpg', '"합시다, 러브. 나랑, 나랑 같이."', 'Y');
-INSERT INTO C_COUPLE VALUES('A1B2C3D4E5F6G7H', TO_DATE('2022-04-05', 'YYYY-MM-DD'), NULL, NULL, NULL, 'N');
+INSERT INTO C_COUPLE VALUES('A1B2C3D4E5F6G7H', NULL, NULL, NULL, NULL, 'N');
 
 
 --------------------------------------------------

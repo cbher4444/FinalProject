@@ -23,4 +23,13 @@
 	       and status = 'Y'
 	</select>
 	
+	<update id="updateCouple">
+		update c_couple
+		   set start_date = #{startDate}
+			 , origin_name = #{originName}
+			 , change_name = #{changeName}
+			 , sentence = #{sentence}
+		 where couple_code = #{coupleCode}
+	</update>
+	
 </mapper>

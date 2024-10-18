@@ -18,18 +18,18 @@
 		<c:choose>
 			<c:when test="${ empty loginUser }">
 				<!-- case1. 로그인 전 -->
-				<div class="fh5co-cover text-center" data-stellar-background-ratio="0.5" style="background-image: url(resources/images/cover_bg_1.jpg);">
+				<div class="fh5co-cover text-center" data-stellar-background-ratio="0.5" style="background-image: url(resources/images/cover_bg_1.jpg);"><!-- 이 div는 저 밑에서 닫힘!! -->
 			</c:when>
 			<c:otherwise>
 				<!-- case2. 로그인 후 -->
 				<c:choose>
 					<c:when test="${ empty couple.changeName }">
 						<!-- 배경사진이 없는경우 -->
-						<div class="fh5co-cover text-center" data-stellar-background-ratio="0.5" style='background-image: url(resources/images/main-default-bg-img.jpg);'>
+						<div class="fh5co-cover text-center" data-stellar-background-ratio="0.5" style="background-image: url(resources/images/main-default-bg-img.jpg);"><!-- 이 div는 저 밑에서 닫힘!! -->
 					</c:when>
 					<c:otherwise>
 						<!-- 배경사진이 있는경우 -->
-						<div class="fh5co-cover text-center" data-stellar-background-ratio="0.5" style='background-image: url("${ couple.changeName }");'>
+						<div class="fh5co-cover text-center" data-stellar-background-ratio="0.5" style="background-image: url('${ couple.changeName }');"><!-- 이 div는 저 밑에서 닫힘!! -->
 					</c:otherwise>
 				</c:choose>
 			</c:otherwise>
@@ -54,7 +54,7 @@
 											<c:choose>
 												<c:when test="${ empty couple.sentence }">
 													<!-- 커플문구가 없을경우 -->
-													"이곳에 보일 커플문구를 설정해보세요."
+													"커플문구"를 설정해보세요.
 												</c:when>
 												<c:otherwise>
 													${ couple.sentence }
@@ -87,7 +87,7 @@
 												<c:choose>
 													<c:when test="${ empty couple.startDate }">
 														<!-- 만남시작일자가 없을경우 -->
-														XXXX-XX-XX
+														"만남시작일"을 설정해보세요.
 													</c:when>
 													<c:otherwise>
 														${ couple.startDate }

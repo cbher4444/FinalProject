@@ -366,7 +366,6 @@ public class MemberController {
 	// 프로필 사진변경 - 추가함 by 동규 (2024.10.18)
 	@RequestMapping("profileUpdate.me")
 	public String updateProfile(Member m, MultipartFile reupfile, HttpSession session) {
-		System.out.println(reupfile);
 		
 		// 기존에 첨부파일이 있었을 경우 => 기존의 첨부파일 지우기
 		if(m.getOriginName() != null) {

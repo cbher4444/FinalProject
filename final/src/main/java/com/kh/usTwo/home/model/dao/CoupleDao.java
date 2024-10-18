@@ -13,4 +13,8 @@ public class CoupleDao {
 		return sqlSession.selectOne("coupleMapper.selectCouple", m);
 	}
 
+	public int updateCouple(SqlSessionTemplate sqlSession, Couple c) {
+		return sqlSession.update("coupleMapper.updateCouple", c);
+	}
+
 }

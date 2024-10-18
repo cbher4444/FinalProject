@@ -296,6 +296,7 @@
 			}
 		}
 
+		// ----------------------- 비밀번호 변경시, 입력한 비밀번호가 서로 일치하는지 검증 -----------------------
 		function validatePwd(){
 			if($("input[name=updatePwd]").val() != $("input[name=checkPwd]").val()) {
 				alert("변경할 비밀번호가 일치하지 않습니다.");
