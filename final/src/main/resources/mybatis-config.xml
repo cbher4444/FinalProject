@@ -17,11 +17,19 @@
 		<typeAlias type="com.kh.usTwo.fun.model.vo.Atest" alias="Atest"/>
 		<typeAlias type="com.kh.usTwo.fun.model.vo.Qtoday" alias="Qtoday"/>
 		<typeAlias type="com.kh.usTwo.fun.model.vo.Atoday" alias="Atoday"/>
+		<typeAlias type="com.kh.usTwo.plan.model.vo.Calendar" alias="Calendar"/>
+		<typeAlias type="com.kh.usTwo.plan.model.vo.Schedule" alias="Schedule"/>
 	</typeAliases>
 
 	<mappers>
 		<mapper resource="/mappers/member-mapper.xml"/>
 		<mapper resource="/mappers/fun-mapper.xml"/>
+		<mapper resource="/mappers/plan-mapper.xml"/>
 	</mappers>
+	
+	
+	
+	
+	
 
 </configuration>

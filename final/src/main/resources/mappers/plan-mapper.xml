@@ -2,4 +2,120 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
 <mapper namespace="planMapper">
 
+	<resultMap id="calendarResult" type="Calendar">
+		<result column="calendar_no" property="calendarNo"/>
+		<result column="couple_code" property="coupleCode"/>
+		<result column="owner" property="owner"/>
+		<result column="default_color" property="defaultColor"/>
+		<result column="status" property="status"/>
+	</resultMap>
+
+	<resultMap id="scheduleResult" type="Schedule">
+		<result column="schedule_no" property="scheduleNo"/>
+		<result column="calendar_no" property="calendarNo"/>
+		<result column="title" property="title"/>
+		<result column="content" property="content"/>
+		<result column="start_date" property="startDate"/>
+		<result column="start_time" property="startTime"/>
+		<result column="end_date" property="endDate"/>
+		<result column="end_time" property="endTime"/>
+		<result column="create_date" property="createDate"/>
+		<result column="alert_date" property="alertDate"/>
+		<result column="color" property="color"/>
+		<result column="writer" property="writer"/>
+		<result column="writer_name" property="writerName"/>
+		<result column="status" property="status"/>
+	</resultMap>
+
+	<select id="selectCalendarList" resultMap="calendarResult">
+		select
+		       calendar_no
+		     , couple_code
+		     , owner
+		     , default_color
+		  from p_calendar
+		 where couple_code = #{coupleCode}
+		   and status = 'Y'
+	</select>
+
+	<select id="selectScheduleList" resultMap="scheduleResult">
+		select 
+		       schedule_no
+		     , calendar_no
+		     , title
+		     , content
+		     , to_char(start_date, 'YYYY-MM-DD') as "start_date"
+		     , nvl(to_char(start_time, 'HH24:MI:SS'), '') as "start_time"
+		     , to_char(end_date, 'YYYY-MM-DD') as "end_date"
+		     , nvl(to_char(end_time, 'HH24:MI:SS'), '') as "end_time"
+		     , to_char(create_date, 'YYYY-MM-DD') as "create_date"
+		     , nvl(to_char(alert_date, 'YYYY-MM-DD"T"HH24:MI'), '') as "alert_date"
+		     , nvl(color, default_color) as "color"
+		     , writer
+		     , user_name as "writer_name"
+		     , s.status
+		  from p_schedule s
+          join p_calendar c using(calendar_no)
+          join c_member m on (s.writer = m.email)
+		 where c.couple_code = #{coupleCode}
+		   and calendar_no = #{calendarNo}
+	       and start_date between to_date(#{currentYear} || '-01-01', 'YYYY-MM-DD') and to_date(#{currentYear} || '-12-31', 'YYYY-MM-DD')
+		   and s.status = 'Y'
+	</select>
+	
+	<insert id="insertSchedule">
+		insert
+		  into p_schedule
+		  (
+		      schedule_no
+		    , calendar_no
+		    , title
+		    , content
+		    , start_date
+		    , start_time
+		    , end_date
+		    , end_time
+		    , create_date
+		    , alert_date
+		    , color
+		    , writer
+		  )
+		  values
+		  (
+		      seq_schedule_no.nextval
+		    , #{calendarNo}
+		    , #{title}
+		    , #{content}
+		    , to_date(#{startDate}, 'YYYY-MM-DD')
+		    , to_date(#{startTime}, 'HH24:MI')
+  		    , to_date(#{endDate}, 'YYYY-MM-DD')
+		    , to_date(#{endTime}, 'HH24:MI')
+		    , sysdate
+		    , to_date(#{alertDate}, 'YYYY-MM-DD"T"HH24:MI')
+		    , #{color}
+		    , #{writer}
+		   )
+	</insert>
+	
+	<update id="updateSchedule">
+		update p_schedule
+		   set calendar_no = #{calendarNo}
+		     , title = #{title}
+		     , content = #{content}
+		     , start_date = to_date(#{startDate}, 'YYYY-MM-DD')
+		     , start_time = to_date(#{startTime}, 'HH24:MI:SS')
+		     , end_date = to_date(#{endDate}, 'YYYY-MM-DD')
+		     , end_time = to_date(#{endTime}, 'HH24:MI:SS')
+		     , alert_date = to_date(#{alertDate}, 'YYYY-MM-DD"T"HH24:MI')
+		     , color = #{color}
+		 where schedule_no = #{scheduleNo}
+		   and status = 'Y'
+	</update>
+
+	<update id="deleteSchedule">
+		update p_schedule
+		   set status = 'N'
+		 where schedule_no = #{scheduleNo}
+	</update>
+
 </mapper>

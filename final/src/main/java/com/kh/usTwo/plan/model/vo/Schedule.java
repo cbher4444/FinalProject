@@ -13,15 +13,17 @@ public class Schedule {
 	
 	private int scheduleNo;
 	private int calendarNo;
-	private String scheduleTitle;
-	private String scheduleContent;
+	private String title;
+	private String content;
 	private String startDate;
+	private String startTime;
 	private String endDate;
+	private String endTime;
 	private String createDate;
-	private String writerEmail;
-	private String color;
-	private String isAnniversary;
 	private String alertDate;
+	private String color;
+	private String writer; // email
+	private String writerName;
 	private String status;
 	
 }

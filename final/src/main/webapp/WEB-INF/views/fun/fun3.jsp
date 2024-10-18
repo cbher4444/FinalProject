@@ -210,7 +210,7 @@
 										
 										let calendar = $('<div>').addClass('calendar');
 										
-										calendar.append($('<div>').addClass('calendar-header').text(date.toLocaleString('en-us', { month: 'long' }); + ' ' + year));
+										calendar.append($('<div>').addClass('calendar-header').text(date.toLocaleString('en-us', { month: 'long' }) + ' ' + year));
 										
 										const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 										for (let day of daysOfWeek) {
@@ -227,10 +227,10 @@
 
 											if (list && list.length > 0) {
 												for (let i in list) {
-													let qYear = list[i].qtodayDate.substring(list[i].qtodayDate.indexOf(',') + 1).trim()
-													let qMonth = list[i].qtodayDate.substring(0, list[i].qtodayDate.indexOf('월')).trim()
-													let qDay = list[i].qtodayDate.substring(list[i].qtodayDate.indexOf(' '), list[i].qtodayDate.indexOf(',')).trim()
-
+													let qDate = new Date(list[i].qtodayDate);
+													let qYear = qDate.getFullYear();
+													let qMonth = String(qDate.getMonth() + 1).padStart(2, '0');
+													let qDay = String(qDate.getDate()).padStart(2, '0');
 													if (date === Number(qDay) && (month + 1) === Number(qMonth) && year === Number(qYear)) {
 														calendarDate = $('<div>').addClass('calendar-date').addClass('abled').html(date + '</br><p style="font-size: 13px">' + list[i].qtodayContent + '<p>');
 													}
@@ -260,10 +260,11 @@
 								for (let i in listSave) {
 									if (listSave && listSave.length > 0) {
 										if (listSave[i].qtodayContent === $(this).children('p').text()) {
-											$('#today').val(listSave[i].qtodayDate);
-											let editYear = $('#today').val().substring($('#today').val().indexOf(',') + 1).trim();
-											let editMonth = $('#today').val().substring(0, $('#today').val().indexOf('월')).trim();
-											let editDay = $('#today').val().substring($('#today').val().indexOf('월') + 1, $('#today').val().indexOf(',')).trim();
+											let originDate = new Date(listSave[i].qtodayDate);
+											let editYear = originDate.getFullYear();
+											let editMonth = String(originDate.getMonth() + 1).padStart(2, '0');
+											let editDay = String(originDate.getDate()).padStart(2, '0');
+
 											if (editMonth.length === 1) {
 												editMonth = '0' + editMonth;
 											}

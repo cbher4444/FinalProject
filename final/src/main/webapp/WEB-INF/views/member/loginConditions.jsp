@@ -82,6 +82,7 @@
 									    <div>
 									        <h1>이용약관</h1>
 									        <form id="terms_form" class="f" action="signupPage.me" method="get">
+									        	<input type="hidden" name="checkCode" value="${ checkCode }"> <!-- 초대코드 url로 전달받고, 다음 페이지로 넘어갈때 가져감. - 추가 by 동규 (2024.10.15) -->
 									            <h4 class="scheme-g">●(필수)이용약관</h4>
 									            <textarea style="font-size:1em;">
 									             여러분을 환영합니다.

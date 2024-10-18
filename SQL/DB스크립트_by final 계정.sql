@@ -33,6 +33,39 @@ END LOOP;
 END;
 /
 
+-- 계정영구삭제용 job 삭제 - 추가함 by 동규 (2024.10.15)
+BEGIN
+    DBMS_SCHEDULER.drop_job(
+        job_name => 'DELETE_INACTIVE_MEMBERS_JOB',
+        force    => TRUE  -- Use TRUE to forcefully drop the job if it's running
+    );
+END;
+/
+
+-- 탈퇴신청 30일 후 계정영구삭제, 안쓰는 커플코드 영구삭제. 매일 밤 12시에 실행됨 - 추가함 by 동규 (2024.10.15)
+BEGIN
+    DBMS_SCHEDULER.create_job (
+        job_name        => 'DELETE_INACTIVE_MEMBERS_JOB',
+        job_type        => 'PLSQL_BLOCK',
+        job_action      => 'BEGIN
+                                DELETE FROM C_MEMBER
+                                WHERE status = ''N''
+                                  AND modify_date <= SYSDATE - 30;
+
+                                DELETE FROM C_COUPLE
+                                WHERE couple_code IN (
+                                    SELECT cc.couple_code
+                                    FROM C_COUPLE cc
+                                    LEFT JOIN C_MEMBER cm ON cc.couple_code = cm.couple_code
+                                    WHERE cm.couple_code IS NULL
+                                );
+                            END;',
+        start_date      => SYSTIMESTAMP,
+        repeat_interval  => 'FREQ=DAILY; BYHOUR=0; BYMINUTE=0; BYSECOND=0',
+        enabled         => TRUE
+    );
+END;
+/
 --------------------------------------------------
 --------------       커플	     ------------------	
 --------------------------------------------------
@@ -106,9 +139,10 @@ COMMENT ON COLUMN C_MEMBER.STATUS IS '상태(W/Y: 커플등록전/후, 탈퇴대
 INSERT INTO C_MEMBER VALUES('admin@email.com', 'admin', '관리자', '리자', 'M', '01044858855', '서울 강서구', TO_DATE('1995-07-01', 'YYYY-MM-DD'), TO_DATE('2024-07-01', 'YYYY-MM-DD'), TO_DATE('2024-09-01', 'YYYY-MM-DD'), 'admin', 'admin', NULL, NULL, NULL, 'Y');
 INSERT INTO C_MEMBER VALUES('user01@email.com', 'pass01', '유진초이', '유진', 'M', '01055556666', '서울 강서구', TO_DATE('1995-07-01', 'YYYY-MM-DD'), TO_DATE('2024-07-01', 'YYYY-MM-DD'), TO_DATE('2024-09-01', 'YYYY-MM-DD'), 'CCCCC11111', 'DFGDFG5623SAD12', 'user02@email.com', NULL, NULL, 'Y');
 INSERT INTO C_MEMBER VALUES('user02@email.com', 'pass02', '고애신', '애신', 'F', '01066667777', '서울 강서구', TO_DATE('1997-01-20', 'YYYY-MM-DD'), TO_DATE('2024-07-01', 'YYYY-MM-DD'), TO_DATE('2024-09-01', 'YYYY-MM-DD'), 'DDDDD22222', 'DFGDFG5623SAD12', 'user01@email.com', NULL, NULL, 'Y');
-INSERT INTO C_MEMBER VALUES('user03@email.com', 'pass03', '마동석', '너지?', 'M', '01022223333', '서울 강남구 삼성동', TO_DATE('1988-07-04', 'YYYY-MM-DD'), TO_DATE('2024-07-23', 'YYYY-MM-DD'), TO_DATE('2024-09-04', 'YYYY-MM-DD'), 'A1B2C3D4E5', 'A1B2C3D4E5F6G7H', 'user04@email.com', NULL, NULL, 'N');
-INSERT INTO C_MEMBER VALUES('user04@email.com', 'pass04', '장이수', '내아임다', 'M', '01033334444', '서울 강남구 대치동', TO_DATE('1989-05-05', 'YYYY-MM-DD'), TO_DATE('2024-07-24', 'YYYY-MM-DD'), TO_DATE('2024-09-04', 'YYYY-MM-DD'), 'F6G7H8I9J1', 'A1B2C3D4E5F6G7H', 'user03@email.com', NULL, NULL, 'N');
-INSERT INTO C_MEMBER VALUES('user05@email.com', 'pass05', '차은우', '은우', 'M', '01011112222', '서울 강남구 역삼동', TO_DATE('1999-12-25', 'YYYY-MM-DD'), TO_DATE('2024-07-30', 'YYYY-MM-DD'), TO_DATE('2024-08-27', 'YYYY-MM-DD'), NULL, NULL, NULL, NULL, NULL, 'W');
+INSERT INTO C_MEMBER VALUES('user03@email.com', 'pass03', '마동석', '동석', 'M', '01022223333', '서울 강남구 삼성동', TO_DATE('1988-07-04', 'YYYY-MM-DD'), TO_DATE('2024-07-23', 'YYYY-MM-DD'), TO_DATE('2024-09-15', 'YYYY-MM-DD'), 'A1B2C3D4E5', 'A1B2C3D4E5F6G7H', 'user04@email.com', NULL, NULL, 'N');
+INSERT INTO C_MEMBER VALUES('user04@email.com', 'pass04', '장이수', '이수', 'F', '01033334444', '서울 강남구 대치동', TO_DATE('1989-05-05', 'YYYY-MM-DD'), TO_DATE('2024-07-24', 'YYYY-MM-DD'), TO_DATE('2024-09-15', 'YYYY-MM-DD'), 'F6G7H8I9J1', 'A1B2C3D4E5F6G7H', 'user03@email.com', NULL, NULL, 'N');
+INSERT INTO C_MEMBER VALUES('user05@email.com', 'pass05', '차은우', '은우', 'M', '01011112222', '서울 강남구 역삼동', TO_DATE('1999-12-25', 'YYYY-MM-DD'), TO_DATE('2024-07-30', 'YYYY-MM-DD'), TO_DATE('2024-08-27', 'YYYY-MM-DD'), 'GR32A1345D', NULL, NULL, NULL, NULL, 'W');
+INSERT INTO C_MEMBER VALUES('user06@email.com', 'pass06', '장원영', '원영', 'F', NULL, NULL, TO_DATE('2000-08-08', 'YYYY-MM-DD'), TO_DATE('2024-10-10', 'YYYY-MM-DD'), TO_DATE('2024-10-10', 'YYYY-MM-DD'), NULL, NULL, NULL, NULL, NULL, 'W');
 
 --------------------------------------------------
 --------------     텍스트대치 	------------------	
@@ -157,30 +191,26 @@ CREATE SEQUENCE CHAT_SQE;
 CREATE TABLE P_CALENDAR(
     CALENDAR_NO NUMBER PRIMARY KEY,
     COUPLE_CODE VARCHAR2(15) NOT NULL,
-    CALENDAR_TITLE VARCHAR2(100) NOT NULL,
-    DEFAULT_COLOR VARCHAR2(20) NOT NULL,
     OWNER VARCHAR2(100) NOT NULL,
+    DEFAULT_COLOR VARCHAR2(20) NOT NULL,
     STATUS CHAR(1) DEFAULT 'Y' NOT NULL,
-    FOREIGN KEY(COUPLE_CODE) REFERENCES C_COUPLE(COUPLE_CODE),
+    FOREIGN KEY(COUPLE_CODE) REFERENCES C_COUPLE(COUPLE_CODE) ON DELETE CASCADE,
     CHECK(STATUS IN ('Y', 'N'))
 );
 
 COMMENT ON COLUMN P_CALENDAR.CALENDAR_NO IS '캘린더번호';
 COMMENT ON COLUMN P_CALENDAR.COUPLE_CODE IS '커플코드';
-COMMENT ON COLUMN P_CALENDAR.CALENDAR_TITLE IS '캘린더제목';
+COMMENT ON COLUMN P_CALENDAR.OWNER IS '소유자(BOTH: 커플둘다, 이메일: 커플중한명)';
 COMMENT ON COLUMN P_CALENDAR.DEFAULT_COLOR IS '기본색상';
-COMMENT ON COLUMN P_CALENDAR.OWNER IS '소유자(ALL: 커플둘다, 이메일: 커플중한명)';
 COMMENT ON COLUMN P_CALENDAR.STATUS IS '상태(삭제전:Y, 삭제후:N)';
 
 CREATE SEQUENCE SEQ_CALENDAR_NO
 NOCACHE;
 
-INSERT INTO P_CALENDAR VALUES(SEQ_CALENDAR_NO.NEXTVAL, 'DFGDFG5623SAD12', '유진애신커플', '#3788d8', 'ALL', 'Y');
-INSERT INTO P_CALENDAR VALUES(SEQ_CALENDAR_NO.NEXTVAL, 'DFGDFG5623SAD12', '유진', '#ff5733', 'user01@email.com', 'Y');
-INSERT INTO P_CALENDAR VALUES(SEQ_CALENDAR_NO.NEXTVAL, 'DFGDFG5623SAD12', '애신', '#27ae60 ', 'user02@email.com', 'Y');
-INSERT INTO P_CALENDAR VALUES(SEQ_CALENDAR_NO.NEXTVAL, 'A1B2C3D4E5F6G7H', '동석이수커플', '#3788d8', 'ALL', 'N');
-INSERT INTO P_CALENDAR VALUES(SEQ_CALENDAR_NO.NEXTVAL, 'A1B2C3D4E5F6G7H', '동석', '#ff5733', 'user03@email.com', 'N');
-INSERT INTO P_CALENDAR VALUES(SEQ_CALENDAR_NO.NEXTVAL, 'A1B2C3D4E5F6G7H', '이수', '#27ae60 ', 'user04@email.com', 'N');
+INSERT INTO P_CALENDAR VALUES(SEQ_CALENDAR_NO.NEXTVAL, 'DFGDFG5623SAD12', 'BOTH', 'rgb(236, 154, 236)', 'Y'); -- 우리일정 : 핑크
+INSERT INTO P_CALENDAR VALUES(SEQ_CALENDAR_NO.NEXTVAL, 'DFGDFG5623SAD12', 'user01@email.com', '#3788d8', 'Y'); -- 내일정 : 파랑
+INSERT INTO P_CALENDAR VALUES(SEQ_CALENDAR_NO.NEXTVAL, 'DFGDFG5623SAD12', 'user02@email.com', 'rgb(253, 204, 113)', 'Y'); -- 상대방일정 : 노랑
+
 
 --------------------------------------------------
 --------------     일정    ------------------	
@@ -188,32 +218,34 @@ INSERT INTO P_CALENDAR VALUES(SEQ_CALENDAR_NO.NEXTVAL, 'A1B2C3D4E5F6G7H', '이�
 CREATE TABLE P_SCHEDULE(
     SCHEDULE_NO NUMBER PRIMARY KEY,
     CALENDAR_NO NUMBER NOT NULL,
-    SCHEDULE_TITLE VARCHAR2(100) NOT NULL,
-    SCHEDULE_CONTENT VARCHAR2(500),
+    TITLE VARCHAR2(100) NOT NULL,
+    CONTENT VARCHAR2(500),
     START_DATE DATE NOT NULL,
-    END_DATE DATE NOT NULL,
+    START_TIME DATE,
+    END_DATE DATE,
+    END_TIME DATE,
     CREATE_DATE DATE DEFAULT SYSDATE NOT NULL,
-    WRITER_EMAIL VARCHAR2(100) NOT NULL,
-    COLOR VARCHAR2(20),
-    IS_ANNIVERSARY CHAR(1) DEFAULT 'N' NOT NULL,
     ALERT_DATE DATE,
+    COLOR VARCHAR2(20),
+    WRITER VARCHAR2(100) NOT NULL,
     STATUS CHAR(1) DEFAULT 'Y' NOT NULL,
     FOREIGN KEY(CALENDAR_NO) REFERENCES P_CALENDAR(CALENDAR_NO),
-    FOREIGN KEY(WRITER_EMAIL) REFERENCES C_MEMBER(EMAIL),
+    FOREIGN KEY(WRITER) REFERENCES C_MEMBER(EMAIL) ON DELETE CASCADE,
     CHECK(STATUS IN ('Y', 'N'))
 );
 
 COMMENT ON COLUMN P_SCHEDULE.SCHEDULE_NO IS '일정번호';
 COMMENT ON COLUMN P_SCHEDULE.CALENDAR_NO IS '캘린더번호';
-COMMENT ON COLUMN P_SCHEDULE.SCHEDULE_TITLE IS '일정제목';
-COMMENT ON COLUMN P_SCHEDULE.SCHEDULE_CONTENT IS '일정내용';
-COMMENT ON COLUMN P_SCHEDULE.START_DATE IS '시작일(날짜 + 시간)';
-COMMENT ON COLUMN P_SCHEDULE.END_DATE IS '종료일(날짜 + 시간)';
+COMMENT ON COLUMN P_SCHEDULE.TITLE IS '제목';
+COMMENT ON COLUMN P_SCHEDULE.CONTENT IS '내용';
+COMMENT ON COLUMN P_SCHEDULE.START_DATE IS '시작일';
+COMMENT ON COLUMN P_SCHEDULE.START_TIME IS '시작시간';
+COMMENT ON COLUMN P_SCHEDULE.END_DATE IS '종료일';
+COMMENT ON COLUMN P_SCHEDULE.END_TIME IS '종료시간';
 COMMENT ON COLUMN P_SCHEDULE.CREATE_DATE IS '생성일';
-COMMENT ON COLUMN P_SCHEDULE.WRITER_EMAIL IS '작성자이메일';
-COMMENT ON COLUMN P_SCHEDULE.COLOR IS '색상(값 없으면 캘린더 기본색상사용)';
-COMMENT ON COLUMN P_SCHEDULE.IS_ANNIVERSARY IS '기념일여부(기념일:Y, 기념일 아님:N)';
 COMMENT ON COLUMN P_SCHEDULE.ALERT_DATE IS '알림일(해당 일시에 알림문자 전송)';
+COMMENT ON COLUMN P_SCHEDULE.COLOR IS '색상(값 없으면 캘린더 기본색상사용)';
+COMMENT ON COLUMN P_SCHEDULE.WRITER IS '작성자이메일';
 COMMENT ON COLUMN P_SCHEDULE.STATUS IS '상태(삭제전:Y, 삭제후:N)';
 
 CREATE SEQUENCE SEQ_SCHEDULE_NO
@@ -225,69 +257,35 @@ VALUES
      (
        SEQ_SCHEDULE_NO.NEXTVAL
      , 1
-     , '시크릿사격연습'
-     , '늘만나던곳에서...'
-     , TO_DATE('2024-09-01 17:00:00', 'YYYY-MM-DD HH24:MI:SS')
-     , TO_DATE('2024-09-01 19:00:00', 'YYYY-MM-DD HH24:MI:SS')
-     , TO_DATE('2024-08-25', 'YYYY-MM-DD')
+     , '당일치기 여행'
+     , '어디로 갈진 정해야함!!'
+     , TO_DATE('2024-10-09', 'YYYY-MM-DD')
+     , NULL
+     , NULL
+     , NULL
+     , TO_DATE('2024-10-01', 'YYYY-MM-DD')
+     , NULL
+     , NULL
      , 'user01@email.com'
-     , NULL
-     , 'N'
-     , NULL
      , 'Y'
      );
-
+     
 INSERT 
   INTO P_SCHEDULE
 VALUES
      (
        SEQ_SCHEDULE_NO.NEXTVAL
      , 2
-     , '경복궁 방문'
+     , '한국어 시험'
      , NULL
-     , TO_DATE('2024-09-02 14:00:00', 'YYYY-MM-DD HH24:MI:SS')
-     , TO_DATE('2024-09-02 15:00:00', 'YYYY-MM-DD HH24:MI:SS')
-     , TO_DATE('2024-08-26', 'YYYY-MM-DD')
+     , TO_DATE('2024-10-07', 'YYYY-MM-DD')
+     , TO_TIMESTAMP('09:00:00', 'HH24:MI:SS')
+     , TO_DATE('2024-10-07', 'YYYY-MM-DD')
+     , TO_TIMESTAMP('12:00:00', 'HH24:MI:SS')
+     , TO_DATE('2024-10-01', 'YYYY-MM-DD')
+     , NULL
+     , NULL
      , 'user01@email.com'
-     , NULL
-     , 'N'
-     , NULL
-     , 'Y'
-     );
-     
-INSERT 
-  INTO P_SCHEDULE
-VALUES
-     (
-       SEQ_SCHEDULE_NO.NEXTVAL
-     , 3
-     , '영어 어학당 상담'
-     , NULL
-     , TO_DATE('2024-09-04 10:00:00', 'YYYY-MM-DD HH24:MI:SS')
-     , TO_DATE('2024-09-04 11:00:00', 'YYYY-MM-DD HH24:MI:SS')
-     , TO_DATE('2024-08-25', 'YYYY-MM-DD')
-     , 'user02@email.com'
-     , NULL
-     , 'N'
-     , NULL
-     , 'Y'
-     );
-     
-INSERT 
-  INTO P_SCHEDULE
-VALUES
-     (
-       SEQ_SCHEDULE_NO.NEXTVAL
-     , 1
-     , 'D+1000일째'
-     , NULL
-     , TO_DATE('2024-10-07 00:00:00', 'YYYY-MM-DD HH24:MI:SS')
-     , TO_DATE('2024-10-08 00:00:00', 'YYYY-MM-DD HH24:MI:SS')
-     , TO_DATE('2024-08-25', 'YYYY-MM-DD')
-     , 'user02@email.com'
-     , NULL
-     , 'Y'
-     , TO_DATE('2024-10-01 09:00:00', 'YYYY-MM-DD HH24:MI:SS')
      , 'Y'
      );
 
@@ -296,18 +294,19 @@ INSERT
 VALUES
      (
        SEQ_SCHEDULE_NO.NEXTVAL
-     , 1
-     , '무언가있는기념일'
+     , 3
+     , '제주도 가족여행'
      , NULL
-     , TO_DATE('2024-10-26 00:00:00', 'YYYY-MM-DD HH24:MI:SS')
-     , TO_DATE('2024-10-27 00:00:00', 'YYYY-MM-DD HH24:MI:SS')
-     , TO_DATE('2024-08-30', 'YYYY-MM-DD')
+     , TO_DATE('2024-10-11', 'YYYY-MM-DD')
+     , NULL
+     , TO_DATE('2024-10-14', 'YYYY-MM-DD')
+     , NULL
+     , TO_DATE('2024-10-03', 'YYYY-MM-DD')
+     , NULL
+     , NULL
      , 'user02@email.com'
-     , NULL
      , 'Y'
-     , TO_DATE('2024-10-25 13:00:00', 'YYYY-MM-DD HH24:MI:SS')
-     , 'Y'
-     ); 
+     );
 
 --------------------------------------------------
 --------------     할일    ------------------	
@@ -324,10 +323,10 @@ CREATE TABLE P_TODO(
     WRITER_EMAIL VARCHAR2(100) NOT NULL,
     ORDER_NO NUMBER NOT NULL,
     STATUS CHAR(1) DEFAULT 'Y' NOT NULL,
-    FOREIGN KEY(COUPLE_CODE) REFERENCES C_COUPLE(COUPLE_CODE),
+    FOREIGN KEY(COUPLE_CODE) REFERENCES C_COUPLE(COUPLE_CODE) ON DELETE CASCADE,
     CHECK(IS_COMPLETED IN ('Y', 'N')),
     CHECK(PRIORITY IN ('L', 'M', 'H')),
-    FOREIGN KEY(WRITER_EMAIL) REFERENCES C_MEMBER(EMAIL)
+    FOREIGN KEY(WRITER_EMAIL) REFERENCES C_MEMBER(EMAIL) ON DELETE CASCADE
 );
 
 COMMENT ON COLUMN P_TODO.TODO_NO IS '할일번호';
@@ -366,8 +365,8 @@ CREATE TABLE P_BUCKET_LIST(
     ORDER_NO NUMBER NOT NULL,
     COMPLETE_DATE DATE,
     STATUS CHAR(1) DEFAULT 'Y' NOT NULL,
-    FOREIGN KEY(COUPLE_CODE) REFERENCES C_COUPLE(COUPLE_CODE),
-    FOREIGN KEY(WRITER_EMAIL) REFERENCES C_MEMBER(EMAIL),
+    FOREIGN KEY(COUPLE_CODE) REFERENCES C_COUPLE(COUPLE_CODE) ON DELETE CASCADE,
+    FOREIGN KEY(WRITER_EMAIL) REFERENCES C_MEMBER(EMAIL) ON DELETE CASCADE,
     CHECK(STATUS IN ('Y', 'N'))
 );
 
@@ -401,7 +400,7 @@ CREATE TABLE P_BUCKET_REVIEW(
     REVIEW_TEXT VARCHAR2(300) NOT NULL,
     CREATE_DATE DATE DEFAULT SYSDATE NOT NULL,
     FOREIGN KEY(BUCKET_NO) REFERENCES P_BUCKET_LIST(BUCKET_NO),
-    FOREIGN KEY(WRITER_EMAIL) REFERENCES C_MEMBER(EMAIL)
+    FOREIGN KEY(WRITER_EMAIL) REFERENCES C_MEMBER(EMAIL) ON DELETE CASCADE
 );
 
 COMMENT ON COLUMN P_BUCKET_REVIEW.REVIEW_NO IS '소감번호';
@@ -1199,7 +1198,7 @@ INSERT INTO F_QTODAY VALUES(SEQ_QTODAY_NO.NEXTVAL, '당신이 만약 신비한 �
 --------------------------------------------------
 CREATE TABLE F_ATODAY (
     ATODAY_NO NUMBER PRIMARY KEY,
-    ATODAY_CONTENT VARCHAR2(3000) NULL,
+    ATODAY_CONTENT VARCHAR2(3000),
     ATODAY_DATE DATE,
     QTODAY_DATE DATE DEFAULT SYSDATE NOT NULL,
     QTODAY_NO NUMBER  NOT NULL REFERENCES F_QTODAY (QTODAY_NO) ON DELETE CASCADE,

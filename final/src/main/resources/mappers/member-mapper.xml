@@ -30,13 +30,15 @@
 		     , address
 		     , brithday
 		     , invite_code
+		     , modify_date -- modify_date 추가함 - by 동규 (2024.10.15)
 		     , couple_code
 		     , partner_email
 		     , origin_name
 		     , change_name
+		     , status -- status 추가함 - by 동규 (2024.10.13)
 		 from c_member
 		where email = #{email}
-		   and status != 'N'
+		  
 	</select>
 	
 	<select id="selectPartnerEmail" resultMap="memberResult">
@@ -56,8 +58,7 @@
 		 , change_name
 	 from c_member
 	where partner_email = #{email}
-	   and status != 'N'
-	
+	  
 	</select>
 	
 	<insert id="insertMember">
@@ -71,7 +72,6 @@
 		  	 , brithday
 		  	 , phone
 		  	 , address
-		  	 ,invite_code
 		  	 )
 		values
 		     (
@@ -82,9 +82,157 @@
 		     , #{brithday}
 		     , #{phone}
 		     , #{address}   
-		     , #{inviteCode}
 		     )
 	</insert>
+	
+	<select id="findId" resultType="string">
+		select email
+		  from c_member
+		 where user_name = #{userName}
+		   and phone = #{phone}
+		   and status != 'N'
+	
+	</select>
+	
+	<select id="checkUser" resultType="string">
+		select email
+		  from c_member
+		 where user_name = #{userName}
+		   and email = #{email}
+		   and status != 'N'
+	</select>
+	
+	<update id="updatePwd">
+		update c_member
+			set user_pwd = #{userPwd}
+		  where email = #{email}
+			and status != 'N'
+	</update>
+	
+	<select id="partnerUser" resultType="string">
+	   select couple_code
+		 from c_member
+		where email = #{email}
+		  and status != 'N'
+	</select>
+	
+	<!-- 회원정보수정 - 추가함 by 동규 (2024.10.13) -->
+	<update id="updateMember">
+		update c_member
+		   set user_name = #{userName}
+		     , nickName = #{nickName}
+		     , gender = #{gender}
+		     , phone = #{phone}
+		     , address = #{address}
+		     , brithday = #{brithday}
+		     , modify_date = sysdate
+		 where email = #{email}
+	</update>
+	
+	<!-- 회원탈퇴 - 추가함 by 동규 (2024.10.13) -->
+	<update id="deleteMember">
+		update c_member
+		   set status = 'N'
+		     , modify_date = sysdate
+		 where email = #{email}
+	</update>
+	
+	<!-- 초대코드 중복체크 - 추가함 by 동규 (2024.10.14) -->
+	<select id="inviteCodeCheck" resultType="_int">
+		select count(invite_code) as "count"
+		 from c_member
+		where invite_code = #{inviteCode}
+	</select>
+	
+	<!-- 내 초대코드 업데이트 - 추가함 by 동규 (2024.10.14) -->
+	<update id="updateInviteCode">
+		update c_member
+		   set invite_code = #{inviteCode}
+		     , modify_date = sysdate
+		 where email = #{email}
+	</update>
+	
+	<!-- 상대방 초대코드 체크 - 추가함 by 동규 (2024.10.14) -->
+	<select id="partnerInviteCodeCheck" resultMap="memberResult">
+		select email
+		     , user_pwd
+		     , user_name
+		     , nickname
+		     , gender
+		     , phone
+		     , address
+		     , brithday
+		     , invite_code
+		     , couple_code
+		     , partner_email
+		     , origin_name
+		     , change_name
+		     , status
+		 from c_member
+		where invite_code = #{inviteCode}
+		  and status = 'W'
+		  and couple_code is null
+	</select>
+	
+	<!-- 커플코드 중복체크 - 추가함 by 동규 (2024.10.14) -->
+	<select id="coupleCodeCheck" resultType="_int">
+		select 
+		       count(*)
+		  from c_couple
+		  where couple_code = #{coupleCode}
+	</select>
+	
+	<!-- 커플코드 추가 - 추가함 by 동규 (2024.10.14) -->
+	<insert id="insertCouple">
+		insert
+		  into c_couple
+		  	 (
+		  	   couple_code
+		  	 )
+		values
+		     (
+		       #{coupleCode}
+		     )
+	</insert>
+	
+	<!-- Member에 커플코드 반영 - 추가함 by 동규 (2024.10.14) -->
+	<update id="updateCoupleCodeOnMember">
+		update c_member
+		   set couple_code = #{coupleCode}
+		     , partner_email = #{partnerEmail}
+		     , status = 'Y'
+		 where email = #{email}
+	</update>
+	
+	<!-- 커플코드 비활성화 - 추가함 by 동규 (2024.10.15) -->
+	<update id="deleteCoupleCode">
+		update c_couple
+		   set status = 'N'
+		 where couple_code = #{coupleCode}
+	</update>
+	
+	<!-- 커플코드 활성화 - 추가함 by 동규 (2024.10.15) -->
+	<update id="revertCoupleCode">
+		update c_couple
+		   set status = 'Y'
+		 where couple_code = #{coupleCode}
+	</update>
+	
+	<!-- 계정복구 (커플등록 완료) - 추가함 by 동규 (2024.10.15) -->
+	<update id="revertMemberToY">
+		update c_member
+		   set status = 'Y'
+		     , modify_date = sysdate
+		 where email = #{email}
+	</update>
+	
+	<!-- 계정복구 (커플등록 미완료) - 추가함 by 동규 (2024.10.15) -->
+	<update id="revertMemberToW">
+		update c_member
+		   set status = 'W'
+		     , modify_date = sysdate
+		 where email = #{email}
+	</update>
 	
 	<select id="selectMember" resultMap="memberResult">
 		select email
