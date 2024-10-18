@@ -3,9 +3,11 @@ package com.kh.usTwo.fun.model.dao;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.usTwo.common.model.vo.PageInfo;
 import com.kh.usTwo.fun.model.vo.Alove;
 import com.kh.usTwo.fun.model.vo.Aservey;
 import com.kh.usTwo.fun.model.vo.Atest;
@@ -137,8 +139,21 @@ public class FunDao {
 		return sqlSession.update("funMapper.updateAtoday", hm);
 	}
 
-	public ArrayList<Test> selectAllTest(String coupleCode, SqlSessionTemplate sqlSession) {
-		return (ArrayList)sqlSession.selectList("funMapper.selectAllTest", coupleCode);
+	public ArrayList<Test> selectTestCouple(String coupleCode, PageInfo pi, SqlSessionTemplate sqlSession) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getTestLimit();
+		int limit = pi.getTestLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return (ArrayList)sqlSession.selectList("funMapper.selectTestCouple", coupleCode, rowBounds);
+	}
+
+	public int countTestCouple(String coupleCode, SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("funMapper.countTestCouple", coupleCode);
+	}
+
+	public ArrayList<Qtest> selectQtestSpecific(int testNo, SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("funMapper.selectQtestSpecific", testNo);
 	}
 	
 	

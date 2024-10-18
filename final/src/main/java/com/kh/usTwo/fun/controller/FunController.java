@@ -9,9 +9,12 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
+import com.kh.usTwo.common.model.vo.PageInfo;
+import com.kh.usTwo.common.template.Pagination;
 import com.kh.usTwo.fun.model.service.FunServiceImpl;
 import com.kh.usTwo.fun.model.vo.Aservey;
 import com.kh.usTwo.fun.model.vo.Atest;
@@ -20,6 +23,7 @@ import com.kh.usTwo.fun.model.vo.OptionTest;
 import com.kh.usTwo.fun.model.vo.QnA;
 import com.kh.usTwo.fun.model.vo.Qtest;
 import com.kh.usTwo.fun.model.vo.Qtoday;
+import com.kh.usTwo.fun.model.vo.ResponseData;
 import com.kh.usTwo.fun.model.vo.Test;
 import com.kh.usTwo.member.model.vo.Member;
 
@@ -69,6 +73,12 @@ public class FunController {
 	@RequestMapping(value="selectQtest.test", produces = "application/json; charset=utf-8")
 	public String selectQtest(Member m) {
 		return new Gson().toJson(fService.selectQtest(m));
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="selectQtestSpecific.test", produces = "application/json; charset=utf-8")
+	public String selectQtestSpecific(int testNo) {
+		return new Gson().toJson(fService.selectQtestSpecific(testNo));
 	}
 	
 	@ResponseBody
@@ -179,8 +189,16 @@ public class FunController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value="selectAllTest.test", produces = "application/json; charset=utf-8")
-	public String selectTest(String coupleCode) {
-		return new Gson().toJson(fService.selectAllTest(coupleCode));
+	@RequestMapping(value="selectTest.test", produces = "application/json; charset=utf-8")
+	public String selectTest(@RequestParam(value="cpage", defaultValue="1") int currentPage, String coupleCode) {
+		int listCount = fService.countTestCouple(coupleCode);
+		int pageLimit = 10;
+		int testLimit = 10;
+		
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, testLimit);
+		
+		ArrayList<Test> list = fService.selectTestCouple(coupleCode, pi);
+		
+		return new Gson().toJson(new ResponseData(list, pi));
 	}
 }
