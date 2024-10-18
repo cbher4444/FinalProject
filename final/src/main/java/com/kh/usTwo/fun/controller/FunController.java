@@ -173,6 +173,8 @@ public class FunController {
 				}
 			}
 		}
+		
+		System.out.println(allList);
 		return allList;
 	}
 	

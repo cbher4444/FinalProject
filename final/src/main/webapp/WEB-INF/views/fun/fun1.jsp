@@ -525,7 +525,7 @@
 			}
 
 			function urgeKakao() {
-				Kakao.init('카톡 api 키');
+				Kakao.init('');
 				Kakao.Link.sendCustom({
 					templateId: 113039
 				});
@@ -605,7 +605,6 @@
 			
 			$(() => {
 				let exist = '${ count }'.split('/');
-
 				if (Number(exist[0])) {
 					// 마지막 고사 존재 -> 고사 시작, 지난 시험 조회 버튼
 					$('#defaultContainerRowDiv2').html(
