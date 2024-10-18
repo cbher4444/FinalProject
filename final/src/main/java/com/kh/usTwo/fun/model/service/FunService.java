@@ -3,6 +3,7 @@ package com.kh.usTwo.fun.model.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.kh.usTwo.common.model.vo.PageInfo;
 import com.kh.usTwo.fun.model.vo.Alove;
 import com.kh.usTwo.fun.model.vo.Aservey;
 import com.kh.usTwo.fun.model.vo.Atest;
@@ -45,5 +46,7 @@ public interface FunService {
 	ArrayList<Atoday> checkAtodayDupl(HashMap<String, String> hm);
 	int insertAtoday(HashMap<String, String> hm);
 	int updateAtoday(HashMap<String, String> hm);
-	ArrayList<Test> selectAllTest(String coupleCode);
+	ArrayList<Test> selectTestCouple(String coupleCode, PageInfo pi);
+	int countTestCouple(String coupleCode);
+	ArrayList<Qtest> selectQtestSpecific(int testNo);
 }

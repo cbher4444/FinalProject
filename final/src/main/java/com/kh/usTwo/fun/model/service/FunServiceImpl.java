@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.google.gson.JsonElement;
+import com.kh.usTwo.common.model.vo.PageInfo;
 import com.kh.usTwo.fun.model.dao.FunDao;
 import com.kh.usTwo.fun.model.vo.Alove;
 import com.kh.usTwo.fun.model.vo.Aservey;
@@ -175,7 +176,17 @@ public class FunServiceImpl implements FunService {
 	}
 
 	@Override
-	public ArrayList<Test> selectAllTest(String coupleCode) {
-		return fDao.selectAllTest(coupleCode,sqlSession);
+	public ArrayList<Test> selectTestCouple(String coupleCode, PageInfo pi) {
+		return fDao.selectTestCouple(coupleCode, pi, sqlSession);
+	}
+
+	@Override
+	public int countTestCouple(String coupleCode) {
+		return fDao.countTestCouple(coupleCode, sqlSession);
+	}
+
+	@Override
+	public ArrayList<Qtest> selectQtestSpecific(int testNo) {
+		return fDao.selectQtestSpecific(testNo, sqlSession);
 	}
 }

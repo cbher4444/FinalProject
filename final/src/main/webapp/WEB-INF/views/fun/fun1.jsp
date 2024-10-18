@@ -96,6 +96,38 @@
 				border: none;
 				border-radius: 5px;
 			}
+
+			#pageBar {
+				display: flex;
+				justify-content: center;
+			}
+
+			.btnDiv {
+				width: 40px;
+				height: 20px;
+				margin-top: 5px;
+			}
+
+			.btnDiv a:hover {
+				color: #F69D9D !important;
+			}
+
+			.btnDiv a {
+				font-size: 18px !important;
+				text-align: center;
+				padding: 5px;
+			}
+
+			.btnDiv a:not(.currentPage) {
+				color: #00000080 !important;
+			}
+
+			.wrong, .right {
+				position: absolute;
+				width: 90px;
+				height: 90px;
+				display: none;
+			}
 		</style>
 	</head>
 	<body>
@@ -498,6 +530,78 @@
 					templateId: 113039
 				});
 			}
+
+			function ajaxPage(cpage) {
+				let url = 'selectTest.test';
+				if (cpage) {
+					url += '?cpage=' + cpage;
+				}
+				$.ajax({
+					url: url,
+					data: {'coupleCode': '${ loginUser.coupleCode }'},
+					success: function(data) {
+						let innerStr = `<table>
+											<thead>
+												<tr>
+													<td>응시일</td>
+													<td>응시자</td>
+													<td>점수</td>
+													<td></td>
+												</tr>
+											</thead>
+										<tbody>`;
+						for (let i in data.list) {
+							let name = '';
+							if (data.list[i].email === '${ loginUser.email }') {
+								name = '${ loginUser.nickName }';
+							} else {
+								name = '${ partner.nickName }';
+							}
+
+							let testDate = data.list[i].testDate;
+							let editDate = testDate.substring(testDate.indexOf(',') + 1).trim()
+											+ '-'
+											+ testDate.substring(0, testDate.indexOf('월')).trim()
+											+ '-'
+											+ testDate.substring(testDate.indexOf('월') + 1, testDate.indexOf(',')).trim()
+
+							innerStr += '<tr>'
+								innerStr += '<td>' + editDate + '</td>'
+								innerStr += '<td>' + name + '</td>'
+								innerStr += '<td>' + data.list[i].testScore + '</td>'
+								innerStr += '<td>'
+									innerStr += '<button type="button" class="btnbtnbtn" id="btnbtnbtn' + data.list[i].testNo + '">자세히 보기</button>'	
+								innerStr += '</td>'
+							innerStr += '</tr>'
+						}
+						innerStr += '</tbody></table>';
+						innerStr += '<div id="pageBar">';
+						if (data.pi.currentPage === 1) {
+							innerStr += '<div class="btnDiv"></div>';
+						} else {
+							innerStr += '<div class="btnDiv"><a id="cpage' + (data.pi.currentPage - 1) + 'btn" class="page-link material-symbols-outlined" href="javascript:void(0)">arrow_back_ios</a></div>';
+						}
+
+						for (let i = 1; i <= data.pi.maxPage; i++) {
+							innerStr += '<div class="btnDiv"><a id="cpage' + i + '" class="page-link" href="javascript:void(0)">' + i + '</a></div>';
+						}
+
+						if (data.pi.currentPage === data.pi.maxPage) {
+							innerStr += '<div class="btnDiv"></div>';
+						} else {
+							innerStr += '<div class="btnDiv"><a id="cpage' + (data.pi.currentPage + 1) + 'btn" class="page-link material-symbols-outlined" href="javascript:void(0)">arrow_forward_ios</a></div>';
+						}
+
+						$('#defaultContainerRowDiv2').html(innerStr);
+						
+						if (cpage) {
+							$('#cpage' + cpage).addClass('currentPage');
+						} else {
+							$('#cpage1').addClass('currentPage');
+						}
+					}
+				});
+			}
 			
 			$(() => {
 				let exist = '${ count }'.split('/');
@@ -726,51 +830,136 @@
 
 				$(document).on('click', '#made-btn', () => {
 					// selectLastTest();
-					$.ajax({
-						url: 'selectAllTest.test',
-						data: {'coupleCode': '${ loginUser.coupleCode }'},
-						success: function(allTest) {
-							let tableStr = `<table>
-												<thead>
-													<tr>
-														<td>응시일</td>
-														<td>응시자</td>
-														<td>점수</td>
-														<td></td>
-													</tr>
-												</thead>
-											<tbody>`;
-							for (let i in allTest) {
-								let name = '';
-								if (allTest[i].email === '${ loginUser.email }') {
-									name = '${ loginUser.nickName }';
-								} else {
-									name = '${ partner.nickName }';
-								}
+					ajaxPage();
+				});
 
-								let testDate = allTest[i].testDate;
-								let editDate = testDate.substring(testDate.indexOf(',') + 1).trim()
-											   + '-'
-											   + testDate.substring(0, testDate.indexOf('월')).trim()
-											   + '-'
-											   + testDate.substring(testDate.indexOf('월') + 1, testDate.indexOf(',')).trim()
-
-								tableStr += '<tr>'
-									tableStr += '<td>' + editDate + '</td>'
-									tableStr += '<td>' + name + '</td>'
-									tableStr += '<td>' + allTest[i].testScore + '</td>'
-									tableStr += '<td>'
-										tableStr += '<button type="button" id="btnbtnbtn' + allTest[i].testNo + '">자세히 보기</button>'	
-									tableStr += '</td>'
-								tableStr += '</tr>'
-							}
-							tableStr += '</tbody></table>';
-
-							$('#defaultContainerRowDiv2').html(tableStr);
-						}
-					})
+				$(document).on('click', 'a[id^=cpage]', function(event) {
+					let $id = $(event.target).attr('id');
+					let cpage = $id.substring($id.indexOf('e') + 1).replace('btn', '').trim();
+					ajaxPage(cpage);
 				});
 	
+				$(document).on('click', '.btnbtnbtn', function(event) {
+					let pagepage = Number($('.currentPage').text())
+					$.ajax({
+						url: "selectQtestSpecific.test",
+						data: {
+							testNo: $(event.target).attr('id').replace('btnbtnbtn', '').trim(),
+						}, success: function(question) {
+							questionSave = question;
+							$.ajax({
+								url: "selectOptionTest.test",
+								data: {"testNo": question[0].testNo},
+								success: function(option) {
+									optionSave = option;
+									value = `
+											<div id="made-testBody">
+												<div id="made-testHead">
+													<div id="made-testTitle" align="center">유진 ❤️ 애신</div>
+												</div>
+		
+												<div id="made-testContent">
+													<div id="made-testContentFirst" class="testContent" align="left">
+										`;
+									for (let i = 0; i < 5; i++) {
+										value += '<div id="made-testQ' + (Number(i) + 1) + '" class="testQ">';
+											value += '<image class="wrong" src="https://www.sky72.com/kr/event/2013/08/30/images/incorrect_answer_img.png">'
+											value += '<image class="right" src="https://www.sky72.com/kr/event/2013/08/30/images/correct_answer_img.png">'
+											value += '<div id="made-testQ' + (Number(i) + 1) + 'Title" class="testQtitle">';
+												value += 'Q' + (Number(i) + 1) + '. ' + question[i].qtestContent;
+											value += '</div>';
+											value += '<div id="made-testQ' + (Number(i) + 1) + 'Content" class="testQcontent">';
+												let countFirst = 0;
+												for (let j in option) {
+													if (question[i].qtestNo === option[j].qtestNo) {
+														value += '<input type="radio" name="made-testQ' + question[i].qtestNo + 'A" id="' + option[j].optionNo + 'made-testQ' + question[i].qtestNo + 'A' + (Number(j) + 1) + '">';
+														value += '<label for="' + option[j].optionNo + 'made-testQ' + question[i].qtestNo + 'A' + (Number(j) + 1) + '">&nbsp;&nbsp;' + option[j].optionContent + '</label> <br>'; // 반복(4)
+													
+														countFirst = 1;
+													}
+												}
+												if (!countFirst) {
+													value += '<input type="text" name="made-testQ' + question[i].qtestNo + 'A" id="made-testQ' + question[i].qtestNo + 'Ainput' + question[i].qtestNo
+																+ '" style="width: 87%; margin: 0 3% 0 10%; background-color: #00000000; border: none; border-bottom: 1px solid #000;">';
+												}
+											value += '</div>';
+										value += '</div>';
+									};
+									value += '</div>';
+									value += '<div id="made-testContentSecond" class="testContent" align="left">';
+									for (let i = 5; i < 10; i++) {
+										value += '<div id="made-testQ' + (Number(i) + 1) + '" class="testQ">';
+											value += '<image class="wrong" src="https://www.sky72.com/kr/event/2013/08/30/images/incorrect_answer_img.png">'
+											value += '<image class="right" src="https://www.sky72.com/kr/event/2013/08/30/images/correct_answer_img.png">'
+											value += '<div id="made-testQ' + (Number(i) + 1) + 'Title" class="testQtitle">';
+												value += 'Q' + (Number(i) + 1) + '. ' + question[i].qtestContent;
+											value += '</div>';
+											value += '<div id="made-testQ' + (Number(i) + 1) + 'Content" class="testQcontent">';
+												let countSecond = 0;
+												for (let j in option) {
+													if (question[i].qtestNo === option[j].qtestNo) {
+														value += '<input type="radio" name="made-testQ' + question[i].qtestNo + 'A" id="' + option[j].optionNo + 'made-testQ' + question[i].qtestNo + 'A' + (Number(j) + 1) + '">';
+														value += '<label for="' + option[j].optionNo + 'made-testQ' + question[i].qtestNo + 'A' + (Number(j) + 1) + '">&nbsp;&nbsp;' + option[j].optionContent + '</label> <br>'; // 반복(4)
+													
+														countSecond = 1;
+													}
+												}
+		
+												if (!countSecond) {
+													value += '<input type="text" name="made-testQ' + (Number(i) + 1) + 'A" id="made-testQ' + (Number(i) + 1) + 'Ainput' + (Number(i) + 1)
+																+ '" style="width: 87%; margin: 0 3% 0 10%; background-color: #00000000; border: none; border-bottom: 1px solid #000;">';
+												}
+											value += '</div>';
+										value += '</div>';
+									};
+									value += `
+													</div>
+												</div>
+												</div>
+		
+												<br><br>
+		
+												<a href="javascript:void(0)" class="btn btn-primary btn-lg" id="made-back" onclick="ajaxPage(` + pagepage + `)">목록으로</a>
+											`;
+		
+									$('#defaultContainerRowDiv2').html(value);
+		
+									$.ajax({
+										url: 'selectAtest.test',
+										data: {
+											'testNo': question[0].testNo,
+											'email': '${ loginUser.email }',
+											'coupleCode': '${ loginUser.coupleCode }'
+										},
+										success: function(atest) {
+											if (atest.length !== 0) { // 선택했던 값이 존재할 때
+												for (let i in atest) {
+													for (let j in optionSave) {
+														if (atest[i].atestContent === optionSave[j].optionContent) {
+															$('input[id^=' + optionSave[j].optionNo +'made-testQ]').attr('checked', true);
+															if (atest[i].atestTrue === 'N') {
+																$('input[id^=' + optionSave[j].optionNo +'made-testQ]').closest('.testQ').children('.wrong').css('display', 'block');
+															} else {
+																$('input[id^=' + optionSave[j].optionNo +'made-testQ]').closest('.testQ').children('.right').css('display', 'block');
+															}
+														}
+													}
+												}
+											}
+
+											$('input[type=radio]').attr('disabled', true);
+										}
+									});
+								}, error: function() {
+									console.log('ajax 통신 에러 : 보기 조회');
+								}
+							});
+						}, error: function() {
+							console.log('ajax 통신 에러 : 질문 조회');
+						}
+					});	
+				})
+
 				$(document).on('click', 'input[type=radio]', function() {
 					let id = $(this).attr('id');
 	

@@ -432,15 +432,31 @@
 		   and qtoday_date = to_date(#{ today }, 'yyyy-mm-dd')
 	</update>
 	
-	<select id="selectAllTest" resultMap="testResult">
+	<select id="selectTestCouple" resultMap="testResult">
 		select test_no
-			 , test_score
+             , test_score
 		     , test_date
 		     , email
 		     , couple_code
-	      from f_test
-		 where couple_code = #{ coupleCode }
+         from f_test
+         where couple_code = #{ coupleCode }
 		 order
-		    by test_date desc
+		    by test_no desc
+	</select>
+	
+	<select id="countTestCouple" resultType="_int">
+		select count(*) as count
+		  from f_test
+		 where couple_code = #{ coupleCode }
+	</select>
+	
+	<select id="selectQtestSpecific" resultMap="qtestResult">
+		select qtest_no
+		     , qtest_content
+		     , test_no
+		     , email
+		     , couple_code
+		  from f_qtest
+         where test_no = #{ testNo }
 	</select>
 </mapper>
