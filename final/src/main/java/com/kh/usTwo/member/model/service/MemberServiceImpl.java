@@ -139,6 +139,11 @@ public class MemberServiceImpl implements MemberService {
 		return null;
 	}
 
+	@Override
+	public int updateProfile(Member m) {
+		return mDao.updateProfile(sqlSession, m);
+	}
+
 
 
 

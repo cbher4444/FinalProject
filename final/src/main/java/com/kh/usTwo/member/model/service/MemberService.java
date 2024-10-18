@@ -37,4 +37,6 @@ public interface MemberService {
 	int revertCoupleCode(String coupleCode); // 커플코드 되살리기 - 추가함 by 동규 (2024.10.15)
 
 	int revertMember(Member m); // 계정 복구 - 추가함 by 동규 (2024.10.15)
+	
+	int updateProfile(Member m); // 프로필 이미지 변경 - 추가함 by 동규 (2024.10.18)
 }

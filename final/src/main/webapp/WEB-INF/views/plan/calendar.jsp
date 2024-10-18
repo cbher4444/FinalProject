@@ -108,7 +108,7 @@
 					};
     			},
 				// ----------------------- google calendar -----------------------
-				googleCalendarApiKey: '', // api는 git에 안올라가게 비워둠. 넣으면 공휴일도 보임!
+				googleCalendarApiKey: 'AIzaSyBZsgy3NZzVqBP7IX6HcjRHDtPU65xqMkQ', // api는 git에 안올라가게 비워둠. 넣으면 공휴일도 보임!
 				events: {
 					googleCalendarId: 'ko.south_korea#holiday@group.v.calendar.google.com', // 한국 공휴일
 				},

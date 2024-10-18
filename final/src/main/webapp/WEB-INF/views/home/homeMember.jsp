@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html>
@@ -52,12 +53,26 @@
 			<div class="row row-bottom-padded-md animate-box">
 				<div class="col-md-6 col-md-offset-3 text-center">
 					<div class="col-md-5 col-sm-5 col-xs-5 nopadding">
-						<img src="https://image.kmib.co.kr/online_image/2018/1106/612211110012819446_1.jpg" class="img-responsive" alt="">
+						<c:choose>
+							<c:when test="${ not empty loginUser.originName }">
+								<img src="${ loginUser.changeName }" id="modalProfileImg" alt="profile picture" class="img-responsive"/>
+							</c:when>
+							<c:otherwise>
+								<img src="resources/images/blank-profile-picture.png" id="modalProfileImg" alt="profile picture" class="img-responsive" />
+							</c:otherwise>
+						</c:choose>
 						<h3>${loginUser.userName }</h3>
 					</div>
 					<div class="col-md-2 col-sm-2 col-xs-2 nopadding"><h2 class="amp-center"><i class="icon-heart"></i></h2></div>
 					<div class="col-md-5 col-sm-5 col-xs-5 nopadding">
-						<img src="https://dispatch.cdnser.be/wp-content/uploads/2018/10/20181029175012_00080030081851.jpg" class="img-responsive" alt="">
+						<c:choose>
+							<c:when test="${ not empty partner.originName }">
+								<img src="${ partner.changeName }" id="modalProfileImg" alt="profile picture" class="img-responsive"/>
+							</c:when>
+							<c:otherwise>
+								<img src="resources/images/blank-profile-picture.png" id="modalProfileImg" alt="profile picture" class="img-responsive" />
+							</c:otherwise>
+						</c:choose>
 						<h3>${partner.userName }</h3>
 					</div>
 				</div>

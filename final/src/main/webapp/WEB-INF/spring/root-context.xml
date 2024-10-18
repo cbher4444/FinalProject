@@ -44,7 +44,11 @@
 	    </property>
 	</bean>
 	
-	
+	 <!--  파일 업로드 빈 등록 - 추가 by 동규 (2024.10.18) -->
+	 <bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver" id="multipartResolver">
+	 	<property name="maxUploadSize" value="100000000"/>
+	 	<property name="maxInMemorySize" value="100000000"/>
+	 </bean>
 	
 		
 </beans>
