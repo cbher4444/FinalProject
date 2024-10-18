@@ -13,10 +13,8 @@ import lombok.ToString;
 @ToString
 public class CoupleAlbum {
 	
-	private String id;
-    private String baseUrl;
-    private String creationTime;
-
-
+	private String albumId;
+	private String albumTitle;
+	private String createDate;
 
 }

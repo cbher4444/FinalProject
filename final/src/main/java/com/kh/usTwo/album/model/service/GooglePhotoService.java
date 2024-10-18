@@ -87,7 +87,6 @@ public class GooglePhotoService {
                 throw new IOException("Unexpected code " + response);
             }
             String responseBody = response.body().string();
-            System.out.println("Created album: " + responseBody);
             
             // JSON 응답에서 앨범 ID를 파싱
             ObjectMapper objectMapper = new ObjectMapper();
@@ -134,7 +133,6 @@ public class GooglePhotoService {
 
     public List<MediaItem> fetchMediaItems(String accessToken) throws IOException { // json객체로 응답받는 메소드
     	
-    	System.out.println(accessToken);
     	OkHttpClient client = new OkHttpClient();
 
         Request request = new Request.Builder()

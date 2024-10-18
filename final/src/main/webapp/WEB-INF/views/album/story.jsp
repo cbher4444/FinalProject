@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -190,50 +190,45 @@
 	<jsp:include page="../common/menubar.jsp"/>
 	<script>
 		// 메뉴바에 클릭된 메뉴 하이라이트
+		$(()=>{ $(".nav-header #menubar_album").addClass("active"); })
 		$(()=>{ $(".nav-header #menubar_story").addClass("active"); })
 	</script>
 
 	<!-- 내용 -->
-	<div id="fh5co-gallery">
+	<div id="fh5co-gallery" style="background:#F6FAF7;">
 		<div class="container">
 			<div class="row">
 				<div class="col-md-8 col-md-offset-2 text-center heading-section animate-box">
 					<h2>Couple Story</h2>
 				</div>
+				<div style="margin-top:60px;">
+					<a href="addStory" class="btn btn-primary btn-lg">스토리 추가하기</a>
+				</div>
 			</div>
-			<ul class="row" align="center" style="display:flex; list-style: none; flex-wrap: wrap; justify-content: start; padding-left:133px">
-					<li class="gallery animate-box">
-						<img id="myBtn" src="resources/images/gallery-1.jpg" class="img-responsive" alt="Free HTML5 Bootstrap Template by FreeHTML5.co">
-					</li>
-					<li class="gallery animate-box">
-						<a class="gallery-img image-popup" href="resources/images/gallery-7.jpg"><img src="resources/images/gallery-7.jpg" class="img-responsive" alt="Free HTML5 Bootstrap Template by FreeHTML5.co"></a>
-					</li>
-					<li class="gallery animate-box">
-						<a class="gallery-img image-popup" href="resources/images/gallery-6.jpg"><img src="resources/images/gallery-6.jpg" class="img-responsive" alt="Free HTML5 Bootstrap Template by FreeHTML5.co"></a>
-					</li>
-					<li class="gallery animate-box">
-						<a class="gallery-img image-popup" href="resources/images/gallery-2.jpg"><img src="resources/images/gallery-2.jpg" class="img-responsive" alt="Free HTML5 Bootstrap Template by FreeHTML5.co"></a>
-					</li>
-					<li class="gallery animate-box">
-						<a class="gallery-img image-popup" href="resources/images/gallery-5.jpg"><img src="resources/images/gallery-5.jpg" class="img-responsive" alt="Free HTML5 Bootstrap Template by FreeHTML5.co"></a>
-					</li>
-					<li class="gallery animate-box">
-						<a class="gallery-img image-popup" href="resources/images/gallery-3.jpg"><img src="resources/images/gallery-3.jpg" class="img-responsive" alt="Free HTML5 Bootstrap Template by FreeHTML5.co"></a>
-					</li>
-					<li class="gallery animate-box">
-						<a class="gallery-img image-popup" href="resources/images/gallery-4.jpg"><img src="resources/images/gallery-4.jpg" class="img-responsive" alt="Free HTML5 Bootstrap Template by FreeHTML5.co"></a>
-					</li>
-					<li class="gallery animate-box">
-						<a class="gallery-img image-popup" href="resources/images/gallery-4.jpg"><img src="resources/images/gallery-4.jpg" class="img-responsive" alt="Free HTML5 Bootstrap Template by FreeHTML5.co"></a>
-					</li>
-					<li class="gallery animate-box">
-						<a class="gallery-img image-popup" href="resources/images/gallery-4.jpg"><img src="resources/images/gallery-4.jpg" class="img-responsive" alt="Free HTML5 Bootstrap Template by FreeHTML5.co"></a>
-					</li>
-					<li class="gallery animate-box">
-						<a class="gallery-img image-popup" href="resources/images/gallery-4.jpg"><img src="resources/images/gallery-4.jpg" class="img-responsive" alt="Free HTML5 Bootstrap Template by FreeHTML5.co"></a>
-					</li>
-					
-			</ul>
+			<c:choose>
+				<c:when test="${ not empty list }">
+					<ul class="row" align="center" style="display:flex; list-style: none; flex-wrap: wrap; justify-content: start; padding-left:133px">
+						<c:forEach var="i" items="${ list }" >
+							<div class="col-lg-4 col-md-4 col-sm-6 li">
+								<div class="fh5co-blog animate-box fadeInUp animated">
+									<a href="#"><img style="width:350px;height:250px;" class="img-responsive" src="${ i.changeName }" alt=""></a>
+									<div class="blog-text">
+										<div class="prod-title">
+											<h3><a href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">${ i.storyTitle }</font></font></a></h3>
+											<div class="by"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">${ i.writerEmail }</font></font></div>
+											<span class="posted_date"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">${ i.createDate }</font></font></span>
+											<span class="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">${ i.replyCount }</font></font><i class="icon-bubble2" style="color:#F69D9D;margin-left:3px;"></i></span>
+										</div>
+									</div> 
+								</div>
+							</div>
+						</c:forEach>
+					</ul>
+				</c:when>
+				<c:otherwise>
+					<h2 align="center">스토리가 비어있습니다.</h2>
+				</c:otherwise>
+			</c:choose>
 		</div>
 	</div>
 	
@@ -321,6 +316,13 @@
 	
 	<script>
 	
+	var story = $(".row .li").click(function(){
+		var src = $(this).find('img').attr("src");
+		modal.style.display = "block";
+		$(".modal .photo img").attr("src",src)
+	})
+	
+	
 	
 	// Get the modal
 	var modal = document.getElementById("myModal");
@@ -332,10 +334,7 @@
 	var span = document.getElementsByClassName("close")[0];
 
 	// When the user clicks on the button, open the modal
-	btn.onclick = function() {
-	  modal.style.display = "block";
-	  console.log($(this))
-	}
+
 
 	// When the user clicks on <span> (x), close the modal
 	span.onclick = function() {

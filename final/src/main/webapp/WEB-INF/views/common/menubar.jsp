@@ -113,7 +113,7 @@
 								<li id="menubar_album">
 								<a href="album">Album</a>
 								<ul class="fh5co-sub-menu" style="min-width: fit-content;">
-										<li id="menubar_album"><a href="album">앨범</a></li>
+										<li id="menubar_coupleAlbum"><a href="album">앨범</a></li>
 										<li id="menubar_story"><a href="story">스토리</a></li>
 									</ul>
 								</li>

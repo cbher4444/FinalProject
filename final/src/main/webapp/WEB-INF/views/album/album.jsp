@@ -10,7 +10,6 @@
 <style>
 	ul.row{
 		padding: 0; 
-		
 	}
 	ul.row li{
 		margin: 3px;
@@ -55,6 +54,9 @@
 	
 	#addMedia{
 		display:none;
+	    position: absolute;
+    	right: 15px;
+    	top: 270px;
 	}
 	</style>
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -66,10 +68,11 @@
 	<script>
 		// 메뉴바에 클릭된 메뉴 하이라이트
 		$(()=>{ $(".nav-header #menubar_album").addClass("active"); })
+		$(()=>{ $(".nav-header #menubar_coupleAlbum").addClass("active"); })
 	</script>
 
 	<!-- 내용 -->
-	<div id="fh5co-gallery">
+	<div id="fh5co-gallery" style="background:#F6FAF7;">
 		<div class="container">
 			<div class="row">
 				<div class="col-md-8 col-md-offset-2 text-center heading-section animate-box">
@@ -79,7 +82,7 @@
 				<form id="addMedia" action="add-photo-to-album" method="post" enctype="multipart/form-data">
 				    <input type="hidden" name="albumId" placeholder="앨범 ID" required>
 				    <input type="file" name="file" required>
-				    <button type="submit">사진 추가</button>
+				    <button type="submit" class="btn btn-primary btn-lg">사진 추가</button>
 				</form>
 			</div>
 				<ul class="row" align="center" style="display:flex; list-style: none; flex-wrap: wrap; justify-content: start; padding-left:133px">

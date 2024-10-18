@@ -1,5 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
 <mapper namespace="albumMapper">
+	
+	<resultMap type="Story" id="storyResult">
+		<result column="story_no" property="storyNo" />
+		<result column="couple_code" property="coupleCode" />
+		<result column="nickname" property="writerEmail" />
+		<result column="story_title" property="storyTitle" />
+		<result column="create_date" property="createDate" />
+		<result column="reply_count" property="replyCount" />
+		<result column="origin_name" property="originName" />
+		<result column="change_name" property="changeName" />
+		<result column="status" property="status" />
+	</resultMap>
+	
+	<resultMap type="Reply" id="replyResult">
+		<result column="reply_no" property="replyNo" />
+		<result column="ref_sno" property="refStoryNo" />
+		<result column="reply_wirter" property="replyWriter" />
+		<result column="reply_content" property="replyContent" />
+		<result column="reply_like" property="replyLike" />
+		<result column="create_date" property="createDate" />
+		<result column="status" property="status" />
+	</resultMap>
+	
+	<select id="selectStroy" resultMap="storyResult">
+		select
+			   story_no
+			 , nickname
+			 , story_title
+			 , a.create_date
+			 , a.origin_name
+			 , a.change_name
+			 , reply_count
+		  from a_story a
+          join c_member c on (email = writer_email)
+		 where a.status = 'Y'
+		   and a.couple_code = #{ coupleCode }
+	</select>
+	
+	<insert id="insertStory">
+		insert 
+		  into a_story
+		  (
+		  	story_no
+		  , couple_code
+		  , writer_email
+		  , story_title
+		  , origin_name
+		  , change_name
+		  )
+		  values
+		  (
+		  	seq_story.nextval
+		  , #{ coupleCode }
+		  , #{ writerEmail }
+		  , #{ storyTitle }
+		  , #{ originName }
+		  , #{ changeName }
+		  )
+	
+	</insert>
+	
 
 </mapper>

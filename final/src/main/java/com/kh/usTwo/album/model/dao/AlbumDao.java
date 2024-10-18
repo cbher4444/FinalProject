@@ -3,15 +3,21 @@ package com.kh.usTwo.album.model.dao;
 import java.util.ArrayList;
 
 import org.apache.ibatis.session.SqlSession;
+import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.usTwo.album.model.vo.Story;
+import com.kh.usTwo.member.model.vo.Member;
 
 @Repository
 public class AlbumDao {
 	
-	public ArrayList<Story> selectStory(SqlSession sqlSession){
-		return null;
+	public ArrayList<Story> selectStory(SqlSessionTemplate sqlSession, String coupleCode){
+		return (ArrayList)sqlSession.selectList("albumMapper.selectStroy", coupleCode);
+	}
+	
+	public int insertStory(SqlSessionTemplate sqlSession, Story s) {
+		return sqlSession.insert("albumMapper.insertStory", s);
 	}
 
 }

@@ -17,6 +17,7 @@
 		<typeAlias type="com.kh.usTwo.fun.model.vo.Atest" alias="Atest"/>
 		<typeAlias type="com.kh.usTwo.plan.model.vo.Schedule" alias="Schedule"/>
 		<typeAlias type="com.kh.usTwo.album.model.vo.Story" alias="Story" />
+		<typeAlias type="com.kh.usTwo.album.model.vo.Reply" alias="Reply" />
 	</typeAliases>
 
 	<mappers>

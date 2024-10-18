@@ -1,7 +1,5 @@
 package com.kh.usTwo.album.model.vo;
 
-import java.sql.Date;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,16 +11,14 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class Story {
+public class Reply {
 	
-	private int storyNo;
-	private String coupleCode;
-	private String writerEmail;
-	private String storyTitle;
-	private Date createDate;
-	private int replyCount;
-	private String originName;
-	private String changeName;
+	private String replyNo;
+	private String refStoryNo;
+	private String replyWriter;
+	private String replyContent;
+	private String replyLike;
+	private String createDate;
 	private String status;
 
 }

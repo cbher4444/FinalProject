@@ -5,7 +5,6 @@
 <head>
 <meta charset="UTF-8">
 <title>UsTwo</title>
-
 <style>
 	ul.row{
 		padding: 0; 
@@ -204,12 +203,11 @@
 	</style>
 </head>
 <body>
-
 	<!-- 메뉴바 -->
 	<jsp:include page="../common/menubar.jsp"/>
 	<script>
 		// 메뉴바에 클릭된 메뉴 하이라이트
-		$(()=>{ $(".nav-header #menubar_coupleAlbum").addClass("active"); })
+		$(()=>{ $(".nav-header #menubar_story").addClass("active"); })
 		$(()=>{ $(".nav-header #menubar_album").addClass("active"); })
 	</script>
 
@@ -218,18 +216,51 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-md-8 col-md-offset-2 text-center heading-section animate-box">
-					<h2 class="album_title">앨범 만들기</h2>
+					<h2 class="album_title">스토리 만들기</h2>
 				</div>
 			</div>
-			    <form id="create-form" action="createAlbum" method="post" enctype="multipart/form-data">
-			        <label for="title">앨범 제목:</label>
+			    <form id="create-form" action="insertStory" method="post" enctype="multipart/form-data">
+			        <label for="title">스토리 제목:</label>
 			        <input type="text" id="title" name="title" required >
-			        <input type="file" id="file" name="file" required >
+			        <img id="contentImg" style="width:400px;height:400px;border:1px solid #eee; margin:auto;display:block;" onclick="chooseFile()">
+			        <input type="file" id="file" name="file" onchange="loadImg(this)" required style="display:none;">
 			        <br>
-			        <input type="submit" value="앨범 생성">
+			        <input type="submit" value="스토리 생성">
 			    </form>
 		</div>
 	</div>
+	
+	 <script>
+         function chooseFile(){
+             $("#file").click();	
+         }
+         
+         
+         function loadImg(inputFile){
+             // inputFile : 현재 변화가 생긴 input type="file" 요소객체
+             // num : 몇번째 input 요소인지 확인 후 해당 영역에 미리보기 하기 위해 전달받는 숫자
+
+             // 선택된 파일이 있다면 inputFile.files[0]에 선택된 파일이 담겨있음
+             //                  => inputFile.files.length 또한 1이 될 것임
+             if(inputFile.files.length == 1){ // 파일 선택된 경우 => 파일을 읽어들여서 미리보기
+                 
+                 // 파일을 읽어들일 FileReader 객체 생성
+                 const reader = new FileReader();
+
+                 // 파일을 읽어들이는 메소드
+                 reader.readAsDataURL(inputFile.files[0]);
+                 // 해당 파일을 읽어들이는 순간 해당 이 파일만을 고유한 url 부여
+
+                 // 파일 읽어들이기가 완료됐을 때 실행할 함수를 정의해두기
+                 reader.onload = function(e){
+                     // e.target.result => 읽어들인 파일의 고유한 url
+                     $("#contentImg").attr("src", e.target.result);
+             }
+         }
+     }
+                </script>
+	
+	
 	<!-- footer -->
 	<jsp:include page="../common/footer.jsp"/>
 </body>

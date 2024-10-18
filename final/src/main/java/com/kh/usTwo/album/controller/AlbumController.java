@@ -9,23 +9,19 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.google.api.services.photoslibrary.v1.model.Album;
-import com.google.api.services.photoslibrary.v1.model.MediaItem;
 import com.kh.usTwo.album.model.service.AlbumServiceImpl;
 import com.kh.usTwo.album.model.service.GooglePhotoService;
 import com.kh.usTwo.album.model.vo.Story;
+import com.kh.usTwo.common.saveFile.SaveFile;
+import com.kh.usTwo.member.model.vo.Member;
 
 @Controller
 public class AlbumController {
@@ -38,9 +34,40 @@ public class AlbumController {
     private GooglePhotoService gps;
 
     @RequestMapping("story")
-    public String story() {
-        ArrayList<Story> list = aService.selectStory();
+    public String story(HttpSession session, Model model) {
+    	String coupleCode = ((Member)session.getAttribute("loginUser")).getCoupleCode();
+        ArrayList<Story> list = aService.selectStory(coupleCode);
+        model.addAttribute("list",list);
         return "album/story";
+    }
+    
+    @RequestMapping("addStory")
+    public String addStory() {
+    	return "album/storyEnrollForm";
+    }
+    
+    @RequestMapping("insertStory")
+    public String insertStory(String title, MultipartFile file, HttpSession session) {
+    	
+    	Member loginUser = (Member)session.getAttribute("loginUser");
+    	String changeName = new SaveFile().saveFile(file, session);
+    	
+    	Story s = new Story();
+    	s.setStoryTitle(title);
+    	s.setWriterEmail(loginUser.getEmail());
+    	s.setCoupleCode(loginUser.getCoupleCode());
+    	s.setOriginName(file.getOriginalFilename());
+    	s.setChangeName("resources/upfiles/"+changeName);
+    	
+    	int result = aService.insertStory(s);
+    	
+    	if(result > 0) {
+    		session.setAttribute("alertMsg", "스토리 게시에 성공하였습니다.");
+    	}else {
+    		session.setAttribute("alertMsg", "스토리 작성 실패.");
+    	}
+    	
+    	return "redirect:/story";
     }
 
     @RequestMapping("album")
