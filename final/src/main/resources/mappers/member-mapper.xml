@@ -234,45 +234,6 @@
 		 where email = #{email}
 	</update>
 	
-	<!-- Member에 커플코드 반영 - 추가함 by 동규 (2024.10.14) -->
-	<update id="updateCoupleCodeOnMember">
-		update c_member
-		   set couple_code = #{coupleCode}
-		     , partner_email = #{partnerEmail}
-		     , status = 'Y'
-		 where email = #{email}
-	</update>
-	
-	<!-- 커플코드 비활성화 - 추가함 by 동규 (2024.10.15) -->
-	<update id="deleteCoupleCode">
-		update c_couple
-		   set status = 'N'
-		 where couple_code = #{coupleCode}
-	</update>
-	
-	<!-- 커플코드 활성화 - 추가함 by 동규 (2024.10.15) -->
-	<update id="revertCoupleCode">
-		update c_couple
-		   set status = 'Y'
-		 where couple_code = #{coupleCode}
-	</update>
-	
-	<!-- 계정복구 (커플등록 완료) - 추가함 by 동규 (2024.10.15) -->
-	<update id="revertMemberToY">
-		update c_member
-		   set status = 'Y'
-		     , modify_date = sysdate
-		 where email = #{email}
-	</update>
-	
-	<!-- 계정복구 (커플등록 미완료) - 추가함 by 동규 (2024.10.15) -->
-	<update id="revertMemberToW">
-		update c_member
-		   set status = 'W'
-		     , modify_date = sysdate
-		 where email = #{email}
-	</update>
-	
 	<select id="selectMember" resultMap="memberResult">
 		select email
 		     , couple_code
