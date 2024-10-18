@@ -17,7 +17,7 @@
 	<resultMap type="Reply" id="replyResult">
 		<result column="reply_no" property="replyNo" />
 		<result column="ref_sno" property="refStoryNo" />
-		<result column="reply_wirter" property="replyWriter" />
+		<result column="nickname" property="replyWriter" />
 		<result column="reply_content" property="replyContent" />
 		<result column="reply_like" property="replyLike" />
 		<result column="create_date" property="createDate" />
@@ -62,5 +62,18 @@
 	
 	</insert>
 	
+	<select id="selectReplyList" resultMap="replyResult">
+		select
+			   reply_no
+			 , ref_sno
+			 , nickname
+			 , reply_content
+			 , reply_like
+			 , a.create_date
+		  from a_reply a
+		  join c_member c on(email = reply_writer)
+		 where a.status = 'Y'
+		   and ref_sno = #{ storyNo }
+	</select>
 
 </mapper>

@@ -14,9 +14,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.google.api.services.drive.model.Reply;
 import com.google.api.services.photoslibrary.v1.model.Album;
+import com.google.gson.Gson;
 import com.kh.usTwo.album.model.service.AlbumServiceImpl;
 import com.kh.usTwo.album.model.service.GooglePhotoService;
 import com.kh.usTwo.album.model.vo.Story;
@@ -197,6 +200,16 @@ public class AlbumController {
 			e.printStackTrace();
 			return "album/album";
 		}
+    }
+    
+    @ResponseBody
+    @RequestMapping(value="selectReplyList", produces="application/json; charset=utf-8")
+    public String selectReplyList(String storyNo){
+    	ArrayList<Reply> list = aService.selectReplyList(storyNo);
+    	System.out.println(storyNo);
+    	System.out.println(list);
+    	
+    	return new Gson().toJson(list);
     }
     
 }

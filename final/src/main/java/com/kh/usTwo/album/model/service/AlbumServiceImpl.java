@@ -46,8 +46,8 @@ public class AlbumServiceImpl implements AlbumService{
 
 
 	@Override
-	public ArrayList<Reply> selectReplyList(int sno) {
-		return null;
+	public ArrayList<Reply> selectReplyList(String storyNo) {
+		return aDao.selectReplyList(sqlSession, storyNo);
 	}
 
 }

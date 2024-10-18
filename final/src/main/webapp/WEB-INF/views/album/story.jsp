@@ -214,7 +214,8 @@
 									<a href="#"><img style="width:350px;height:250px;" class="img-responsive" src="${ i.changeName }" alt=""></a>
 									<div class="blog-text">
 										<div class="prod-title">
-											<h3><a href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">${ i.storyTitle }</font></font></a></h3>
+											<input type="hidden" value="${ i.storyNo }" id="storyNo">
+											<h3><a href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;" id="storyTitle">${ i.storyTitle }</font></font></a></h3>
 											<div class="by"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">${ i.writerEmail }</font></font></div>
 											<span class="posted_date"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">${ i.createDate }</font></font></span>
 											<span class="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">${ i.replyCount }</font></font><i class="icon-bubble2" style="color:#F69D9D;margin-left:3px;"></i></span>
@@ -316,10 +317,32 @@
 	
 	<script>
 	
+	
 	var story = $(".row .li").click(function(){
 		var src = $(this).find('img').attr("src");
+		var title = $("font#storyTitle").text();
+		var storyNo = $(this).find("#storyNo").val();
 		modal.style.display = "block";
-		$(".modal .photo img").attr("src",src)
+		$(".modal .photo img").attr("src",src);
+		$(".boardInfo table").children().eq(0).children().eq(0).text(title);
+		$.ajax({
+			url:"selectReplyList",
+			data:{
+				storyNo:storyNo,
+			},
+			success:function(result){
+				var value = "";
+				for(var i = 0; i<result.length;i++){
+					var item = result[i]
+					
+					value += ""
+					
+				}
+			}, error:function(){
+				console.log("댓글 조회용 ajax 통신 실패")
+			}
+			
+		})
 	})
 	
 	

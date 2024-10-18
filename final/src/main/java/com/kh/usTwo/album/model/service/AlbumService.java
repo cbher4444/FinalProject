@@ -20,7 +20,7 @@ public interface AlbumService {
 	int updateStory(Story s);
 	
 	// 댓글 불러오기
-	ArrayList<Reply> selectReplyList(int sno);
+	ArrayList<Reply> selectReplyList(String sno);
 	
 	// 댓글 달기
 	
