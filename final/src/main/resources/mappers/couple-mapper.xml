@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="coupleMapper">
+	<resultMap type="Couple" id="coupleResult">
+		<result column="couple_code" property="coupleCode"/>
+		<result column="start_date" property="startDate"/>
+		<result column="origin_name" property="originName"/>
+		<result column="change_name" property="changeName"/>
+		<result column="sentence" property="sentence"/>
+		<result column="status" property="status"/>
+	</resultMap>
+	
+	<select id="selectCouple" resultMap="coupleResult">
+		select
+			   couple_code
+			 , start_date
+			 , origin_name
+			 , change_name
+			 , sentence
+			 , status
+	      from c_couple
+	     where couple_code = #{coupleCode}
+	       and status = 'Y'
+	</select>
+	
+</mapper>
