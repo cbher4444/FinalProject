@@ -38,7 +38,7 @@
 		</c:when>
 		<c:when test="${ loginUser.status eq 'N' }">
 			<!-- 탈퇴대기 -->
-			<jsp:include page="../mypage/deleteAccount.jsp"/>
+			<jsp:include page="../mypage/deletedAccount.jsp"/>
 		</c:when>
 	</c:choose>
 
@@ -121,8 +121,8 @@
 												<c:otherwise>
 													<!-- 그외 -->
 													<button type="submit" class="btn btn-primary btn-block" style="margin: 0;">수정</button>
-													<button type="button" class="btn btn-primary btn-block" style="margin: 10px 0; background-color: rgb(125, 125, 125);">비밀번호 변경</button>
-													<button type="button" class="btn btn-secondary btn-block" style="margin: 0;" onclick="onclickDeleteBtn()">회원탈퇴</button>													
+													<button type="button" class="btn btn-primary btn-block" onclick="onclickChangePwd()" style="margin: 10px 0; background-color: rgb(125, 125, 125);">비밀번호 변경</button>
+													<button type="button" class="btn btn-secondary btn-block" onclick="onclickDeleteBtn()" style="margin: 0;">회원탈퇴</button>													
 												</c:otherwise>
 											</c:choose>
 										</td>
@@ -218,6 +218,42 @@
 		</div>
 	</div>
 
+	<!-- 비밀번호 변경 Modal -->
+	<div class="modal fade" id="updatePwdModal" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content" style="padding-top: 10px; margin-top: 150px;">
+				<form class="form-inline" action="/updatePwd.me" method="post">
+					<input type="hidden" name="email" value="${ loginUser.email }">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" style="font-size: 30px;">&times;</button>
+						<h3 class="modal-title">비밀번호 변경</h3>
+					</div>
+					<div class="modal-body">
+						<div class="form-group" style="width: 100%;">
+							<table style="width: 95%;">
+								<tr>
+									<td>현재 비밀번호 :</td>
+									<td><input type="password" class="form-control" name="userPwd" style="width: 80%;" required></td>
+								</tr>
+								<tr>
+									<td>새 비밀번호 :</td>
+									<td><input type="password" class="form-control" name="updatePwd" style="width: 80%;" required minlength="8" maxlength="20"></td>
+								</tr>
+								<tr>
+									<td>새 비밀번호 확인:</td>
+									<td><input type="password" class="form-control" name="checkPwd" style="width: 80%;" required minlength="8" maxlength="20"></td>
+								</tr>
+							</table>
+						</div>
+					</div>
+					<div class="modal-footer" style="display: flex; align-items: center; justify-content: center;">
+						<button type="submit" onclick="return validatePwd();" class="btn btn-primary btn-block" style="width: fit-content; height: 50px; margin-right: 10px;">비밀번호 변경</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
 	<script>
 		setGender();
 
@@ -238,6 +274,11 @@
 			$("#imgModal").modal("show");
 		}
 
+		// ----------------------- 비밀번호변경 버튼 클릭시 -> 비밀번호변경 모달 띄움 -----------------------
+		function onclickChangePwd(){
+			$("#updatePwdModal").modal("show");
+		}
+
 		// ----------------------- 사진변경 - 파일 선택시 선택된 이미지로 미리보기 -----------------------
 		function loadImg(inputFile){
 			if(inputFile.files.length == 1) { // 선택한 파일이 있으면
@@ -252,6 +293,13 @@
 				}else { // 기존사진 없으면 -> 기본이미지로
 					$("#modalProfileImg").attr("src", "resources/images/blank-profile-picture.png");
 				}
+			}
+		}
+
+		function validatePwd(){
+			if($("input[name=updatePwd]").val() != $("input[name=checkPwd]").val()) {
+				alert("변경할 비밀번호가 일치하지 않습니다.");
+				return false;
 			}
 		}
 
