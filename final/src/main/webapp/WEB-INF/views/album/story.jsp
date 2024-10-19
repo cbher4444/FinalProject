@@ -32,6 +32,10 @@
 		transition: all .3s;
 		
 	}
+	
+	.li:hover{
+		cursor:pointer;
+	}
 		/* The Modal (background) */
 	.modal {
 	  display: none; /* Hidden by default */
@@ -210,13 +214,14 @@
 					<ul class="row" align="center" style="display:flex; list-style: none; flex-wrap: wrap; justify-content: start; padding-left:133px">
 						<c:forEach var="i" items="${ list }" >
 							<div class="col-lg-4 col-md-4 col-sm-6 li">
+									<div class="material-icons" id="deleteStory" style="z-index:9;">delete</div>
 								<div class="fh5co-blog animate-box fadeInUp animated">
 									<a href="#"><img style="width:350px;height:250px;" class="img-responsive" src="${ i.changeName }" alt=""></a>
 									<div class="blog-text">
 										<div class="prod-title">
 											<input type="hidden" value="${ i.storyNo }" id="storyNo">
 											<h3><a href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;" id="storyTitle">${ i.storyTitle }</font></font></a></h3>
-											<div class="by"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">${ i.writerEmail }</font></font></div>
+											<div class="by"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;" id="storyWriter">${ i.writerEmail }</font></font></div>
 											<span class="posted_date"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">${ i.createDate }</font></font></span>
 											<span class="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">${ i.replyCount }</font></font><i class="icon-bubble2" style="color:#F69D9D;margin-left:3px;"></i></span>
 										</div>
@@ -248,10 +253,10 @@
 		  			<table align="center">
 		  					<tr>
 		  						<th width="50px"><img src="resources/images/gallery-2.jpg" /></th>
-		  						<th rowspan="2" width="200px">우리는 언제 결혼할까?</th>
+		  						<th rowspan="2" width="200px" id="modalStoryTitle">우리는 언제 결혼할까?</th>
 		  					</tr>
 		  					<tr>
-		  						<th width="100px">애신</th>
+		  						<th width="100px" id="modalStoryWriter">애신</th>
 		  					</tr>
 		  			</table>
 	  			</div>
@@ -318,13 +323,15 @@
 	<script>
 	
 	
-	var story = $(".row .li").click(function(){
+	var story = $(".row .li .fh5co-blog").click(function(){
 		var src = $(this).find('img').attr("src");
-		var title = $("font#storyTitle").text();
+		var title = $(this).find("#storyTitle").text(); 
 		var storyNo = $(this).find("#storyNo").val();
+		var storyWriter = $(this).find("#storyWriter").text();
 		modal.style.display = "block";
 		$(".modal .photo img").attr("src",src);
-		$(".boardInfo table").children().eq(0).children().eq(0).text(title);
+		$(".boardInfo table").find("#modalStoryTitle").text(title);
+		$(".boardInfo table").find("#modalStoryWriter").text(storyWriter);
 		$.ajax({
 			url:"selectReplyList",
 			data:{
@@ -335,9 +342,25 @@
 				for(var i = 0; i<result.length;i++){
 					var item = result[i]
 					
-					value += ""
+					value += "<div class='reply'>"
+				  			 +	"<div>"
+				  			 +	"<table>"
+				  			 +		"<tr>"
+				  			 + 			"<th width='50px'><img src='' /></th>"
+				  			 +			"<th width='370px' >" + item.replyContent + "</th>"
+				  			 +			"<th rowspan='2'><div class='material-icons'>favorite</div></th>"
+				  			 +		"</tr>"
+				  			 +		"<tr>"
+				  			 +			"<th width='100px'>"+ item.replyWriter +"</th>"
+				  			 +			"<th style='font-size:10px'>"+ item.createDate +"</th>"
+				  			 +		"</tr>"
+					  		 +	"</table>"
+				  			 +	"</div>"
+				  			 + "</div>";
 					
 				}
+				$(".reply-wrap").html(value);
+				
 			}, error:function(){
 				console.log("댓글 조회용 ajax 통신 실패")
 			}
@@ -345,6 +368,9 @@
 		})
 	})
 	
+	$("#deleteStory").click(function(){
+		console.log("삭제할게유");
+	})
 	
 	
 	// Get the modal

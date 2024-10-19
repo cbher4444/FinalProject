@@ -255,9 +255,11 @@
                  reader.onload = function(e){
                      // e.target.result => 읽어들인 파일의 고유한 url
                      $("#contentImg").attr("src", e.target.result);
-             }
-         }
-     }
+	             }
+	         }else{
+                     $("#contentImg").attr("src", null);
+	         }
+	     }
                 </script>
 	
 	
