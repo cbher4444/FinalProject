@@ -26,6 +26,16 @@
 		<result column="writer_name" property="writerName"/>
 		<result column="status" property="status"/>
 	</resultMap>
+	
+	<resultMap id="mindmapResult" type="Mindmap">
+		<result column="key" property="key"/>
+		<result column="parent" property="parent"/>
+		<result column="text" property="text"/>
+		<result column="brush" property="brush"/>
+		<result column="dir" property="dir"/>
+		<result column="loc" property="loc"/>
+		<result column="coupleCode" property="coupleCode"/>
+	</resultMap>
 
 	<select id="selectCalendarList" resultMap="calendarResult">
 		select
@@ -117,5 +127,51 @@
 		   set status = 'N'
 		 where schedule_no = #{scheduleNo}
 	</update>
+	
+	<select id="selectMindmapList" resultMap="mindmapResult">
+		select
+		       key
+		     , parent
+		     , text
+		     , brush
+		     , dir
+		     , loc
+		     , couple_code
+		  from p_mindmap
+		 where couple_code = #{coupleCode}
+	</select>
+	
+	<delete id="deleteMindmapList">
+		delete
+		  from p_mindmap
+		 where couple_code = #{coupleCode}
+	</delete>
+	
+	<insert id="insertMindmap">
+        insert
+          into p_mindmap
+        (
+             mindmap_no
+           , key
+           , parent
+           , text
+           , brush
+           , dir
+           , loc
+           , couple_code
+        )
+        values
+        (
+        	 seq_mindmap_no.nextval
+           , #{key}
+           , #{parent}
+           , #{text}
+           , #{brush}
+           , #{dir}
+           , #{loc}
+           , #{coupleCode}
+        )
+	</insert>
+
 
 </mapper>

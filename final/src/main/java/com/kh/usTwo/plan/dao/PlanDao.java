@@ -6,6 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.usTwo.plan.model.vo.Calendar;
+import com.kh.usTwo.plan.model.vo.Mindmap;
 import com.kh.usTwo.plan.model.vo.Schedule;
 import com.kh.usTwo.plan.model.vo.SelectSchedule;
 
@@ -36,6 +37,25 @@ public class PlanDao {
 	public int deleteSchedule(SqlSessionTemplate sqlSession, int scheduleNo) {
 		return sqlSession.update("planMapper.deleteSchedule", scheduleNo);
 	}
+
+	public ArrayList<Mindmap> selectMindmapList(SqlSessionTemplate sqlSession, String coupleCode) {
+		return (ArrayList)sqlSession.selectList("planMapper.selectMindmapList", coupleCode);
+	}
+
+	public int deleteMindmapList(SqlSessionTemplate sqlSession, String coupleCode) {
+		return sqlSession.delete("planMapper.deleteMindmapList", coupleCode);
+	}
+
+	public int insertMindmapList(SqlSessionTemplate sqlSession, ArrayList<Mindmap> mindmapList) {
+		int result = 0;
+		for (Mindmap mindmap : mindmapList) {
+			result = sqlSession.insert("planMapper.insertMindmap", mindmap);
+	    }
+		return result;
+	}
+
+
+
 
 
 
