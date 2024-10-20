@@ -19,6 +19,7 @@
 		<typeAlias type="com.kh.usTwo.plan.model.vo.Calendar" alias="Calendar"/>
 		<typeAlias type="com.kh.usTwo.plan.model.vo.Schedule" alias="Schedule"/>
 		<typeAlias type="com.kh.usTwo.plan.model.vo.Mindmap" alias="Mindmap"/>
+		<typeAlias type="com.kh.usTwo.plan.model.vo.Phone" alias="Phone"/>
 	</typeAliases>
 
 	<mappers>

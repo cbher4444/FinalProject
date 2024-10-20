@@ -34,7 +34,14 @@
 		<result column="brush" property="brush"/>
 		<result column="dir" property="dir"/>
 		<result column="loc" property="loc"/>
-		<result column="coupleCode" property="coupleCode"/>
+		<result column="couple_Code" property="coupleCode"/>
+	</resultMap>
+	
+	<resultMap id="phoneResult" type="Phone">
+		<result column="calendar_no" property="calendarNo"/>
+		<result column="couple_code" property="coupleCode"/>
+		<result column="owner" property="owner"/>
+		<result column="phone" property="phone"/>
 	</resultMap>
 
 	<select id="selectCalendarList" resultMap="calendarResult">
@@ -183,12 +190,9 @@
 	           nvl(to_char(start_time, 'HH24:MI:SS'), '') as "start_time",
 	           to_char(end_date, 'YYYY-MM-DD') as "end_date",
 	           nvl(to_char(end_time, 'HH24:MI:SS'), '') as "end_time",
-	           to_char(create_date, 'YYYY-MM-DD') as "create_date",
 	           nvl(to_char(alert_date, 'YYYY-MM-DD"T"HH24:MI'), '') as "alert_date",
-	           nvl(color, default_color) as "color",
 	           writer,
-	           user_name as "writer_name",
-	           s.status
+	           user_name as "writer_name"
 	      from p_schedule s
 	      join p_calendar c using(calendar_no)
 	      join c_member m on (s.writer = m.email)
@@ -196,5 +200,25 @@
 	       and s.status = 'Y'
 	</select>
 
+	<select id="selectPhone" resultMap="phoneResult">
+		 select
+		        pc.calendar_no
+		      , pc.couple_code
+		      , pc.owner
+		      , cm.phone
+		   from p_calendar pc
+		   left join c_member cm on(cm.email = pc.owner)
+		  where pc.calendar_no = #{calendarNo}
+		    and pc.status = 'Y'
+	</select>
+	
+	<select id="selectPhoneList" resultMap="phoneResult">
+		select
+		        phone
+		      , couple_code
+		 from c_member
+		 where couple_code = #{coupleCode}
+		   and status = 'Y'
+	</select>
 
 </mapper>

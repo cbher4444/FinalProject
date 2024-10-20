@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.usTwo.plan.model.vo.Calendar;
 import com.kh.usTwo.plan.model.vo.Mindmap;
+import com.kh.usTwo.plan.model.vo.Phone;
 import com.kh.usTwo.plan.model.vo.Schedule;
 import com.kh.usTwo.plan.model.vo.SelectSchedule;
 
@@ -59,7 +60,13 @@ public class PlanDao {
 		return (ArrayList)sqlSession.selectList("planMapper.findScheduleWithAlertTime");
 	}
 
+	public Phone selectPhone(SqlSessionTemplate sqlSession, Schedule s) {
+		return sqlSession.selectOne("planMapper.selectPhone", s);
+	}
 
+	public ArrayList<Phone> selectPhoneList(SqlSessionTemplate sqlSession, String coupleCode) {
+		return (ArrayList)sqlSession.selectList("planMapper.selectPhoneList", coupleCode);
+	}
 
 
 

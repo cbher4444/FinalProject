@@ -129,7 +129,6 @@
 											<ul class="fh5co-sub-menu" style="min-width: fit-content;">
 												<li id="menubar_calendar"><a href="calendar">캘린더</a></li>
 												<li id="menubar_mindmap"><a href="mindmap">마인드맵</a></li>
-												<li id="menubar_todo"><a href="todo">할일</a></li>
 											</ul>
 										</li>
 										<li id="menubar_budget"><a href="goBudget">Budget</a></li>

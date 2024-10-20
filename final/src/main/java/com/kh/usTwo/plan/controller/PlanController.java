@@ -34,11 +34,6 @@ public class PlanController {
 		return "plan/mindmap";
 	}
 
-	@RequestMapping("todo")
-	public String todo() {
-		return "plan/todo";
-	}
-
 	@ResponseBody
 	@RequestMapping(value = "clist.pl", produces = "application/json; charset=utf-8")
 	public String ajaxSelectCalendarList(String coupleCode) {
