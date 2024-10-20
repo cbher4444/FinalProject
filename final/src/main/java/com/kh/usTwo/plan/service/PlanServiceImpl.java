@@ -1,11 +1,13 @@
 package com.kh.usTwo.plan.service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpSession;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.kh.usTwo.member.model.vo.Member;
@@ -64,6 +66,22 @@ public class PlanServiceImpl implements PlanService{
 		}else { // 새로 넣을 데이터가 없는 경우.
 			return 1;
 		}
+	}
+
+	@Override
+	@Scheduled(fixedRate = 60000) // 60000 = 60 * 1000ms -> 1분마다 실행
+	public void sendNotifications() {
+		System.out.println("PlanServiceImpl.java - sendNotifications() 실행됨. // 매 1분마다 실행됨. 알람이 있는 일정이 있는지 확인 후 알람을 보내는 역할. - by 동규 ");
+		ArrayList<Schedule> schedules = pDao.findScheduleWithAlertTime(sqlSession);
+		
+		for(Schedule schedule : schedules) {
+			sendNotification(schedule);
+		}
+		
+	}
+	
+	private void sendNotification(Schedule schedule) {
+		System.out.println(schedule);
 	}
 
 	

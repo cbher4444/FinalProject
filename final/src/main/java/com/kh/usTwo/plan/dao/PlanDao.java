@@ -1,5 +1,6 @@
 package com.kh.usTwo.plan.dao;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -52,6 +53,10 @@ public class PlanDao {
 			result = sqlSession.insert("planMapper.insertMindmap", mindmap);
 	    }
 		return result;
+	}
+
+	public ArrayList<Schedule> findScheduleWithAlertTime(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("planMapper.findScheduleWithAlertTime");
 	}
 
 

@@ -24,4 +24,6 @@ public interface PlanService {
 	ArrayList<Mindmap> selectMindmapList(String coupleCode);
 	
 	int updateMindmapList(ArrayList<Mindmap> mindmapList, HttpSession session);
+	
+	void sendNotifications();
 }

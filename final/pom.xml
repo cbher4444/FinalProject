@@ -326,11 +326,14 @@
 	<!-- zoom을 위한 (oauth 2.0) 을 위한 것들 -->
 	
 	
+	<!-- 캘린더 알림 문자보내기 관련 - 추가 by 동규 (2024.10.20)  -->
+	<dependency>
+	    <groupId>com.twilio.sdk</groupId>
+	    <artifactId>twilio</artifactId>
+	    <version>8.27.0</version>
+	</dependency>
 	
-
 	
-	
-
 	
 	</dependencies>
 	<build>
