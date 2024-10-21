@@ -78,7 +78,7 @@ public class MemberController {
 			if(loginUser != null) {
 				session.setAttribute("loginUser", loginUser);
 				session.setAttribute("checkCode", checkCode);
-				return "mypage/myPage"; // 홈으로 리다이렉트 되도록 수정함. - by 동규 (2024.10.13)
+				return "mypage/myPage";
 			}else {
 				session.setAttribute("alertMsg", "로그인 실패");
 				return "member/loginForm";
