@@ -1,6 +1,7 @@
 package com.kh.usTwo.member.model.service;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -138,7 +139,10 @@ public class MemberServiceImpl implements MemberService {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+@Override
+	public ArrayList<Member> selectMember() {
+		return mDao.selectMember(sqlSession);
+	}
 
 
 

@@ -1,6 +1,8 @@
 package com.kh.usTwo.fun.model.vo;
 
-import java.sql.Date;
+import java.util.ArrayList;
+
+import com.kh.usTwo.common.model.vo.PageInfo;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,12 +15,7 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString
-public class Atoday {
-	private int atodayNo;
-	private String atodayContent;
-	private Date atodayDate;
-	private Date qtodayDate;
-	private int qtodayNo;
-	private String email;
-	private String coupleCode;
+public class ResponseData {
+	private ArrayList<Test> list;
+	private PageInfo pi;
 }

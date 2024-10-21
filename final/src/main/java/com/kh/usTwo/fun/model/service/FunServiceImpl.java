@@ -1,20 +1,24 @@
 package com.kh.usTwo.fun.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.google.gson.JsonElement;
+import com.kh.usTwo.common.model.vo.PageInfo;
 import com.kh.usTwo.fun.model.dao.FunDao;
 import com.kh.usTwo.fun.model.vo.Alove;
 import com.kh.usTwo.fun.model.vo.Aservey;
 import com.kh.usTwo.fun.model.vo.Atest;
+import com.kh.usTwo.fun.model.vo.Atoday;
 import com.kh.usTwo.fun.model.vo.OptionTest;
 import com.kh.usTwo.fun.model.vo.Qlove;
 import com.kh.usTwo.fun.model.vo.Qservey;
 import com.kh.usTwo.fun.model.vo.Qtest;
+import com.kh.usTwo.fun.model.vo.Qtoday;
 import com.kh.usTwo.fun.model.vo.Test;
 import com.kh.usTwo.member.model.vo.Member;
 
@@ -106,4 +110,83 @@ public class FunServiceImpl implements FunService {
 		return fDao.selectQtestOne(m, sqlSession);
 	}
 
+	@Override
+	public ArrayList<Atest> selectAtest(Test t) {
+		return fDao.selectAtest(t, sqlSession);
+	}
+
+	@Override
+	public int updateAtest(Atest a) {
+		return fDao.updateAtest(a, sqlSession);
+	}
+
+	@Override
+	public int updateTest(Test t) {
+		return fDao.updateTest(t, sqlSession);
+	}
+
+	@Override
+	public int countAtest(Member m) {
+		return fDao.countAtest(m, sqlSession);
+	}
+
+	@Override
+	public int countAservey(Member m) {
+		return fDao.countAservey(m, sqlSession);
+	}
+
+	@Override
+	public int countTest(Member m) {
+		return fDao.countTest(m, sqlSession);
+	}
+
+	@Override
+	public int insertAservey(Aservey a) {
+		return fDao.insertAservey(a, sqlSession);
+	}
+
+	@Override
+	public ArrayList<Qtoday> selectQtoday() {
+		return fDao.selectQtoday(sqlSession);
+	}
+
+	@Override
+	public ArrayList<Atoday> selectAtoday(HashMap<String, String> hm) {
+		return fDao.selectAtoday(hm, sqlSession);
+	}
+
+	@Override
+	public int countAtoday(Member m) {
+		return fDao.countAtoday(m, sqlSession);
+	}
+
+	@Override
+	public ArrayList<Atoday> checkAtodayDupl(HashMap<String, String> hm) {
+		return fDao.checkAtodayDupl(hm, sqlSession);
+	}
+
+	@Override
+	public int insertAtoday(HashMap<String, String> hm) {
+		return fDao.insertAtoday(hm, sqlSession);
+	}
+
+	@Override
+	public int updateAtoday(HashMap<String, String> hm) {
+		return fDao.updateAtoday(hm, sqlSession);
+	}
+
+	@Override
+	public ArrayList<Test> selectTestCouple(String coupleCode, PageInfo pi) {
+		return fDao.selectTestCouple(coupleCode, pi, sqlSession);
+	}
+
+	@Override
+	public int countTestCouple(String coupleCode) {
+		return fDao.countTestCouple(coupleCode, sqlSession);
+	}
+
+	@Override
+	public ArrayList<Qtest> selectQtestSpecific(int testNo) {
+		return fDao.selectQtestSpecific(testNo, sqlSession);
+	}
 }

@@ -1,6 +1,7 @@
 package com.kh.usTwo.member.model.service;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 
 import com.kh.usTwo.member.model.vo.Member;
 
@@ -37,4 +38,6 @@ public interface MemberService {
 	int revertCoupleCode(String coupleCode); // 커플코드 되살리기 - 추가함 by 동규 (2024.10.15)
 
 	int revertMember(Member m); // 계정 복구 - 추가함 by 동규 (2024.10.15)
+
+	ArrayList<Member> selectMember();
 }

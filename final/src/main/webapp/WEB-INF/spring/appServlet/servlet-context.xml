@@ -32,6 +32,29 @@
 		<websocket:sockjs websocket-enabled="true"/>
 	</websocket:handlers>	
     
+	<interceptors>
+		<interceptor>
+			<mapping path="/goFun1"/>
+			<mapping path="/goFun2"/>
+			<mapping path="/goFun3"/>
+			<mapping path="/goFun4"/>
+			<mapping path="/selectQtest.test"/>
+			<mapping path="/selectOptionTest.test"/>
+			<mapping path="/selectQlove.qna"/>
+			<mapping path="/selectAlove.qna"/>
+			<mapping path="/selectAtest.test"/>
+			<mapping path="/updateAtest.test"/>
+			<mapping path="/insertAtest.test"/>
+			<mapping path="/updateTest.test"/>
+			<mapping path="/countAtest.test"/>
+			<mapping path="/selectQservey.test"/>
+			<mapping path="/insertAservey.servey"/>
+			<mapping path="/geminiQnA"/>
+			<mapping path="/geminiTest"/>
+			<beans:bean class="com.kh.usTwo.common.interceptor.LoginInterceptor" id="loginInterceptor" />
+		</interceptor>
+	</interceptors>
+
   <beans:bean id="ChatHandler" class="com.kh.usTwo.chat.Chathandler" />
 	
 	

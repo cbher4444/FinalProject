@@ -16,6 +16,4 @@ import lombok.ToString;
 public class Qtoday {
 	private int qtodayNo;
 	private String qtodayContent;
-	private Date qtodayDate;
-	private String coupleCode;
 }

@@ -56,12 +56,27 @@
 		<result column="COUPLE_CODE" property="coupleCode" />
 	</resultMap>
 	
-	<resultMap type="Atest" id="aestResult">
-		<result column="ATEST_NO" property="ateatNo" />
+	<resultMap type="Atest" id="atestResult">
+		<result column="ATEST_NO" property="atestNo" />
 		<result column="ATEST_CONTENT" property="atestContent" />
 		<result column="ATEST_TRUE" property="atestTrue" />
 		<result column="QTEST_NO" property="qtestNo" />
 		<result column="TEST_NO" property="testNo" />
+		<result column="EMAIL" property="email" />
+		<result column="COUPLE_CODE" property="coupleCode" />
+	</resultMap>
+	
+	<resultMap type="Qtoday" id="qtodayResult">
+		<result column="QTODAY_NO" property="qtodayNo" />
+		<result column="QTODAY_CONTENT" property="qtodayContent" />
+	</resultMap>
+	
+	<resultMap type="Atoday" id="atodayResult">
+		<result column="ATODAY_NO" property="atodayNo" />
+		<result column="ATODAY_CONTENT" property="atodayContent" />
+		<result column="ATODAY_DATE" property="atodayDate" />
+		<result column="QTODAY_DATE" property="qtodayDate" />
+		<result column="QTODAY_NO" property="qtodayNo" />
 		<result column="EMAIL" property="email" />
 		<result column="COUPLE_CODE" property="coupleCode" />
 	</resultMap>
@@ -249,10 +264,10 @@
 	
 	<insert id="insertAtest">
 		INSERT
-		  INTO F_OPTION_TEST
+		  INTO F_ATEST
 		VALUES
 		     (
-		       SEQ_OPTION_NO.NEXTVAL
+		       SEQ_ATEST_NO.NEXTVAL
 		     , #{ atestContent }
 		     , #{ atestTrue }
 		     , #{ qtestNo }
@@ -279,5 +294,169 @@
 		         order
 		            by qtest_no desc)
 		 where rownum between 1 and 1
+	</select>
+	
+	<select id="selectAtest" resultMap="atestResult">
+		select atest_no
+			 , atest_content
+			 , atest_true
+			 , qtest_no
+		  from f_atest
+		 where test_no = #{ testNo }
+		   and email = #{ email }
+		   and couple_code = #{ coupleCode }
+	</select>
+	
+	<update id="updateAtest">
+		update f_atest
+		   set atest_content = #{ atestContent }
+		     , atest_true = #{ atestTrue }
+		 where qtest_no = #{ qtestNo }
+		   and test_no = #{ testNo }
+		   and email = #{ email }
+		   and couple_code = #{ coupleCode }
+	</update>
+	
+	<update id="updateTest">
+		update f_test
+		   set test_score = #{ testScore }
+		     , test_date = sysdate
+		 where test_no = #{ testNo }
+		   and email = #{ email }
+		   and couple_code = #{ coupleCode }
+	</update>
+	
+	<select id="countAtest" resultType="_int">
+		select count(*) as num
+		  from f_atest
+		 where test_no = (select test_no
+		                    from (select test_no
+		                            from f_test
+		                           where email = #{ email }
+		                             and couple_code = #{ coupleCode }
+		                           order
+		                              by test_no desc)
+		                   where rownum between 1 and 1)
+	</select>
+	
+	<select id="countAservey" resultType="_int">
+		select count(*) as count
+		  from f_aservey
+		 where email = #{ email }
+		   and couple_code = #{ coupleCode }
+	</select>
+	
+	<select id="countTest" resultType="_int">
+		select count(*) as count
+		  from (select test_no
+		          from f_test
+		         where email = #{ email }
+		           and couple_code = #{ coupleCode }
+		         order
+		            by test_date desc)
+		 where rownum between 1 and 1
+	</select>
+	
+	<insert id="insertAservey">
+		INSERT
+		  INTO F_ASERVEY
+		VALUES
+		     (
+		       SEQ_ASERVEY_NO.NEXTVAL
+		     , #{ aserveyContent }
+		     , #{ qserveyNo }
+		     , #{ email }
+		     , #{ coupleCode }
+		     )
+	</insert>
+	
+	<select id="selectQtoday" resultMap="qtodayResult">
+		select QTODAY_NO
+			 , QTODAY_CONTENT
+	      from f_qtoday
+	</select>
+	
+	<select id="selectAtoday" resultMap="atodayResult">
+		select ATODAY_NO
+		     , ATODAY_CONTENT
+		     , ATODAY_DATE
+		     , QTODAY_DATE
+		     , QTODAY_NO
+		     , EMAIL
+		     , COUPLE_CODE
+		 from f_atoday
+		where email = #{ email }
+	      and couple_code = #{ coupleCode }
+          and qtoday_date between to_date(#{ startDate }, 'yyyy-mm-dd')
+                              and to_date(#{ endDate }, 'yyyy-mm-dd')
+	</select>
+	
+	<select id="countAtoday" resultType="_int">
+		select count(*) as count
+		  from f_atoday
+		 where email = #{ email }
+		   and couple_code = #{ coupleCode }
+	</select>
+	
+	<select id="checkAtodayDupl" resultMap="atodayResult">
+		select qtoday_no
+		  from f_atoday
+		 where email = #{ email }
+		   and couple_code = #{ coupleCode }
+		 group
+		    by qtoday_no
+		having count(qtoday_no) > #{ num }
+	</select>
+	
+	<insert id="insertAtoday">
+        INSERT
+		  INTO F_ATODAY
+		VALUES
+		     (
+		       SEQ_ATODAY_NO.NEXTVAL
+		     , '아직 등록된 답변이 존재하지 않습니다.'
+		     , null
+		     , sysdate
+		     , #{ random }
+		     , #{ email }
+		     , #{ coupleCode }
+		     )
+	</insert>
+	
+	<update id="updateAtoday">
+		update f_atoday
+		   set atoday_content = #{ atodayContent }
+		     , atoday_date = sysdate
+		 where email = #{ email }
+		   and couple_code = #{ coupleCode }
+		   and qtoday_date = to_date(#{ today }, 'yyyy-mm-dd')
+	</update>
+	
+	<select id="selectTestCouple" resultMap="testResult">
+		select test_no
+             , test_score
+		     , test_date
+		     , email
+		     , couple_code
+         from f_test
+         where couple_code = #{ coupleCode }
+		 order
+		    by test_no desc
+	</select>
+	
+	<select id="countTestCouple" resultType="_int">
+		select count(*) as count
+		  from f_test
+		 where couple_code = #{ coupleCode }
+	</select>
+	
+	<select id="selectQtestSpecific" resultMap="qtestResult">
+		select qtest_no
+		     , qtest_content
+		     , test_no
+		     , email
+		     , couple_code
+		  from f_qtest
+         where test_no = #{ testNo }
 	</select>
 </mapper>

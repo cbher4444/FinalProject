@@ -234,5 +234,13 @@
 		 where email = #{email}
 	</update>
 	
-	
+	<select id="selectMember" resultMap="memberResult">
+		select email
+		     , couple_code
+		     , partner_email
+		  from c_member
+		 where status = 'Y'
+		   and couple_code != 'admin'
+		   and gender = 'M'
+	</select>
 </mapper>
