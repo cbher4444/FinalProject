@@ -7,6 +7,7 @@
 	
 	<typeAliases>
 		<typeAlias type="com.kh.usTwo.member.model.vo.Member" alias="Member"/>
+		<typeAlias type="com.kh.usTwo.home.model.vo.Couple" alias="Couple"/>
 		<typeAlias type="com.kh.usTwo.fun.model.vo.Qtest" alias="Qtest"/>
 		<typeAlias type="com.kh.usTwo.fun.model.vo.OptionTest" alias="OptionTest"/>
 		<typeAlias type="com.kh.usTwo.fun.model.vo.Qservey" alias="Qservey"/>
@@ -19,12 +20,15 @@
 		<typeAlias type="com.kh.usTwo.fun.model.vo.Atoday" alias="Atoday"/>
 		<typeAlias type="com.kh.usTwo.plan.model.vo.Calendar" alias="Calendar"/>
 		<typeAlias type="com.kh.usTwo.plan.model.vo.Schedule" alias="Schedule"/>
+		<typeAlias type="com.kh.usTwo.plan.model.vo.Mindmap" alias="Mindmap"/>
+		<typeAlias type="com.kh.usTwo.plan.model.vo.Phone" alias="Phone"/>
 		<typeAlias type="com.kh.usTwo.album.model.vo.Story" alias="Story" />
 		<typeAlias type="com.kh.usTwo.album.model.vo.Reply" alias="Reply" />
 	</typeAliases>
 
 	<mappers>
 		<mapper resource="/mappers/member-mapper.xml"/>
+		<mapper resource="/mappers/couple-mapper.xml"/>
 		<mapper resource="/mappers/fun-mapper.xml"/>
 		<mapper resource="/mappers/plan-mapper.xml"/>
 		<mapper resource="/mappers/album-mapper.xml"/>

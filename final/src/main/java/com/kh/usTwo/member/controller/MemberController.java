@@ -1,5 +1,9 @@
 package com.kh.usTwo.member.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Random;
 
 import javax.servlet.http.HttpSession;
@@ -12,7 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
+import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.usTwo.member.model.service.MemberServiceImpl;
 import com.kh.usTwo.member.model.vo.Member;
@@ -74,7 +78,7 @@ public class MemberController {
 			if(loginUser != null) {
 				session.setAttribute("loginUser", loginUser);
 				session.setAttribute("checkCode", checkCode);
-				return "mypage/myPage"; // 홈으로 리다이렉트 되도록 수정함. - by 동규 (2024.10.13)
+				return "mypage/myPage";
 			}else {
 				session.setAttribute("alertMsg", "로그인 실패");
 				return "member/loginForm";
@@ -197,6 +201,21 @@ public class MemberController {
 			session.setAttribute("alertMsg", "비밀번호 변경에 실패했습니다.");
 			return "member/findPwd";
 		}
+	}
+	
+	// "마이페이지" 비밀변호 변경 - 추가함 by 동규 (2024.10.18)
+	@RequestMapping("updatePwd.me")
+	public String updatePwdMember(Member m, HttpSession session) {
+		
+		int updatePwd = mService.updatePwdMember(m);
+		
+		if(updatePwd > 0) {
+			session.setAttribute("alertMsg", "성공적으로 비밀번호 변경 됐습니다.");
+		}else {
+			session.setAttribute("alertMsg", "비밀번호 변경에 실패했습니다. 현재 비밀번호를 확인해주세요.");
+		}
+
+		return "redirect:myPage";
 	}
 	
 	// 초대코드 중복체크 - 추가함 by 동규 (2024.10.14)
@@ -343,6 +362,58 @@ public class MemberController {
 			return "redirect:myPage";
 		}
 	}  
+
+	// 프로필 사진변경 - 추가함 by 동규 (2024.10.18)
+	@RequestMapping("profileUpdate.me")
+	public String updateProfile(Member m, MultipartFile reupfile, HttpSession session) {
+		
+		// 기존에 첨부파일이 있었을 경우 => 기존의 첨부파일 지우기
+		if(m.getOriginName() != null) {
+			new File(session.getServletContext().getRealPath(m.getChangeName())).delete();
+		}
+		
+		// 새로 넘어온 첨부파일 서버 업로드 시키기
+		String changeName = saveFile(reupfile, session);
+		
+		// m에 새로 넘어온 첨부파일 대한 원본명, 저장경로 담기
+		m.setOriginName(reupfile.getOriginalFilename());
+		m.setChangeName("resources/uploadFiles/" + changeName);
+		
+		int result = mService.updateProfile(m);
+		
+		if(result > 0) {
+			Member updateloginUser = mService.loginMember(m);
+			session.setAttribute("loginUser", updateloginUser); // 갱싱된 회원정보로 세션 갈아끼기!
+			session.setAttribute("alertMsg", "성공적으로 프로필사진이 변경되었습니다.");
+		} else {
+			session.setAttribute("alertMsg", "프로필사진 변경실패");
+		}
+		
+		return "redirect:myPage";
+	}
+
+	// 현재 넘어온 첨부파일 그 자체를 서버의 폴더에 저장시키는 역할 - 추가함 by 동규 (2024.10.18) 
+	public String saveFile(MultipartFile upfile, HttpSession session) {
+		String originName = upfile.getOriginalFilename(); // "flower.png"
+		
+		String currentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()); // "20240926150855"
+		int ranNum = (int)(Math.random() * 90000 + 10000); // 23125 (5자리 랜덤값)
+		String ext = originName.substring(originName.lastIndexOf(".")); // ".png"
+		
+		String changeName = currentTime + ranNum + ext;
+		
+		// 업로드 시키고자 하는 폴더의 물리적인 경로 알아내기
+		String savePath = session.getServletContext().getRealPath("/resources/uploadFiles/");
+		
+		try {
+			upfile.transferTo(new File(savePath + changeName));
+		} catch (IllegalStateException | IOException e) {
+			e.printStackTrace();
+		}
+		
+		return changeName;
+	}
+	
 
 	
 }

@@ -127,7 +127,7 @@
 		// ----------------------- 기존에 내 초대코드가 없었던 경우 -----------------------
 		async function initializeInviteCode() {
 			if ("${loginUser.inviteCode}" === "") {
-				console.log("기존에 내 초대코드가 없었던 경우!");
+				// console.log("기존에 내 초대코드가 없었던 경우!");
 				let randomString;
 				while(true){ // 초대코드 중복안될때까지 반복
 					randomString = generateRandomString(10);

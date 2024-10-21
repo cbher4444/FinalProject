@@ -51,6 +51,7 @@ public class Member {
 	private String originName;
 	private String changeName;
 	private String status;
+	private String updatePwd; // 변경할 Pwd. "마이페이지" 비밀번호 변경시 사용 - 추가함 by 동규 (2024.10.18)
 	
 	
 	// 계정삭제일 구하는 메소드 - 추가함 by 동규 (2024.10.15)

@@ -74,6 +74,17 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
+	public int updatePwdMember(Member m) {
+		return mDao.updatePwdMember(sqlSession, m);
+	}
+	
+
+	@Override
+	public int updatePwdMember(Member m) {
+		return mDao.updatePwdMember(sqlSession, m);
+	}
+	
+	@Override
 	public String partnerUser(Member m) {
 		return mDao.partnerUser(sqlSession, m);
 	}
@@ -143,6 +154,14 @@ public class MemberServiceImpl implements MemberService {
 	public ArrayList<Member> selectMember() {
 		return mDao.selectMember(sqlSession);
 	}
+
+	@Override
+	public int updateProfile(Member m) {
+		return mDao.updateProfile(sqlSession, m);
+	}
+
+
+
 
 
 
