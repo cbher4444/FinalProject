@@ -40,7 +40,7 @@ public class GeminiController {
 	@Autowired 
 	private FunServiceImpl fService;
 	
-    private static final String API_KEY = "";
+    private static final String API_KEY = "AIzaSyB29rTkr_X5taqIoy8uU9NDWmIa_Zuyw-g";
     private static final String MODEL_NAME = "gemini-pro";
 
     public String callGemini(String prompt) throws Exception {
