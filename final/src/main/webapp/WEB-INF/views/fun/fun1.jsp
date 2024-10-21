@@ -525,7 +525,7 @@
 			}
 
 			function urgeKakao() {
-				Kakao.init('');
+				Kakao.init('4e64c4845db0e20f347c71d3c7d9983f');
 				Kakao.Link.sendCustom({
 					templateId: 113039
 				});

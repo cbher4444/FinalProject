@@ -87,23 +87,21 @@ public class PlanServiceImpl implements PlanService{
 	private void sendNotification(Schedule s) {
 		// System.out.println(s);
 		
-		String ACCOUNT_SID = "";
-		String AUTH_TOKEN = "";
+		String ACCOUNT_SID = "AC0d0c8a28e09ea81680e2dce0da50bb64";
+		String AUTH_TOKEN = "1d727261bb2805115d0a9cf703f40b2c";
 		
 		// Initialize Twilio
-//        Twilio.init(ACCOUNT_SID, AUTH_TOKEN); // 실제 보낼때만 사용하기
+        //Twilio.init(ACCOUNT_SID, AUTH_TOKEN); // 실제 보낼때만 사용하기
         
 		ArrayList<Phone> phoneList = getPhoneList(s);
-		// System.out.println(phoneList);
 		
 		for(Phone p : phoneList) {
 			if(p == null) {
 				continue;
 			}
 			
-			//String myPhoneNumber = "+821020398463";
-			String myPhoneNumber = "+82" + p.getPhone().substring(1);
-			String myTwilioNumber = "";
+			String myPhoneNumber = "+82" + p.getPhone().substring(1); //"+821099998888"
+			String myTwilioNumber = "+14154232248";
 			String messageStr = makeMessage(s);
 			
 			System.out.println("--------------------------------------");
@@ -119,7 +117,7 @@ public class PlanServiceImpl implements PlanService{
 //	                messageStr
 //	        ).create();
 	        
-//	        System.out.println(message);
+	       // System.out.println(message);
 		}
 	}
 	
