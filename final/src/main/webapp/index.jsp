@@ -9,7 +9,14 @@
 </head>
 <body>
 
-<jsp:forward page="WEB-INF/views/home/homeGuest.jsp"/>
+	<c:choose>
+		<c:when test="${ empty loginUser }">
+			<jsp:forward page="WEB-INF/views/home/homeGuest.jsp"/>
+		</c:when>
+		<c:otherwise>
+			<jsp:forward page="WEB-INF/views/home/homeMember.jsp"/>
+		</c:otherwise>
+	</c:choose>
 
 </body>
 </html>

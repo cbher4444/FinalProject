@@ -42,13 +42,13 @@ public class PlanServiceImpl implements PlanService{
 		String myEmail = loginUser.getEmail();
 		String partnerEmail = loginUser.getPartnerEmail();
 		
-		String pink = "rgb(236, 154, 236";
+		String pink = "rgb(236, 154, 236)";
 		String skyBlue = "#3788d8";
-		String yellow = "rgb(253, 204, 113)";
+		String green = "#27ae60";
 		
 		Calendar cBoth = new Calendar(coupleCode, "BOTH", pink);
 		Calendar cMine = new Calendar(coupleCode, myEmail, skyBlue);
-		Calendar cPartner = new Calendar(coupleCode, partnerEmail, yellow);
+		Calendar cPartner = new Calendar(coupleCode, partnerEmail, green);
 		
 		int result = 1;
 		result *= pDao.insertCalendar(sqlSession, cBoth);

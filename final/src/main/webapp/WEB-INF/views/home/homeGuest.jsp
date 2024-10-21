@@ -5,7 +5,6 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<script defer src="resources/js/homeGuest.js"></script>
 
 	<style>
 		.pink-background{
