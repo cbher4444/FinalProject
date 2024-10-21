@@ -18,7 +18,11 @@ public class PlanDao {
 	public ArrayList<Calendar> selectCalendarList(SqlSessionTemplate sqlSession, String coupleCode) {
 		return (ArrayList)sqlSession.selectList("planMapper.selectCalendarList", coupleCode);
 	}
-	
+
+	public int insertCalendar(SqlSessionTemplate sqlSession, Calendar c) {
+		return sqlSession.insert("planMapper.insertCalendar", c);
+	}
+
 	public ArrayList<Schedule> selectScheduleList(SqlSessionTemplate sqlSession, SelectSchedule ss) {
 		ArrayList<Schedule> list = new ArrayList<Schedule>();
 		for(int i : ss.getCalendarNoList()) {

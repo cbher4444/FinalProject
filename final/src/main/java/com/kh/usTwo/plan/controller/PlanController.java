@@ -25,7 +25,14 @@ public class PlanController {
 	private PlanServiceImpl pService;
 
 	@RequestMapping("calendar")
-	public String calendar() {
+	public String calendar(HttpSession session) {
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		ArrayList<Calendar> list = pService.selectCalendarList(loginUser.getCoupleCode());
+		
+		if(list.size() == 0) { // 기존에 캘린더가 없다면
+			pService.insertCalendar(loginUser); // 공유캘린더, 내캘린더, 상대방캘린더 생성
+		}
+		
 		return "plan/calendar";
 	}
 

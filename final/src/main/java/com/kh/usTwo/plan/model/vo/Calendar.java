@@ -17,4 +17,11 @@ public class Calendar {
 	private String owner;
 	private String defaultColor;
 	private String status;
+	
+	public Calendar(String coupleCode, String owner, String defaultColor) {
+		this.coupleCode = coupleCode;
+		this.owner = owner;
+		this.defaultColor = defaultColor;
+	}
+	
 }

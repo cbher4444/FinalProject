@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javax.servlet.http.HttpSession;
 
+import com.kh.usTwo.member.model.vo.Member;
 import com.kh.usTwo.plan.model.vo.Calendar;
 import com.kh.usTwo.plan.model.vo.Mindmap;
 import com.kh.usTwo.plan.model.vo.Schedule;
@@ -12,6 +13,8 @@ import com.kh.usTwo.plan.model.vo.SelectSchedule;
 public interface PlanService {
 
 	ArrayList<Calendar> selectCalendarList(String coupleCode);
+	
+	int insertCalendar(Member loginUser);
 	
 	ArrayList<Schedule> selectScheduleList(SelectSchedule ss);
 	
