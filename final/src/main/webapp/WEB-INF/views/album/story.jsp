@@ -347,7 +347,7 @@
 	// 스토리 삭제하기
 	$(".deleteStory").click(function(){
 		let changeName = $(this).siblings().find(".img-responsive").attr("src");
-		let storyNo = $(this).siblings().find(".storyNo").val();
+		var storyNo = $(this).siblings().find(".storyNo").val();
 		if(confirm("해당 스토리를 삭제하시겠습니까?")){
 			if(confirm("삭제된 스토리는 복구가 불가능합니다. 그래도 삭제하시겠습니까?")){
 				$.ajax({
@@ -399,14 +399,12 @@
 				storyNo : storyNo,
 				replyContent : reply,
 			}, success:function(result){
-				if(result > 0){
 					$("input.storyNo").each(function(i, item){
 						if(storyNo == $(item).val()){
 							$(item).parent().parent().parent().click();
 							$(".insertReply input").val("");
 						}
 					})	
-				}
 				
 			}, error:function(){
 				console.log("댓글 달기용 ajax 통신 실패")
@@ -416,20 +414,18 @@
 	
 	// 댓글 좋아요
 	$(document).on("click",".replyLike",function(){
-		let storyNo = $(".modal-content").find("input#modalStoryNo").val()
-		let replyNo = $(this).parent().siblings("input[type=hidden]").val()
+		var storyNo = $(".modal-content").find("input#modalStoryNo").val()
+		var replyNo = $(this).parent().siblings("input[type=hidden]").val()
 		$.ajax({
 			url:"increaseLike",
 			data:{replyNo:replyNo},
 			success:function(result){
-				if(result > 0){
 					$("input.storyNo").each(function(i, item){
 						if(storyNo == $(item).val()){
 							$(item).parent().parent().parent().click();
 							$(".insertReply input").val("");
 						}
 					})	
-				}
 			}, error:function(){
 				console.log("좋아요 누르기 ajax 통신 실패");
 			}

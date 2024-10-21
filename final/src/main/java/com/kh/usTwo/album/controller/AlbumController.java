@@ -210,10 +210,9 @@ public class AlbumController {
     }
     
     @ResponseBody
-    @RequestMapping("deleteStory")
+    @RequestMapping(value="deleteStory", produces="html/text;")
     public int deleteStory(String storyNo, String changeName, HttpSession session) {
     	int result = aService.deleteStory(storyNo);
-    	System.out.println(storyNo);
     	if(result > 0) {
     		new File(session.getServletContext().getRealPath(changeName)).delete();
     	}
