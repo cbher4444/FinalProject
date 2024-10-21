@@ -72,17 +72,6 @@ public class MemberServiceImpl implements MemberService {
 	public int updatePwd(Member m) {
 		return mDao.updatePwd(sqlSession, m);
 	}
-
-	@Override
-	public int updatePwdMember(Member m) {
-		return mDao.updatePwdMember(sqlSession, m);
-	}
-	
-
-	@Override
-	public int updatePwdMember(Member m) {
-		return mDao.updatePwdMember(sqlSession, m);
-	}
 	
 	@Override
 	public String partnerUser(Member m) {
@@ -137,10 +126,6 @@ public class MemberServiceImpl implements MemberService {
 		return mDao.revertMember(sqlSession, m);
 	}
 
-
-
-
-
 	public int idCheck(String email) {
 		return mDao.idCheck(sqlSession, email);
 	}
@@ -150,7 +135,8 @@ public class MemberServiceImpl implements MemberService {
 		// TODO Auto-generated method stub
 		return null;
 	}
-@Override
+	
+	@Override
 	public ArrayList<Member> selectMember() {
 		return mDao.selectMember(sqlSession);
 	}

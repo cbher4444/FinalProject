@@ -75,12 +75,8 @@ public class PlanServiceImpl implements PlanService{
 	@Override
 	@Scheduled(cron = "0 * * * * *") // 매분 00초 마다 실행
 	public void sendNotifications() {
-		System.out.println("PlanServiceImpl.java - sendNotifications() 실행됨. // 매분 00초에 실행됨. 알람이 있는 일정이 있는지 확인 후 알람을 보내는 역할. - by 동규 ");
+		System.out.println("PlanServiceImpl.java - sendNotifications() 실행됨. // 매분 00초에 실행됨. 알람이 있는 일정이 있는지 확인 후 문자메시지를 보내는 역할. - by 동규 ");
 		ArrayList<Schedule> schedules = pDao.findScheduleWithAlertTime(sqlSession);
-		
-		System.out.println("====== findScheduleWithAlertTime() 결과 시작 ======");
-		System.out.println(schedules);
-		System.out.println("====== findScheduleWithAlertTime() 결과 끝 ======");
 		
 		for(Schedule schedule : schedules) {
 			sendNotification(schedule);

@@ -80,7 +80,7 @@
 								</c:choose>
 									<tr>
 										<td>* 이메일</td>
-										<td><input type="email" name="email" value="${ loginUser.email }" required disabled></td>
+										<td><input type="email" name="email" value="${ loginUser.email }" required readOnly></td>
 									</tr>
 									<tr>
 										<td>* 이름</td>

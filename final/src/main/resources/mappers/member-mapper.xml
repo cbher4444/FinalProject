@@ -110,16 +110,6 @@
 			and status != 'N'
 	</update>
 	
-	<!-- 비밀번호 변경(마이페이지서 사용. 기존 Pwd과 일치하는지 포함) - 추가함 by 동규 (2024.10.18) -->
-	<update id="updatePwdMember">
-		update c_member
-			set user_pwd = #{updatePwd}
-			  , modify_date = sysdate
-		  where email = #{email}
-		    and user_pwd = #{userPwd}
-			and status != 'N'
-	</update>
-	
 	<select id="partnerUser" resultType="string">
 	   select couple_code
 		 from c_member

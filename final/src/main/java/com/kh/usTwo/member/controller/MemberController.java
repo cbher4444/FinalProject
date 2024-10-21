@@ -143,10 +143,9 @@ public class MemberController {
 		
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		
-		String encPwd = loginUser.getUserPwd();
+		String encPwd = loginUser.getUserPwd(); // db에서 가져온 비밀번호 (암호문)
 		
-		//if(bcryptPasswordEncoder.matches(userPwd, encPwd)) { // 비번맞음 => 탈퇴처리
-		if(encPwd.equals(userPwd)){
+		if(bcryptPasswordEncoder.matches(userPwd, encPwd)) { // 입력한 비밀번호(평문) & db비밀번호(암호문)이 일치한다면 => 탈퇴처리
 			int result = mService.deleteMember(loginUser);
 			if(result > 0) { // 탈퇴처리 성공 => session에 loginUSer 지움, alert 문구 담기 => 메인페이지 url 재요청
 				session.removeAttribute("loginUser");
@@ -222,12 +221,23 @@ public class MemberController {
 	@RequestMapping("updatePwd.me")
 	public String updatePwdMember(Member m, HttpSession session) {
 		
-		int updatePwd = mService.updatePwdMember(m);
+		String encPwd = ((Member)session.getAttribute("loginUser")).getUserPwd(); // db로 부터 조회된 비번(암호문)
 		
-		if(updatePwd > 0) {
-			session.setAttribute("alertMsg", "성공적으로 비밀번호 변경 됐습니다.");
-		}else {
-			session.setAttribute("alertMsg", "비밀번호 변경에 실패했습니다. 현재 비밀번호를 확인해주세요.");
+		if(bcryptPasswordEncoder.matches(m.getUserPwd(), encPwd)) { // 입력한 기존 비밀번호가 db 비밀번호와 일치하는 경우
+			
+			m.setUserPwd(bcryptPasswordEncoder.encode(m.getUpdatePwd())); // 새 비밀번호를 평문 -> 암호문으로 변경
+			int updatePwd = mService.updatePwd(m);
+			
+			if(updatePwd > 0) {
+				Member updateMem = mService.loginMember(m);
+				session.setAttribute("loginUser", updateMem); // 갱싱된 회원정보로 세션 갈아끼기!
+				session.setAttribute("alertMsg", "성공적으로 비밀번호 변경 됐습니다.");
+			}else {
+				session.setAttribute("alertMsg", "비밀번호 변경실패");
+			}
+			
+		}else { // 비밀번호가 틀린경우
+			session.setAttribute("alertMsg", "비밀번호를 잘못 입력하셨습니다. 다시 시도해주세요.");
 		}
 
 		return "redirect:myPage";
