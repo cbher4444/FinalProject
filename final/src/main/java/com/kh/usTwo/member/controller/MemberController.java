@@ -39,6 +39,10 @@ public class MemberController {
 	
 	@RequestMapping("login")
 	public String homeMember(HttpSession session, Member m) {
+		//db에 있는 기본 데이터 비번 변경시 로그인 불가능 +> 비번 암호화 진행 및 db 변경후 로그인 가능
+		String encPwd = bcryptPasswordEncoder.encode(m.getUserPwd());
+		System.out.println(encPwd);
+		
 		Member loginUser = mService.loginMember(m);
 		if(loginUser != null && bcryptPasswordEncoder.matches(m.getUserPwd(), loginUser.getUserPwd())) {
 			Member partner = mService.selectPartnerEmail(m);
@@ -354,6 +358,7 @@ public class MemberController {
 			return "redirect:myPage";
 		}
 	}  
+
 
 	
 }
