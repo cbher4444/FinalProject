@@ -24,5 +24,8 @@ public class Story {
 	private String originName;
 	private String changeName;
 	private String status;
+	
+	// 프로필 경로
+	private String profileChangeName;
 
 }

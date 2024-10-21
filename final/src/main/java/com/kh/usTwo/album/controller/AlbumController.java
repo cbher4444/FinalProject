@@ -17,11 +17,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.google.api.services.drive.model.Reply;
 import com.google.api.services.photoslibrary.v1.model.Album;
 import com.google.gson.Gson;
 import com.kh.usTwo.album.model.service.AlbumServiceImpl;
 import com.kh.usTwo.album.model.service.GooglePhotoService;
+import com.kh.usTwo.album.model.vo.Reply;
 import com.kh.usTwo.album.model.vo.Story;
 import com.kh.usTwo.common.saveFile.SaveFile;
 import com.kh.usTwo.member.model.vo.Member;
@@ -206,10 +206,43 @@ public class AlbumController {
     @RequestMapping(value="selectReplyList", produces="application/json; charset=utf-8")
     public String selectReplyList(String storyNo){
     	ArrayList<Reply> list = aService.selectReplyList(storyNo);
-    	System.out.println(storyNo);
-    	System.out.println(list);
-    	
     	return new Gson().toJson(list);
+    }
+    
+    @ResponseBody
+    @RequestMapping("deleteStory")
+    public int deleteStory(String storyNo, String changeName, HttpSession session) {
+    	int result = aService.deleteStory(storyNo);
+    	System.out.println(storyNo);
+    	if(result > 0) {
+    		new File(session.getServletContext().getRealPath(changeName)).delete();
+    	}
+    	return result;
+    }
+    
+    @ResponseBody
+    @RequestMapping("insertReply")
+    public int insertReply(String storyNo, String replyContent, HttpSession session) {
+    	
+    	Reply r = new Reply();
+    	Member loginUser = (Member)session.getAttribute("loginUser");
+    	r.setRefStoryNo(storyNo);
+    	r.setReplyContent(replyContent);
+    	r.setReplyWriter(loginUser.getEmail());
+    	int result = aService.insertReply(r);
+    	
+    	if(result > 0) {
+    		aService.increaseReplyCount(storyNo);
+    	}
+    	
+    	return result;
+    }
+    
+    @ResponseBody
+    @RequestMapping("increaseLike")
+    public int increaseLike(String replyNo) {
+    	int result = aService.increaseReplyLike(replyNo);
+    	return result;
     }
     
 }

@@ -6,7 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.google.api.services.drive.model.Reply;
+import com.kh.usTwo.album.model.vo.Reply;
 import com.kh.usTwo.album.model.vo.Story;
 import com.kh.usTwo.member.model.vo.Member;
 
@@ -23,6 +23,22 @@ public class AlbumDao {
 	
 	public ArrayList<Reply> selectReplyList(SqlSessionTemplate sqlSession, String storyNo){
 		return (ArrayList)sqlSession.selectList("albumMapper.selectReplyList", storyNo);
+	}
+	
+	public int deleteStory(SqlSessionTemplate sqlSession, String storyNo) {
+		return sqlSession.update("albumMapper.deleteStory",storyNo);
+	}
+	
+	public int insertReply(SqlSessionTemplate sqlSession, Reply r) {
+		return sqlSession.insert("albumMapper.insertReply", r);
+	}
+	
+	public int increaseReplyCount(SqlSessionTemplate sqlSession, String storyNo) {
+		return sqlSession.update("albumMapper.increaseReplyCount", storyNo);
+	}
+	
+	public int increaseReplyLike(SqlSessionTemplate sqlSession, String replyNo) {
+		return sqlSession.update("albumMapper.increaseReplyLike", replyNo);
 	}
 
 }
