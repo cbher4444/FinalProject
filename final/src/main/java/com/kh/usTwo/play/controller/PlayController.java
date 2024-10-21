@@ -25,6 +25,11 @@ public class PlayController {
 		return "play/movie";
 	}
 	
+	@RequestMapping("random")
+	public String random() {
+		return "play/random";
+	}
+	
 	@ResponseBody
 	@RequestMapping(value="discoverMovie", produces="application/json")
 	public String discoverMovie(String genre) throws IOException, InterruptedException {

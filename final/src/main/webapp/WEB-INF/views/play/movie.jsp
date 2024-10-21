@@ -22,7 +22,7 @@
     	.swiper-prev{
     		position:relative;
     		top:-245px;
-    		left:-100px;
+    		left:-25px;
     		display:inline;
     	}
     	
