@@ -72,6 +72,18 @@
 	margin-top: 10px;
 	margin-left: 40px;
 	}
+	/* 레드 닷 스타일 추가 */
+#chatting-btn.red-dot::after {
+    content: '';
+    position: absolute;
+    top: -5px; /* 위치 조정 */
+    right: -5px; /* 위치 조정 */
+    width: 12px;
+    height: 12px;
+    background-color: red;
+    border-radius: 50%;
+    z-index: 1000;
+}
 	
 	</style>
 
@@ -98,12 +110,29 @@
 
 
 <script>
+function onMessage(msg) {
+    var data = msg.data;
+    
+    // 메시지 출력
+    $("#messageArea").append(data + "<br/>");
+    
+    // 팝업이 열려있지 않을 때만 레드 닷을 표시
+    if ($('#chat-popup').css('display') === 'none') {
+        $('#chatting-btn').addClass('red-dot'); // 레드 닷 추가
+    }
+}
+</script>
+
+<script>
+
+
 
 $(document).ready(function() { 
 
     // 채팅 버튼 클릭 시 팝업 창 띄우기
     $('#chatting-btn').click(function() {
     	$('#chatting-btn').fadeOut();
+    	 $('#chatting-btn').removeClass('red-dot');
         // AJAX 요청 예시
         $.ajax({
             url: 'chatbox',  // 서버로부터 데이터를 가져올 주소 (필요에 따라 변경)
