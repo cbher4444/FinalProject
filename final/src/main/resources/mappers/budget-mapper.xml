@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="budgetMapper">
+	<resultMap type="Bcate" id="bcateResult">
+		<result column="BCATE_NO" property="bcateNo" />
+		<result column="BCATE_NAME" property="bcateName" />
+		<result column="EMAIL" property="email" />
+		<result column="COUPLE_CODE" property="coupleCode" />
+	</resultMap>
+	
+	<resultMap type="Budget" id="budgetResult">
+		<result column="BUDGET_NO" property="budgetNo" />
+		<result column="BUDGET_DATE" property="budgetDate" />
+		<result column="BUDGET_BRIEFS" property="budgetBriefs" />
+		<result column="BUDGET_HOWMUCH" property="budgetHowMuch" />
+		<result column="BUDGET_CURRENCY" property="budgetCurrency" />
+		<result column="BUDGET_BALANCE" property="budgetBalance" />
+		<result column="BUDGET_CATE" property="budgetCate" />
+		<result column="BUDGET_METHOD" property="budgetMethod" />
+		<result column="BUDGET_COMM" property="budgetComm" />
+		<result column="BUDGET_INOUT" property="budgetInout" />
+		<result column="EMAIL" property="email" />
+		<result column="COUPLE_CODE" property="coupleCode" />
+	</resultMap>
+	
+	<select id="countBudget" resultType="_int">
+		select count(*) as count
+		  from f_budget
+		 where couple_code = #{ coupleCode }
+	</select>
+	
+	<select id="selectBudget" resultMap="budgetResult">
+		select BUDGET_NO
+		     , to_char(BUDGET_DATE, 'yyyy-mm-dd') as "BUDGET_DATE"
+		     , BUDGET_BRIEFS
+		     , BUDGET_HOWMUCH
+		     , BUDGET_CURRENCY
+		     , BUDGET_BALANCE
+		     , BUDGET_CATE
+		     , BUDGET_METHOD
+		     , BUDGET_COMM
+		     , BUDGET_INOUT
+		     , EMAIL
+		     , COUPLE_CODE
+		  from f_budget
+		 where couple_code = #{ coupleCode }
+         order
+            by budget_date desc
+	</select>
+	
+	<insert id="insertBudget">
+		INSERT
+		  INTO F_BUDGET
+		VALUES
+		     (
+		       SEQ_BUDGET_NO.NEXTVAL
+		     , TO_DATE('20240929', 'YYYY-MM-DD')
+		     , '탕후루'
+		     , 5000
+		     , '₩'
+		     , 100000
+		     , 1
+		     , 'C'
+		     , NULL
+		     , 'O'
+		     , 'user01@email.com'
+		     , 'DFGDFG5623SAD12'
+		     )
+	</insert>
+</mapper>

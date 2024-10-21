@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -41,27 +41,6 @@
 	<style>
 		#fh5co-guest {
 			background: #F6FAF7;
-		}
-
-		tr {
-			border-bottom: 1px solid #00000030;
-			height: 45px;
-		}
-
-		tr, th {
-			text-align: center !important;
-		}
-
-		input, progress {
-			accent-color: #F69D9D;
-		}
-
-		input:focus {
-			outline: none;
-		}
-
-		p {
-			margin-bottom: 0 !important;
 		}
 
 		* {
@@ -165,35 +144,68 @@
 			justify-content: end;
 		}
 
-		#made-listBtns {
-			display: flex;
-			justify-content: start;
-			margin: 10px 0 25px 0;
-			position: relative;
-		}
-
-		#made-listBtns > div:not(:last-child) {
-			margin-right: 10px;
-		}
-
-		.hight {
-			height: 24px;
-		}
-
-		#made-search {
-			position: absolute;
-			top: 0;
-			right: 24px;
-			border: none;
-			border-bottom: 1px solid #00000030;
-			background-color: #F6FAF7;
-		}
-
-		#made-searchIcon {
+		#add {
 			position: absolute;
 			top: 0;
 			right: 0;
+			width: 33px;
+			text-align: center;
+			font-size: 24px;
+			-webkit-user-select:none;
+            -moz-user-select:none;
+            -ms-user-select:none;
+            user-select:none;
 			cursor: pointer;
+		}
+
+		#add:hover {
+			color: #F69D9D;
+		}
+
+		#made-head4 {
+			position: relative;
+		}
+
+		#coverALL {
+			background-color: #00000080;
+			width: 100%;
+			height: 100%;
+			position: fixed;
+			top: 0;
+			z-index: 9999;
+		}
+
+		#addBudgetPopup {
+			width: 700px;
+			height: 900px;
+			top: 0;
+			bottom: 0;
+			right: 0;
+			left: 0;
+			margin: 0;
+			margin: auto;
+			background-color: white;
+			position: fixed;
+			z-index: 10000;
+		}
+
+		#tableTT {
+			width: 100%;
+			height: 90%;
+			margin-top: 5%;
+		}
+
+		#tableTT .title {
+			text-align: center;
+			width: 200px;
+		}
+
+		select {
+			height: 30px;
+		}
+		
+		label {
+			margin-right: 10px;
 		}
 	</style>
 </head>
@@ -271,133 +283,21 @@
 						<div id="made-head4Btn1" class="headBtn select">리스트</div>
 						<div id="made-head4Btn2" class="headBtn">캘린더</div>
 						<div id="made-head4Btn3" class="headBtn">카테고리</div>
+						<div id="add">+</div>
 					</div>
 					<div id="made-content">
 						<!-- 리스트 -->
 						<div id="made-content-big1" name="made-head4Btn1" class="made-content-big selectContent">
-							<div id="made-listBtns">
-								<div id="made-selectMethod">
-									<select name="methodCategory" id="made-methodCategory" class="hight">
-										<option value="1">전체 조회</option>
-										<option value="2">토스뱅크</option>
-										<option value="3">국민은행</option>
-										<option value="4">삼성카드</option>
-									</select>
-								</div>
-								<div id="made-selectCategory">
-									<select name="searchCategory" id="made-searchCategory" class="hight">
-										<option value="1">입·출금 내역 조회</option>
-										<option value="2">입금 내역 조회</option>
-										<option value="3">출금 내역 조회</option>
-									</select>
-								</div>
-								<div id="made-howLong">
-									<input type="date" id="made-firstDate" name="firstDate" class="hight">&nbsp; ~ &nbsp;<input type="date" id="made-secondDate" name="secondDate" class="hight">
-								</div>
-								<div id="made-searchBar" class="hight">
-									<input type="text" id="made-search" name="keyword" class="hight">
-									<div id="made-searchIcon" class="material-symbols-outlined">search</div>
-								</div>
-							</div>
-							
-							<!-- 그 아래 어떤 통장(은행(계좌번호))에 변화가 생겼는지, 날짜, 입금?출금?, 상세 설명, 금액, 총액 -->
-							<table style="width: 100%;">
-								<thead>
-									<tr>	
-										<th>은행 / 카드사</th>
-										<th>계좌번호 / 카드번호</th>
-										<th>일시</th>
-										<th>적요</th>
-										<th>입금액</th>
-										<th>출금액</th>
-										<th>잔액</th>
-									</tr>
-								</thead>
-
-								<tbody>
-									<tr>
-										<td>토스뱅크</td>
-										<td>1000-1234-1234</td>
-										<td>2024-10-04 10:42:00</td>
-										<td>인터파크</td>
-										<td></td>
-										<td>192,000</td>
-										<td>121,400</td>
-									</tr>
-									<tr>
-										<td>토스뱅크</td>
-										<td>1000-1234-1234</td>
-										<td>2024-10-04 10:42:00</td>
-										<td>인터파크</td>
-										<td>192,000</td>
-										<td></td>
-										<td>121,400</td>
-									</tr>
-									<tr>
-										<td>토스뱅크</td>
-										<td>1000-1234-1234</td>
-										<td>2024-10-04 10:42:00</td>
-										<td>인터파크</td>
-										<td></td>
-										<td>192,000</td>
-										<td>121,400</td>
-									</tr>
-									<tr>
-										<td>토스뱅크</td>
-										<td>1000-1234-1234</td>
-										<td>2024-10-04 10:42:00</td>
-										<td>인터파크</td>
-										<td></td>
-										<td>192,000</td>
-										<td>121,400</td>
-									</tr>
-									<tr>
-										<td>토스뱅크</td>
-										<td>1000-1234-1234</td>
-										<td>2024-10-04 10:42:00</td>
-										<td>인터파크</td>
-										<td>192,000</td>
-										<td></td>
-										<td>121,400</td>
-									</tr>
-									<tr>
-										<td>토스뱅크</td>
-										<td>1000-1234-1234</td>
-										<td>2024-10-04 10:42:00</td>
-										<td>인터파크</td>
-										<td></td>
-										<td>192,000</td>
-										<td>121,400</td>
-									</tr>
-									<tr>
-										<td>토스뱅크</td>
-										<td>1000-1234-1234</td>
-										<td>2024-10-04 10:42:00</td>
-										<td>인터파크</td>
-										<td></td>
-										<td>192,000</td>
-										<td>121,400</td>
-									</tr>
-									<tr>
-										<td>토스뱅크</td>
-										<td>1000-1234-1234</td>
-										<td>2024-10-04 10:42:00</td>
-										<td>인터파크</td>
-										<td>192,000</td>
-										<td></td>
-										<td>121,400</td>
-									</tr>
-									<tr>
-										<td>토스뱅크</td>
-										<td>1000-1234-1234</td>
-										<td>2024-10-04 10:42:00</td>
-										<td>인터파크</td>
-										<td></td>
-										<td>192,000</td>
-										<td>121,400</td>
-									</tr>
-								</tbody>
-							</table>
+							<iframe src="goList?coupleCode=${ loginUser.coupleCode }" frameborder="0" width="100%" height="1100" id="myiframe"></iframe>
+							<script>
+								$(() => {
+									let iframe = document.getElementById('myiframe');
+									window.addEventListener('message', function(e) {
+										let message = e.data;
+										iframe.style.height = message.height + 10 + "px";
+									} , false);
+								})
+							</script>
 						</div>
 						
 						<!-- 캘린더 -->
@@ -514,5 +414,75 @@
 	
 	<!-- footer -->
 	<jsp:include page="../common/footer.jsp"/>
+
+	<div id="coverALL"></div>
+	<div id="addBudgetPopup">
+		<div id="cancleAdd" class="material-symbols-outlined">close</div>
+		<table id="tableTT">
+			<tbody>
+				<tr>
+					<td class="title">날짜</td>
+					<td><input type="date" name="budgetDate" id="budgetDate"></td>
+				</tr>
+				<tr>
+					<td class="title">적요</td>
+					<td><input type="text" name="budgetBriefs" id="budgetBriefs"></td>
+				</tr>
+				<tr>
+					<td class="title">금액</td>
+					<td><input type="number" name="budgetHowMuch" id="budgetHowMuch"></td>
+				</tr>
+				<tr>
+					<td class="title">통화</td>
+					<td>
+						<select name="budgetBalance" id="budgetBalance">
+							<option value="₩">₩(원화)</option>
+							<option value="￥(JPY)">￥(엔화)</option>
+							<option value="¥(CNY)">¥(인민폐)</option>
+							<option value="$">$(달러)</option>
+							<option value="€">€(유로)</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td class="title">수입 / 지출</td>
+					<td>
+						<input type="radio" id="in" name="budgetInout">
+						<label for="in">수입</label>
+						<input type="radio" id="out" name="budgetInout">
+						<label for="out">지출</label>
+					</td>
+				</tr>
+				<tr>
+					<td class="title">카테고리</td>
+					<td>
+						<select name="budgetCate" id="budgetCate">
+							<option value="">외식</option>
+							<option value="">데이트</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td class="title">결제 수단</td>
+					<td>
+						<input type="radio" id="K" name="budgetMethod">
+						<label for="K">카드</label>
+						<input type="radio" id="C" name="budgetMethod">
+						<label for="C">현금</label>
+						<input type="radio" id="A" name="budgetMethod">
+						<label for="A">계좌이체</label>
+					</td>
+				</tr>
+				<tr>
+					<td class="title">메모</td>
+					<td>
+						<textarea name="budgetComm" id="budgetComm" style="resize: none;"></textarea>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<button>추가하기</button>
+	</div>
 </body>
 </html>
