@@ -122,62 +122,8 @@ function checkCapsLock(event)  {
     });
   }
 
-  function requestUserInfo() {
-	    Kakao.API.request({
-	      url: '/v2/user/me',
-	    })
-	      .then(function(res) {
-	        alert(JSON.stringify(res));
-	      })
-	      .catch(function(err) {
-	        alert(
-	          'failed to request user information: ' + JSON.stringify(err)
-	        );
-	      });
-	  }
-	  
-  function kakaoLogin() {
-      Kakao.Auth.login({
-          success: function (response) {
-              Kakao.API.request({
-                  url: '/v2/user/me',
-                  success: function (response) {
-                  	 const kakaoAccount = response.kakao_account;
-                       
-                       const id = response.id;
-                       const email = kakaoAccount.email;
-                       const name = kakaoAccount.profile.nickname;
-                       const phoneNumber = kakaoAccount.phone_number;
-						$.ajax({
-							url: 'idCheck.me',
-							data: {checkId: response.id},
-							success: function(result) {
-                  			//alert(response.id);	
-								if(result == "NNNNN") {
-									// 카카오로그인
-									loginKakaoUser(response.id);
-								} else {
-									// 카카오 회원가입
-									insertKakaoUser(response.id, response.kakao_account.email, response.kakao_account.name, response.kakao_account.nickname, response.kakao_account.phone_number);
-								}
-							},
-							error: function() {
-								console.log("카카오 로그인/회원가입용 ajax 통신 실패");
-							}
-						});
-
-                  },
-                  fail: function (error) {
-                      alert(JSON.stringify(error));
-                  },
-              })
-          },
-          fail: function (error) {
-              alert(JSON.stringify(error));
-          },
-      })
-  }
-
+  
+ 
 	function loginKakaoUser(id) {
 		$.ajax({
 			url: "kakaoLogin.me",
@@ -185,6 +131,7 @@ function checkCapsLock(event)  {
 			data: {email: email},
 			success: function() {
 				location.href="http://localhost:8444/final/home";
+				console.log(code);
 			},
 			error: function() {
 				console.log("kakao user login ajax 실패");
