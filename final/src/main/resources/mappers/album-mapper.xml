@@ -10,7 +10,8 @@
 		<result column="create_date" property="createDate" />
 		<result column="reply_count" property="replyCount" />
 		<result column="origin_name" property="originName" />
-		<result column="change_name" property="changeName" />
+		<result column="storyPath" property="changeName" />
+		<result column="profilepath" property="profileChangeName" />
 		<result column="status" property="status" />
 	</resultMap>
 	
@@ -20,6 +21,7 @@
 		<result column="nickname" property="replyWriter" />
 		<result column="reply_content" property="replyContent" />
 		<result column="reply_like" property="replyLike" />
+		<result column="change_name" property="changeName" />
 		<result column="create_date" property="createDate" />
 		<result column="status" property="status" />
 	</resultMap>
@@ -31,12 +33,15 @@
 			 , story_title
 			 , a.create_date
 			 , a.origin_name
-			 , a.change_name
+			 , a.change_name "storyPath"
 			 , reply_count
+             , c.change_name "profilePath"
 		  from a_story a
           join c_member c on (email = writer_email)
 		 where a.status = 'Y'
 		   and a.couple_code = #{ coupleCode }
+		 order
+		    by story_no desc
 	</select>
 	
 	<insert id="insertStory">
@@ -70,10 +75,49 @@
 			 , reply_content
 			 , reply_like
 			 , a.create_date
+			 , c.change_name "change_name"
 		  from a_reply a
 		  join c_member c on(email = reply_writer)
 		 where a.status = 'Y'
 		   and ref_sno = #{ storyNo }
+		 order
+		    by reply_no asc
 	</select>
+	
+	<delete id="deleteStory">
+		delete 
+		  from a_story
+		 where story_no = #{ storyNo }
+	</delete>
+	
+	<insert id="insertReply">
+		insert 
+		  into a_reply
+		  (
+		  	reply_no
+		  , ref_sno
+		  , reply_writer
+		  , reply_content
+		  )
+		  values
+		  (
+		  	seq_reply.nextval
+		  , #{ refStoryNo }
+		  , #{ replyWriter }
+		  , #{ replyContent }
+		  )
+	</insert>
+	
+	<update id="increaseReplyCount">
+		update a_story
+		   set reply_count = reply_count + 1
+		 where story_no = #{ storyNo }
+	</update>
+	
+	<update id="increaseReplyLike">
+		update a_reply
+		   set reply_like = reply_like + 1
+		 where reply_no = #{ replyNo }
+	</update>
 
 </mapper>

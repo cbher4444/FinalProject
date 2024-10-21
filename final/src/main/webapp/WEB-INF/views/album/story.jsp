@@ -33,9 +33,18 @@
 		
 	}
 	
-	.li:hover{
+	.fh5co-blog:hover{
 		cursor:pointer;
 	}
+	
+	.deleteStory{
+		color:#F69D9D;
+	}
+	
+	.deleteStory:hover{
+		cursor:pointer;
+	}
+
 		/* The Modal (background) */
 	.modal {
 	  display: none; /* Hidden by default */
@@ -123,9 +132,14 @@
 		border-radius:50px;
 	}
 	
-	.material-icons{
+	.material-icons.replyLike{
 		position:relative;
+		color:#eee;
+	}
+	
+	.material-icons:hover{
 		color:#F69D9D;
+		cursor:pointer;		
 	}
 	
 	.gallery.animate-box .img-responsive .title{
@@ -214,16 +228,17 @@
 					<ul class="row" align="center" style="display:flex; list-style: none; flex-wrap: wrap; justify-content: start; padding-left:133px">
 						<c:forEach var="i" items="${ list }" >
 							<div class="col-lg-4 col-md-4 col-sm-6 li">
-									<div class="material-icons" id="deleteStory" style="z-index:9;">delete</div>
+								<div class="material-icons deleteStory"  style="z-index:9;">delete</div>
 								<div class="fh5co-blog animate-box fadeInUp animated">
 									<a href="#"><img style="width:350px;height:250px;" class="img-responsive" src="${ i.changeName }" alt=""></a>
 									<div class="blog-text">
 										<div class="prod-title">
-											<input type="hidden" value="${ i.storyNo }" id="storyNo">
-											<h3><a href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;" id="storyTitle">${ i.storyTitle }</font></font></a></h3>
-											<div class="by"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;" id="storyWriter">${ i.writerEmail }</font></font></div>
+											<input type="hidden" value="${ i.storyNo }" class="storyNo">
+											<input type="hidden" value="${ i.profileChangeName }" class="profilePath">
+											<h3><a href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;" class="storyTitle">${ i.storyTitle }</font></font></a></h3>
+											<div class="by"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;" class="storyWriter">${ i.writerEmail }</font></font></div>
 											<span class="posted_date"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">${ i.createDate }</font></font></span>
-											<span class="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">${ i.replyCount }</font></font><i class="icon-bubble2" style="color:#F69D9D;margin-left:3px;"></i></span>
+											<span class="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;" class="replyCount">${ i.replyCount }</font></font><i class="icon-bubble2" style="color:#F69D9D;margin-left:3px;"></i></span>
 										</div>
 									</div> 
 								</div>
@@ -252,8 +267,9 @@
 	  			<div class="boardInfo">
 		  			<table align="center">
 		  					<tr>
-		  						<th width="50px"><img src="resources/images/gallery-2.jpg" /></th>
+		  						<th width="50px"><img id="titleProfile" src="resources/images/gallery-2.jpg" /></th>
 		  						<th rowspan="2" width="200px" id="modalStoryTitle">우리는 언제 결혼할까?</th>
+		  						<input type="hidden" id="modalStoryNo">
 		  					</tr>
 		  					<tr>
 		  						<th width="100px" id="modalStoryWriter">애신</th>
@@ -261,58 +277,14 @@
 		  			</table>
 	  			</div>
 	  			<br>
-	  			<div class="reply-wrap">
-		  			<div class="reply">
-		  				<div>
-			  				<table>
-			  					<tr>
-			  						<th width="50px"><img src="resources/images/gallery-3.jpg" /></th>
-			  						<th width="370px" >내년에 할까?</th>
-			  						<th rowspan="2"><div class="material-icons">favorite</div></th>
-			  					</tr>
-			  					<tr>
-			  						<th width="100px">유진 초이</th>
-			  						<th style="font-size:10px">2024.09.26.17:55</th>
-			  					</tr>
-			  			</table>
-		  				</div>
-		  			</div>
-		  			<div class="reply">
-		  				<div>
-			  				<table>
-			  					<tr>
-			  						<th width="50px"><img src="resources/images/gallery-3.jpg" /></th>
-			  						<th width="370px" >내년에 할까?</th>
-			  						<th rowspan="2"><div class="material-icons">favorite</div></th>
-			  					</tr>
-			  					<tr>
-			  						<th width="100px">유진 초이</th>
-			  						<th style="font-size:10px">2024.09.26.17:55</th>
-			  					</tr>
-			  			</table>
-		  				</div>
-		  			</div>
-		  			<div class="reply">
-		  				<div>
-			  				<table>
-			  					<tr>
-			  						<th width="50px"><img src="resources/images/gallery-3.jpg" /></th>
-			  						<th width="370px" >아니 싫은데 안할건데</th>
-			  						<th rowspan="2"><div class="material-icons">favorite</div></th>
-			  					</tr>
-			  					<tr>
-			  						<th width="100px">유진 초이</th>
-			  						<th style="font-size:10px">2024.09.26.17:55</th>
-			  					</tr>
-			  			</table>
-		  				</div>
-		  			</div>
+	  			<div class="reply-wrap" style="overflow:auto">
+		  			
 	  			</div>
 	  			<div class="foot">
 	  				<div class="insertReply">
 	  					<input>
 		  			</div>
-		  			<button type="submit" style="position:absolute;right:-42px;top:27px; background-color:#F69D9D;color:white;border:0;padding:5px;border-radius:5px;">댓글달기</button>
+		  			<button type="submit" class="insertReplyButton" style="position:absolute;right:-42px;top:27px; background-color:#F69D9D;color:white;border:0;padding:5px;border-radius:5px;">댓글달기</button>
 	  			</div>
 	  		</div>
 	  	</div>
@@ -322,16 +294,19 @@
 	
 	<script>
 	
-	
-	var story = $(".row .li .fh5co-blog").click(function(){
+		// 스토리에 맞는 모달 띄우기
+		$(".row .li .fh5co-blog").click(function(){
 		var src = $(this).find('img').attr("src");
-		var title = $(this).find("#storyTitle").text(); 
-		var storyNo = $(this).find("#storyNo").val();
-		var storyWriter = $(this).find("#storyWriter").text();
+		var title = $(this).find(".storyTitle").text(); 
+		var storyNo = $(this).find(".storyNo").val();
+		var storyWriter = $(this).find(".storyWriter").text();
+		var profileChangeName = $(this).find(".profilePath").val();
 		modal.style.display = "block";
 		$(".modal .photo img").attr("src",src);
+		$(".boardInfo table").find("#titleProfile").attr("src", profileChangeName);
 		$(".boardInfo table").find("#modalStoryTitle").text(title);
 		$(".boardInfo table").find("#modalStoryWriter").text(storyWriter);
+		$(".boardInfo table").find("#modalStoryNo").val(storyNo);
 		$.ajax({
 			url:"selectReplyList",
 			data:{
@@ -346,9 +321,10 @@
 				  			 +	"<div>"
 				  			 +	"<table>"
 				  			 +		"<tr>"
-				  			 + 			"<th width='50px'><img src='' /></th>"
+				  			 +			"<input type='hidden' value='"+ item.replyNo +"'>"
+				  			 + 			"<th width='50px'><img src='"+ item.changeName +"' /></th>"
 				  			 +			"<th width='370px' >" + item.replyContent + "</th>"
-				  			 +			"<th rowspan='2'><div class='material-icons'>favorite</div></th>"
+				  			 +			"<th style='font-size:9px' rowspan='2'><div class='material-icons replyLike' >favorite</div>"+ item.replyLike +"</th>"
 				  			 +		"</tr>"
 				  			 +		"<tr>"
 				  			 +			"<th width='100px'>"+ item.replyWriter +"</th>"
@@ -368,8 +344,96 @@
 		})
 	})
 	
-	$("#deleteStory").click(function(){
-		console.log("삭제할게유");
+	// 스토리 삭제하기
+	$(".deleteStory").click(function(){
+		let changeName = $(this).siblings().find(".img-responsive").attr("src");
+		let storyNo = $(this).siblings().find(".storyNo").val();
+		if(confirm("해당 스토리를 삭제하시겠습니까?")){
+			if(confirm("삭제된 스토리는 복구가 불가능합니다. 그래도 삭제하시겠습니까?")){
+				$.ajax({
+					url:"deleteStory",
+					data:{
+						storyNo:storyNo,
+						changeName:changeName
+						},
+					success:function(result){
+						if(result > 0){
+							alert("삭제가 완료되었습니다.");
+						}else{
+							alert("삭제에 실패하였습니다.");
+						}
+							location.reload();
+					},error:function(){
+						console.log("스토리 삭제용 ajax 통신 오류");
+					}
+				})
+			}
+			
+		}
+	})
+	
+	// 엔터키로 댓글 달기 함수
+	$(function(){
+		$(".insertReply input").keypress(function(e){
+			if(e.keyCode && e.keyCode == 13){
+				if($(".insertReply input").val() != ""){
+					$(".insertReplyButton").trigger("click");
+				}
+				return false;
+			}
+			
+			// 엔터키 막기
+			if(e.keyCode && e.keyCode == 13){
+				e.preventDefault();
+			}
+		})
+	})
+	
+	// 댓글 달기 함수
+	$(".insertReplyButton").click(function(){
+		var storyNo = $(".modal-content").find("input#modalStoryNo").val()
+		var reply = $(this).siblings().children().val()
+		$.ajax({
+			url:"insertReply",
+			data:{
+				storyNo : storyNo,
+				replyContent : reply,
+			}, success:function(result){
+				if(result > 0){
+					$("input.storyNo").each(function(i, item){
+						if(storyNo == $(item).val()){
+							$(item).parent().parent().parent().click();
+							$(".insertReply input").val("");
+						}
+					})	
+				}
+				
+			}, error:function(){
+				console.log("댓글 달기용 ajax 통신 실패")
+			}
+		})
+	})
+	
+	// 댓글 좋아요
+	$(document).on("click",".replyLike",function(){
+		let storyNo = $(".modal-content").find("input#modalStoryNo").val()
+		let replyNo = $(this).parent().siblings("input[type=hidden]").val()
+		$.ajax({
+			url:"increaseLike",
+			data:{replyNo:replyNo},
+			success:function(result){
+				if(result > 0){
+					$("input.storyNo").each(function(i, item){
+						if(storyNo == $(item).val()){
+							$(item).parent().parent().parent().click();
+							$(".insertReply input").val("");
+						}
+					})	
+				}
+			}, error:function(){
+				console.log("좋아요 누르기 ajax 통신 실패");
+			}
+		})
 	})
 	
 	

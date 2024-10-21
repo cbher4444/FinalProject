@@ -6,8 +6,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.google.api.services.drive.model.Reply;
 import com.kh.usTwo.album.model.dao.AlbumDao;
+import com.kh.usTwo.album.model.vo.Reply;
 import com.kh.usTwo.album.model.vo.Story;
 import com.kh.usTwo.member.model.vo.Member;
 
@@ -34,20 +34,33 @@ public class AlbumServiceImpl implements AlbumService{
 
 
 	@Override
-	public int deleteStory() {
-		return 0;
+	public int deleteStory(String storyNo) {
+		return aDao.deleteStory(sqlSession, storyNo);
 	}
 
-
-	@Override
-	public int updateStory(Story s) {
-		return 0;
-	}
 
 
 	@Override
 	public ArrayList<Reply> selectReplyList(String storyNo) {
 		return aDao.selectReplyList(sqlSession, storyNo);
+	}
+
+
+	@Override
+	public int insertReply(Reply r) {
+		return aDao.insertReply(sqlSession, r);
+	}
+
+
+	@Override
+	public int increaseReplyCount(String storyNo) {
+		return aDao.increaseReplyCount(sqlSession, storyNo);
+	}
+
+
+	@Override
+	public int increaseReplyLike(String replyNo) {
+		return aDao.increaseReplyLike(sqlSession, replyNo);
 	}
 
 }

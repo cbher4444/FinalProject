@@ -20,5 +20,6 @@ public class Reply {
 	private String replyLike;
 	private String createDate;
 	private String status;
-
+	// 프로필사진 저장 필드
+	private String changeName;
 }
