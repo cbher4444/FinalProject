@@ -60,11 +60,7 @@ public class Chathandler extends TextWebSocketHandler{
 	            }
 	        }
 		 
-		 for (WebSocketSession sess : sessionList) {
-		        if (sess.isOpen() && !sess.getId().equals(session.getId())) { // 자신을 제외하고 전송
-		            sess.sendMessage(new TextMessage(payload));
-		        }
-		    }
+		
 	    }
 		
 		

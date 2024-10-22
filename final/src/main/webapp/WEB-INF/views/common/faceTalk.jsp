@@ -76,6 +76,13 @@
             height: 10px;
             display: inline-block;
         }
+        
+        #close-video-popup{
+        position:absolute;
+		right:1px;
+		top:5px;
+		background-color:red;
+        }
 </style>
 </head>
 <body>
@@ -95,67 +102,35 @@
     </div>
 
  <script>
-        let localStream;
-        let peerConnection;
-        const configuration = {
-            iceServers: [{ urls: 'stun:stun.l.google.com:19302' }]
-        };
+    let localStream;
+    let peerConnection;
+    const configuration = {
+        iceServers: [{ urls: 'stun:stun.l.google.com:19302' }]
+    };
 
-        const localVideo = document.getElementById('localVideo');
-        const remoteVideo = document.getElementById('remoteVideo');
+    const localVideo = document.getElementById('localVideo');
+    const remoteVideo = document.getElementById('remoteVideo');
+    const closeVideoPopupBtn = document.getElementById('close-video-popup');
 
-        // WebSocket 연결 설정
-        const webSocket = new WebSocket('ws://localhost:8444/chat');
+    // WebSocket 연결 설정
+    const webSocket = new WebSocket('ws://localhost:8444/chat');
 
-        // WebSocket 메시지 처리
-        webSocket.onmessage = function(message) {
-            const data = JSON.parse(message.data);
-            if (data.offer) {
-                handleOffer(data.offer);
-            } else if (data.answer) {
-                handleAnswer(data.answer);
-            } else if (data.candidate) {
-                handleCandidate(data.candidate);
-            }
-        };
-
-        async function startCall() {
-            try {
-                localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-                localVideo.srcObject = localStream;
-
-                peerConnection = new RTCPeerConnection(configuration);
-                localStream.getTracks().forEach(track => peerConnection.addTrack(track, localStream));
-
-                // ICE 후보 전송
-                peerConnection.onicecandidate = event => {
-                    if (event.candidate) {
-                        sendToServer({ candidate: event.candidate });
-                    }
-                };
-
-                // 상대방의 스트림을 수신하면 비디오에 표시
-                peerConnection.ontrack = event => {
-                    remoteVideo.srcObject = event.streams[0];
-                };
-
-                // Offer 생성
-                const offer = await peerConnection.createOffer();
-                await peerConnection.setLocalDescription(offer);
-
-                // 서버로 Offer 전송
-                sendToServer({ offer });
-            } catch (error) {
-                console.error('Error accessing media devices:', error);
-                alert('카메라 또는 마이크 접근이 허용되지 않았습니다: ' + error.message);
-            }
+    webSocket.onmessage = function(message) {
+        const data = JSON.parse(message.data);
+        if (data.offer) {
+            handleOffer(data.offer);
+        } else if (data.answer) {
+            handleAnswer(data.answer);
+        } else if (data.candidate) {
+            handleCandidate(data.candidate);
         }
+    };
 
-        function sendToServer(message) {
-            webSocket.send(JSON.stringify(message));
-        }
+    async function startCall() {
+        try {
+            localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+            localVideo.srcObject = localStream;
 
-        async function handleOffer(offer) {
             peerConnection = new RTCPeerConnection(configuration);
             localStream.getTracks().forEach(track => peerConnection.addTrack(track, localStream));
 
@@ -169,23 +144,66 @@
                 remoteVideo.srcObject = event.streams[0];
             };
 
-            await peerConnection.setRemoteDescription(new RTCSessionDescription(offer));
-            const answer = await peerConnection.createAnswer();
-            await peerConnection.setLocalDescription(answer);
-            sendToServer({ answer });
+            const offer = await peerConnection.createOffer();
+            await peerConnection.setLocalDescription(offer);
+            sendToServer({ offer });
+        } catch (error) {
+            console.error('Error accessing media devices:', error);
+            alert('카메라 또는 마이크 접근이 허용되지 않았습니다: ' + error.message);
         }
+    }
 
-        async function handleAnswer(answer) {
-            await peerConnection.setRemoteDescription(new RTCSessionDescription(answer));
+    function sendToServer(message) {
+        webSocket.send(JSON.stringify(message));
+    }
+
+    async function handleOffer(offer) {
+        peerConnection = new RTCPeerConnection(configuration);
+        localStream.getTracks().forEach(track => peerConnection.addTrack(track, localStream));
+
+        peerConnection.onicecandidate = event => {
+            if (event.candidate) {
+                sendToServer({ candidate: event.candidate });
+            }
+        };
+
+        peerConnection.ontrack = event => {
+            remoteVideo.srcObject = event.streams[0];
+        };
+
+        await peerConnection.setRemoteDescription(new RTCSessionDescription(offer));
+        const answer = await peerConnection.createAnswer();
+        await peerConnection.setLocalDescription(answer);
+        sendToServer({ answer });
+    }
+
+    async function handleAnswer(answer) {
+        await peerConnection.setRemoteDescription(new RTCSessionDescription(answer));
+    }
+
+    async function handleCandidate(candidate) {
+        await peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
+    }
+
+    // X 버튼 클릭 시 화상 통화 종료
+    closeVideoPopupBtn.addEventListener('click', stopCall);
+
+    function stopCall() {
+        if (peerConnection) {
+            peerConnection.close(); // WebRTC 연결 종료
+            peerConnection = null;
         }
-
-        async function handleCandidate(candidate) {
-            await peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
+        if (localStream) {
+            localStream.getTracks().forEach(track => track.stop()); // 카메라/마이크 사용 중지
+            localStream = null;
         }
+        // 화상 통화 팝업 숨기기
+        document.getElementById('video-popup').style.display = 'none';
+    }
 
-        document.getElementById('startCallBtn').addEventListener('click', startCall);
-    </script>
-
+    // 화상 통화 시작 버튼 클릭 이벤트 설정
+    document.getElementById('startCall').addEventListener('click', startCall);
+</script>
    
 </body>
 </html>
