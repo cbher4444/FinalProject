@@ -31,6 +31,13 @@
 		{
 			cursor: pointer;
 		}
+
+		/* active된 버튼 위로 살짝 올리기 */
+		.fc-button-group>.fc-button-active{
+			transform: translateY(-10px) !important;
+			transition-duration: .5s;
+		}
+
 	</style>
 	<script>
 		// ----------------------- full calendar -----------------------
@@ -64,11 +71,20 @@
 							onClickCalendarOption("partner", this);
 						}
 					},
+					calColor: {
+						text: '캘린더 기본색상 변경',
+						click: function() {
+							$("#calColorModal").modal("show");
+						}
+					}
 				},
 				headerToolbar: { // 헤더 버튼 구성 설정
 					left: 'all,both,mine,partner',
 					center: 'prev title next',
 					right: 'today multiMonthYear,dayGridMonth,timeGridWeek,timeGridDay listMonth',
+				},
+				footerToolbar: {
+					left: 'calColor',
 				},
 				buttonText: { // 버튼 이름 바꾸기
 					today: '오늘',
@@ -108,7 +124,7 @@
 					};
     			},
 				// ----------------------- google calendar -----------------------
-				googleCalendarApiKey: 'AIzaSyBZsgy3NZzVqBP7IX6HcjRHDtPU65xqMkQ', // api는 git에 안올라가게 비워둠. 넣으면 공휴일도 보임!
+				googleCalendarApiKey: 'AIzaSyBZsgy3NZzVqBP7IX6HcjRHDtPU65xqMkQ', // 구글 api. 넣으면 공휴일도 보임!
 				events: {
 					googleCalendarId: 'ko.south_korea#holiday@group.v.calendar.google.com', // 한국 공휴일
 				},
@@ -196,13 +212,12 @@
 									<td>
 										<select id="color" class="form-control">
 											<option value=""></option>
-											<option value="rgb(240, 48, 48)">빨강</option>
 											<option value="#ff5733">주황</option>
-											<option value="rgb(253, 204, 113)">노랑</option>
+											<option value="#fdcc71">노랑</option>
 											<option value="#27ae60">초록</option>
 											<option value="#3788d8">파랑</option>
-											<option value="rgb(120, 120, 247)">보라</option>
-											<option value="rgb(236, 154, 236)">핑크</option>
+											<option value="#7878f7">보라</option>
+											<option value="#ec9aec">핑크</option>
 										</select>
 									</td>
 								</tr>
@@ -274,13 +289,12 @@
 									<td>
 										<select id="edit-color" class="form-control">
 											<option value=""></option>
-											<option value="rgb(240, 48, 48)">빨강</option>
 											<option value="#ff5733">주황</option>
-											<option value="rgb(253, 204, 113)">노랑</option>
+											<option value="#fdcc71">노랑</option>
 											<option value="#27ae60">초록</option>
 											<option value="#3788d8">파랑</option>
-											<option value="rgb(120, 120, 247)">보라</option>
-											<option value="rgb(236, 154, 236)">핑크</option>
+											<option value="#7878f7">보라</option>
+											<option value="#ec9aec">핑크</option>
 										</select>
 									</td>
 								</tr>
@@ -326,12 +340,12 @@
 							<table style="width: 95%;">
 								<tr>
 									<td>제목 :</td>
-									<td><input type="text" class="form-control" id="google-title" style="width: 80%;" readonly></td>
+									<td><input type="text" class="form-control" id="google-title" style="width: 80%;" disabled></td>
 								</tr>
 								<tr>
 									<td>일시 :</td>
 									<td>
-										<input type="date" class="form-control" id="google-startDate" readonly>
+										<input type="date" class="form-control" id="google-startDate" disabled>
 									</td>
 								</tr>
 								<tr>
@@ -361,6 +375,70 @@
 		</div>
 	</div>
 
+	<!-- 캘린더 기본색상 변경 Modal -->
+	<div class="modal fade" id="calColorModal" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content" style="padding-top: 10px;">
+				<form class="form-inline">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" style="font-size: 30px;">&times;</button>
+						<h3 class="modal-title">캘린더 기본색상 변경</h3>
+					</div>
+					<div class="modal-body">
+						<div class="form-group" style="width: 100%;">
+							<table style="width: 95%;">
+								<tr>
+									<td>우리일정 :</td>
+									<td>
+										<input type="hidden" id="ourCalendarNo">
+										<select id="ourCalendarColor" class="form-control">
+											<option value="#ff5733">주황</option>
+											<option value="#fdcc71">노랑</option>
+											<option value="#27ae60">초록</option>
+											<option value="#3788d8">파랑</option>
+											<option value="#7878f7">보라</option>
+											<option value="#ec9aec">핑크</option>
+										</select>
+									</td>
+								</tr>
+								<tr>
+									<td>내일정 :</td>
+									<td>
+										<input type="hidden" id="myCalendarNo">
+										<select id="myCalendarColor" class="form-control">
+											<option value="#ff5733">주황</option>
+											<option value="#fdcc71">노랑</option>
+											<option value="#27ae60">초록</option>
+											<option value="#3788d8">파랑</option>
+											<option value="#7878f7">보라</option>
+											<option value="#ec9aec">핑크</option>
+										</select>
+									</td>
+								</tr>
+								<tr>
+									<td>상대방일정 :</td>
+									<td>
+										<input type="hidden" id="partnerCalendarNo">
+										<select id="partnerCalendarColor" class="form-control">
+											<option value="#ff5733">주황</option>
+											<option value="#fdcc71">노랑</option>
+											<option value="#27ae60">초록</option>
+											<option value="#3788d8">파랑</option>
+											<option value="#7878f7">보라</option>
+											<option value="#ec9aec">핑크</option>
+										</select>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+					<div class="modal-footer" style="display: flex; align-items: center; justify-content: center;">
+						<button type="button" class="btn btn-primary btn-block" onclick="updateCalendarColors();" style="width: 100px; height: 50px; margin-right: 10px;">수정</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 
 	<!-- ---------------------------------------- html 끝 ---------------------------------------- -->
 
@@ -418,16 +496,53 @@
 					calendarNo_both = item.calendarNo;
 					$("#bothCalendarNo").val(item.calendarNo);
 					$("#edit-bothCalendarNo").val(item.calendarNo);
+					setCalendarBtnColor("우리일정", item.defaultColor);
+					$('#ourCalendarColor').val(item.defaultColor); // 캘린더 기본색상 변경 모달 - 색상
+					$('#ourCalendarNo').val(item.calendarNo); // 캘린더 기본색상 변경 모달 - 캘린더번호
 				}else if(item.owner === '${loginUser.email}'){
 					calendarNo_mine = item.calendarNo;
 					$("#myCalendarNo").val(item.calendarNo);
 					$("#edit-myCalendarNo").val(item.calendarNo);
+					setCalendarBtnColor("내일정", item.defaultColor);
+					$('#myCalendarColor').val(item.defaultColor);
+					$('#myCalendarNo').val(item.calendarNo);
 				}else {
 					calendarNo_partner = item.calendarNo;
 					$("#partnerCalendarNo").val(item.calendarNo);
 					$("#edit-partnerCalendarNo").val(item.calendarNo);
+					setCalendarBtnColor("상대방일정", item.defaultColor);
+					$('#partnerCalendarColor').val(item.defaultColor);
+					$('#partnerCalendarNo').val(item.calendarNo);
 				}
 			};
+		}
+
+		// ----------------------- 캘린더 버튼에 기본배경색상 넣어주기 -----------------------
+		function setCalendarBtnColor(btnText, defaultColor){
+			let $button;
+			let hoveredColor = "#02252F";
+
+			switch(btnText) {
+				case '우리일정':
+					$button = $("button[title=우리일정]");
+					break;
+				case '내일정':
+					$button = $("button[title=내일정]");
+					break;
+				case '상대방일정':
+					$button = $("button[title=상대방일정]");
+					break;
+			}
+			
+			$button.css("background-color", defaultColor); // Default background
+			$button.hover(
+				function() {
+					$(this).css("background-color", hoveredColor); // On hover
+				},
+				function() {
+					$(this).css("background-color", defaultColor); // Back to default when not hovered
+				}
+			);
 		}
 
 		// ----------------------- DB에서 일정 가져오기 -----------------------
@@ -788,6 +903,32 @@
 					}
 				}, error:function(){
 					console.log("일정 삭제용 ajax 통신 실패!");
+				}
+			})
+		}
+
+		// ----------------------- 캘린더 기본색상 변경 Modal - 수정버튼 누를시 -----------------------
+		function updateCalendarColors(){
+			$.ajax({
+				url:"cupdate.pl",
+				data:{
+					"ourCalNo": $("#ourCalendarNo").val(),
+					"myCalNo": $("#myCalendarNo").val(),
+					"partnerCalNo": $("#partnerCalendarNo").val(),
+
+					"ourCalColor": $("#ourCalendarColor").val(),
+					"myCalColor": $("#myCalendarColor").val(),
+					"partnerCalColor": $("#partnerCalendarColor").val(),
+				}, success:function(result){
+					// console.log(result);
+					if(result === "success") {
+						alert("성공적으로 캘린더 기본색상을 변경하였습니다.");
+						location.href = "calendar";
+					}else{
+						alert("캘린더 기본색상 변경실패");
+					}
+				}, error:function(){
+					console.log("updateCalendarColors() - ajax 통신 실패!");
 				}
 			})
 		}

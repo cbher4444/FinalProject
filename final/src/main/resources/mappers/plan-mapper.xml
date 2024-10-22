@@ -54,6 +54,30 @@
 		 where couple_code = #{coupleCode}
 		   and status = 'Y'
 	</select>
+	
+	<insert id="insertCalendar">
+		insert
+		  into p_calendar
+		  (
+		      calendar_no
+		    , couple_code
+		    , owner
+		    , default_color
+		  )
+		  values
+		  (
+		      seq_calendar_no.nextval
+		    , #{coupleCode}
+		    , #{owner}
+		    , #{defaultColor}
+		   )
+	</insert>
+
+	<update id="updateCalendarColors">
+		update p_calendar
+		   set default_color = #{defaultColor}
+		 where calendar_no = #{calendarNo}
+	</update>
 
 	<select id="selectScheduleList" resultMap="scheduleResult">
 		select 

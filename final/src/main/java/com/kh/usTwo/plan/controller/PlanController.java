@@ -1,6 +1,7 @@
 package com.kh.usTwo.plan.controller;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
@@ -25,7 +27,14 @@ public class PlanController {
 	private PlanServiceImpl pService;
 
 	@RequestMapping("calendar")
-	public String calendar() {
+	public String calendar(HttpSession session) {
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		ArrayList<Calendar> list = pService.selectCalendarList(loginUser.getCoupleCode());
+		
+		if(list.size() == 0) { // 기존에 캘린더가 없다면
+			pService.insertCalendar(loginUser); // 공유캘린더, 내캘린더, 상대방캘린더 생성
+		}
+		
 		return "plan/calendar";
 	}
 
@@ -42,6 +51,27 @@ public class PlanController {
 	}
 
 	@ResponseBody
+	@RequestMapping("cupdate.pl")
+	public String ajaxUpdateCalendarColors(@RequestParam Map<String, Object> param, HttpSession session) {
+		
+		int ourCalNo = Integer.parseInt((String)param.get("ourCalNo"));
+		int myCalNo = Integer.parseInt((String)param.get("myCalNo"));
+		int partnerCalNo = Integer.parseInt((String)param.get("partnerCalNo"));
+		
+		String ourCalColor = (String)param.get("ourCalColor");
+		String myCalColor = (String)param.get("myCalColor");
+		String partnerCalColor = (String)param.get("partnerCalColor");
+
+		ArrayList<Calendar> list = new ArrayList<Calendar>();
+		list.add(new Calendar(ourCalNo, ourCalColor));
+		list.add(new Calendar(myCalNo, myCalColor));
+		list.add(new Calendar(partnerCalNo, partnerCalColor));
+		
+		int result = pService.updateCalendarColors(list);
+		return result > 0 ? "success" : "fail";
+	}
+	
+	@ResponseBody
 	@RequestMapping(value = "slist.pl", produces = "application/json; charset=utf-8")
 	public String ajaxSelectScheduleList(SelectSchedule ss) {
 		ArrayList<Schedule> list = pService.selectScheduleList(ss);
@@ -49,21 +79,21 @@ public class PlanController {
 	}
 
 	@ResponseBody
-	@RequestMapping(value = "sinsert.pl")
+	@RequestMapping("sinsert.pl")
 	public String ajaxInsertSchedule(Schedule s) {
 		int result = pService.insertSchedule(s);
 		return result > 0 ? "success" : "fail";
 	}
 
 	@ResponseBody
-	@RequestMapping(value = "supdate.pl")
+	@RequestMapping("supdate.pl")
 	public String ajaxUpdateSchedule(Schedule s) {
 		int result = pService.updateSchedule(s);
 		return result > 0 ? "success" : "fail";
 	}
 
 	@ResponseBody
-	@RequestMapping(value = "sdelete.pl")
+	@RequestMapping("sdelete.pl")
 	public String ajaxDeleteSchedule(int scheduleNo) {
 		int result = pService.deleteSchedule(scheduleNo);
 		return result > 0 ? "success" : "fail";
@@ -78,7 +108,7 @@ public class PlanController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value = "mupdate.pl")
+	@RequestMapping("mupdate.pl")
 	public String ajaxUpdateMindmapList(@RequestBody ArrayList<Mindmap> mindmapList, HttpSession session) {
 		System.out.println(mindmapList);
 		

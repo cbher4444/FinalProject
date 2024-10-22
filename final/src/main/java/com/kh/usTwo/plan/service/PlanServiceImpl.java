@@ -37,6 +37,33 @@ public class PlanServiceImpl implements PlanService{
 	}
 	
 	@Override
+	public int insertCalendar(Member loginUser) {
+		String coupleCode = loginUser.getCoupleCode();
+		String myEmail = loginUser.getEmail();
+		String partnerEmail = loginUser.getPartnerEmail();
+		
+		String pink = "rgb(236, 154, 236)";
+		String skyBlue = "#3788d8";
+		String green = "#27ae60";
+		
+		Calendar cBoth = new Calendar(coupleCode, "BOTH", pink);
+		Calendar cMine = new Calendar(coupleCode, myEmail, skyBlue);
+		Calendar cPartner = new Calendar(coupleCode, partnerEmail, green);
+		
+		int result = 1;
+		result *= pDao.insertCalendar(sqlSession, cBoth);
+		result *= pDao.insertCalendar(sqlSession, cMine);
+		result *= pDao.insertCalendar(sqlSession, cPartner);
+		return result;
+	}
+	
+	@Override
+	public int updateCalendarColors(ArrayList<Calendar> list) {
+		return pDao.updateCalendarColors(sqlSession, list);
+	}
+
+	
+	@Override
 	public ArrayList<Schedule> selectScheduleList(SelectSchedule ss) {
 		return pDao.selectScheduleList(sqlSession, ss);
 	}
@@ -155,5 +182,6 @@ public class PlanServiceImpl implements PlanService{
         String messageStr = sb.toString();
         return messageStr;
 	}
-	
+
+
 }

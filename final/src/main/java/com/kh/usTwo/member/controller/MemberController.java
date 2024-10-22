@@ -439,6 +439,28 @@ public class MemberController {
 		return changeName;
 	}
 	
+	// 프로필 이미지 삭제 - 추가함 by 동규 (2024.10.22)
+	@ResponseBody
+	@RequestMapping("profileDelete.me")
+	public String ajaxDeleteProfile(Member m, MultipartFile reupfile, HttpSession session) {
+		
+		// 기존에 첨부파일이 있었을 경우 => 기존의 첨부파일 지우기
+		if(m.getOriginName() != null) {
+			new File(session.getServletContext().getRealPath(m.getChangeName())).delete();
+		}
 
+		m.setOriginName("");
+		m.setChangeName("");
+		
+		int result = mService.updateProfile(m);
+		
+		if(result > 0) {
+			Member updateloginUser = mService.loginMember(m);
+			session.setAttribute("loginUser", updateloginUser); // 갱싱된 회원정보로 세션 갈아끼기!
+			return "success";
+		} else {
+			return "fail";
+		}
+	}
 	
 }

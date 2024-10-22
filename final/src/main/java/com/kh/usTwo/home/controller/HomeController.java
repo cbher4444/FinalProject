@@ -49,7 +49,7 @@ public class HomeController {
 	}
 	
 	@RequestMapping("update.co")
-	public String updateCouple(Couple c, MultipartFile reupfile, HttpSession session) {
+	public String updateCouple(Couple c, String isDefaultBgImg, MultipartFile reupfile, HttpSession session) {
 		
 		// 새로 넘어온 첨부파일이 있을 경우
 		if(!reupfile.getOriginalFilename().equals("")) {
@@ -65,6 +65,13 @@ public class HomeController {
 			// c에 새로 넘어온 첨부파일 대한 원본명, 저장경로 담기
 			c.setOriginName(reupfile.getOriginalFilename());
 			c.setChangeName("resources/uploadFiles/" + changeName);
+	
+		// 새로 넘어온 첨부파일은 없고, 기존 첨부파일은 있었는데, 기본 배경이미지를 사용하는 경우 => 기존첨부파일 삭제
+		}else if (c.getOriginName() != null && isDefaultBgImg.equals("true")) { 
+			System.out.println("새로 넘어온 첨부파일은 없고, 기존 첨부파일은 있었는데, 기본 배경이미지를 사용하는 경우");
+			new File(session.getServletContext().getRealPath(c.getChangeName())).delete();
+			c.setOriginName("");
+			c.setChangeName("");
 		}
 		
 		int result = cService.updateCouple(c);

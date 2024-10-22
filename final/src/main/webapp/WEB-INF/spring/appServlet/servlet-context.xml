@@ -51,6 +51,9 @@
 			<mapping path="/insertAservey.servey"/>
 			<mapping path="/geminiQnA"/>
 			<mapping path="/geminiTest"/>
+			<mapping path="/calendar"/>
+			<mapping path="/mindmap"/>
+			<mapping path="/myPage"/>
 			<beans:bean class="com.kh.usTwo.common.interceptor.LoginInterceptor" id="loginInterceptor" />
 		</interceptor>
 	</interceptors>

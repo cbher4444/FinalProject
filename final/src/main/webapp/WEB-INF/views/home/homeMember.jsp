@@ -145,7 +145,7 @@
 									<c:choose>
 										<c:when test="${ empty couple.changeName }">
 											<!-- 배경사진이 없는경우 -->
-											<img src="resources/images/main-default-bg-img.jpg" id="modalBgImg" alt="background-image" style="width: 100%; opacity: 70%;">
+											<img src="resources/images/main-default-bg-img.jpg" id="modalBgImg" alt="background-image" style="width: 100%;">
 										</c:when>
 										<c:otherwise>
 											<!-- 배경사진이 있는경우 -->
@@ -153,11 +153,6 @@
 										</c:otherwise>
 									</c:choose>
 								</div>
-								<c:if test="${ empty couple.changeName }">
-									<div style="position: absolute; top:50%; left: 50%; transform: translate(-50%, -50%);">
-										<p style="font-size: 24px; color: black;">( 기본 배경사진 )</p>
-									</div>
-								</c:if>
 							</div>
 							<table>
 								<tr>
@@ -166,6 +161,8 @@
 										<input type="file" id="upfile" name="reupfile" onchange="loadImg(this)">
 										<input type="hidden" name="originName" value="${ couple.originName }">
 										<input type="hidden" name="changeName" value="${ couple.changeName }">
+										<button type="button"onclick="useDefaultBgImg();" class="btn btn-secondary btn-block" style="margin-top: 10px; width: fit-content;" >기본 배경이미지 사용</button>
+										<input type="hidden" id="isDefaultBgImg" name="isDefaultBgImg" value="false">
 									</td>
 								</tr>
 								<tr>
@@ -206,13 +203,26 @@
 				reader.readAsDataURL(inputFile.files[0]);
 				reader.onload = function(e){
 					$("#modalBgImg").attr("src", e.target.result);
+					$("#isDefaultBgImg").val("false");
 				}
 			}else { // 파일 선택 취소시.
 				if('${ couple.changeName }' != ""){ // 기존사진 있으면 -> 기존거 그대로
 					$("#modalBgImg").attr("src", '${ couple.changeName }');
 				}else { // 기존사진 없으면 -> 기본이미지로
 					$("#modalBgImg").attr("src", "resources/images/main-default-bg-img.jpg");
+					$("#isDefaultBgImg").val("false");
 				}
+			}
+		}
+
+		// ----------------------- 기본 배경이미지 사용 버튼 클릭시 -----------------------
+		function useDefaultBgImg(){
+			if($("#modalBgImg").attr("src") === "resources/images/main-default-bg-img.jpg") {
+				alert("이미 기본이미지를 사용중입니다.");
+			}else {
+				$("#upfile").val(""); // 선택된 파일 초기화
+				$("#isDefaultBgImg").val("true");
+				$("#modalBgImg").attr("src", "resources/images/main-default-bg-img.jpg");
 			}
 		}
 	</script>
