@@ -24,9 +24,36 @@ public class BudgetDao {
 		
 		return (ArrayList)sqlSession.selectList("budgetMapper.selectBudget", coupleCode, rowBounds);
 	}
-
-	public int insertBudget(Budget bd, SqlSessionTemplate sqlSession) {
-		return sqlSession.insert("budgetMapper.insertBudget", bd);
+	
+	public ArrayList<Budget> selectBudget(String coupleCode, SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("budgetMapper.selectBudget", coupleCode);
+	}
+	
+	public ArrayList<Budget> selectBudget_currency(Budget bd, SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("budgetMapper.selectBudget_currency", bd);
 	}
 
+	public int insertBudgetI(Budget bd, SqlSessionTemplate sqlSession) {
+		return sqlSession.insert("budgetMapper.insertBudgetI", bd);
+	}
+	
+	public int insertBudgetO(Budget bd, SqlSessionTemplate sqlSession) {
+		return sqlSession.insert("budgetMapper.insertBudgetO", bd);
+	}
+
+	public int selectBalanceOne(Budget bd, SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("budgetMapper.selectBalanceOne", bd);
+	}
+
+	public int countBalance(Budget bd, SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("budgetMapper.countBalance", bd);
+	}
+	
+	public ArrayList<Budget> selectBudgetSpecific(Budget bd, SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("budgetMapper.selectBudgetSpecific", bd);
+	}
+
+	public int updateBudget(Budget bd, SqlSessionTemplate sqlSession) {
+		return sqlSession.update("budgetMapper.updateBudget", bd);
+	}
 }

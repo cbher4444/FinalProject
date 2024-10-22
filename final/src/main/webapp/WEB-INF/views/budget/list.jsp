@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -110,10 +111,12 @@
 	<div id="made-listBtns">
 		<div id="made-selectMethod">
 			<select name="methodCategory" id="made-methodCategory" class="hight">
-				<option value="1">전체 조회</option>
-				<option value="2">토스뱅크</option>
-				<option value="3">국민은행</option>
-				<option value="4">삼성카드</option>
+				<option value="1">전체 통화 조회</option>
+				<option value="₩">₩</option>
+				<option value="$">$</option>
+				<option value="€">€</option>
+				<option value="￥(JPY)">￥(JPY)</option>
+				<option value="¥(CNY)">¥(CNY)</option>
 			</select>
 		</div>
 		<div id="made-selectCategory">
@@ -151,9 +154,9 @@
 						<tr>
 							<td>${ b.budgetDate }</td>
 							<td>${ b.budgetBriefs }</td>
-							<td>${ b.budgetHowMuch }${ b.budgetCurrency }</td>
+							<td><fmt:formatNumber value="${b.budgetHowMuch}" type="number" groupingUsed="true" />${ b.budgetCurrency }</td>
 							<td></td>
-							<td>${ b.budgetBalance }${ b.budgetCurrency }</td>
+							<td><fmt:formatNumber value="${ b.budgetBalance }" type="number" groupingUsed="true" />${ b.budgetCurrency }</td>
 						</tr>
 					</c:when>
 					<c:otherwise>
@@ -161,8 +164,8 @@
 							<td>${ b.budgetDate }</td>
 							<td>${ b.budgetBriefs }</td>
 							<td></td>
-							<td>${ b.budgetHowMuch }${ b.budgetCurrency }</td>
-							<td>${ b.budgetBalance }${ b.budgetCurrency }</td>
+							<td><fmt:formatNumber value="${b.budgetHowMuch}" type="number" groupingUsed="true" />${ b.budgetCurrency }</td>
+							<td><fmt:formatNumber value="${ b.budgetBalance }" type="number" groupingUsed="true" />${ b.budgetCurrency }</td>
 						</tr>
 					</c:otherwise>
 				</c:choose>
@@ -209,6 +212,10 @@
 				let cpage = $id.substring($id.indexOf('e') + 1).replace('btn', '').trim();
 				$(event.target).attr('href', 'goList?cpage=' + cpage + '&coupleCode=${ loginUser.coupleCode }');
 			});
+
+			$(document).on('click', function(event) {
+				console.log(event.target);
+			})
 		})
 	</script>
 

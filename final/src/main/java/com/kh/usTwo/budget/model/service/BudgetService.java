@@ -8,5 +8,12 @@ import com.kh.usTwo.common.model.vo.PageInfo;
 public interface BudgetService {
 	int countBudget(String coupleCode);
 	ArrayList<Budget> selectBudget(String coupleCode, PageInfo pi);
-	int insertBudget(Budget bd);
+	ArrayList<Budget> selectBudget(String coupleCode);
+	ArrayList<Budget> selectBudget_currency(Budget bd);
+	int insertBudgetI(Budget bd);
+	int insertBudgetO(Budget bd);
+	int selectBalanceOne(Budget bd);
+	int countBalance(Budget bd);
+	ArrayList<Budget> selectBudgetSpecific(Budget bd);
+	int updateBudget(Budget bd);
 }
