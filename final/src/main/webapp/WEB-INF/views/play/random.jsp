@@ -33,7 +33,7 @@
 					            </div>
 					            <div class="name">
 					                <p id="menu-name"></p>
-					                <button id="recommend-button">추천하기</button>
+					                <button class="btn btn-lg btn-primary" id="recommend-button">추천하기</button>
 					            </div>
 					        </div>
 					    </section>
