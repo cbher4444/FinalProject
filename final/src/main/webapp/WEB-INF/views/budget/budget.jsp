@@ -177,7 +177,7 @@
 
 		#addBudgetPopup {
 			width: 700px;
-			height: 900px;
+			height: 600px;
 			top: 0;
 			bottom: 0;
 			right: 0;
@@ -187,12 +187,13 @@
 			background-color: white;
 			position: fixed;
 			z-index: 10000;
+			border-radius: 20px;
 		}
 
 		#tableTT {
 			width: 100%;
 			height: 90%;
-			margin-top: 5%;
+			margin-top: 3%;
 		}
 
 		#tableTT .title {
@@ -206,6 +207,26 @@
 		
 		label {
 			margin-right: 10px;
+		}
+
+		#cancleAdd {
+			position: absolute;
+			top: 10px;
+			right: 10px;
+			cursor: pointer;
+		}
+
+		#addBtn {
+			position: absolute;
+			bottom: 20px;
+			right: 0;
+			left: 0;
+			margin: auto;
+			width: 100px;
+		}
+
+		p {
+			margin-bottom: 0 !important;
 		}
 	</style>
 </head>
@@ -233,12 +254,8 @@
 							<div id="made-head1Btn1" class="headBtn select">총 수입</div>
 							<div id="made-head1Btn2" class="headBtn">총 지출</div>
 						</div>
-						<div id="made-content-mini1-1" name="made-head1Btn1" class="made-content-mini selectContent">
-							1
-						</div>
-						<div id="made-content-mini1-2" name="made-head1Btn2" class="made-content-mini">
-							2
-						</div>
+						<div id="made-content-mini1-1" name="made-head1Btn1" class="made-content-mini selectContent"></div>
+						<div id="made-content-mini1-2" name="made-head1Btn2" class="made-content-mini"></div>
 					</div>
 					
 					<!-- 정기 / 변동 / 할부 지출 -->
@@ -249,13 +266,13 @@
 							<div id="made-head2Btn3" class="headBtn">할부 지출</div>
 						</div>
 						<div id="made-content-mini2-1" name="made-head2Btn1" class="made-content-mini selectContent">
-							11
+							없음
 						</div>
 						<div id="made-content-mini2-2" name="made-head2Btn2" class="made-content-mini">
-							22
+							없음
 						</div>
 						<div id="made-content-mini2-3" name="made-head2Btn3" class="made-content-mini">
-							33
+							없음
 						</div>
 					</div>
 					
@@ -266,15 +283,9 @@
 							<div id="made-head3Btn2" class="headBtn">카드 지출</div>
 							<div id="made-head3Btn3" class="headBtn">현금 지출</div>
 						</div>
-						<div id="made-content-mini3-1" name="made-head3Btn1" class="made-content-mini selectContent">
-							111
-						</div>
-						<div id="made-content-mini3-2" name="made-head3Btn2" class="made-content-mini">
-							222
-						</div>
-						<div id="made-content-mini3-3" name="made-head3Btn3" class="made-content-mini">
-							333
-						</div>
+						<div id="made-content-mini3-1" name="made-head3Btn1" class="made-content-mini selectContent"></div>
+						<div id="made-content-mini3-2" name="made-head3Btn2" class="made-content-mini"></div>
+						<div id="made-content-mini3-3" name="made-head3Btn3" class="made-content-mini"></div>
 					</div>
 				</div>
 
@@ -435,7 +446,7 @@
 				<tr>
 					<td class="title">통화</td>
 					<td>
-						<select name="budgetBalance" id="budgetBalance">
+						<select name="budgetCurrency" id="budgetCurrency">
 							<option value="₩">₩(원화)</option>
 							<option value="￥(JPY)">￥(엔화)</option>
 							<option value="¥(CNY)">¥(인민폐)</option>
@@ -447,22 +458,22 @@
 				<tr>
 					<td class="title">수입 / 지출</td>
 					<td>
-						<input type="radio" id="in" name="budgetInout">
-						<label for="in">수입</label>
-						<input type="radio" id="out" name="budgetInout">
-						<label for="out">지출</label>
+						<input type="radio" id="I" name="budgetInout" onclick="outHide()">
+						<label for="I" onclick="outHide()">수입</label>
+						<input type="radio" id="O" name="budgetInout" onclick="outShow()">
+						<label id="Olabel" for="O" onclick="outShow()">지출</label>
 					</td>
 				</tr>
-				<tr>
+				<tr class="outShow">
 					<td class="title">카테고리</td>
 					<td>
 						<select name="budgetCate" id="budgetCate">
-							<option value="">외식</option>
-							<option value="">데이트</option>
+							<option value="1">외식</option>
+							<option value="2">데이트</option>
 						</select>
 					</td>
 				</tr>
-				<tr>
+				<tr class="outShow">
 					<td class="title">결제 수단</td>
 					<td>
 						<input type="radio" id="K" name="budgetMethod">
@@ -475,14 +486,240 @@
 				</tr>
 				<tr>
 					<td class="title">메모</td>
-					<td>
-						<textarea name="budgetComm" id="budgetComm" style="resize: none;"></textarea>
+					<td style="height: 190px;">
+						<textarea name="budgetComm" id="budgetComm" style="resize: none; height: 130px; width: 90%;"></textarea>
 					</td>
 				</tr>
 			</tbody>
 		</table>
 
-		<button>추가하기</button>
+		<button id="addBtn" onclick="submit();">추가하기</button>
+
+		<script>
+			$(() => {
+				$.ajax({
+					url: 'selectBudget.bd',
+					data: {
+						coupleCode: '${ loginUser.coupleCode }'
+					}, success: function(result) {
+						if (result && result.length > 0) {
+							$('.outShow').css('display', 'none');
+							$('#addBudgetPopup').css('display', 'none');
+							$('#coverALL').css('display', 'none');
+
+							$('#add').on('click', function() {
+								$('#addBudgetPopup').css('display', '');
+								$('#coverALL').css('display', '');
+							});
+
+							$('#cancleAdd').on('click', function() {
+								$('#addBudgetPopup').css('display', 'none');
+								$('#coverALL').css('display', 'none');
+							});
+
+							$('#coverALL').on('click', function() {
+								$('#addBudgetPopup').css('display', 'none');
+								$('#coverALL').css('display', 'none');
+							});
+
+							calcInout(result);
+							calcMethod(result);
+						} else {
+							$('.outShow').css('display', 'none');
+							$('#I').attr('checked', true);
+							$('#O').attr('disabled', true);
+							$('#Olabel').attr('onclick', '').unbind('click');
+						}
+					}, error: function() {
+						console.log('error : selectBudget')
+					}
+				})
+			});
+
+			function submit() {
+				var budgetDate = $('#budgetDate').val();
+				var budgetBriefs = $('#budgetBriefs').val();
+				var budgetHowMuch = $('#budgetHowMuch').val();
+				var budgetCurrency = $('#budgetCurrency').val();
+				var budgetComm = $('#budgetComm').val();
+				var budgetInout = $('input[name=budgetInout]:checked').attr('id');
+				var budgetCate = $('#budgetCate').val();
+				var budgetMethod = $('input[name=budgetMethod]:checked').attr('id');
+
+				if ($('input[name=budgetInout]:checked').attr('id') === 'I') { // 입금
+					if (budgetDate && budgetBriefs && budgetHowMuch && budgetCurrency && budgetInout) {
+						$.ajax({
+							url: 'insertBudget.bd',
+							data: {
+								budgetDate: budgetDate,
+								budgetBriefs: budgetBriefs,
+								budgetHowMuch: budgetHowMuch,
+								budgetCurrency: budgetCurrency,
+								budgetComm: budgetComm,
+								budgetInout: budgetInout,
+								email: '${ loginUser.email }',
+								coupleCode: '${ loginUser.coupleCode }'
+							}, success: function() {
+								location.reload();
+							}, error: function() {
+								alert('잠시 후 다시 시도해주세요.');
+							}
+						});	
+					} else {
+						alert('입력하지 않은 값이 존재합니다.');
+					}
+				} else {
+					if (budgetDate && budgetBriefs && budgetHowMuch && budgetCurrency && budgetCate && budgetMethod && budgetInout) {
+						$.ajax({
+							url: 'insertBudget.bd',
+							data: {
+								budgetDate: budgetDate,
+								budgetBriefs: budgetBriefs,
+								budgetHowMuch: budgetHowMuch,
+								budgetCurrency: budgetCurrency,
+								budgetCate: budgetCate,
+								budgetMethod: budgetMethod,
+								budgetComm: budgetComm,
+								budgetInout: budgetInout,
+								email: '${ loginUser.email }',
+								coupleCode: '${ loginUser.coupleCode }'
+							}, success: function() {
+								location.reload();
+							}, error: function() {
+								alert('잠시 후 다시 시도해주세요.');
+							}
+						});
+					} else {
+						alert('입력하지 않은 값이 존재합니다.');
+					}
+				}
+			}
+
+			function outShow() {
+				$('.outShow').css('display', '');
+			}
+
+			function outHide() {
+				$('.outShow').css('display', 'none');
+			}
+
+			function calcInout(list) {
+				let wonIn = 0;
+				let dollarIn = 0;
+				let euroIn = 0;
+				let jpyIn = 0;
+				let cnyIn = 0;
+				let wonOut = 0;
+				let dollarOut = 0;
+				let euroOut = 0;
+				let jpyOut = 0;
+				let cnyOut = 0;
+
+				for (let i in list) {
+					if (list[i].budgetInout === 'I') {
+						switch(list[i].budgetCurrency) {
+							case '₩': wonIn += list[i].budgetHowMuch; break;
+							case '$': dollarIn += list[i].budgetHowMuch;break;
+							case '€': euroIn += list[i].budgetHowMuch; break;
+							case '￥(JPY)': jpyIn += list[i].budgetHowMuch; break;
+							case '¥(CNY)': cnyIn += list[i].budgetHowMuch; break;
+						};
+					} else {
+						switch(list[i].budgetCurrency) {
+							case '₩': wonOut += list[i].budgetHowMuch; break;
+							case '$': dollarOut += list[i].budgetHowMuch;break;
+							case '€': euroOut += list[i].budgetHowMuch; break;
+							case '￥(JPY)': jpyOut += list[i].budgetHowMuch; break;
+							case '¥(CNY)': cnyOut += list[i].budgetHowMuch; break;
+						};
+					};
+				};
+
+				let valueIn = '₩&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: ' + wonIn.toLocaleString() + '원<br />'
+							  + '$ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: ' + dollarIn.toLocaleString() + '달러<br />'
+							  + '€ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: ' + euroIn.toLocaleString() + '유로<br />'
+							  + '￥(JPY) : ' + jpyIn.toLocaleString() + '엔<br />'
+							  + '¥(CNY) : ' + cnyIn.toLocaleString() + '위안<br />';
+				let valueOut = '₩&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: ' + wonOut.toLocaleString() + '원<br />'
+							  + '$ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: ' + dollarOut.toLocaleString() + '달러<br />'
+							  + '€ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: ' + euroOut.toLocaleString() + '유로<br />'
+							  + '￥(JPY) : ' + jpyOut.toLocaleString() + '엔<br />'
+							  + '¥(CNY) : ' + cnyOut.toLocaleString() + '위안<br />';
+				
+				$('#made-content-mini1-1').html(valueIn);
+				$('#made-content-mini1-2').html(valueOut);
+			}
+
+			function calcMethod(list) {
+				let wonA = 0;
+				let dollarA = 0;
+				let euroA = 0;
+				let jpyA = 0;
+				let cnyA = 0;
+				
+				let wonK = 0;
+				let dollarK = 0;
+				let euroK = 0;
+				let jpyK = 0;
+				let cnyK = 0;
+
+				let wonC = 0;
+				let dollarC = 0;
+				let euroC = 0;
+				let jpyC = 0;
+				let cnyC = 0;
+
+				for (let i in list) {
+					if (list[i].budgetInout === 'O') {
+						if (list[i].budgetMethod === 'K') {
+							switch(list[i].budgetCurrency) {
+								case '₩': wonK += list[i].budgetHowMuch; break;
+								case '$': dollarK += list[i].budgetHowMuch;break;
+								case '€': euroK += list[i].budgetHowMuch; break;
+								case '￥(JPY)': jpyK += list[i].budgetHowMuch; break;
+								case '¥(CNY)': cnyK += list[i].budgetHowMuch; break;
+							};
+						} else if (list[i].budgetMethod === 'C') {
+							switch(list[i].budgetCurrency) {
+								case '₩': wonC += list[i].budgetHowMuch; break;
+								case '$': dollarC += list[i].budgetHowMuch;break;
+								case '€': euroC += list[i].budgetHowMuch; break;
+								case '￥(JPY)': jpyC += list[i].budgetHowMuch; break;
+								case '¥(CNY)': cnyC += list[i].budgetHowMuch; break;
+							};
+						} else {
+							switch(list[i].budgetCurrency) {
+								case '₩': wonA += list[i].budgetHowMuch; break;
+								case '$': dollarA += list[i].budgetHowMuch;break;
+								case '€': euroA += list[i].budgetHowMuch; break;
+								case '￥(JPY)': jpyA += list[i].budgetHowMuch; break;
+								case '¥(CNY)': cnyA += list[i].budgetHowMuch; break;
+							};
+						};
+					};
+				};
+
+				let valueA = '₩&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: ' + wonA.toLocaleString() + '원<br />'
+							  + '$ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: ' + dollarA.toLocaleString() + '달러<br />'
+							  + '€ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: ' + euroA.toLocaleString() + '유로<br />'
+							  + '￥(JPY) : ' + jpyA.toLocaleString() + '엔<br />'
+							  + '¥(CNY) : ' + cnyA.toLocaleString() + '위안<br />';
+				let valueK = '₩&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: ' + wonK.toLocaleString() + '원<br />'
+							  + '$ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: ' + dollarK.toLocaleString() + '달러<br />'
+							  + '€ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: ' + euroK.toLocaleString() + '유로<br />'
+							  + '￥(JPY) : ' + jpyK.toLocaleString() + '엔<br />'
+							  + '¥(CNY) : ' + cnyK.toLocaleString() + '위안<br />';
+				let valueC = '₩&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: ' + wonC.toLocaleString() + '원<br />'
+							  + '$ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: ' + dollarC.toLocaleString() + '달러<br />'
+							  + '€ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: ' + euroC.toLocaleString() + '유로<br />'
+							  + '￥(JPY) : ' + jpyC.toLocaleString() + '엔<br />'
+							  + '¥(CNY) : ' + cnyC.toLocaleString() + '위안<br />';
+				
+				$('#made-content-mini3-1').html(valueA);
+				$('#made-content-mini3-2').html(valueK);
+				$('#made-content-mini3-3').html(valueC);
+			}
+		</script>
 	</div>
 </body>
 </html>

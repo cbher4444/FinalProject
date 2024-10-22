@@ -46,25 +46,123 @@
 		 where couple_code = #{ coupleCode }
          order
             by budget_date desc
+             , budget_no desc
 	</select>
 	
-	<insert id="insertBudget">
+	<select id="selectBudget_currency" resultMap="budgetResult">
+		<![CDATA[
+			select BUDGET_NO
+			     , to_char(BUDGET_DATE, 'yyyy-mm-dd') as "BUDGET_DATE"
+			     , BUDGET_BRIEFS
+			     , BUDGET_HOWMUCH
+			     , BUDGET_CURRENCY
+			     , BUDGET_BALANCE
+			     , BUDGET_CATE
+			     , BUDGET_METHOD
+			     , BUDGET_COMM
+			     , BUDGET_INOUT
+			     , EMAIL
+			     , COUPLE_CODE
+			  from f_budget
+			 where couple_code = #{ coupleCode }
+			   and budget_currency = #{ budgetCurrency }
+			   and budget_date <= TO_DATE(#{ budgetDate }, 'YYYY-MM-DD')
+	         order
+	            by budget_date desc
+	             , budget_no desc
+	    ]]>
+	</select>
+	
+	<insert id="insertBudgetI">
 		INSERT
 		  INTO F_BUDGET
 		VALUES
 		     (
 		       SEQ_BUDGET_NO.NEXTVAL
-		     , TO_DATE('20240929', 'YYYY-MM-DD')
-		     , '탕후루'
-		     , 5000
-		     , '₩'
-		     , 100000
-		     , 1
-		     , 'C'
-		     , NULL
-		     , 'O'
-		     , 'user01@email.com'
-		     , 'DFGDFG5623SAD12'
+		     , TO_DATE(#{ budgetDate }, 'YYYY-MM-DD')
+		     , #{ budgetBriefs }
+		     , #{ budgetHowMuch }
+		     , #{ budgetCurrency }
+		     , #{ budgetBalance }
+		     , null
+		     , null
+		     , #{ budgetComm }
+		     , #{ budgetInout }
+		     , #{ email }
+		     , #{ coupleCode }
 		     )
 	</insert>
+	
+	<insert id="insertBudgetO">
+		INSERT
+		  INTO F_BUDGET
+		VALUES
+		     (
+		       SEQ_BUDGET_NO.NEXTVAL
+		     , TO_DATE(#{ budgetDate }, 'YYYY-MM-DD')
+		     , #{ budgetBriefs }
+		     , #{ budgetHowMuch }
+		     , #{ budgetCurrency }
+		     , #{ budgetBalance }
+		     , #{ budgetCate }
+		     , #{ budgetMethod }
+		     , #{ budgetComm }
+		     , #{ budgetInout }
+		     , #{ email }
+		     , #{ coupleCode }
+		     )
+	</insert>
+	
+	<select id="selectBalanceOne" resultType="_int">
+		<![CDATA[
+			select budget_balance
+			  from (select budget_balance
+					  from f_budget
+					 where couple_code = #{ coupleCode }
+					   and budget_currency = #{ budgetCurrency }
+					   and budget_date <= TO_DATE(#{ budgetDate }, 'YYYY-MM-DD')
+					 order
+					    by budget_date desc
+					     , budget_no desc)
+			 where rownum between 1 and 1
+		]]>
+	</select>
+	
+	<select id="countBalance" resultType="_int">
+		select count(*) as count
+		  from f_budget
+		 where couple_code = #{ coupleCode }
+		   and budget_date > to_date(#{ budgetDate }, 'yyyy-mm-dd')
+		   and budget_currency = #{ budgetCurrency }
+	</select>
+	
+	<select id="selectBudgetSpecific" resultMap="budgetResult">
+		select BUDGET_NO
+		     , to_char(BUDGET_DATE, 'yyyy-mm-dd') as "BUDGET_DATE"
+		     , BUDGET_BRIEFS
+		     , BUDGET_HOWMUCH
+		     , BUDGET_CURRENCY
+		     , BUDGET_BALANCE
+		     , BUDGET_CATE
+		     , BUDGET_METHOD
+		     , BUDGET_COMM
+		     , BUDGET_INOUT
+		     , EMAIL
+		     , COUPLE_CODE
+		  from f_budget
+		 where couple_code = #{ coupleCode }
+           and budget_date > to_date(#{ budgetDate }, 'yyyy-mm-dd')
+           and budget_currency = #{ budgetCurrency }
+         order
+            by budget_date
+             , budget_no
+	</select>
+	
+	<update id="updateBudget">
+		update f_budget
+		   set budget_balance = #{ budgetBalance }
+		 where couple_code = #{ coupleCode }
+		   and budget_no = #{ budgetNo }
+		   and budget_currency = #{ budgetCurrency }
+	</update>
 </mapper>

@@ -17,7 +17,7 @@ public class Budget {
 	private String budgetBriefs;
 	private int budgetHowMuch;
 	private String budgetCurrency;
-	private String budgetBalance;
+	private int budgetBalance;
 	private int budgetCate;
 	private String budgetMethod;
 	private String budgetComm;
