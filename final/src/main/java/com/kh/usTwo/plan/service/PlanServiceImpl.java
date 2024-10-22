@@ -58,6 +58,12 @@ public class PlanServiceImpl implements PlanService{
 	}
 	
 	@Override
+	public int updateCalendarColors(ArrayList<Calendar> list) {
+		return pDao.updateCalendarColors(sqlSession, list);
+	}
+
+	
+	@Override
 	public ArrayList<Schedule> selectScheduleList(SelectSchedule ss) {
 		return pDao.selectScheduleList(sqlSession, ss);
 	}
@@ -176,5 +182,6 @@ public class PlanServiceImpl implements PlanService{
         String messageStr = sb.toString();
         return messageStr;
 	}
+
 
 }

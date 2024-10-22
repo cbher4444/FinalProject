@@ -73,6 +73,11 @@
 		   )
 	</insert>
 
+	<update id="updateCalendarColors">
+		update p_calendar
+		   set default_color = #{defaultColor}
+		 where calendar_no = #{calendarNo}
+	</update>
 
 	<select id="selectScheduleList" resultMap="scheduleResult">
 		select 

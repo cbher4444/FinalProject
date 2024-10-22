@@ -16,6 +16,8 @@ public interface PlanService {
 	
 	int insertCalendar(Member loginUser);
 	
+	int updateCalendarColors(ArrayList<Calendar> list);
+	
 	ArrayList<Schedule> selectScheduleList(SelectSchedule ss);
 	
 	int insertSchedule(Schedule s);
@@ -29,4 +31,5 @@ public interface PlanService {
 	int updateMindmapList(ArrayList<Mindmap> mindmapList, HttpSession session);
 	
 	void sendNotifications();
+	
 }

@@ -23,6 +23,14 @@ public class PlanDao {
 		return sqlSession.insert("planMapper.insertCalendar", c);
 	}
 
+	public int updateCalendarColors(SqlSessionTemplate sqlSession, ArrayList<Calendar> list) {
+		int result = 1;
+		for(Calendar c : list) {
+			result *= sqlSession.update("planMapper.updateCalendarColors", c);
+		}
+		return result;
+	}
+	
 	public ArrayList<Schedule> selectScheduleList(SqlSessionTemplate sqlSession, SelectSchedule ss) {
 		ArrayList<Schedule> list = new ArrayList<Schedule>();
 		for(int i : ss.getCalendarNoList()) {
@@ -71,10 +79,5 @@ public class PlanDao {
 	public ArrayList<Phone> selectPhoneList(SqlSessionTemplate sqlSession, String coupleCode) {
 		return (ArrayList)sqlSession.selectList("planMapper.selectPhoneList", coupleCode);
 	}
-
-
-
-
-
 
 }

@@ -23,5 +23,11 @@ public class Calendar {
 		this.owner = owner;
 		this.defaultColor = defaultColor;
 	}
+
+	public Calendar(int calendarNo, String defaultColor) {
+		super();
+		this.calendarNo = calendarNo;
+		this.defaultColor = defaultColor;
+	}
 	
 }

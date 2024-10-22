@@ -390,6 +390,7 @@
 								<tr>
 									<td>우리일정 :</td>
 									<td>
+										<input type="hidden" id="ourCalendarNo">
 										<select id="ourCalendarColor" class="form-control">
 											<option value="#ff5733">주황</option>
 											<option value="#fdcc71">노랑</option>
@@ -403,6 +404,7 @@
 								<tr>
 									<td>내일정 :</td>
 									<td>
+										<input type="hidden" id="myCalendarNo">
 										<select id="myCalendarColor" class="form-control">
 											<option value="#ff5733">주황</option>
 											<option value="#fdcc71">노랑</option>
@@ -416,6 +418,7 @@
 								<tr>
 									<td>상대방일정 :</td>
 									<td>
+										<input type="hidden" id="partnerCalendarNo">
 										<select id="partnerCalendarColor" class="form-control">
 											<option value="#ff5733">주황</option>
 											<option value="#fdcc71">노랑</option>
@@ -494,19 +497,22 @@
 					$("#bothCalendarNo").val(item.calendarNo);
 					$("#edit-bothCalendarNo").val(item.calendarNo);
 					setCalendarBtnColor("우리일정", item.defaultColor);
-					$('#ourCalendarColor').val(item.defaultColor); // 캘린더 기본색상 변경 모달
+					$('#ourCalendarColor').val(item.defaultColor); // 캘린더 기본색상 변경 모달 - 색상
+					$('#ourCalendarNo').val(item.calendarNo); // 캘린더 기본색상 변경 모달 - 캘린더번호
 				}else if(item.owner === '${loginUser.email}'){
 					calendarNo_mine = item.calendarNo;
 					$("#myCalendarNo").val(item.calendarNo);
 					$("#edit-myCalendarNo").val(item.calendarNo);
 					setCalendarBtnColor("내일정", item.defaultColor);
 					$('#myCalendarColor').val(item.defaultColor);
+					$('#myCalendarNo').val(item.calendarNo);
 				}else {
 					calendarNo_partner = item.calendarNo;
 					$("#partnerCalendarNo").val(item.calendarNo);
 					$("#edit-partnerCalendarNo").val(item.calendarNo);
 					setCalendarBtnColor("상대방일정", item.defaultColor);
 					$('#partnerCalendarColor').val(item.defaultColor);
+					$('#partnerCalendarNo').val(item.calendarNo);
 				}
 			};
 		}
@@ -903,14 +909,24 @@
 
 		// ----------------------- 캘린더 기본색상 변경 Modal - 수정버튼 누를시 -----------------------
 		function updateCalendarColors(){
-			// 작업중!!!!
 			$.ajax({
-				url:"cUpdate.pl",
+				url:"cupdate.pl",
 				data:{
-					scheduleNo: "",
-				}, success:function(status){
-					console.log(status);
-					
+					"ourCalNo": $("#ourCalendarNo").val(),
+					"myCalNo": $("#myCalendarNo").val(),
+					"partnerCalNo": $("#partnerCalendarNo").val(),
+
+					"ourCalColor": $("#ourCalendarColor").val(),
+					"myCalColor": $("#myCalendarColor").val(),
+					"partnerCalColor": $("#partnerCalendarColor").val(),
+				}, success:function(result){
+					console.log(result);
+					if(result === "success") {
+						alert("성공적으로 캘린더 기본색상을 변경하였습니다.");
+						location.href = "calendar";
+					}else{
+						alert("캘린더 기본색상 변경실패");
+					}
 				}, error:function(){
 					console.log("updateCalendarColors() - ajax 통신 실패!");
 				}
