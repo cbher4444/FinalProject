@@ -252,5 +252,31 @@
 		   and couple_code != 'admin'
 		   and gender = 'M'
 	</select>
-
+	
+	<!-- 관리자 페이지에 사용할 회원 목록 가져오기 - 추가함 by 영찬 (2024.10.22) -->
+	<select id="selectMemberList" resultMap="memberResult">
+		select 
+			   email
+			 , user_pwd
+			 , user_name
+			 , nickname
+			 , gender
+			 , phone
+			 , address
+			 , brithday
+			 , enroll_date
+			 , modify_date
+			 , change_name
+			 , status
+		  from c_member
+		 order
+		    by enroll_date desc 
+	</select>
+	
+	<select id="selectListCount" resultType="_int">
+		select
+			   count(*)
+		  from c_member
+	</select>
+	
 </mapper>

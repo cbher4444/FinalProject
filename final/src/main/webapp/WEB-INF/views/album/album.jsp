@@ -55,8 +55,8 @@
 	#addMedia{
 		display:none;
 	    position: absolute;
-    	right: 15px;
-    	top: 270px;
+    	right: -200px;
+    	top: 60px;
 	}
 	</style>
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -74,7 +74,7 @@
 	<!-- 내용 -->
 	<div id="fh5co-gallery" style="background:#F6FAF7;">
 		<div class="container">
-			<div class="row">
+			<div class="row" style="position:relative">
 				<div class="col-md-8 col-md-offset-2 text-center heading-section animate-box">
 					<h2 class="album_title">Couple Album</h2>
 					<input type="hidden" class="albumId" value="">

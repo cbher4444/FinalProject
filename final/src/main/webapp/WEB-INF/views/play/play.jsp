@@ -43,8 +43,7 @@
 								<div class="ceremony-bg" style="background-image: url(https://pimg.mk.co.kr/meet/neds/2021/11/image_readtop_2021_1079080_16371247144853257.jpg);"></div>
 								<div class="desc">
 									<h3>인기 영화 둘러보기</h3>
-									<p><strong>Saturday, December 28, 2017, 4.00 PM - 5.00PM @ Boracay Beach</strong></p>
-									<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
+									<p><strong>요즘 유행하는 영화나 TV프로그램을 확인해보세요!</strong></p>
 								</div>
 							</div>
 						</a>
@@ -52,13 +51,12 @@
 				</div>
 				<div class="col-md-6 text-center animate-box">
 					<div style="overflow:hidden;">
-						<a href="">
+						<a href="random">
 							<div class="wedding-events">
-								<div class="ceremony-bg" style="background-image: url(resources/images/wed-party.jpg);"></div>
+								<div class="ceremony-bg" style="background-image: url(resources/randomImg/공원.jfif);"></div>
 								<div class="desc">
 									<h3>놀거리 추천 받기</h3>
-									<p><strong>Saturday, December 28, 2017, 6.00 PM - 11.00PM @ Boracay Beach</strong></p>
-									<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
+									<p><strong>뭐하고 놀지 고민일 땐 한번 추천 받아보세요!</strong></p>
 								</div>
 							</div>
 						</a>
