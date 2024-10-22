@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.socket.CloseStatus;
@@ -25,6 +27,8 @@ public class Chathandler extends TextWebSocketHandler{
 	
 	private List<WebSocketSession> sessionList = new ArrayList<WebSocketSession>();
 	
+	 private final Map<String, WebSocketSession> sessions = new ConcurrentHashMap<>();
+	
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception{
 		sessionList.add(session);
@@ -39,13 +43,32 @@ public class Chathandler extends TextWebSocketHandler{
 	
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message)throws Exception{
+		
 		log.info("{}로 부터 {} 받음", session.getId(), message.getPayload());
+		
+		String payload = message.getPayload();
+        System.out.println("받은 메시지: " + payload);
+
 		
 		for(WebSocketSession sess : sessionList) {
 			sess.sendMessage(new TextMessage(message.getPayload()));
 		}
 		
+		 for(WebSocketSession s : sessions.values()) {
+	          if(s.isOpen() && !s.getId().equals(session.getId())) { // 자신을 제외하고 전송
+	               s.sendMessage(new TextMessage(payload));
+	            }
+	        }
+		 
+		 for (WebSocketSession sess : sessionList) {
+		        if (sess.isOpen() && !sess.getId().equals(session.getId())) { // 자신을 제외하고 전송
+		            sess.sendMessage(new TextMessage(payload));
+		        }
+		    }
+	    }
+		
+		
 	}
 	
 	
-}
+

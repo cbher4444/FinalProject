@@ -5,11 +5,35 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script
-	src="https://unpkg.com/@zegocloud/zego-uikit-prebuilt/zego-uikit-prebuilt.js"></script>
+<script src="https://unpkg.com/@zegocloud/zego-uikit-prebuilt/zego-uikit-prebuilt.js"></script>
+<script defer src="video.js"></script>
+
+ 
+<script>
+        $(document).ready(function() { 
+            // 화상 통화 버튼 클릭 시 팝업 창 띄우기
+            $('#videoCall-btn').click(function() {
+                $('#videoCall-btn').fadeOut();
+                $('#videoCall-btn').removeClass('red-dot');
+                // AJAX 요청 또는 바로 팝업 열기
+                $('#video-popup').fadeIn();
+            });
+
+            // 팝업 닫기 버튼
+            $('#close-video-popup').click(function(){
+                $('#video-popup').fadeOut();
+                $('#videoCall-btn').fadeIn();
+            });
+
+            // 화상 통화 시작 버튼
+            $('#startCall').click(function() {
+                startCall();
+            });
+        });
+    </script>
 
 <style>
-#face-btn {
+#videoCall-btn {
 	position: fixed;
 	bottom: 40px;
 	right: 10%;
@@ -27,10 +51,10 @@
 	color: #333333;
 }
 
-#face-popup {
+#video-popup {
 	display: none;
-	width: 700px;
-	height: 480px;
+	width: 1000px;
+	height: 600px;
 	background-color: #f1f1f1;
 	border: 1px solid #888;
 	position: fixed;
@@ -38,40 +62,130 @@
 	right: 50px;
 	z-index: 1200;
 }
+ 
+        #localVideo, #remoteVideo {
+            width: 400px;
+            height: 400px;
+            background-color: black;
+            margin: 10px;
+        }
+        .red-dot {
+            background-color: red;
+            border-radius: 50%;
+            width: 10px;
+            height: 10px;
+            display: inline-block;
+        }
 </style>
 </head>
 <body>
-	<button type="button" id="face-btn">face</button>
-	
-	<script>
-		$(document).ready(function() {
+	 <button type="button" id="videoCall-btn">화상 통화</button>
 
-			// 채팅 버튼 클릭 시 팝업 창 띄우기
-			$('#face-btn').click(function() {
-				$('#face-btn').fadeOut();
-				// AJAX 요청 예시
-				$.ajax({
-					url : 'faceTalk', // 서버로부터 데이터를 가져올 주소 (필요에 따라 변경)
-					
-					method : 'POST',
-					success : function(response) {
-						window.open("localhost:8444/final/faceTalkForm", "PopupWin", "width=500,height=600");
-						$('#face-popup').fadeIn();
-					},
-					error : function() {
-						alert('Failed to load chat window.');
-					}
-				});
-			});
+    <!-- 팝업 창 -->
+    <div id="video-popup" align="center">
+        <h2 id="video-head-line">커플 화상 통화</h2>
+        <button id="close-video-popup">X</button>
+        
+        <div id="videoArea">
+            <video id="localVideo" autoplay playsinline></video>
+            
+            <video id="remoteVideo" autoplay playsinline></video>
+        </div>
+        <button id="startCall">화상 통화 시작</button>
+    </div>
 
-			// 팝업 닫기 버튼
-			$('#close-popup').click(function() {
-				$('#chat-popup').fadeOut();
-				$('#chatting-btn').fadeIn();
-			});
+ <script>
+        let localStream;
+        let peerConnection;
+        const configuration = {
+            iceServers: [{ urls: 'stun:stun.l.google.com:19302' }]
+        };
 
-		});
-	</script>
+        const localVideo = document.getElementById('localVideo');
+        const remoteVideo = document.getElementById('remoteVideo');
 
+        // WebSocket 연결 설정
+        const webSocket = new WebSocket('ws://localhost:8444/chat');
+
+        // WebSocket 메시지 처리
+        webSocket.onmessage = function(message) {
+            const data = JSON.parse(message.data);
+            if (data.offer) {
+                handleOffer(data.offer);
+            } else if (data.answer) {
+                handleAnswer(data.answer);
+            } else if (data.candidate) {
+                handleCandidate(data.candidate);
+            }
+        };
+
+        async function startCall() {
+            try {
+                localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+                localVideo.srcObject = localStream;
+
+                peerConnection = new RTCPeerConnection(configuration);
+                localStream.getTracks().forEach(track => peerConnection.addTrack(track, localStream));
+
+                // ICE 후보 전송
+                peerConnection.onicecandidate = event => {
+                    if (event.candidate) {
+                        sendToServer({ candidate: event.candidate });
+                    }
+                };
+
+                // 상대방의 스트림을 수신하면 비디오에 표시
+                peerConnection.ontrack = event => {
+                    remoteVideo.srcObject = event.streams[0];
+                };
+
+                // Offer 생성
+                const offer = await peerConnection.createOffer();
+                await peerConnection.setLocalDescription(offer);
+
+                // 서버로 Offer 전송
+                sendToServer({ offer });
+            } catch (error) {
+                console.error('Error accessing media devices:', error);
+                alert('카메라 또는 마이크 접근이 허용되지 않았습니다: ' + error.message);
+            }
+        }
+
+        function sendToServer(message) {
+            webSocket.send(JSON.stringify(message));
+        }
+
+        async function handleOffer(offer) {
+            peerConnection = new RTCPeerConnection(configuration);
+            localStream.getTracks().forEach(track => peerConnection.addTrack(track, localStream));
+
+            peerConnection.onicecandidate = event => {
+                if (event.candidate) {
+                    sendToServer({ candidate: event.candidate });
+                }
+            };
+
+            peerConnection.ontrack = event => {
+                remoteVideo.srcObject = event.streams[0];
+            };
+
+            await peerConnection.setRemoteDescription(new RTCSessionDescription(offer));
+            const answer = await peerConnection.createAnswer();
+            await peerConnection.setLocalDescription(answer);
+            sendToServer({ answer });
+        }
+
+        async function handleAnswer(answer) {
+            await peerConnection.setRemoteDescription(new RTCSessionDescription(answer));
+        }
+
+        async function handleCandidate(candidate) {
+            await peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
+        }
+
+        document.getElementById('startCallBtn').addEventListener('click', startCall);
+    </script>
+
+   
 </body>
 </html>
