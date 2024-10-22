@@ -1401,11 +1401,11 @@ CREATE TABLE A_STORY(
 
 CREATE SEQUENCE SEQ_STORY;
 
-INSERT INTO A_STORY VALUES(SEQ_STORY.NEXTVAL, 'A1B2C3D4E5F6G7H', 'user04@email.com', '우리 처음 만난 날', '2024-05-09', 2, NULL, NULL, 'Y');
-INSERT INTO A_STORY VALUES(SEQ_STORY.NEXTVAL, 'A1B2C3D4E5F6G7H', 'user04@email.com', '우리 두번째 만난 날', '2024-05-25', 1, NULL, NULL, 'Y');
-INSERT INTO A_STORY VALUES(SEQ_STORY.NEXTVAL, 'A1B2C3D4E5F6G7H', 'user04@email.com', '우리 세번째 만난 날', '2024-05-27', 0, NULL, NULL, 'Y');
-INSERT INTO A_STORY VALUES(SEQ_STORY.NEXTVAL, 'A1B2C3D4E5F6G7H', 'user04@email.com', '우리 네번째 만난 날', '2024-06-03', 2, NULL, NULL, 'Y');
-INSERT INTO A_STORY VALUES(SEQ_STORY.NEXTVAL, 'A1B2C3D4E5F6G7H', 'user04@email.com', '우리 마지막 만난 날', '2024-07-18', 0, NULL, NULL, 'Y');
+INSERT INTO A_STORY VALUES(SEQ_STORY.NEXTVAL, 'A1B2C3D4E5F6G7H', 'user04@email.com', '우리 처음 만난 날', '2024-05-09', 2, NULL, 'resources/upfiles/2024101918022257237.jpg', 'Y');
+INSERT INTO A_STORY VALUES(SEQ_STORY.NEXTVAL, 'A1B2C3D4E5F6G7H', 'user04@email.com', '우리 두번째 만난 날', '2024-05-25', 1, NULL, 'resources/upfiles/2024102115521588323.PNG', 'Y');
+INSERT INTO A_STORY VALUES(SEQ_STORY.NEXTVAL, 'A1B2C3D4E5F6G7H', 'user04@email.com', '우리 세번째 만난 날', '2024-05-27', 0, NULL, 'resources/upfiles/2024102116052879512.PNG', 'Y');
+INSERT INTO A_STORY VALUES(SEQ_STORY.NEXTVAL, 'A1B2C3D4E5F6G7H', 'user04@email.com', '우리 네번째 만난 날', '2024-06-03', 2, NULL, 'resources/upfiles/2024101812064061483.jfif', 'Y');
+INSERT INTO A_STORY VALUES(SEQ_STORY.NEXTVAL, 'A1B2C3D4E5F6G7H', 'user04@email.com', '우리 마지막 만난 날', '2024-07-18', 0, NULL, 'resources/upfiles/2024102116350816947.jfif', 'Y');
 
 --------------------------------------------------
 --------------     댓글	    ------------------	
