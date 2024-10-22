@@ -212,6 +212,9 @@
 					</div>
 					<div class="modal-footer" style="display: flex; align-items: center; justify-content: center;">
 						<button type="submit" class="btn btn-primary btn-block" style="width: 100px; height: 50px; margin-right: 10px;">사진 등록</button>
+						<c:if test="${ not empty loginUser.originName }">
+							<button type="button" class="btn btn-secondary btn-block" style="width: 100px; height: 50px; margin-right: 10px; margin-top: 0;" onclick="confirmDeleteProfile();">사진 삭제</button>
+						</c:if>
 					</div>
 				</form>
 			</div>
@@ -294,6 +297,35 @@
 					$("#modalProfileImg").attr("src", "resources/images/blank-profile-picture.png");
 				}
 			}
+		}
+
+		// ----------------------- 사진삭제 확인절차 -----------------------
+		function confirmDeleteProfile(){
+			if(confirm("정말로 프로필 사진을 삭제하시겠습니까?")){
+				deleteProfileImg();
+			}
+		}
+
+		// ----------------------- 사진삭제 -----------------------
+		function deleteProfileImg(){
+			$.ajax({
+				url:"profileDelete.me",
+				data:{
+					email: '${loginUser.email}',
+					originName: '${loginUser.originName}',
+					changeName: '${loginUser.changeName}',
+				},
+				success:function(result){
+					if(result === "success") {
+						alert("성공적으로 프로필사진을 삭제하였습니다.");
+						location.href = "myPage";
+					}else{
+						alert("프로필사진 삭제실패");
+					}
+				}, error:function(){
+					console.log('deleteProfileImg() - ajax 통신 실패');
+				}
+			})
 		}
 
 		// ----------------------- 비밀번호 변경시, 입력한 비밀번호가 서로 일치하는지 검증 -----------------------

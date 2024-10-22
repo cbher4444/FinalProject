@@ -920,7 +920,7 @@
 					"myCalColor": $("#myCalendarColor").val(),
 					"partnerCalColor": $("#partnerCalendarColor").val(),
 				}, success:function(result){
-					console.log(result);
+					// console.log(result);
 					if(result === "success") {
 						alert("성공적으로 캘린더 기본색상을 변경하였습니다.");
 						location.href = "calendar";
