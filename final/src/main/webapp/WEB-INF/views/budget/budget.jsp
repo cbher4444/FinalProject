@@ -299,7 +299,13 @@
 					<div id="made-content">
 						<!-- 리스트 -->
 						<div id="made-content-big1" name="made-head4Btn1" class="made-content-big selectContent">
-							<iframe src="goList?coupleCode=${ loginUser.coupleCode }" frameborder="0" width="100%" height="1100" id="myiframe"></iframe>
+							<iframe src="goList?
+										coupleCode=${ loginUser.coupleCode }
+										&budgetCurrency=
+										&budgetInout=
+										&startDate=
+										&endDate=
+										&keyword=" frameborder="0" width="100%" height="1100" id="myiframe"></iframe>
 							<script>
 								$(() => {
 									let iframe = document.getElementById('myiframe');
@@ -321,69 +327,101 @@
 							<div id="made-calederCover">
 								<script>
 									$(() => {
-										let today = new Date();
-										today.setHours(0, 0, 0, 0);
-										let currentMonth = new Date(today.getFullYear(), today.getMonth(), 1);
-										
-										function renderCalendar(container, date) {
-											$(container).empty();
-											let month = date.getMonth();
-											let year = date.getFullYear();
-											
-											let firstDay = new Date(year, month, 1).getDay();
-											let lastDate = new Date(year, month + 1, 0).getDate();
-											
-											let calendar = $('<div>').addClass('calendar');
-											
-											calendar.append($('<div>').addClass('calendar-header').text(date.toLocaleString('en-us', { month: 'long' }) + ' ' + year));
-											
-											const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-											for (let day of daysOfWeek) {
-												let dayDiv = $('<div>').addClass('calendar-day').text(day);
-												if (day === 'Sun') {
-													dayDiv.addClass('sunday');
-												}
-												calendar.append(dayDiv);
-											}
-			
-											for (let i = 0; i < firstDay; i++) {
-												calendar.append($('<div>').addClass('calendar-date'));
-											}
-											
-											for (let date = 1; date <= lastDate; date++) {
-												let calendarDate = $('<div>').addClass('calendar-date').text(date);
-												let fullDate = new Date(year, month, date);
-			
-												if (fullDate.getDay() === 0) {
-													calendarDate.addClass('sunday');
+										$.ajax({
+											url: 'selectBudget.bd',
+											data: {coupleCode: '${ loginUser.coupleCode }'},
+											success: function(list) {
+												let results = {};
+
+												for (let entry of list) {
+													const date = entry.budgetDate;
+													const amount = entry.budgetHowMuch;
+													const type = entry.budgetInout;
+
+													if (!results[date]) {
+														results[date] = { income: 0, expenses: 0 };
+													}
+
+													if (type === 'I') {
+														results[date].income += amount;
+													} else if (type === 'O') {
+														results[date].expenses += amount;
+													}
 												}
 
-												if (date === today.getDate() && month === today.getMonth() && year == today.getFullYear()) {
-													calendarDate.addClass('today').html(date + '<br /><br /><p style="color: #ff1717">+ 3,000,000</p><p style="color: #2727d3">- 1,000,000</p>');
+												let finalResults = Object.entries(results).map(([date, { income, expenses }]) => [date, income, expenses]);
+
+												let today = new Date();
+												today.setHours(0, 0, 0, 0);
+												let currentMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+
+												function renderCalendar(container, date) {
+													$(container).empty();
+													let month = date.getMonth();
+													let year = date.getFullYear();
+													
+													let firstDay = new Date(year, month, 1).getDay();
+													let lastDate = new Date(year, month + 1, 0).getDate();
+													
+													let calendar = $('<div>').addClass('calendar');
+													
+													calendar.append($('<div>').addClass('calendar-header').text(date.toLocaleString('en-us', { month: 'long' }) + ' ' + year));
+													
+													const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+													for (let day of daysOfWeek) {
+														let dayDiv = $('<div>').addClass('calendar-day').text(day);
+														if (day === 'Sun') {
+															dayDiv.addClass('sunday');
+														}
+														calendar.append(dayDiv);
+													}
+					
+													for (let i = 0; i < firstDay; i++) {
+														calendar.append($('<div>').addClass('calendar-date'));
+													}
+													
+													for (let date = 1; date <= lastDate; date++) {
+														let calendarDate = $('<div>').addClass('calendar-date').text(date);
+														let fullDate = new Date(year, month, date).setHours(0, 0, 0, 0);
+
+														for (let i in finalResults) {
+															if (new Date(finalResults[i][0]).setHours(0, 0, 0, 0) === fullDate) {
+																calendarDate.append(`<br /><br />
+																					 <p style="color: #ff1717">+` + finalResults[i][1] + `</p>
+																					 <p style="color: #2727d3">-` + finalResults[i][2] + `</p>`);
+															}
+														}
+
+														if (date === today.getDate() && month === today.getMonth() && year == today.getFullYear()) {
+															calendarDate.addClass('today');
+														}
+					
+														calendar.append(calendarDate);
+													}
+													
+													$(container).append(calendar);
 												}
-			
-												calendar.append(calendarDate);
+					
+												$('#made-next').on('click', function() {
+													currentMonth.setMonth(currentMonth.getMonth() + 1);
+													renderCalendar('#made-calederCover', currentMonth);
+												});
+
+												$('#made-today').on('click', function() {
+													currentMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+													renderCalendar('#made-calederCover', currentMonth);
+												});
+
+												$('#made-prev').on('click', function() {
+													currentMonth.setMonth(currentMonth.getMonth() - 1);
+													renderCalendar('#made-calederCover', currentMonth);
+												});
+					
+												renderCalendar('#made-calederCover', currentMonth);
+											}, error: function() {
+												console.log('error : selectBudget(캘린더)');
 											}
-											
-											$(container).append(calendar);
-										}
-			
-										$('#made-next').on('click', function() {
-											currentMonth.setMonth(currentMonth.getMonth() + 1);
-											renderCalendar('#made-calederCover', currentMonth);
 										});
-
-										$('#made-today').on('click', function() {
-											currentMonth = new Date(today.getFullYear(), today.getMonth(), 1);
-											renderCalendar('#made-calederCover', currentMonth);
-										});
-
-										$('#made-prev').on('click', function() {
-											currentMonth.setMonth(currentMonth.getMonth() - 1);
-											renderCalendar('#made-calederCover', currentMonth);
-										});
-			
-										renderCalendar('#made-calederCover', currentMonth);
 									});
 								</script>
 							</div>

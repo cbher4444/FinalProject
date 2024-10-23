@@ -24,10 +24,341 @@
 	</resultMap>
 	
 	<select id="countBudget" resultType="_int">
-		select count(*) as count
-		  from f_budget
-		 where couple_code = #{ coupleCode }
+	    <![CDATA[
+	    select count(*) as count
+	      from f_budget
+	     where couple_code = #{ coupleCode }
+	    ]]>
 	</select>
+	
+	<select id="countBudget_startDate" resultType="_int">
+	    <![CDATA[
+	    select count(*) as count
+	      from f_budget
+	     where couple_code = #{ coupleCode }
+	       and budget_date >= to_date(#{ startDate }, 'yyyy-mm-dd')
+	    ]]>
+	</select>
+	
+	<select id="countBudget_endDate" resultType="_int">
+	    <![CDATA[
+	    select count(*) as count
+	      from f_budget
+	     where couple_code = #{ coupleCode }
+	       and budget_date <= to_date(#{ endDate }, 'yyyy-mm-dd')
+	    ]]>
+	</select>
+	
+	<select id="countBudget_date" resultType="_int">
+	    <![CDATA[
+	    select count(*) as count
+	      from f_budget
+	     where couple_code = #{ coupleCode }
+	       and budget_date >= to_date(#{ startDate }, 'yyyy-mm-dd')
+	       and budget_date <= to_date(#{ endDate }, 'yyyy-mm-dd')
+	    ]]>
+	</select>
+	
+	<select id="countBudget_currencyInout" resultType="_int">
+	    <![CDATA[
+	    select count(*) as count
+	      from f_budget
+	     where couple_code = #{ coupleCode }
+	       and budget_currency = #{ budgetCurrency }
+	       and budget_inout = #{ budgetInout }
+	    ]]>
+	</select>
+	
+	<select id="countBudget_currencyInoutStartDate" resultType="_int">
+	    <![CDATA[
+	    select count(*) as count
+	      from f_budget
+	     where couple_code = #{ coupleCode }
+	       and budget_currency = #{ budgetCurrency }
+	       and budget_inout = #{ budgetInout }
+	       and budget_date >= to_date(#{ startDate }, 'yyyy-mm-dd')
+	    ]]>
+	</select>
+	
+	<select id="countBudget_currencyInoutEndDate" resultType="_int">
+	    <![CDATA[
+	    select count(*) as count
+	      from f_budget
+	     where couple_code = #{ coupleCode }
+	       and budget_currency = #{ budgetCurrency }
+	       and budget_inout = #{ budgetInout }
+	       and budget_date <= to_date(#{ endDate }, 'yyyy-mm-dd')
+	    ]]>
+	</select>
+	
+	<select id="countBudget_currencyInoutDate" resultType="_int">
+	    <![CDATA[
+	    select count(*) as count
+	      from f_budget
+	     where couple_code = #{ coupleCode }
+	       and budget_currency = #{ budgetCurrency }
+	       and budget_inout = #{ budgetInout }
+	       and budget_date >= to_date(#{ startDate }, 'yyyy-mm-dd')
+	       and budget_date <= to_date(#{ endDate }, 'yyyy-mm-dd')
+	    ]]>
+	</select>
+	
+	<select id="countBudget_currency" resultType="_int">
+	    <![CDATA[
+	    select count(*) as count
+	      from f_budget
+	     where couple_code = #{ coupleCode }
+	       and budget_currency = #{ budgetCurrency }
+	    ]]>
+	</select>
+	
+	<select id="countBudget_currencyStartDate" resultType="_int">
+	    <![CDATA[
+	    select count(*) as count
+	      from f_budget
+	     where couple_code = #{ coupleCode }
+	       and budget_currency = #{ budgetCurrency }
+	       and budget_date >= to_date(#{ startDate }, 'yyyy-mm-dd')
+	    ]]>
+	</select>
+	
+	<select id="countBudget_currencyEndDate" resultType="_int">
+	    <![CDATA[
+	    select count(*) as count
+	      from f_budget
+	     where couple_code = #{ coupleCode }
+	       and budget_currency = #{ budgetCurrency }
+	       and budget_date <= to_date(#{ endDate }, 'yyyy-mm-dd')
+	    ]]>
+	</select>
+	
+	<select id="countBudget_currencyDate" resultType="_int">
+	    <![CDATA[
+	    select count(*) as count
+	      from f_budget
+	     where couple_code = #{ coupleCode }
+	       and budget_currency = #{ budgetCurrency }
+	       and budget_date >= to_date(#{ startDate }, 'yyyy-mm-dd')
+	       and budget_date <= to_date(#{ endDate }, 'yyyy-mm-dd')
+	    ]]>
+	</select>
+	
+	<select id="countBudget_inout" resultType="_int">
+	    <![CDATA[
+	    select count(*) as count
+	      from f_budget
+	     where couple_code = #{ coupleCode }
+	       and budget_inout = #{ budgetInout }
+	    ]]>
+	</select>
+	
+	<select id="countBudget_inoutStartDate" resultType="_int">
+	    <![CDATA[
+	    select count(*) as count
+	      from f_budget
+	     where couple_code = #{ coupleCode }
+	       and budget_inout = #{ budgetInout }
+	       and budget_date >= to_date(#{ startDate }, 'yyyy-mm-dd')
+	    ]]>
+	</select>
+	
+	<select id="countBudget_inoutEndDate" resultType="_int">
+	    <![CDATA[
+	    select count(*) as count
+	      from f_budget
+	     where couple_code = #{ coupleCode }
+	       and budget_inout = #{ budgetInout }
+	       and budget_date <= to_date(#{ endDate }, 'yyyy-mm-dd')
+	    ]]>
+	</select>
+	
+	<select id="countBudget_inoutDate" resultType="_int">
+	    <![CDATA[
+	    select count(*) as count
+	      from f_budget
+	     where couple_code = #{ coupleCode }
+	       and budget_inout = #{ budgetInout }
+	       and budget_date >= to_date(#{ startDate }, 'yyyy-mm-dd')
+	       and budget_date <= to_date(#{ endDate }, 'yyyy-mm-dd')
+	    ]]>
+	</select>
+	
+	<select id="countBudget_keyword" resultType="_int">
+	    <![CDATA[
+	    select count(*) as count
+	      from f_budget
+	     where couple_code = #{ coupleCode }
+	       and (budget_briefs like #{ keyword } or budget_comm like #{ keyword })
+	    ]]>
+	</select>
+	
+	<select id="countBudget_startDateKeyword" resultType="_int">
+	    <![CDATA[
+	    select count(*) as count
+	      from f_budget
+	     where couple_code = #{ coupleCode }
+	       and budget_date >= to_date(#{ startDate }, 'yyyy-mm-dd')
+	       and (budget_briefs like #{ keyword } or budget_comm like #{ keyword })
+	    ]]>
+	</select>
+	
+	<select id="countBudget_endDateKeyword" resultType="_int">
+	    <![CDATA[
+	    select count(*) as count
+	      from f_budget
+	     where couple_code = #{ coupleCode }
+	       and budget_date <= to_date(#{ endDate }, 'yyyy-mm-dd')
+	       and (budget_briefs like #{ keyword } or budget_comm like #{ keyword })
+	    ]]>
+	</select>
+	
+	<select id="countBudget_dateKeyword" resultType="_int">
+	    <![CDATA[
+	    select count(*) as count
+	      from f_budget
+	     where couple_code = #{ coupleCode }
+	       and budget_date >= to_date(#{ startDate }, 'yyyy-mm-dd')
+	       and budget_date <= to_date(#{ endDate }, 'yyyy-mm-dd')
+	       and (budget_briefs like #{ keyword } or budget_comm like #{ keyword })
+	    ]]>
+	</select>
+	
+	<select id="countBudget_currencyInoutKeyword" resultType="_int">
+	    <![CDATA[
+	    select count(*) as count
+	      from f_budget
+	     where couple_code = #{ coupleCode }
+	       and budget_currency = #{ budgetCurrency }
+	       and budget_inout = #{ budgetInout }
+	       and (budget_briefs like #{ keyword } or budget_comm like #{ keyword })
+	    ]]>
+	</select>
+	
+	<select id="countBudget_currencyInoutStartDateKeyword" resultType="_int">
+	    <![CDATA[
+	    select count(*) as count
+	      from f_budget
+	     where couple_code = #{ coupleCode }
+	       and budget_currency = #{ budgetCurrency }
+	       and budget_inout = #{ budgetInout }
+	       and budget_date >= to_date(#{ startDate }, 'yyyy-mm-dd')
+	       and (budget_briefs like #{ keyword } or budget_comm like #{ keyword })
+	    ]]>
+	</select>
+	
+	<select id="countBudget_currencyInoutEndDateKeyword" resultType="_int">
+	    <![CDATA[
+	    select count(*) as count
+	      from f_budget
+	     where couple_code = #{ coupleCode }
+	       and budget_currency = #{ budgetCurrency }
+	       and budget_inout = #{ budgetInout }
+	       and budget_date <= to_date(#{ endDate }, 'yyyy-mm-dd')
+	       and (budget_briefs like #{ keyword } or budget_comm like #{ keyword })
+	    ]]>
+	</select>
+	
+	<select id="countBudget_currencyInoutDateKeyword" resultType="_int">
+	    <![CDATA[
+	    select count(*) as count
+	      from f_budget
+	     where couple_code = #{ coupleCode }
+	       and budget_currency = #{ budgetCurrency }
+	       and budget_inout = #{ budgetInout }
+	       and budget_date >= to_date(#{ startDate }, 'yyyy-mm-dd')
+	       and budget_date <= to_date(#{ endDate }, 'yyyy-mm-dd')
+	       and (budget_briefs like #{ keyword } or budget_comm like #{ keyword })
+	    ]]>
+	</select>
+	
+	<select id="countBudget_currencyKeyword" resultType="_int">
+	    <![CDATA[
+	    select count(*) as count
+	      from f_budget
+	     where couple_code = #{ coupleCode }
+	       and budget_currency = #{ budgetCurrency }
+	       and (budget_briefs like #{ keyword } or budget_comm like #{ keyword })
+	    ]]>
+	</select>
+	
+	<select id="countBudget_currencyStartDateKeyword" resultType="_int">
+	    <![CDATA[
+	    select count(*) as count
+	      from f_budget
+	     where couple_code = #{ coupleCode }
+	       and budget_currency = #{ budgetCurrency }
+	       and budget_date >= to_date(#{ startDate }, 'yyyy-mm-dd')
+	       and (budget_briefs like #{ keyword } or budget_comm like #{ keyword })
+	    ]]>
+	</select>
+	
+	<select id="countBudget_currencyEndDateKeyword" resultType="_int">
+	    <![CDATA[
+	    select count(*) as count
+	      from f_budget
+	     where couple_code = #{ coupleCode }
+	       and budget_currency = #{ budgetCurrency }
+	       and budget_date <= to_date(#{ endDate }, 'yyyy-mm-dd')
+	       and (budget_briefs like #{ keyword } or budget_comm like #{ keyword })
+	    ]]>
+	</select>
+	
+	<select id="countBudget_currencyDateKeyword" resultType="_int">
+	    <![CDATA[
+	    select count(*) as count
+	      from f_budget
+	     where couple_code = #{ coupleCode }
+	       and budget_currency = #{ budgetCurrency }
+	       and budget_date >= to_date(#{ startDate }, 'yyyy-mm-dd')
+	       and budget_date <= to_date(#{ endDate }, 'yyyy-mm-dd')
+	       and (budget_briefs like #{ keyword } or budget_comm like #{ keyword })
+	    ]]>
+	</select>
+	
+	<select id="countBudget_inoutKeyword" resultType="_int">
+	    <![CDATA[
+	    select count(*) as count
+	      from f_budget
+	     where couple_code = #{ coupleCode }
+	       and budget_inout = #{ budgetInout }
+	       and (budget_briefs like #{ keyword } or budget_comm like #{ keyword })
+	    ]]>
+	</select>
+	
+	<select id="countBudget_inoutStartDateKeyword" resultType="_int">
+	    <![CDATA[
+	    select count(*) as count
+	      from f_budget
+	     where couple_code = #{ coupleCode }
+	       and budget_inout = #{ budgetInout }
+	       and budget_date >= to_date(#{ startDate }, 'yyyy-mm-dd')
+	       and (budget_briefs like #{ keyword } or budget_comm like #{ keyword })
+	    ]]>
+	</select>
+	
+	<select id="countBudget_inoutEndDateKeyword" resultType="_int">
+	    <![CDATA[
+	    select count(*) as count
+	      from f_budget
+	     where couple_code = #{ coupleCode }
+	       and budget_inout = #{ budgetInout }
+	       and budget_date <= to_date(#{ endDate }, 'yyyy-mm-dd')
+	       and (budget_briefs like #{ keyword } or budget_comm like #{ keyword })
+	    ]]>
+	</select>
+	
+	<select id="countBudget_inoutDateKeyword" resultType="_int">
+	    <![CDATA[
+	    select count(*) as count
+	      from f_budget
+	     where couple_code = #{ coupleCode }
+	       and budget_inout = #{ budgetInout }
+	       and budget_date >= to_date(#{ startDate }, 'yyyy-mm-dd')
+	       and budget_date <= to_date(#{ endDate }, 'yyyy-mm-dd')
+	       and (budget_briefs like #{ keyword } or budget_comm like #{ keyword })
+	    ]]>
+	</select>
+
 	
 	<select id="selectBudget" resultMap="budgetResult">
 		select BUDGET_NO
@@ -47,9 +378,769 @@
          order
             by budget_date desc
              , budget_no desc
+	</select>	
+	
+	<select id="selectBudget_startDate" resultMap="budgetResult">
+		<![CDATA[
+			select BUDGET_NO
+			     , to_char(BUDGET_DATE, 'yyyy-mm-dd') as "BUDGET_DATE"
+			     , BUDGET_BRIEFS
+			     , BUDGET_HOWMUCH
+			     , BUDGET_CURRENCY
+			     , BUDGET_BALANCE
+			     , BUDGET_CATE
+			     , BUDGET_METHOD
+			     , BUDGET_COMM
+			     , BUDGET_INOUT
+			     , EMAIL
+			     , COUPLE_CODE
+			  from f_budget
+			 where couple_code = #{ coupleCode }
+			   and budget_date >= to_date(#{ startDate }, 'yyyy-mm-dd')
+	         order
+	            by budget_date desc
+	             , budget_no desc
+		]]>
+	</select>
+	
+	<select id="selectBudget_endDate" resultMap="budgetResult">
+		<![CDATA[
+			select BUDGET_NO
+			     , to_char(BUDGET_DATE, 'yyyy-mm-dd') as "BUDGET_DATE"
+			     , BUDGET_BRIEFS
+			     , BUDGET_HOWMUCH
+			     , BUDGET_CURRENCY
+			     , BUDGET_BALANCE
+			     , BUDGET_CATE
+			     , BUDGET_METHOD
+			     , BUDGET_COMM
+			     , BUDGET_INOUT
+			     , EMAIL
+			     , COUPLE_CODE
+			  from f_budget
+			 where couple_code = #{ coupleCode }
+			   and budget_date <= to_date(#{ endDate }, 'yyyy-mm-dd')
+	         order
+	            by budget_date desc
+	             , budget_no desc
+		]]>
+	</select>
+	
+	<select id="selectBudget_date" resultMap="budgetResult">
+		<![CDATA[
+			select BUDGET_NO
+			     , to_char(BUDGET_DATE, 'yyyy-mm-dd') as "BUDGET_DATE"
+			     , BUDGET_BRIEFS
+			     , BUDGET_HOWMUCH
+			     , BUDGET_CURRENCY
+			     , BUDGET_BALANCE
+			     , BUDGET_CATE
+			     , BUDGET_METHOD
+			     , BUDGET_COMM
+			     , BUDGET_INOUT
+			     , EMAIL
+			     , COUPLE_CODE
+			  from f_budget
+			 where couple_code = #{ coupleCode }
+	           and budget_date >= to_date(#{ startDate }, 'yyyy-mm-dd')
+	           and budget_date <= to_date(#{ endDate }, 'yyyy-mm-dd')
+	         order
+	            by budget_date desc
+	             , budget_no desc
+	    ]]>
+	</select>
+	
+	<select id="selectBudget_currencyInout" resultMap="budgetResult">
+		<![CDATA[
+			select BUDGET_NO
+			     , to_char(BUDGET_DATE, 'yyyy-mm-dd') as "BUDGET_DATE"
+			     , BUDGET_BRIEFS
+			     , BUDGET_HOWMUCH
+			     , BUDGET_CURRENCY
+			     , BUDGET_BALANCE
+			     , BUDGET_CATE
+			     , BUDGET_METHOD
+			     , BUDGET_COMM
+			     , BUDGET_INOUT
+			     , EMAIL
+			     , COUPLE_CODE
+			  from f_budget
+			 where couple_code = #{ coupleCode }
+			   and budget_currency = #{ budgetCurrency }
+			   and budget_inout = #{ budgetInout }
+	         order
+	            by budget_date desc
+	             , budget_no desc
+	    ]]>
+	</select>
+	
+	<select id="selectBudget_currencyInoutStartDate" resultMap="budgetResult">
+		<![CDATA[
+			select BUDGET_NO
+			     , to_char(BUDGET_DATE, 'yyyy-mm-dd') as "BUDGET_DATE"
+			     , BUDGET_BRIEFS
+			     , BUDGET_HOWMUCH
+			     , BUDGET_CURRENCY
+			     , BUDGET_BALANCE
+			     , BUDGET_CATE
+			     , BUDGET_METHOD
+			     , BUDGET_COMM
+			     , BUDGET_INOUT
+			     , EMAIL
+			     , COUPLE_CODE
+			  from f_budget
+			 where couple_code = #{ coupleCode }
+			   and budget_currency = #{ budgetCurrency }
+			   and budget_inout = #{ budgetInout }
+			   and budget_date >= to_date(#{ startDate }, 'yyyy-mm-dd')
+	         order
+	            by budget_date desc
+	             , budget_no desc
+	    ]]>
+	</select>
+	
+	<select id="selectBudget_currencyInoutEndDate" resultMap="budgetResult">
+		<![CDATA[
+			select BUDGET_NO
+			     , to_char(BUDGET_DATE, 'yyyy-mm-dd') as "BUDGET_DATE"
+			     , BUDGET_BRIEFS
+			     , BUDGET_HOWMUCH
+			     , BUDGET_CURRENCY
+			     , BUDGET_BALANCE
+			     , BUDGET_CATE
+			     , BUDGET_METHOD
+			     , BUDGET_COMM
+			     , BUDGET_INOUT
+			     , EMAIL
+			     , COUPLE_CODE
+			  from f_budget
+			 where couple_code = #{ coupleCode }
+			   and budget_currency = #{ budgetCurrency }
+			   and budget_inout = #{ budgetInout }
+			   and budget_date <= to_date(#{ endDate }, 'yyyy-mm-dd')
+	         order
+	            by budget_date desc
+	             , budget_no desc
+	    ]]>
+	</select>
+	
+	<select id="selectBudget_currencyInoutDate" resultMap="budgetResult">
+		<![CDATA[
+			select BUDGET_NO
+			     , to_char(BUDGET_DATE, 'yyyy-mm-dd') as "BUDGET_DATE"
+			     , BUDGET_BRIEFS
+			     , BUDGET_HOWMUCH
+			     , BUDGET_CURRENCY
+			     , BUDGET_BALANCE
+			     , BUDGET_CATE
+			     , BUDGET_METHOD
+			     , BUDGET_COMM
+			     , BUDGET_INOUT
+			     , EMAIL
+			     , COUPLE_CODE
+			  from f_budget
+			 where couple_code = #{ coupleCode }
+			   and budget_currency = #{ budgetCurrency }
+			   and budget_inout = #{ budgetInout }
+			   and budget_date >= to_date(#{ startDate }, 'yyyy-mm-dd')
+		       and budget_date <= to_date(#{ endDate }, 'yyyy-mm-dd')
+	         order
+	            by budget_date desc
+	             , budget_no desc
+	    ]]>
 	</select>
 	
 	<select id="selectBudget_currency" resultMap="budgetResult">
+		<![CDATA[
+			select BUDGET_NO
+			     , to_char(BUDGET_DATE, 'yyyy-mm-dd') as "BUDGET_DATE"
+			     , BUDGET_BRIEFS
+			     , BUDGET_HOWMUCH
+			     , BUDGET_CURRENCY
+			     , BUDGET_BALANCE
+			     , BUDGET_CATE
+			     , BUDGET_METHOD
+			     , BUDGET_COMM
+			     , BUDGET_INOUT
+			     , EMAIL
+			     , COUPLE_CODE
+			  from f_budget
+			 where couple_code = #{ coupleCode }
+			   and budget_currency = #{ budgetCurrency }
+	         order
+	            by budget_date desc
+	             , budget_no desc
+	    ]]>
+	</select>
+	
+	<select id="selectBudget_currencyStartDate" resultMap="budgetResult">
+		<![CDATA[
+			select BUDGET_NO
+			     , to_char(BUDGET_DATE, 'yyyy-mm-dd') as "BUDGET_DATE"
+			     , BUDGET_BRIEFS
+			     , BUDGET_HOWMUCH
+			     , BUDGET_CURRENCY
+			     , BUDGET_BALANCE
+			     , BUDGET_CATE
+			     , BUDGET_METHOD
+			     , BUDGET_COMM
+			     , BUDGET_INOUT
+			     , EMAIL
+			     , COUPLE_CODE
+			  from f_budget
+			 where couple_code = #{ coupleCode }
+			   and budget_currency = #{ budgetCurrency }
+			   and budget_date >= to_date(#{ startDate }, 'yyyy-mm-dd')
+	         order
+	            by budget_date desc
+	             , budget_no desc
+	    ]]>
+	</select>
+	
+	<select id="selectBudget_currencyEndDate" resultMap="budgetResult">
+		<![CDATA[
+			select BUDGET_NO
+			     , to_char(BUDGET_DATE, 'yyyy-mm-dd') as "BUDGET_DATE"
+			     , BUDGET_BRIEFS
+			     , BUDGET_HOWMUCH
+			     , BUDGET_CURRENCY
+			     , BUDGET_BALANCE
+			     , BUDGET_CATE
+			     , BUDGET_METHOD
+			     , BUDGET_COMM
+			     , BUDGET_INOUT
+			     , EMAIL
+			     , COUPLE_CODE
+			  from f_budget
+			 where couple_code = #{ coupleCode }
+			   and budget_currency = #{ budgetCurrency }
+			   and budget_date <= to_date(#{ endDate }, 'yyyy-mm-dd')
+	         order
+	            by budget_date desc
+	             , budget_no desc
+	    ]]>
+	</select>
+	
+	<select id="selectBudget_currencyDate" resultMap="budgetResult">
+		<![CDATA[
+			select BUDGET_NO
+			     , to_char(BUDGET_DATE, 'yyyy-mm-dd') as "BUDGET_DATE"
+			     , BUDGET_BRIEFS
+			     , BUDGET_HOWMUCH
+			     , BUDGET_CURRENCY
+			     , BUDGET_BALANCE
+			     , BUDGET_CATE
+			     , BUDGET_METHOD
+			     , BUDGET_COMM
+			     , BUDGET_INOUT
+			     , EMAIL
+			     , COUPLE_CODE
+			  from f_budget
+			 where couple_code = #{ coupleCode }
+			   and budget_currency = #{ budgetCurrency }
+			   and budget_date >= to_date(#{ startDate }, 'yyyy-mm-dd')
+			   and budget_date <= to_date(#{ endDate }, 'yyyy-mm-dd')
+	         order
+	            by budget_date desc
+	             , budget_no desc
+	    ]]>
+	</select>
+	
+	<select id="selectBudget_inout" resultMap="budgetResult">
+		<![CDATA[
+			select BUDGET_NO
+			     , to_char(BUDGET_DATE, 'yyyy-mm-dd') as "BUDGET_DATE"
+			     , BUDGET_BRIEFS
+			     , BUDGET_HOWMUCH
+			     , BUDGET_CURRENCY
+			     , BUDGET_BALANCE
+			     , BUDGET_CATE
+			     , BUDGET_METHOD
+			     , BUDGET_COMM
+			     , BUDGET_INOUT
+			     , EMAIL
+			     , COUPLE_CODE
+			  from f_budget
+			 where couple_code = #{ coupleCode }
+			   and budget_inout = #{ budgetInout }
+	         order
+	            by budget_date desc
+	             , budget_no desc
+	    ]]>
+	</select>
+	
+	<select id="selectBudget_inoutStartDate" resultMap="budgetResult">
+		<![CDATA[
+			select BUDGET_NO
+			     , to_char(BUDGET_DATE, 'yyyy-mm-dd') as "BUDGET_DATE"
+			     , BUDGET_BRIEFS
+			     , BUDGET_HOWMUCH
+			     , BUDGET_CURRENCY
+			     , BUDGET_BALANCE
+			     , BUDGET_CATE
+			     , BUDGET_METHOD
+			     , BUDGET_COMM
+			     , BUDGET_INOUT
+			     , EMAIL
+			     , COUPLE_CODE
+			  from f_budget
+			 where couple_code = #{ coupleCode }
+			   and budget_inout = #{ budgetInout }
+			   and budget_date >= to_date(#{ startDate }, 'yyyy-mm-dd')
+	         order
+	            by budget_date desc
+	             , budget_no desc
+	    ]]>
+	</select>
+	
+	<select id="selectBudget_inoutEndDate" resultMap="budgetResult">
+		<![CDATA[
+			select BUDGET_NO
+			     , to_char(BUDGET_DATE, 'yyyy-mm-dd') as "BUDGET_DATE"
+			     , BUDGET_BRIEFS
+			     , BUDGET_HOWMUCH
+			     , BUDGET_CURRENCY
+			     , BUDGET_BALANCE
+			     , BUDGET_CATE
+			     , BUDGET_METHOD
+			     , BUDGET_COMM
+			     , BUDGET_INOUT
+			     , EMAIL
+			     , COUPLE_CODE
+			  from f_budget
+			 where couple_code = #{ coupleCode }
+			   and budget_inout = #{ budgetInout }
+			   and budget_date <= to_date(#{ endDate }, 'yyyy-mm-dd')
+	         order
+	            by budget_date desc
+	             , budget_no desc
+	    ]]>
+	</select>
+	
+	<select id="selectBudget_inoutDate" resultMap="budgetResult">
+		<![CDATA[
+			select BUDGET_NO
+			     , to_char(BUDGET_DATE, 'yyyy-mm-dd') as "BUDGET_DATE"
+			     , BUDGET_BRIEFS
+			     , BUDGET_HOWMUCH
+			     , BUDGET_CURRENCY
+			     , BUDGET_BALANCE
+			     , BUDGET_CATE
+			     , BUDGET_METHOD
+			     , BUDGET_COMM
+			     , BUDGET_INOUT
+			     , EMAIL
+			     , COUPLE_CODE
+			  from f_budget
+			 where couple_code = #{ coupleCode }
+			   and budget_inout = #{ budgetInout }
+			   and budget_date >= to_date(#{ startDate }, 'yyyy-mm-dd')
+			   and budget_date <= to_date(#{ endDate }, 'yyyy-mm-dd')
+	         order
+	            by budget_date desc
+	             , budget_no desc
+	    ]]>
+	</select>
+	
+		<select id="selectBudget_keyword" resultMap="budgetResult">
+		select BUDGET_NO
+		     , to_char(BUDGET_DATE, 'yyyy-mm-dd') as "BUDGET_DATE"
+		     , BUDGET_BRIEFS
+		     , BUDGET_HOWMUCH
+		     , BUDGET_CURRENCY
+		     , BUDGET_BALANCE
+		     , BUDGET_CATE
+		     , BUDGET_METHOD
+		     , BUDGET_COMM
+		     , BUDGET_INOUT
+		     , EMAIL
+		     , COUPLE_CODE
+		  from f_budget
+		 where couple_code = #{ coupleCode }
+		   and (budget_briefs like #{ keyword } or budget_comm like #{ keyword })
+         order
+            by budget_date desc
+             , budget_no desc
+	</select>	
+	
+	<select id="selectBudget_startDateKeyword" resultMap="budgetResult">
+		<![CDATA[
+			select BUDGET_NO
+			     , to_char(BUDGET_DATE, 'yyyy-mm-dd') as "BUDGET_DATE"
+			     , BUDGET_BRIEFS
+			     , BUDGET_HOWMUCH
+			     , BUDGET_CURRENCY
+			     , BUDGET_BALANCE
+			     , BUDGET_CATE
+			     , BUDGET_METHOD
+			     , BUDGET_COMM
+			     , BUDGET_INOUT
+			     , EMAIL
+			     , COUPLE_CODE
+			  from f_budget
+			 where couple_code = #{ coupleCode }
+			   and budget_date >= to_date(#{ startDate }, 'yyyy-mm-dd')
+			   and (budget_briefs like #{ keyword } or budget_comm like #{ keyword })
+	         order
+	            by budget_date desc
+	             , budget_no desc
+		]]>
+	</select>
+	
+	<select id="selectBudget_endDateKeyword" resultMap="budgetResult">
+		<![CDATA[
+			select BUDGET_NO
+			     , to_char(BUDGET_DATE, 'yyyy-mm-dd') as "BUDGET_DATE"
+			     , BUDGET_BRIEFS
+			     , BUDGET_HOWMUCH
+			     , BUDGET_CURRENCY
+			     , BUDGET_BALANCE
+			     , BUDGET_CATE
+			     , BUDGET_METHOD
+			     , BUDGET_COMM
+			     , BUDGET_INOUT
+			     , EMAIL
+			     , COUPLE_CODE
+			  from f_budget
+			 where couple_code = #{ coupleCode }
+			   and budget_date <= to_date(#{ endDate }, 'yyyy-mm-dd')
+			   and (budget_briefs like #{ keyword } or budget_comm like #{ keyword })
+	         order
+	            by budget_date desc
+	             , budget_no desc
+		]]>
+	</select>
+	
+	<select id="selectBudget_dateKeyword" resultMap="budgetResult">
+		<![CDATA[
+			select BUDGET_NO
+			     , to_char(BUDGET_DATE, 'yyyy-mm-dd') as "BUDGET_DATE"
+			     , BUDGET_BRIEFS
+			     , BUDGET_HOWMUCH
+			     , BUDGET_CURRENCY
+			     , BUDGET_BALANCE
+			     , BUDGET_CATE
+			     , BUDGET_METHOD
+			     , BUDGET_COMM
+			     , BUDGET_INOUT
+			     , EMAIL
+			     , COUPLE_CODE
+			  from f_budget
+			 where couple_code = #{ coupleCode }
+	           and budget_date >= to_date(#{ startDate }, 'yyyy-mm-dd')
+	           and budget_date <= to_date(#{ endDate }, 'yyyy-mm-dd')
+	           and (budget_briefs like #{ keyword } or budget_comm like #{ keyword })
+	         order
+	            by budget_date desc
+	             , budget_no desc
+	    ]]>
+	</select>
+	
+	<select id="selectBudget_currencyInoutKeyword" resultMap="budgetResult">
+		<![CDATA[
+			select BUDGET_NO
+			     , to_char(BUDGET_DATE, 'yyyy-mm-dd') as "BUDGET_DATE"
+			     , BUDGET_BRIEFS
+			     , BUDGET_HOWMUCH
+			     , BUDGET_CURRENCY
+			     , BUDGET_BALANCE
+			     , BUDGET_CATE
+			     , BUDGET_METHOD
+			     , BUDGET_COMM
+			     , BUDGET_INOUT
+			     , EMAIL
+			     , COUPLE_CODE
+			  from f_budget
+			 where couple_code = #{ coupleCode }
+			   and budget_currency = #{ budgetCurrency }
+			   and budget_inout = #{ budgetInout }
+			   and (budget_briefs like #{ keyword } or budget_comm like #{ keyword })
+	         order
+	            by budget_date desc
+	             , budget_no desc
+	    ]]>
+	</select>
+	
+	<select id="selectBudget_currencyInoutStartDateKeyword" resultMap="budgetResult">
+		<![CDATA[
+			select BUDGET_NO
+			     , to_char(BUDGET_DATE, 'yyyy-mm-dd') as "BUDGET_DATE"
+			     , BUDGET_BRIEFS
+			     , BUDGET_HOWMUCH
+			     , BUDGET_CURRENCY
+			     , BUDGET_BALANCE
+			     , BUDGET_CATE
+			     , BUDGET_METHOD
+			     , BUDGET_COMM
+			     , BUDGET_INOUT
+			     , EMAIL
+			     , COUPLE_CODE
+			  from f_budget
+			 where couple_code = #{ coupleCode }
+			   and budget_currency = #{ budgetCurrency }
+			   and budget_inout = #{ budgetInout }
+			   and budget_date >= to_date(#{ startDate }, 'yyyy-mm-dd')
+			   and (budget_briefs like #{ keyword } or budget_comm like #{ keyword })
+	         order
+	            by budget_date desc
+	             , budget_no desc
+	    ]]>
+	</select>
+	
+	<select id="selectBudget_currencyInoutEndDateKeyword" resultMap="budgetResult">
+		<![CDATA[
+			select BUDGET_NO
+			     , to_char(BUDGET_DATE, 'yyyy-mm-dd') as "BUDGET_DATE"
+			     , BUDGET_BRIEFS
+			     , BUDGET_HOWMUCH
+			     , BUDGET_CURRENCY
+			     , BUDGET_BALANCE
+			     , BUDGET_CATE
+			     , BUDGET_METHOD
+			     , BUDGET_COMM
+			     , BUDGET_INOUT
+			     , EMAIL
+			     , COUPLE_CODE
+			  from f_budget
+			 where couple_code = #{ coupleCode }
+			   and budget_currency = #{ budgetCurrency }
+			   and budget_inout = #{ budgetInout }
+			   and budget_date <= to_date(#{ endDate }, 'yyyy-mm-dd')
+			   and (budget_briefs like #{ keyword } or budget_comm like #{ keyword })
+	         order
+	            by budget_date desc
+	             , budget_no desc
+	    ]]>
+	</select>
+	
+	<select id="selectBudget_currencyInoutDateKeyword" resultMap="budgetResult">
+		<![CDATA[
+			select BUDGET_NO
+			     , to_char(BUDGET_DATE, 'yyyy-mm-dd') as "BUDGET_DATE"
+			     , BUDGET_BRIEFS
+			     , BUDGET_HOWMUCH
+			     , BUDGET_CURRENCY
+			     , BUDGET_BALANCE
+			     , BUDGET_CATE
+			     , BUDGET_METHOD
+			     , BUDGET_COMM
+			     , BUDGET_INOUT
+			     , EMAIL
+			     , COUPLE_CODE
+			  from f_budget
+			 where couple_code = #{ coupleCode }
+			   and budget_currency = #{ budgetCurrency }
+			   and budget_inout = #{ budgetInout }
+			   and budget_date >= to_date(#{ startDate }, 'yyyy-mm-dd')
+		       and budget_date <= to_date(#{ endDate }, 'yyyy-mm-dd')
+		       and (budget_briefs like #{ keyword } or budget_comm like #{ keyword })
+	         order
+	            by budget_date desc
+	             , budget_no desc
+	    ]]>
+	</select>
+	
+	<select id="selectBudget_currencyKeyword" resultMap="budgetResult">
+		<![CDATA[
+			select BUDGET_NO
+			     , to_char(BUDGET_DATE, 'yyyy-mm-dd') as "BUDGET_DATE"
+			     , BUDGET_BRIEFS
+			     , BUDGET_HOWMUCH
+			     , BUDGET_CURRENCY
+			     , BUDGET_BALANCE
+			     , BUDGET_CATE
+			     , BUDGET_METHOD
+			     , BUDGET_COMM
+			     , BUDGET_INOUT
+			     , EMAIL
+			     , COUPLE_CODE
+			  from f_budget
+			 where couple_code = #{ coupleCode }
+			   and budget_currency = #{ budgetCurrency }
+			   and (budget_briefs like #{ keyword } or budget_comm like #{ keyword })
+	         order
+	            by budget_date desc
+	             , budget_no desc
+	    ]]>
+	</select>
+	
+	<select id="selectBudget_currencyStartDateKeyword" resultMap="budgetResult">
+		<![CDATA[
+			select BUDGET_NO
+			     , to_char(BUDGET_DATE, 'yyyy-mm-dd') as "BUDGET_DATE"
+			     , BUDGET_BRIEFS
+			     , BUDGET_HOWMUCH
+			     , BUDGET_CURRENCY
+			     , BUDGET_BALANCE
+			     , BUDGET_CATE
+			     , BUDGET_METHOD
+			     , BUDGET_COMM
+			     , BUDGET_INOUT
+			     , EMAIL
+			     , COUPLE_CODE
+			  from f_budget
+			 where couple_code = #{ coupleCode }
+			   and budget_currency = #{ budgetCurrency }
+			   and budget_date >= to_date(#{ startDate }, 'yyyy-mm-dd')
+			   and (budget_briefs like #{ keyword } or budget_comm like #{ keyword })
+	         order
+	            by budget_date desc
+	             , budget_no desc
+	    ]]>
+	</select>
+	
+	<select id="selectBudget_currencyEndDateKeyword" resultMap="budgetResult">
+		<![CDATA[
+			select BUDGET_NO
+			     , to_char(BUDGET_DATE, 'yyyy-mm-dd') as "BUDGET_DATE"
+			     , BUDGET_BRIEFS
+			     , BUDGET_HOWMUCH
+			     , BUDGET_CURRENCY
+			     , BUDGET_BALANCE
+			     , BUDGET_CATE
+			     , BUDGET_METHOD
+			     , BUDGET_COMM
+			     , BUDGET_INOUT
+			     , EMAIL
+			     , COUPLE_CODE
+			  from f_budget
+			 where couple_code = #{ coupleCode }
+			   and budget_currency = #{ budgetCurrency }
+			   and budget_date <= to_date(#{ endDate }, 'yyyy-mm-dd')
+			   and (budget_briefs like #{ keyword } or budget_comm like #{ keyword })
+	         order
+	            by budget_date desc
+	             , budget_no desc
+	    ]]>
+	</select>
+	
+	<select id="selectBudget_currencyDateKeyword" resultMap="budgetResult">
+		<![CDATA[
+			select BUDGET_NO
+			     , to_char(BUDGET_DATE, 'yyyy-mm-dd') as "BUDGET_DATE"
+			     , BUDGET_BRIEFS
+			     , BUDGET_HOWMUCH
+			     , BUDGET_CURRENCY
+			     , BUDGET_BALANCE
+			     , BUDGET_CATE
+			     , BUDGET_METHOD
+			     , BUDGET_COMM
+			     , BUDGET_INOUT
+			     , EMAIL
+			     , COUPLE_CODE
+			  from f_budget
+			 where couple_code = #{ coupleCode }
+			   and budget_currency = #{ budgetCurrency }
+			   and budget_date >= to_date(#{ startDate }, 'yyyy-mm-dd')
+			   and budget_date <= to_date(#{ endDate }, 'yyyy-mm-dd')
+			   and (budget_briefs like #{ keyword } or budget_comm like #{ keyword })
+	         order
+	            by budget_date desc
+	             , budget_no desc
+	    ]]>
+	</select>
+	
+	<select id="selectBudget_inoutKeyword" resultMap="budgetResult">
+		<![CDATA[
+			select BUDGET_NO
+			     , to_char(BUDGET_DATE, 'yyyy-mm-dd') as "BUDGET_DATE"
+			     , BUDGET_BRIEFS
+			     , BUDGET_HOWMUCH
+			     , BUDGET_CURRENCY
+			     , BUDGET_BALANCE
+			     , BUDGET_CATE
+			     , BUDGET_METHOD
+			     , BUDGET_COMM
+			     , BUDGET_INOUT
+			     , EMAIL
+			     , COUPLE_CODE
+			  from f_budget
+			 where couple_code = #{ coupleCode }
+			   and budget_inout = #{ budgetInout }
+			   and (budget_briefs like #{ keyword } or budget_comm like #{ keyword })
+	         order
+	            by budget_date desc
+	             , budget_no desc
+	    ]]>
+	</select>
+	
+	<select id="selectBudget_inoutStartDateKeyword" resultMap="budgetResult">
+		<![CDATA[
+			select BUDGET_NO
+			     , to_char(BUDGET_DATE, 'yyyy-mm-dd') as "BUDGET_DATE"
+			     , BUDGET_BRIEFS
+			     , BUDGET_HOWMUCH
+			     , BUDGET_CURRENCY
+			     , BUDGET_BALANCE
+			     , BUDGET_CATE
+			     , BUDGET_METHOD
+			     , BUDGET_COMM
+			     , BUDGET_INOUT
+			     , EMAIL
+			     , COUPLE_CODE
+			  from f_budget
+			 where couple_code = #{ coupleCode }
+			   and budget_inout = #{ budgetInout }
+			   and budget_date >= to_date(#{ startDate }, 'yyyy-mm-dd')
+			   and (budget_briefs like #{ keyword } or budget_comm like #{ keyword })
+	         order
+	            by budget_date desc
+	             , budget_no desc
+	    ]]>
+	</select>
+	
+	<select id="selectBudget_inoutEndDateKeyword" resultMap="budgetResult">
+		<![CDATA[
+			select BUDGET_NO
+			     , to_char(BUDGET_DATE, 'yyyy-mm-dd') as "BUDGET_DATE"
+			     , BUDGET_BRIEFS
+			     , BUDGET_HOWMUCH
+			     , BUDGET_CURRENCY
+			     , BUDGET_BALANCE
+			     , BUDGET_CATE
+			     , BUDGET_METHOD
+			     , BUDGET_COMM
+			     , BUDGET_INOUT
+			     , EMAIL
+			     , COUPLE_CODE
+			  from f_budget
+			 where couple_code = #{ coupleCode }
+			   and budget_inout = #{ budgetInout }
+			   and budget_date <= to_date(#{ endDate }, 'yyyy-mm-dd')
+			   and (budget_briefs like #{ keyword } or budget_comm like #{ keyword })
+	         order
+	            by budget_date desc
+	             , budget_no desc
+	    ]]>
+	</select>
+	
+	<select id="selectBudget_inoutDateKeyword" resultMap="budgetResult">
+		<![CDATA[
+			select BUDGET_NO
+			     , to_char(BUDGET_DATE, 'yyyy-mm-dd') as "BUDGET_DATE"
+			     , BUDGET_BRIEFS
+			     , BUDGET_HOWMUCH
+			     , BUDGET_CURRENCY
+			     , BUDGET_BALANCE
+			     , BUDGET_CATE
+			     , BUDGET_METHOD
+			     , BUDGET_COMM
+			     , BUDGET_INOUT
+			     , EMAIL
+			     , COUPLE_CODE
+			  from f_budget
+			 where couple_code = #{ coupleCode }
+			   and budget_inout = #{ budgetInout }
+			   and budget_date >= to_date(#{ startDate }, 'yyyy-mm-dd')
+			   and budget_date <= to_date(#{ endDate }, 'yyyy-mm-dd')
+			   and (budget_briefs like #{ keyword } or budget_comm like #{ keyword })
+	         order
+	            by budget_date desc
+	             , budget_no desc
+	    ]]>
+	</select>
+	
+	<select id="existCurrencyRecord" resultMap="budgetResult">
 		<![CDATA[
 			select BUDGET_NO
 			     , to_char(BUDGET_DATE, 'yyyy-mm-dd') as "BUDGET_DATE"
