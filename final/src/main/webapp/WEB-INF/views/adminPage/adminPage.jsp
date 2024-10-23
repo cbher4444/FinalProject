@@ -278,7 +278,7 @@
 								<tbody>
 									<c:forEach var="i" items="${ list }">
 										<tr>
-											<td><img style="width:50px;height:33px;" onerror="this.onerror=null; this.src='resources/uploadFiles_backup/기본이미지.jpeg'"
+											<td><img style="width:50px;height:33px;" onerror="this.onerror=null; this.src='resources/images/member/blank-profile-picture.png'"
 												src="${ i.changeName }"
 												alt=""> <a href="#" class="user-link">${ i.userName }</a>
 												<span class="user-subhead">${ i.nickName }</span></td>
