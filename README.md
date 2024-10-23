@@ -83,7 +83,7 @@
 
 - **김동규**
 
-로그인 전 홈
+홈 (로그인 전)
 ![guestHome](https://github.com/user-attachments/assets/9bd048f1-e3c6-4067-902f-3a4ca8d6bc18)
 
 - **이승헌**
