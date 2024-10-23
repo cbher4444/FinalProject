@@ -50,7 +50,7 @@ BEGIN
         job_action      => 'BEGIN
                                 DELETE FROM C_MEMBER
                                 WHERE status = ''N''
-                                  AND modify_date < SYSDATE - 30;
+                                  AND modify_date <= SYSDATE - 30;
 
                                 DELETE FROM C_COUPLE
                                 WHERE couple_code IN (
