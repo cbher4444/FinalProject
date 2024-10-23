@@ -118,7 +118,7 @@ public class PlanServiceImpl implements PlanService{
 		String AUTH_TOKEN = "1d727261bb2805115d0a9cf703f40b2c";
 		
 		// Initialize Twilio
-        //Twilio.init(ACCOUNT_SID, AUTH_TOKEN); // 실제 보낼때만 사용하기
+        Twilio.init(ACCOUNT_SID, AUTH_TOKEN); // 실제 보낼때만 사용하기
         
 		ArrayList<Phone> phoneList = getPhoneList(s);
 		
@@ -138,11 +138,11 @@ public class PlanServiceImpl implements PlanService{
 			System.out.println("--------------------------------------");
 			
 	        // Send SMS // 실제 보낼때만 사용하기~
-//	        Message message = Message.creator(
-//	                new PhoneNumber(myPhoneNumber), // Replace with your phone number
-//	                new PhoneNumber(myTwilioNumber), // Replace with your Twilio number
-//	                messageStr
-//	        ).create();
+	        Message message = Message.creator(
+	                new PhoneNumber(myPhoneNumber), // Replace with your phone number
+	                new PhoneNumber(myTwilioNumber), // Replace with your Twilio number
+	                messageStr
+	        ).create();
 	        
 	       // System.out.println(message);
 		}

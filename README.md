@@ -56,6 +56,22 @@
 ## 🏆 팀원 구성 및 역할
 
 - **김동규**
+    - 캘린더
+        - 공휴일 가져오기 (Google API)
+        - 화면구현 (FullCalendar JS Library)
+        - 일정 문자알림서비스 (Twilio API)
+        - 일정, 캘린더 CRUD
+    - 마인드맵
+        - 화면구현 (Go JS Library)
+        - 마인드맵 CRUD
+    - 마이페이지
+        - 초대코드 카카오톡 공유 (Kakao API)
+        - 탈퇴 30일 후 계정영구삭제 (DBMS Scheduler을 통한 자동화)
+        - 회원 조회/변경/삭제, 커플 등록/삭제
+    - 홈
+        - 만난지 몇일 D-DAY 카운트
+        - 커플 정보 조회/변경
+        - 로그인 전/후 홈페이지 화면구현
 
 - **이승헌**
 
@@ -66,6 +82,9 @@
 ## 👊프로젝트 구현
 
 - **김동규**
+
+로그인 전 홈
+![guestHome](https://github.com/user-attachments/assets/9bd048f1-e3c6-4067-902f-3a4ca8d6bc18)
 
 - **이승헌**
 
