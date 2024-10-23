@@ -24,4 +24,7 @@ public class Budget {
 	private String budgetInout;
 	private String email;
 	private String coupleCode;
+	private String startDate;
+	private String endDate;
+	private String keyword;
 }

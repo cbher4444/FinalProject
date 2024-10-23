@@ -21,6 +21,10 @@
 			text-align: center !important;
 		}
 
+		td {
+			cursor: pointer;
+		}
+
 		input, progress {
 			accent-color: #F69D9D;
 		}
@@ -105,6 +109,34 @@
 		.btnDiv a:not(.currentPage) {
 			color: #00000080;
 		}
+
+		#cover {
+			background-color: #00000080;
+			width: 100%;
+			height: 100%;
+			position: fixed;
+			top: 0;
+		}
+
+		#content {
+			background-color: white;
+			width: 500px;
+			height: 400px;
+			position: fixed;
+			top: 0;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			margin: auto;
+			border-radius: 20px;
+			display: flex;
+			flex-direction: column;
+		}
+		
+		#cancleAdd {
+			margin: 20px;
+			text-align: right;
+		}
 	</style>
 </head>
 <body>
@@ -151,54 +183,82 @@
 			<c:forEach var="b" items="${ list }">
 				<c:choose>
 					<c:when test="${ b.budgetInout eq 'I'}">
-						<tr>
-							<td>${ b.budgetDate }</td>
-							<td>${ b.budgetBriefs }</td>
-							<td><fmt:formatNumber value="${b.budgetHowMuch}" type="number" groupingUsed="true" />${ b.budgetCurrency }</td>
-							<td></td>
-							<td><fmt:formatNumber value="${ b.budgetBalance }" type="number" groupingUsed="true" />${ b.budgetCurrency }</td>
-						</tr>
+						<tr><td>${ b.budgetDate }</td><td>${ b.budgetBriefs }</td><td><fmt:formatNumber value="${b.budgetHowMuch}" type="number" groupingUsed="true" />${ b.budgetCurrency }</td><td></td><td><fmt:formatNumber value="${ b.budgetBalance }" type="number" groupingUsed="true" />${ b.budgetCurrency }</td></tr>
 					</c:when>
 					<c:otherwise>
-						<tr>
-							<td>${ b.budgetDate }</td>
-							<td>${ b.budgetBriefs }</td>
-							<td></td>
-							<td><fmt:formatNumber value="${b.budgetHowMuch}" type="number" groupingUsed="true" />${ b.budgetCurrency }</td>
-							<td><fmt:formatNumber value="${ b.budgetBalance }" type="number" groupingUsed="true" />${ b.budgetCurrency }</td>
-						</tr>
+						<tr><td>${ b.budgetDate }</td><td>${ b.budgetBriefs }</td><td></td><td><fmt:formatNumber value="${b.budgetHowMuch}" type="number" groupingUsed="true" />${ b.budgetCurrency }</td><td><fmt:formatNumber value="${ b.budgetBalance }" type="number" groupingUsed="true" />${ b.budgetCurrency }</td></tr>
 					</c:otherwise>
 				</c:choose>
 			</c:forEach>
+			
+			<c:if test="${ empty list }">
+				<tr>
+					<td colspan="5">
+						결과가 존재하지 않습니다.
+					</td>
+				</tr>
+			</c:if>
 		</tbody>
 	</table>
 	
-	<div id="pageBar">
-		<c:choose>
-			<c:when test="${ pi.currentPage eq 1 }">
-				<div class="btnDiv"></div>
-			</c:when>
-			<c:otherwise>
-				<div class="btnDiv"><a id="cpage${ pi.currentPage - 1 }btn" class="page-link material-symbols-outlined" href="javascript:void(0)">arrow_back_ios</a></div>
-			</c:otherwise>
-		</c:choose>
-		
-		<c:forEach var="p" begin="${ pi.startPage }" end ="${ pi.endPage }">
-			<div class="btnDiv"><a id="cpage${ p }" class="page-link" href="javascript:void(0)">${ p }</a></div>
-		</c:forEach>
-		
-		<c:choose>
-			<c:when test="${ pi.currentPage eq pi.maxPage }">
-				<div class="btnDiv"></div>
-			</c:when>
-			<c:otherwise>
-				<div class="btnDiv"><a id="cpage${ pi.currentPage + 1 }btn" class="page-link material-symbols-outlined" href="javascript:void(0)">arrow_forward_ios</a></div>
-			</c:otherwise>
-		</c:choose>
+	<c:if test="${ !empty list }">
+		<div id="pageBar">
+			<c:choose>
+				<c:when test="${ pi.currentPage eq 1 }">
+					<div class="btnDiv"></div>
+				</c:when>
+				<c:otherwise>
+					<div class="btnDiv"><a id="cpage${ pi.currentPage - 1 }btn" class="page-link material-symbols-outlined" href="javascript:void(0)">arrow_back_ios</a></div>
+				</c:otherwise>
+			</c:choose>
+			
+			<c:forEach var="p" begin="${ pi.startPage }" end ="${ pi.endPage }">
+				<div class="btnDiv"><a id="cpage${ p }" class="page-link" href="javascript:void(0)">${ p }</a></div>
+			</c:forEach>
+			
+			<c:choose>
+				<c:when test="${ pi.currentPage eq pi.maxPage }">
+					<div class="btnDiv"></div>
+				</c:when>
+				<c:otherwise>
+					<div class="btnDiv"><a id="cpage${ pi.currentPage + 1 }btn" class="page-link material-symbols-outlined" href="javascript:void(0)">arrow_forward_ios</a></div>
+				</c:otherwise>
+			</c:choose>
+		</div>
+	</c:if>
+
+	<div id="cover"></div>
+	<div id="content">
+		<div id="cancleAdd" class="material-symbols-outlined">close</div>
+		<div id="realContent"></div>
 	</div>
 
 	<script>
 		$(() => {
+			let budgetCurrency='${ bd.budgetCurrency }';
+			let budgetInout='${ bd.budgetInout }';
+			let startDate='${ bd.startDate }';
+			let endDate='${ bd.endDate }';
+			let keyword='${ bd.keyword }'.replace('%%', '');
+
+			if (budgetCurrency !== '') {
+				$('#made-methodCategory').val(budgetCurrency);
+			}
+
+			if (budgetInout === 'I') {
+				$('#made-searchCategory').val('2');
+			} else if (budgetInout === 'O') {
+				$('#made-searchCategory').val('3');
+			}
+
+			if (startDate !== '') {
+				$('#made-firstDate').val(startDate);
+			}
+
+			if (endDate !== '') {
+				$('#made-secondDate').val(endDate);
+			}
+
 			$('a[id^=cpage]').removeClass("currentPage");
 			$('#cpage' + Number('${ pi.currentPage }')).addClass('currentPage');
 
@@ -210,12 +270,106 @@
 			$(document).on('click', 'a[id^=cpage]', function(event) {
 				let $id = $(event.target).attr('id');
 				let cpage = $id.substring($id.indexOf('e') + 1).replace('btn', '').trim();
-				$(event.target).attr('href', 'goList?cpage=' + cpage + '&coupleCode=${ loginUser.coupleCode }');
+				let url = 'goList?cpage=' + cpage;
+				    url += '&coupleCode=${ loginUser.coupleCode }';
+					url += '&budgetCurrency=' + budgetCurrency;
+					url += '&budgetInout=' + budgetInout;
+					url += '&startDate=' + startDate;
+					url += '&endDate=' + endDate;
+					url += '&keyword=' + keyword;
+					console.log(url)
+				$(event.target).attr('href', url);
 			});
 
-			$(document).on('click', function(event) {
-				console.log(event.target);
+			$('#made-searchIcon').on('click', function() {
+				if ($('#made-methodCategory').val() === '1') {
+					budgetCurrency = '';
+				} else {
+					budgetCurrency = $('#made-methodCategory').val();
+				}
+
+				switch ($('#made-searchCategory').val()) {
+					case '1': budgetInout = ''; break; 
+					case '2': budgetInout = 'I'; break; // 입금
+					case '3': budgetInout = 'O'; break; // 출금
+				}
+				
+				startDate = $('#made-firstDate').val();
+				endDate = $('#made-secondDate').val();
+
+				if (new Date(startDate) > new Date(endDate)) {
+					let dateSave = startDate;
+					startDate = endDate;
+					endDate = dateSave;
+				}
+
+				keyword = $('#made-search').val();
+
+				let url = 'goList?cpage=1&coupleCode=${ loginUser.coupleCode }';
+					url += '&budgetCurrency=' + budgetCurrency;
+					url += '&budgetInout=' + budgetInout;
+					url += '&startDate=' + startDate;
+					url += '&endDate=' + endDate;
+					url += '&keyword=' + keyword;
+
+					console.log(url);
+
+				window.location.href = url;
+			});
+
+			$('td').on('click', function(event) {
+				openAdd();
+				let arr = $(event.target).parent().html().split('</td>');
+				for (let i in arr) {
+					arr[i] = arr[i].replace('<td>', '')
+				}
+
+				let currency1 = '₩';
+				let currency2 = '$';
+				let currency3 = '€';
+				let currency4 = '￥(JPY)';
+				let currency5 = '¥(CNY)';
+
+				let budgetDate = arr[0];
+				let budgetBriefs = arr[1];
+				let budgetInoutI = arr[2].replace(currency1, '').replace(currency2, '').replace(currency3, '').replace(currency4, '').replace(currency5, '');
+				let budgetInoutO = arr[3].replace(currency1, '').replace(currency2, '').replace(currency3, '').replace(currency4, '').replace(currency5, '');
+				let budgetBalance = arr[4];
+				let budgetCurrency;
+
+				console.log(budgetDate);
+				console.log(budgetBriefs);
+				console.log(budgetInoutI);
+				console.log(budgetInoutO);
+				console.log(budgetBalance);
+
+				for (let i = 1; i <= 5; i++) {
+					console.log(arr[2].indexOf('currency' + i))
+					if (arr[2].indexOf(currency1) !== -1) {
+						budgetCurrency = arr[1].substring(0, arr[2].indexOf(currency1));
+					}
+				}
+			});
+
+			$('#cancleAdd').on('click', function() {
+				closeAdd();
+			});
+
+			$('#cover').on('click', function() {
+				closeAdd();
 			})
+
+			function closeAdd() {
+				$('#content').css('display', 'none');
+				$('#cover').css('display', 'none');
+			}
+
+			function openAdd() {
+				$('#content').css('display', '');
+				$('#cover').css('display', '');
+			}
+
+			closeAdd();
 		})
 	</script>
 
