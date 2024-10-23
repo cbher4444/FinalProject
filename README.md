@@ -59,7 +59,7 @@
     - 캘린더
         - 공휴일 가져오기 (Google API)
         - 화면구현 (FullCalendar JS Library)
-        - 일정 문자알림서비스 (Twilio API)
+        - 일정알림 문자보내기 (Twilio API)
         - 일정, 캘린더 CRUD
     - 마인드맵
         - 화면구현 (Go JS Library)
@@ -83,8 +83,18 @@
 
 - **김동규**
 
-홈 (로그인 전)
+홈 - 로그인 전
 ![guestHome](https://github.com/user-attachments/assets/9bd048f1-e3c6-4067-902f-3a4ca8d6bc18)
+
+홈 - 로그인 후
+![memberHome](https://github.com/user-attachments/assets/4a5d9caf-3682-4be0-aeb6-e479db097fc9)
+
+홈 - 커플정보 수정
+![memberHome_edit](https://github.com/user-attachments/assets/13611d1f-c504-475c-a37a-ddfb039e5f91)
+
+캘린더 - 조회 (년/월/주/일/목록조회)
+![Calendar_view](https://github.com/user-attachments/assets/e849d7ff-b347-4041-a4bd-7040b351468d)
+
 
 - **이승헌**
 
