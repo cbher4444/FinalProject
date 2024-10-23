@@ -18,14 +18,14 @@
 		<c:choose>
 			<c:when test="${ empty loginUser }">
 				<!-- case1. 로그인 전 -->
-				<div class="fh5co-cover text-center" data-stellar-background-ratio="0.5" style="background-image: url(resources/images/cover_bg_1.jpg);"><!-- 이 div는 저 밑에서 닫힘!! -->
+				<div class="fh5co-cover text-center" data-stellar-background-ratio="0.5" style="background-image: url(resources/images/home/cover_bg_1.jpg);"><!-- 이 div는 저 밑에서 닫힘!! -->
 			</c:when>
 			<c:otherwise>
 				<!-- case2. 로그인 후 -->
 				<c:choose>
 					<c:when test="${ empty couple.changeName }">
 						<!-- 배경사진이 없는경우 -->
-						<div class="fh5co-cover text-center" data-stellar-background-ratio="0.5" style="background-image: url(resources/images/main-default-bg-img.jpg);"><!-- 이 div는 저 밑에서 닫힘!! -->
+						<div class="fh5co-cover text-center" data-stellar-background-ratio="0.5" style="background-image: url(resources/images/home/main-default-bg-img.jpg);"><!-- 이 div는 저 밑에서 닫힘!! -->
 					</c:when>
 					<c:otherwise>
 						<!-- 배경사진이 있는경우 -->

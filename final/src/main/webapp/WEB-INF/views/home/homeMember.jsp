@@ -70,7 +70,7 @@
 								<img src="${ loginUser.changeName }" alt="profile picture" class="img-responsive"/>
 							</c:when>
 							<c:otherwise>
-								<img src="resources/images/blank-profile-picture.png"alt="profile picture" class="img-responsive" />
+								<img src="resources/images/member/blank-profile-picture.png"alt="profile picture" class="img-responsive" />
 							</c:otherwise>
 						</c:choose>
 						<h3>${ loginUser.userName }</h3>
@@ -82,7 +82,7 @@
 								<img src="${ partner.changeName }" alt="profile picture" class="img-responsive"/>
 							</c:when>
 							<c:otherwise>
-								<img src="resources/images/blank-profile-picture.png" alt="profile picture" class="img-responsive" />
+								<img src="resources/images/member/blank-profile-picture.png" alt="profile picture" class="img-responsive" />
 							</c:otherwise>
 						</c:choose>
 						<h3>${ partner.userName }</h3>
@@ -145,7 +145,7 @@
 									<c:choose>
 										<c:when test="${ empty couple.changeName }">
 											<!-- 배경사진이 없는경우 -->
-											<img src="resources/images/main-default-bg-img.jpg" id="modalBgImg" alt="background-image" style="width: 100%;">
+											<img src="resources/images/home/main-default-bg-img.jpg" id="modalBgImg" alt="background-image" style="width: 100%;">
 										</c:when>
 										<c:otherwise>
 											<!-- 배경사진이 있는경우 -->
@@ -209,7 +209,7 @@
 				if('${ couple.changeName }' != ""){ // 기존사진 있으면 -> 기존거 그대로
 					$("#modalBgImg").attr("src", '${ couple.changeName }');
 				}else { // 기존사진 없으면 -> 기본이미지로
-					$("#modalBgImg").attr("src", "resources/images/main-default-bg-img.jpg");
+					$("#modalBgImg").attr("src", "resources/images/home/main-default-bg-img.jpg");
 					$("#isDefaultBgImg").val("false");
 				}
 			}
@@ -217,12 +217,12 @@
 
 		// ----------------------- 기본 배경이미지 사용 버튼 클릭시 -----------------------
 		function useDefaultBgImg(){
-			if($("#modalBgImg").attr("src") === "resources/images/main-default-bg-img.jpg") {
+			if($("#modalBgImg").attr("src") === "resources/images/home/main-default-bg-img.jpg") {
 				alert("이미 기본이미지를 사용중입니다.");
 			}else {
 				$("#upfile").val(""); // 선택된 파일 초기화
 				$("#isDefaultBgImg").val("true");
-				$("#modalBgImg").attr("src", "resources/images/main-default-bg-img.jpg");
+				$("#modalBgImg").attr("src", "resources/images/home/main-default-bg-img.jpg");
 			}
 		}
 	</script>

@@ -59,7 +59,7 @@
 								<img src="${ loginUser.changeName }" alt="profile picture" style="width:231px; height:231px; object-fit: cover; border-radius:50%; margin-left: 150px;"/>
 							</c:when>
 							<c:otherwise>
-								<img src="resources/images/blank-profile-picture.png" alt="profile picture" style="width:231px; height:231px; object-fit: cover; border-radius:50%; margin-left: 150px;"/>
+								<img src="resources/images/member/blank-profile-picture.png" alt="profile picture" style="width:231px; height:231px; object-fit: cover; border-radius:50%; margin-left: 150px;"/>
 							</c:otherwise>
 						</c:choose>
 						<c:if test="${ loginUser.status ne 'N' }">
@@ -199,7 +199,7 @@
 									<img src="${ loginUser.changeName }" id="modalProfileImg" alt="profile picture" style="width:231px; height:231px; object-fit: cover; border-radius:50%;"/>
 								</c:when>
 								<c:otherwise>
-									<img src="resources/images/blank-profile-picture.png" id="modalProfileImg" alt="profile picture" style="width:231px; height:231px; object-fit: cover; border-radius:50%;"/>
+									<img src="resources/images/member/blank-profile-picture.png" id="modalProfileImg" alt="profile picture" style="width:231px; height:231px; object-fit: cover; border-radius:50%;"/>
 								</c:otherwise>
 							</c:choose>
 						</div>
@@ -294,7 +294,7 @@
 				if('${ loginUser.changeName }' != ""){ // 기존사진 있으면 -> 기존거 그대로
 					$("#modalProfileImg").attr("src", '${ loginUser.changeName }');
 				}else { // 기존사진 없으면 -> 기본이미지로
-					$("#modalProfileImg").attr("src", "resources/images/blank-profile-picture.png");
+					$("#modalProfileImg").attr("src", "resources/images/member/blank-profile-picture.png");
 				}
 			}
 		}
