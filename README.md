@@ -166,6 +166,7 @@
 
 <details>
 <summary>계정 자동영구삭제 SQL문</summary>
+
     -- 탈퇴신청 30일 후 계정영구삭제, 안쓰는 커플코드 영구삭제. 매일 밤 12시에 실행됨 
     BEGIN
         DBMS_SCHEDULER.create_job (
@@ -190,6 +191,7 @@
         );
     END;
     /
+    
 </details>
 
 
