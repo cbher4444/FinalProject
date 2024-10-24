@@ -103,9 +103,62 @@
 
 - **이은지**
 
-- **황영찬**
-    - <mark>앨범</mark>
-        <br>
-        -    ![앨범 가져오기](https://github.com/user-attachments/assets/bf8d6946-e130-4d0a-a931-decf2fbd0b44)
+### 💚 황영찬
+#### 🟢 앨범
+##### 앨범 - 조회
+> - 앨범 가져오기 (Google PhotosLibrary API)
 
-        - ![앨범 만들기](https://github.com/user-attachments/assets/a666d659-becc-40bd-a2f5-d133b0879fab)
+![앨범 가져오기](https://github.com/user-attachments/assets/bf8d6946-e130-4d0a-a931-decf2fbd0b44)
+
+##### 앨범 - 추가 및 삭제
+
+> - 앨범 만들기 
+
+![앨범 만들기](https://github.com/user-attachments/assets/a666d659-becc-40bd-a2f5-d133b0879fab)
+
+> - 앨범 사진 추가
+
+![앨범 사진 추가하기](https://github.com/user-attachments/assets/946a00cf-9dec-49f4-8b6d-b8a397be2aa7)
+
+> - 앨범 사진 삭제
+
+![앨범 사진 삭제하기](https://github.com/user-attachments/assets/0ac862ef-8bd6-4a37-9f82-080d912fef44)
+
+#### 🟢 스토리
+##### 스토리 - 게시
+> - 스토리 조회
+> - 스토리 새로 등록
+
+![스토리 게시하기](https://github.com/user-attachments/assets/e236b92c-22b2-4aac-9386-eed750977413)
+
+> - 스토리 댓글 작성
+
+![스토리 댓글 작성하기](https://github.com/user-attachments/assets/b01265e7-f2af-4cd7-9bbf-f8565752cf4d)
+
+> - 스토리 댓글 좋아요
+> - 스토리 삭제
+
+![스토리 댓글 좋아요 및 삭제](https://github.com/user-attachments/assets/612d5eac-f585-40c0-bca3-723072ca3c6c)
+
+#### 🟢 활동 추천
+##### 활동 추천 - 조회
+
+> - 인기 영화 및 TV프로그램 조회
+> - 카테고리 별 새로운 리스트업
+
+![영화 조회](https://github.com/user-attachments/assets/03f7fa88-dcae-4991-a8cb-54af97181506)
+
+> - 영화 및 TV 프로그램 상세정보
+
+![영화 상세조회](https://github.com/user-attachments/assets/2b191062-d6b1-4bf8-a6b9-cf183f0a89e0)
+
+##### 활동 추천 - 랜덤 추천
+> - 랜덤으로 활동 추천
+
+![랜덤 활동 추천](https://github.com/user-attachments/assets/de1cd766-1870-4e61-9bef-a7e1d04b6658)
+
+#### 🟢 관리자 페이지
+##### 관리자 페이지 - 조회
+> - 전체 회원 조회
+
+ ![관리자 페이지](https://github.com/user-attachments/assets/7b1da6f6-b4ff-4efc-9a3e-ad2a8154405b)
