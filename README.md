@@ -57,7 +57,7 @@
 
 - **김동규**
     - 캘린더
-        - 공휴일 가져오기 (Google API)
+        - 공휴일 가져오기 (Google Calendar API)
         - 화면구현 (FullCalendar JS Library)
         - 일정알림 문자보내기 (Twilio API)
         - 일정, 캘린더 CRUD
@@ -83,6 +83,21 @@
 
 - **김동규**
 
+캘린더 - 조회 (년/월/주/일/목록조회)
+
+> - 공휴일 데이터 가져오기: Google Calendar API 사용. 빨간색 일정이 공휴일.
+> - 화면구현: FullCalendar JS Library 사용
+
+![Calendar_view](https://github.com/user-attachments/assets/e849d7ff-b347-4041-a4bd-7040b351468d)
+
+캘린더 - 일정알림 문자보내기 (Twilio API)
+
+![Calendar_textAlert](https://github.com/user-attachments/assets/fe35bb2f-f878-4b1e-803a-309f88cecd92)
+
+![Calendar_textAlert_result](https://github.com/user-attachments/assets/9e0d2a88-66a8-40be-98d5-74c9d7fc1e6b)
+
+
+
 홈 - 로그인 전
 ![guestHome](https://github.com/user-attachments/assets/9bd048f1-e3c6-4067-902f-3a4ca8d6bc18)
 
@@ -92,8 +107,7 @@
 홈 - 커플정보 수정
 ![memberHome_edit](https://github.com/user-attachments/assets/13611d1f-c504-475c-a37a-ddfb039e5f91)
 
-캘린더 - 조회 (년/월/주/일/목록조회)
-![Calendar_view](https://github.com/user-attachments/assets/e849d7ff-b347-4041-a4bd-7040b351468d)
+
 
 
 - **이승헌**
