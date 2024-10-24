@@ -104,3 +104,8 @@
 - **이은지**
 
 - **황영찬**
+    - <mark>앨범</mark>
+        <br>
+        -    ![앨범 가져오기](https://github.com/user-attachments/assets/bf8d6946-e130-4d0a-a931-decf2fbd0b44)
+
+        - ![앨범 만들기](https://github.com/user-attachments/assets/a666d659-becc-40bd-a2f5-d133b0879fab)
