@@ -81,12 +81,14 @@
 
 ## 👊프로젝트 구현
 
-- **김동규**
+### ❤ 김동규
 
-캘린더 - 조회 (년/월/주/일/목록조회)
+#### 🔴 캘린더
 
-> - 공휴일 데이터 가져오기: Google Calendar API 사용. 빨간색 일정이 공휴일.
-> - 화면구현: FullCalendar JS Library 사용
+캘린더 - 조회 (년/월/주/일/목록 조회)
+
+> - 공휴일 가져오기 (Google Calendar API). 빨간색 일정이 공휴일.
+> - 화면구현 (FullCalendar JS Library)
 
 ![Calendar_view](https://github.com/user-attachments/assets/e849d7ff-b347-4041-a4bd-7040b351468d)
 
@@ -94,24 +96,43 @@
 
 ![Calendar_textAlert](https://github.com/user-attachments/assets/fe35bb2f-f878-4b1e-803a-309f88cecd92)
 
-![Calendar_textAlert_result](https://github.com/user-attachments/assets/9e0d2a88-66a8-40be-98d5-74c9d7fc1e6b)
-
 ![Calendar_textAlert_result](https://github.com/user-attachments/assets/a96ede5b-c8be-4d8f-a28b-1783c4f5a0c8)
 
+<details>
+<summary>캘린더 - 기타 기능 </summary>
+캘린더 - 일정 CRUD
+
+![Calendar_CRUD](https://github.com/user-attachments/assets/5d2d5ca4-1b74-4b9e-a4a7-0317cbd26f37)
+
+캘린더 - 캘린더별 조회 / 수정
+
+![Calendar_Cal ReadUpdate](https://github.com/user-attachments/assets/d101eed8-887f-48d6-86bf-565558dd8bc7)
+</details>
+
+#### 🔴 마인드맵
+
+#### 🔴 마이페이지
+
+#### 🔴 홈 
+
 홈 - 로그인 전
+
 ![guestHome](https://github.com/user-attachments/assets/9bd048f1-e3c6-4067-902f-3a4ca8d6bc18)
 
 홈 - 로그인 후
+
 ![memberHome](https://github.com/user-attachments/assets/4a5d9caf-3682-4be0-aeb6-e479db097fc9)
 
 홈 - 커플정보 수정
+
+> 만난지 몇일 D-DAY 카운트
+
 ![memberHome_edit](https://github.com/user-attachments/assets/13611d1f-c504-475c-a37a-ddfb039e5f91)
 
 
 
+### 이승헌
 
-- **이승헌**
+### 이은지
 
-- **이은지**
-
-- **황영찬**
+### 황영찬 ###
