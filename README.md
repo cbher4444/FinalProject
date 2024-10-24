@@ -58,9 +58,9 @@
 
 - **김동규**
     - 캘린더
-        - 공휴일 가져오기 (Google API)
+        - 공휴일 가져오기 (Google Calendar API)
         - 화면구현 (FullCalendar JS Library)
-        - 일정 문자알림서비스 (Twilio API)
+        - 일정알림 문자보내기 (Twilio API)
         - 일정, 캘린더 CRUD
     - 마인드맵
         - 화면구현 (Go JS Library)
@@ -100,31 +100,116 @@
 
 ## 👊프로젝트 구현
 
-- **김동규**
+### ❤ 김동규
 
-홈 (로그인 전)
+#### 🔴 캘린더
+
+##### 캘린더 - 조회
+
+> - 공휴일 가져오기 (Google Calendar API). // 빨간색 일정이 공휴일.
+> - 화면구현 (FullCalendar JS Library)
+> - 년/월/주/일/목록별 조회
+
+![Calendar_view](https://github.com/user-attachments/assets/e849d7ff-b347-4041-a4bd-7040b351468d)
+
+
+##### 캘린더 - 알림 문자발신
+
+> - Twilio API 사용
+
+![Calendar_textAlert](https://github.com/user-attachments/assets/fe35bb2f-f878-4b1e-803a-309f88cecd92)
+
+> 핸드폰 받은문자메시지
+
+<img src="https://github.com/user-attachments/assets/a96ede5b-c8be-4d8f-a28b-1783c4f5a0c8" alt="sms message" width="400px">
+<!-- ![Calendar_textAlert_result](https://github.com/user-attachments/assets/a96ede5b-c8be-4d8f-a28b-1783c4f5a0c8) -->
+
+
+##### 캘린더 - 일정 CRUD
+
+> - 월/주/일/년별 View에서 일정 추가
+> - 일정 수정/삭제
+
+![Calendar_CRUD](https://github.com/user-attachments/assets/5d2d5ca4-1b74-4b9e-a4a7-0317cbd26f37)
+
+
+##### 캘린더 - 캘린더별 조회/수정
+
+> - 모든일정 / 우리일정 / 내일정 / 상대방일정별 조회
+> - 캘린더별 기본색상 변경
+
+![Calendar_Cal ReadUpdate](https://github.com/user-attachments/assets/d101eed8-887f-48d6-86bf-565558dd8bc7)
+
+
+#### 🔴 마인드맵
+
+
+#### 🔴 마이페이지
+
+
+#### 🔴 홈 
+
+##### 홈 - 커플정보 수정
+
+> - 만난지 몇일 D-DAY 카운트 기능 포함
+
+![memberHome_edit](https://github.com/user-attachments/assets/13611d1f-c504-475c-a37a-ddfb039e5f91)
+
+##### 홈 - 로그인 전/후 화면구현
+
+> 로그인 전
+
 ![guestHome](https://github.com/user-attachments/assets/9bd048f1-e3c6-4067-902f-3a4ca8d6bc18)
 
-- **이승헌**
+> 로그인 후
 
-회원가입 <br>
-![회원가입 7mb](https://github.com/user-attachments/assets/c39e481a-6cd3-4466-b823-e341ea4206b2)<br>
-로그인 기능<br>
-(커플코드 없는 사람의 로그인)<br>
-![커플코드없는사람 마이페이지](https://github.com/user-attachments/assets/e221204c-4007-4df2-89eb-0db56026b425)<br>
-(커플코드 있는 사람의 로그인)<br>
-![커플코드있는아이디 로그인](https://github.com/user-attachments/assets/f9a61c47-9985-4888-8972-13cfd08887ef)<br>
-아이디 찾기<br>
-![아이디 찾기](https://github.com/user-attachments/assets/3301ad98-e8c9-4a04-8f5b-c06c965b402a)<br>
-비밀번호 찾기<br>
-![비밀번호 찾기 및 변경](https://github.com/user-attachments/assets/02d3cd40-68ce-417c-971f-4f573a20c3ba)<br>
- 1대 1 채팅<br>
+![memberHome](https://github.com/user-attachments/assets/4a5d9caf-3682-4be0-aeb6-e479db097fc9)
 
-![채팅기능](https://github.com/user-attachments/assets/8e48e5f1-cdd0-474c-a3c3-43f22f0ceac5)<br>
- 1 대 1 화상채팅 <br>
-화상통화 <br>
-![화상통화 다시만듬](https://github.com/user-attachments/assets/2b804ecb-7062-47fc-93a3-675d3b1e6a6b)<br>
 
-- **이은지**
+### 🧡 이승헌
 
-- **황영찬**
+#### 🟠 로그인/회원가입
+
+##### 회원가입
+
+![회원가입 7mb](https://github.com/user-attachments/assets/c39e481a-6cd3-4466-b823-e341ea4206b2)
+
+
+##### 로그인 기능
+
+> (커플코드 없는 사람의 로그인)
+
+![커플코드없는사람 마이페이지](https://github.com/user-attachments/assets/e221204c-4007-4df2-89eb-0db56026b425)
+
+> (커플코드 있는 사람의 로그인)
+
+![커플코드있는아이디 로그인](https://github.com/user-attachments/assets/f9a61c47-9985-4888-8972-13cfd08887ef)
+
+
+##### 아이디 찾기
+![아이디 찾기](https://github.com/user-attachments/assets/3301ad98-e8c9-4a04-8f5b-c06c965b402a)
+
+
+##### 비밀번호 찾기
+
+![비밀번호 찾기 및 변경](https://github.com/user-attachments/assets/02d3cd40-68ce-417c-971f-4f573a20c3ba)
+
+
+#### 🟠 1대 1 채팅
+
+![채팅기능](https://github.com/user-attachments/assets/8e48e5f1-cdd0-474c-a3c3-43f22f0ceac5)
+ 
+#### 🟠 1 대 1 화상통화
+
+![화상통화 다시만듬](https://github.com/user-attachments/assets/2b804ecb-7062-47fc-93a3-675d3b1e6a6b)
+
+
+### 💛 이은지
+#### 🟡 메뉴명
+#### 🟡 메뉴명
+#### 🟡 메뉴명
+
+### 💚 황영찬
+#### 🟢 메뉴명
+#### 🟢 메뉴명
+#### 🟢 메뉴명

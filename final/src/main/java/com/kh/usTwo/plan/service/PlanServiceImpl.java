@@ -163,9 +163,9 @@ public class PlanServiceImpl implements PlanService{
 	
 	private String makeMessage(Schedule s) {
         StringBuilder sb = new StringBuilder();
-        sb.append("[UsTwo]일정알림입니다.");
-        sb.append("\n-제목: " + s.getTitle());
-        sb.append("\n-시작일시: " + s.getStartDate());
+        sb.append("[UsTwo]일정알림");
+        sb.append("\n-제목:" + s.getTitle());
+        sb.append("\n-시작일시:" + s.getStartDate());
         
         if(s.getStartTime() != null) {
         	sb.append(" " + s.getStartTime());
