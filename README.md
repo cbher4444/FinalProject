@@ -115,7 +115,7 @@
 
 ##### 캘린더 - 알림 문자발신
 
-> - Twilio API 사용
+> Twilio API 사용
 
 ![Calendar_textAlert](https://github.com/user-attachments/assets/fe35bb2f-f878-4b1e-803a-309f88cecd92)
 
@@ -151,9 +151,34 @@
 
 #### 🔴 마이페이지
 
-> - 초대코드 카카오톡 공유 (Kakao API)
-> - 탈퇴 30일 후 계정영구삭제 (DBMS Scheduler을 통한 자동화)
-> - 회원 조회/변경/삭제, 커플 등록/삭제
+##### 초대코드 카카오톡 공유
+
+> Kakao API 사용
+
+![myPage_inviteCode_kakaoShare](https://github.com/user-attachments/assets/0ec7eb57-875f-4c99-9cd8-d8f371f236f6)
+
+
+##### 탈퇴 30일 후 계정영구삭제
+
+> DBMS Scheduler을 통한 자동화
+
+![탈퇴30일후_계정영구삭제](https://github.com/user-attachments/assets/a604f0a6-e4b8-467c-93bc-93f03c9169ef)
+
+
+##### 커플 등록/삭제
+
+> 커플 등록
+
+![myPage_couple_register](https://github.com/user-attachments/assets/87962db5-1f48-4c85-8894-d4de7084c268)
+
+> 계정 삭제 및 커플 해제
+
+![myPage_cancelAccount](https://github.com/user-attachments/assets/8ea8dc5b-92a0-4ce2-a522-9c630141c4a4)
+
+
+##### 회원 조회/변경
+
+![myPage_edit](https://github.com/user-attachments/assets/9fbcff9b-05ef-40da-a1d3-9e7377fa5486)
 
 
 #### 🔴 홈 
