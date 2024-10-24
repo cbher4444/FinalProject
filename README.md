@@ -275,6 +275,8 @@
 
  ![관리자 페이지](https://github.com/user-attachments/assets/7b1da6f6-b4ff-4efc-9a3e-ad2a8154405b)
 
+## 스크립트
+
 <details>
     <summary>스트립트.sql</summary>
     <pre>
