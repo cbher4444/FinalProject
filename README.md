@@ -106,17 +106,24 @@
 ![guestHome](https://github.com/user-attachments/assets/9bd048f1-e3c6-4067-902f-3a4ca8d6bc18)
 
 - **이승헌**
-- 1. 회원가입 <br>
-![회원가입 7mb](https://github.com/user-attachments/assets/c39e481a-6cd3-4466-b823-e341ea4206b2)
-- 2. 로그인<br>
-![커플코드없는사람 마이페이지](https://github.com/user-attachments/assets/e221204c-4007-4df2-89eb-0db56026b425)
-![커플코드있는아이디 로그인](https://github.com/user-attachments/assets/f9a61c47-9985-4888-8972-13cfd08887ef)
-![아이디 찾기](https://github.com/user-attachments/assets/3301ad98-e8c9-4a04-8f5b-c06c965b402a)
-![비밀번호 찾기 및 변경](https://github.com/user-attachments/assets/02d3cd40-68ce-417c-971f-4f573a20c3ba)
-- 3. 1대 1 채팅<br>
-![채팅기능](https://github.com/user-attachments/assets/8e48e5f1-cdd0-474c-a3c3-43f22f0ceac5)
-- 4. 1 대 1 화상채팅 <br>
-![화상통화 다시만듬](https://github.com/user-attachments/assets/2b804ecb-7062-47fc-93a3-675d3b1e6a6b)
+
+회원가입 <br>
+![회원가입 7mb](https://github.com/user-attachments/assets/c39e481a-6cd3-4466-b823-e341ea4206b2)<br>
+로그인 기능<br>
+(커플코드 없는 사람의 로그인)<br>
+![커플코드없는사람 마이페이지](https://github.com/user-attachments/assets/e221204c-4007-4df2-89eb-0db56026b425)<br>
+(커플코드 있는 사람의 로그인)<br>
+![커플코드있는아이디 로그인](https://github.com/user-attachments/assets/f9a61c47-9985-4888-8972-13cfd08887ef)<br>
+아이디 찾기<br>
+![아이디 찾기](https://github.com/user-attachments/assets/3301ad98-e8c9-4a04-8f5b-c06c965b402a)<br>
+비밀번호 찾기<br>
+![비밀번호 찾기 및 변경](https://github.com/user-attachments/assets/02d3cd40-68ce-417c-971f-4f573a20c3ba)<br>
+ 1대 1 채팅<br>
+
+![채팅기능](https://github.com/user-attachments/assets/8e48e5f1-cdd0-474c-a3c3-43f22f0ceac5)<br>
+ 1 대 1 화상채팅 <br>
+화상통화 <br>
+![화상통화 다시만듬](https://github.com/user-attachments/assets/2b804ecb-7062-47fc-93a3-675d3b1e6a6b)<br>
 
 - **이은지**
 
