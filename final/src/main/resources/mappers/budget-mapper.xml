@@ -378,6 +378,23 @@
          order
             by budget_date desc
              , budget_no desc
+	</select>
+	
+	<select id="selectBudget_budgetNo" resultMap="budgetResult">
+		select BUDGET_NO
+		     , to_char(BUDGET_DATE, 'yyyy-mm-dd') as "BUDGET_DATE"
+		     , BUDGET_BRIEFS
+		     , BUDGET_HOWMUCH
+		     , BUDGET_CURRENCY
+		     , BUDGET_BALANCE
+		     , BUDGET_CATE
+		     , BUDGET_METHOD
+		     , BUDGET_COMM
+		     , BUDGET_INOUT
+		     , EMAIL
+		     , COUPLE_CODE
+		  from f_budget
+		 where budget_no = #{ budgetNo }
 	</select>	
 	
 	<select id="selectBudget_startDate" resultMap="budgetResult">

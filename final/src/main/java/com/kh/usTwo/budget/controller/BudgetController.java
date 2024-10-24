@@ -28,7 +28,7 @@ public class BudgetController {
 		return "budget/budget";
 	}
 	
-	@RequestMapping("goList")
+	@RequestMapping(value="goList", produces = "text/html;charset=UTF-8")
 	public ModelAndView goList(@RequestParam(value="cpage", defaultValue="1") int currentPage, Budget bd, ModelAndView mv) throws IOException {
 		int pageLimit = 10;
 		int budgetLimit = 20;
@@ -36,8 +36,9 @@ public class BudgetController {
 		PageInfo pi;
 		ArrayList<Budget> list;
 		
-		bd.setKeyword("%" + URLEncoder.encode(bd.getKeyword(), "UTF-8") + "%");
+		bd.setKeyword("%" + bd.getKeyword() + "%");
 		
+		System.out.println(bd);
 		if (!bd.getBudgetCurrency().equals("")) {
 		    if (!bd.getBudgetInout().equals("")) {
 		        if (!bd.getStartDate().equals("") && !bd.getEndDate().equals("")) {
@@ -216,6 +217,14 @@ public class BudgetController {
 		  .addObject("list", list)
 		  .addObject("bd", bd)
 		  .setViewName("budget/list");
+		
+		return mv;
+	}
+	
+	@RequestMapping("goDetail")
+	public ModelAndView goDetail(Integer budgetNo, ModelAndView mv) throws IOException {
+		mv.addObject("bd", bService.selectBudget_budgetNo(budgetNo))
+		  .setViewName("budget/detail");
 		
 		return mv;
 	}

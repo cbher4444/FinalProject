@@ -403,6 +403,7 @@ public class BudgetDao {
 	}
 
 	public int countBudget_keyword(Budget bd, SqlSessionTemplate sqlSession) {
+		System.out.println(bd);
 	    return sqlSession.selectOne("budgetMapper.countBudget_keyword", bd);
 	}
 
@@ -464,5 +465,9 @@ public class BudgetDao {
 
 	public int countBudget_inoutDateKeyword(Budget bd, SqlSessionTemplate sqlSession) {
 	    return sqlSession.selectOne("budgetMapper.countBudget_inoutDateKeyword", bd);
+	}
+
+	public Budget selectBudget_budgetNo(Integer budgetNo, SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("budgetMapper.selectBudget_budgetNo", budgetNo);
 	}
 }

@@ -136,6 +136,7 @@
 		#cancleAdd {
 			margin: 20px;
 			text-align: right;
+			cursor: pointer;
 		}
 	</style>
 </head>
@@ -183,10 +184,10 @@
 			<c:forEach var="b" items="${ list }">
 				<c:choose>
 					<c:when test="${ b.budgetInout eq 'I'}">
-						<tr><td>${ b.budgetDate }</td><td>${ b.budgetBriefs }</td><td><fmt:formatNumber value="${b.budgetHowMuch}" type="number" groupingUsed="true" />${ b.budgetCurrency }</td><td></td><td><fmt:formatNumber value="${ b.budgetBalance }" type="number" groupingUsed="true" />${ b.budgetCurrency }</td></tr>
+						<tr id="${ b.budgetNo }"><td>${ b.budgetDate }</td><td>${ b.budgetBriefs }</td><td><fmt:formatNumber value="${b.budgetHowMuch}" type="number" groupingUsed="true" />${ b.budgetCurrency }</td><td></td><td><fmt:formatNumber value="${ b.budgetBalance }" type="number" groupingUsed="true" />${ b.budgetCurrency }</td></tr>
 					</c:when>
 					<c:otherwise>
-						<tr><td>${ b.budgetDate }</td><td>${ b.budgetBriefs }</td><td></td><td><fmt:formatNumber value="${b.budgetHowMuch}" type="number" groupingUsed="true" />${ b.budgetCurrency }</td><td><fmt:formatNumber value="${ b.budgetBalance }" type="number" groupingUsed="true" />${ b.budgetCurrency }</td></tr>
+						<tr id="${ b.budgetNo }"><td>${ b.budgetDate }</td><td>${ b.budgetBriefs }</td><td></td><td><fmt:formatNumber value="${b.budgetHowMuch}" type="number" groupingUsed="true" />${ b.budgetCurrency }</td><td><fmt:formatNumber value="${ b.budgetBalance }" type="number" groupingUsed="true" />${ b.budgetCurrency }</td></tr>
 					</c:otherwise>
 				</c:choose>
 			</c:forEach>
@@ -230,7 +231,7 @@
 	<div id="cover"></div>
 	<div id="content">
 		<div id="cancleAdd" class="material-symbols-outlined">close</div>
-		<div id="realContent"></div>
+		<div id="realContent" style="height: 100%;"></div>
 	</div>
 
 	<script>
@@ -239,7 +240,7 @@
 			let budgetInout='${ bd.budgetInout }';
 			let startDate='${ bd.startDate }';
 			let endDate='${ bd.endDate }';
-			let keyword='${ bd.keyword }'.replace('%%', '');
+			let keyword='${ bd.keyword }'.replace('%%', '').replace('%', '').replace('%', '');
 
 			if (budgetCurrency !== '') {
 				$('#made-methodCategory').val(budgetCurrency);
@@ -257,6 +258,10 @@
 
 			if (endDate !== '') {
 				$('#made-secondDate').val(endDate);
+			}
+
+			if (keyword !== '') {
+				$('#made-search').val(keyword);
 			}
 
 			$('a[id^=cpage]').removeClass("currentPage");
@@ -277,7 +282,6 @@
 					url += '&startDate=' + startDate;
 					url += '&endDate=' + endDate;
 					url += '&keyword=' + keyword;
-					console.log(url)
 				$(event.target).attr('href', url);
 			});
 
@@ -312,43 +316,18 @@
 					url += '&endDate=' + endDate;
 					url += '&keyword=' + keyword;
 
-					console.log(url);
-
 				window.location.href = url;
 			});
 
 			$('td').on('click', function(event) {
+				if ($(this).text().trim() === "결과가 존재하지 않습니다.") {
+					return;
+				}
+				
 				openAdd();
-				let arr = $(event.target).parent().html().split('</td>');
-				for (let i in arr) {
-					arr[i] = arr[i].replace('<td>', '')
-				}
-
-				let currency1 = '₩';
-				let currency2 = '$';
-				let currency3 = '€';
-				let currency4 = '￥(JPY)';
-				let currency5 = '¥(CNY)';
-
-				let budgetDate = arr[0];
-				let budgetBriefs = arr[1];
-				let budgetInoutI = arr[2].replace(currency1, '').replace(currency2, '').replace(currency3, '').replace(currency4, '').replace(currency5, '');
-				let budgetInoutO = arr[3].replace(currency1, '').replace(currency2, '').replace(currency3, '').replace(currency4, '').replace(currency5, '');
-				let budgetBalance = arr[4];
-				let budgetCurrency;
-
-				console.log(budgetDate);
-				console.log(budgetBriefs);
-				console.log(budgetInoutI);
-				console.log(budgetInoutO);
-				console.log(budgetBalance);
-
-				for (let i = 1; i <= 5; i++) {
-					console.log(arr[2].indexOf('currency' + i))
-					if (arr[2].indexOf(currency1) !== -1) {
-						budgetCurrency = arr[1].substring(0, arr[2].indexOf(currency1));
-					}
-				}
+				let budgetNo = $(event.target).parent('tr').attr('id');
+				let url = "goDetail?budgetNo=" + budgetNo;
+				$('#realContent').html('<iframe src="' + url + '" frameborder="0" style="width: 100%; height: 90%;"></iframe>');
 			});
 
 			$('#cancleAdd').on('click', function() {
@@ -368,6 +347,12 @@
 				$('#content').css('display', '');
 				$('#cover').css('display', '');
 			}
+
+			$(document).on('keyup', function(event) {
+				if (event.keyCode === 13) {
+					$('#made-searchIcon').click();
+				}
+			});
 
 			closeAdd();
 		})
