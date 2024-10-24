@@ -85,10 +85,11 @@
 
 #### 🔴 캘린더
 
-##### 캘린더 - 조회 (년/월/주/일/목록 조회)
+##### 캘린더 - 조회
 
 > - 공휴일 가져오기 (Google Calendar API). 빨간색 일정이 공휴일.
 > - 화면구현 (FullCalendar JS Library)
+> - 년/월/주/일/목록별 조회
 
 ![Calendar_view](https://github.com/user-attachments/assets/e849d7ff-b347-4041-a4bd-7040b351468d)
 
@@ -97,7 +98,7 @@
 
 ![Calendar_textAlert](https://github.com/user-attachments/assets/fe35bb2f-f878-4b1e-803a-309f88cecd92)
 
-> 핸드폰 받은 문자메시지
+> 핸드폰 받은문자메시지
 
 <img src="https://github.com/user-attachments/assets/a96ede5b-c8be-4d8f-a28b-1783c4f5a0c8" alt="sms message" width="300px">
 <!-- ![Calendar_textAlert_result](https://github.com/user-attachments/assets/a96ede5b-c8be-4d8f-a28b-1783c4f5a0c8) -->
@@ -105,10 +106,14 @@
 
 ##### 캘린더 - 일정 CRUD
 
+> 월/주/일/년별 View에서 일정 추가. 일정 수정/삭제
+
 ![Calendar_CRUD](https://github.com/user-attachments/assets/5d2d5ca4-1b74-4b9e-a4a7-0317cbd26f37)
 
 
 ##### 캘린더 - 캘린더별 조회 / 수정
+
+> 모든일정 / 우리일정 / 내일정 / 상대방일정별 조회. 캘린더별 기본색상 변경
 
 ![Calendar_Cal ReadUpdate](https://github.com/user-attachments/assets/d101eed8-887f-48d6-86bf-565558dd8bc7)
 
