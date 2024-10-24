@@ -183,7 +183,7 @@
 	    		value += "<div class='swiper-slide'>"
 						+	"<div class='col-md-3 text-center animate-box fadeInUp animated'>"
 						+		"<div class='groom-men'>"
-						+			"<img src='https://media.themoviedb.org/t/p/w138_and_h175_face"+ item.profile_path + "' class='img-responsive' alt='Free HTML5 Bootstrap Template by FreeHTML5.co'>"
+						+			"<img src='https://media.themoviedb.org/t/p/w138_and_h175_face"+ item.profile_path + "' class='img-responsive' onerror=\"this.onerror=null; this.src='resources/images/member/blank-profile-picture.png';\" alt='Free HTML5 Bootstrap Template by FreeHTML5.co'>"
 						+			"<h3 style='margin-bottom:10px;'>"+ item.name +"</h3>"
 						+			"<h3>"+ item.character + "</h3>"
 						+		"</div>"
@@ -194,7 +194,7 @@
 	    
 		swiper.appendSlide(value);
 	    swiper.update();
- 
+		
 
 
 	</script>
