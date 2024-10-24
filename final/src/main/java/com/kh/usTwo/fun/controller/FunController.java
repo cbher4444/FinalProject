@@ -136,7 +136,7 @@ public class FunController {
 	}
 	
 	@ResponseBody
-	@RequestMapping("insertAservey.servey")
+	@RequestMapping(value="insertAservey.servey", produces = "application/json; charset=utf-8")
 	public int insertAservey(Aservey a) {
 		return fService.insertAservey(a);
 	}
