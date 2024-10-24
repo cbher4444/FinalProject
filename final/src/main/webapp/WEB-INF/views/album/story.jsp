@@ -357,6 +357,7 @@
 						changeName:changeName
 						},
 					success:function(result){
+						console.log(result)
 						if(result > 0){
 							alert("삭제가 완료되었습니다.");
 						}else{
