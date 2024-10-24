@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.kh.usTwo.adminPage.model.service.AdminPageService;
 import com.kh.usTwo.common.model.vo.PageInfo;
 import com.kh.usTwo.common.template.Pagination;
+import com.kh.usTwo.member.model.service.MemberServiceImpl;
 import com.kh.usTwo.member.model.vo.Member;
 
 @Controller
@@ -20,14 +21,13 @@ public class AdminPageController {
 	private AdminPageService adService;
 	
 	@RequestMapping("adminPage")
-	public String adminPage(@RequestParam(value="cpage", defaultValue="1") int currentPage ,Model model) {
+	public String adminPage(@RequestParam(value="cpage", defaultValue="1") int currentPage ,String memberEmail,Model model) {
 		
 		int listCount = adService.selectListCount();
 		
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 10);
 		ArrayList<Member> list = adService.selectMemberList(pi);
-		
-		model.addAttribute("list", list).addAttribute("pi",pi);
+		model.addAttribute("list", list).addAttribute("pi",pi).addAttribute("memberCount", listCount);
 		return "adminPage/adminPage";
 	}
 }
