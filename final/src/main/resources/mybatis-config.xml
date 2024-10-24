@@ -24,6 +24,8 @@
 		<typeAlias type="com.kh.usTwo.plan.model.vo.Phone" alias="Phone"/>
 		<typeAlias type="com.kh.usTwo.album.model.vo.Story" alias="Story" />
 		<typeAlias type="com.kh.usTwo.album.model.vo.Reply" alias="Reply" />
+		<typeAlias type="com.kh.usTwo.budget.model.vo.Budget" alias="Budget"/>
+		<typeAlias type="com.kh.usTwo.budget.model.vo.Bcate" alias="Bcate"/>
 	</typeAliases>
 
 	<mappers>
@@ -32,6 +34,7 @@
 		<mapper resource="/mappers/fun-mapper.xml"/>
 		<mapper resource="/mappers/plan-mapper.xml"/>
 		<mapper resource="/mappers/album-mapper.xml"/>
+		<mapper resource="/mappers/budget-mapper.xml"/>
 	</mappers>
 	
 	

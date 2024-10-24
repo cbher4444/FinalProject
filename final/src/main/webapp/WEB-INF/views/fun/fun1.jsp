@@ -119,7 +119,7 @@
 			}
 
 			.btnDiv a:not(.currentPage) {
-				color: #00000080 !important;
+				color: #00000080;
 			}
 
 			.wrong, .right {
@@ -127,6 +127,11 @@
 				width: 90px;
 				height: 90px;
 				display: none;
+			}
+
+			.btnDiv a:focus {
+				color: #F69D9D !important;
+				text-decoration: none;
 			}
 		</style>
 	</head>
