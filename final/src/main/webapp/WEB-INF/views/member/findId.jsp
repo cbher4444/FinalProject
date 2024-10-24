@@ -38,7 +38,7 @@
 					 	<a href="#"><img class="img-responsive" src="template/images/cover_bg_1.jpg" alt="윗배경"></a>
 						<div class="blog-text">
 							<div class="prod-title">
-								<form action="findId" method="get"> 
+								<form action="findId" method="post"> 
 									<div align="center">
 									<lable> 이름  </lable>
 									<input type="text" onkeyup="checkCapsLock(event)" id="userName" name="userName"/>

@@ -60,18 +60,8 @@
 									<a href="findIdForm" class="btn btn-light btn-sm">아이디 찾기</a> | 
 									<a href="findPwdForm" class="btn btn-light btn-sm">비밀번호 찾기</a>
 									<br>
-									<span style="width:120px;" id="kakaoLogin" align="left">
-										<a id="kakao-login-btn" href="javascript:loginWithKakao()">
-											 <img src="https://k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg" width="111"
-											    alt="카카오 로그인 버튼"  />
-											</a>
-										<p id="token-result"></p>
-									</span>
-									<span style="width:120px;" id="googloLogin" align="right" >
-										<a id="GgCustomLogin" href="javascript:void(0)" class="g-signin2" data-onsuccess="onSignIn">
-											 <img alt="구글 로그인 버튼" src="web_light_rd_SI@1x.png">
-										</a>
-									</span>
+									<br>
+									
 									</div>
 									<div align="center">
 										<a href="signupForm" class="btn btn-primary btn-lg">회원가입</a>

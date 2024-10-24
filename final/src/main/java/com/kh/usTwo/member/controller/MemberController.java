@@ -205,6 +205,8 @@ public class MemberController {
 	@RequestMapping("updatePwd")
 	public String updatePwd(Member m , HttpSession session) {
 		
+		String encPwd = bcryptPasswordEncoder.encode(m.getUserPwd());
+		m.setUserPwd(encPwd); 
 		int updatePwd = mService.updatePwd(m);
 		
 		
