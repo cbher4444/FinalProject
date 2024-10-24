@@ -143,15 +143,22 @@
 
 #### 🔴 마인드맵
 
+> - 화면구현 (Go JS Library)
+> - 마인드맵 CRUD
+
+![mindmap](https://github.com/user-attachments/assets/1c4bd257-2782-45a7-b87c-58405ddf029d)
+
 
 #### 🔴 마이페이지
+
+> - 초대코드 카카오톡 공유 (Kakao API)
+> - 탈퇴 30일 후 계정영구삭제 (DBMS Scheduler을 통한 자동화)
+> - 회원 조회/변경/삭제, 커플 등록/삭제
 
 
 #### 🔴 홈 
 
-##### 홈 - 커플정보 수정
-
-> - 만난지 몇일 D-DAY 카운트 기능 포함
+##### 홈 - 커플정보 조회/수정
 
 ![memberHome_edit](https://github.com/user-attachments/assets/13611d1f-c504-475c-a37a-ddfb039e5f91)
 
@@ -162,6 +169,7 @@
 ![guestHome](https://github.com/user-attachments/assets/9bd048f1-e3c6-4067-902f-3a4ca8d6bc18)
 
 > 로그인 후
+> - 만난지 몇일인지 D-DAY 카운트 기능 포함
 
 ![memberHome](https://github.com/user-attachments/assets/4a5d9caf-3682-4be0-aeb6-e479db097fc9)
 
