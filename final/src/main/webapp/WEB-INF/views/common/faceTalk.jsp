@@ -110,7 +110,7 @@
     const closeVideoPopupBtn = document.getElementById('close-video-popup');
 
     // WebSocket 연결 설정
-    const webSocket = new WebSocket("ws://localhost:8444/final/video-call");
+    const webSocket = new WebSocket("ws://192.168.20.35:8444/final/video-call");
 
     webSocket.onmessage = function(message) {
         const data = JSON.parse(message.data);

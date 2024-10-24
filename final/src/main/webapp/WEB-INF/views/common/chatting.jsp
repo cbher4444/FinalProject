@@ -158,6 +158,8 @@ $(document).ready(function() {
 </script>
 
 <script>
+
+
 $("#sendBtn").click(function(){
 	sendMessage();
 	$('#myChat').val('')
@@ -172,6 +174,7 @@ $('#myChat').keydown(function(event) {
 });
 
 	let sock = new SockJS("http://localhost:8444/final/chat/");
+	
 	sock.onmessage = onMessage;
 	sock.onclose = onClose;
 	
