@@ -96,7 +96,7 @@
 
 ![Calendar_textAlert_result](https://github.com/user-attachments/assets/9e0d2a88-66a8-40be-98d5-74c9d7fc1e6b)
 
-
+![Calendar_textAlert_result](https://github.com/user-attachments/assets/a96ede5b-c8be-4d8f-a28b-1783c4f5a0c8)
 
 홈 - 로그인 전
 ![guestHome](https://github.com/user-attachments/assets/9bd048f1-e3c6-4067-902f-3a4ca8d6bc18)
