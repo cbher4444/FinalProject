@@ -124,7 +124,7 @@ public class FunController {
 	}
 	
 	@ResponseBody
-	@RequestMapping("countAtest.test")
+	@RequestMapping(value="countAtest.test", produces = "application/json; charset=utf-8")
 	public int countAtest(Member m) {
 		return fService.countAtest(m);
 	}
@@ -136,7 +136,7 @@ public class FunController {
 	}
 	
 	@ResponseBody
-	@RequestMapping("insertAservey.servey")
+	@RequestMapping(value="insertAservey.servey", produces = "application/json; charset=utf-8")
 	public int insertAservey(Aservey a) {
 		return fService.insertAservey(a);
 	}

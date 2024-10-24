@@ -765,27 +765,7 @@
 						}
 					}
 					if (one < eleven) {
-						if (check1and11(1)) {
-							$(".serveyQtitle").css('color', '#848484');
-							$('.serveyQinput').css({
-								'color': '#848484',
-								'border-bottom': '1px solid #848484'
-							});
-							if (check1and11(11)) {
-								if (confirm('제출 후에는 답변을 수정할 수 없습니다. 정말 제출하시겠습니까?')) {
-									for (let i in randomSave) {
-										if (i < 10) {
-											insertAservey('firstPage', i, i);
-										} else if (i < 20) {
-											insertAservey('secondPage', (i - 10), i);
-										} else {
-											insertAservey('thirdPage', (i - 20), i);
-										}
-									}
-								}
-							}
-						}
-					} else {
+						console.log('1 < 11')
 						if (check1and11(11)) {
 							$(".serveyQtitle").css('color', '#848484');
 							$('.serveyQinput').css({
@@ -801,6 +781,28 @@
 											insertAservey('secondPage', (i - 10), i);
 										} else {
 											insertAservey('thirdPage', (i - 20), i);
+										}
+									}
+								}
+							}
+						}
+					} else {
+						console.log('11 < 1')
+						if (check1and11(1)) {
+							$(".serveyQtitle").css('color', '#848484');
+							$('.serveyQinput').css({
+								'color': '#848484',
+								'border-bottom': '1px solid #848484'
+							});
+							if (check1and11(11)) {
+								if (confirm('제출 후에는 답변을 수정할 수 없습니다. 정말 제출하시겠습니까?')) {
+									for (let i in randomSave) {
+										if (i < 10) {
+											insertAservey('firstPage', i, i);
+										} else if (i < 20) {
+											insertAservey('secondPage', (i - 10), i);
+										} else {
+											numnum = insertAservey('thirdPage', (i - 20), i);
 										}
 									}
 								}
