@@ -7,37 +7,6 @@
 	<meta charset="UTF-8">
 	<!--Load the AJAX API-->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript">
-
-      // Load the Visualization API and the corechart package.
-      google.charts.load('current', {'packages':['corechart']});
-
-      // Set a callback to run when the Google Visualization API is loaded.
-      google.charts.setOnLoadCallback(drawChart);
-
-      // Callback that creates and populates a data table,
-      // instantiates the pie chart, passes in the data and
-      // draws it.
-      function drawChart() {
-
-        // Create the data table.
-        var data = new google.visualization.DataTable();
-        data.addColumn('string', 'category');
-        data.addColumn('number', 'Slices');
-        data.addRows([
-          ['외식비용', 9],
-          ['활동비용', 1]
-        ]);
-
-        // Set chart options
-        var options = {'width':700,
-                       'height':700};
-
-        // Instantiate and draw our chart, passing in some options.
-        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
-        chart.draw(data, options);
-      }
-    </script>
 	<style>
 		#fh5co-guest {
 			background: #F6FAF7;
@@ -293,7 +262,6 @@
 					<div id="made-head4" class="made-head">
 						<div id="made-head4Btn1" class="headBtn select">리스트</div>
 						<div id="made-head4Btn2" class="headBtn">캘린더</div>
-						<div id="made-head4Btn3" class="headBtn">카테고리</div>
 						<div id="add">+</div>
 					</div>
 					<div id="made-content">
@@ -425,11 +393,6 @@
 									});
 								</script>
 							</div>
-						</div>
-						
-						<!-- 카테고리별 -->
-						<div id="made-content-big3" name="made-head4Btn3" class="made-content-big">
-							<div id="chart_div"></div>
 						</div>
 					</div>
 				</div>

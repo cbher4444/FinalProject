@@ -300,6 +300,7 @@ public class BudgetServiceImpl implements BudgetService {
 
 	@Override
 	public int countBudget_keyword(Budget bd) {
+		System.out.println(bd);
 	    return bDao.countBudget_keyword(bd, sqlSession);
 	}
 
@@ -376,6 +377,11 @@ public class BudgetServiceImpl implements BudgetService {
 	@Override
 	public int countBudget_inoutDateKeyword(Budget bd) {
 	    return bDao.countBudget_inoutDateKeyword(bd, sqlSession);
+	}
+
+	@Override
+	public Budget selectBudget_budgetNo(Integer budgetNo) {
+		return bDao.selectBudget_budgetNo(budgetNo, sqlSession);
 	}
 
 }

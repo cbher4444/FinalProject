@@ -94,4 +94,6 @@ public interface BudgetService {
 	int countBudget_inoutStartDateKeyword(Budget bd);
 	int countBudget_inoutEndDateKeyword(Budget bd);
 	int countBudget_inoutDateKeyword(Budget bd);
+	
+	Budget selectBudget_budgetNo(Integer budgetNo);
 }
