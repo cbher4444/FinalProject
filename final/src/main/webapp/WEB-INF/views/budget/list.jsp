@@ -267,10 +267,14 @@
 			$('a[id^=cpage]').removeClass("currentPage");
 			$('#cpage' + Number('${ pi.currentPage }')).addClass('currentPage');
 
-			window.addEventListener('load', function() {
+			window.addEventListener('load', function(event) {
+				heightChange();
+			});
+
+			function heightChange() {
 				let message = {height: document.body.scrollHeight};	
 				window.top.postMessage(message, "*");
-			});
+			}
 
 			$(document).on('click', 'a[id^=cpage]', function(event) {
 				let $id = $(event.target).attr('id');
@@ -282,6 +286,7 @@
 					url += '&startDate=' + startDate;
 					url += '&endDate=' + endDate;
 					url += '&keyword=' + keyword;
+				heightChange();
 				$(event.target).attr('href', url);
 			});
 
@@ -316,6 +321,7 @@
 					url += '&endDate=' + endDate;
 					url += '&keyword=' + keyword;
 
+				heightChange();
 				window.location.href = url;
 			});
 

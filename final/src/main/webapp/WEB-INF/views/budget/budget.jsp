@@ -279,8 +279,13 @@
 									let iframe = document.getElementById('myiframe');
 									window.addEventListener('message', function(e) {
 										let message = e.data;
+										console.log('Received message:', message);
 										iframe.style.height = message.height + 10 + "px";
 									} , false);
+
+									$('#myiframe').on('click', function() {
+										console.log('dd');
+									})
 								})
 							</script>
 						</div>
