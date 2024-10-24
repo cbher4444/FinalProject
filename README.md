@@ -75,7 +75,13 @@
         - 로그인 전/후 홈페이지 화면구현
 
 - **이승헌**
-
+- 1. 회원가입 및 로그인 <br>
+ i 로그인 기능 <br>
+ ii 회원가입 기능<br>
+ iii 회원가입시 이메일 인증<br>
+- 2. 채팅 기능<br>
+ i 1대1 채팅 기능 <br>
+ ii 1대1 화상통화 기능 <br>
 - **이은지**
 
 - **황영찬**
@@ -95,6 +101,15 @@
 ![guestHome](https://github.com/user-attachments/assets/9bd048f1-e3c6-4067-902f-3a4ca8d6bc18)
 
 - **이승헌**
+- 1. 회원가입 <br>
+
+![계정생성완료시 mypage이동](https://github.com/user-attachments/assets/e4829ffc-c34e-4d2b-933c-d2042b235950)
+- 2. 로그인<br>
+![로그인]()
+- 3. 1대 1 채팅<br>
+![채팅]()
+- 4. 1 대 1 화상채팅 <br>
+![화상채팅]()
 
 - **이은지**
 
