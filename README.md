@@ -80,7 +80,7 @@
   - 아이디 찾기
   - 비밀번호 변경
   회원가입 기능<br>
-  - 회원가입시 이메일 인증<br>
+  - 회원가입시 이메일 인증 (Gmail api)<br>
   - 회원가입시 주소 검색 (카카오주소API)
 - 2. 채팅 기능<br>
   1대1 채팅 기능 <br>
@@ -111,6 +111,8 @@
 - 2. 로그인<br>
 ![커플코드없는사람 마이페이지](https://github.com/user-attachments/assets/e221204c-4007-4df2-89eb-0db56026b425)
 ![커플코드있는아이디 로그인](https://github.com/user-attachments/assets/f9a61c47-9985-4888-8972-13cfd08887ef)
+![아이디 찾기](https://github.com/user-attachments/assets/3301ad98-e8c9-4a04-8f5b-c06c965b402a)
+![비밀번호 찾기 및 변경](https://github.com/user-attachments/assets/02d3cd40-68ce-417c-971f-4f573a20c3ba)
 - 3. 1대 1 채팅<br>
 ![채팅기능](https://github.com/user-attachments/assets/8e48e5f1-cdd0-474c-a3c3-43f22f0ceac5)
 - 4. 1 대 1 화상채팅 <br>
