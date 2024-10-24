@@ -76,12 +76,12 @@
 
 - **이승헌**
 - 1. 회원가입 및 로그인 <br>
- i 로그인 기능 <br>
- ii 회원가입 기능<br>
- iii 회원가입시 이메일 인증<br>
+  로그인 기능 <br>
+  회원가입 기능<br>
+  회원가입시 이메일 인증<br>
 - 2. 채팅 기능<br>
- i 1대1 채팅 기능 <br>
- ii 1대1 화상통화 기능 <br>
+  1대1 채팅 기능 <br>
+  1대1 화상통화 기능 <br>
 - **이은지**
 
 - **황영찬**
@@ -102,14 +102,14 @@
 
 - **이승헌**
 - 1. 회원가입 <br>
-
-![계정생성완료시 mypage이동](https://github.com/user-attachments/assets/e4829ffc-c34e-4d2b-933c-d2042b235950)
+![회원가입 7mb](https://github.com/user-attachments/assets/c39e481a-6cd3-4466-b823-e341ea4206b2)
 - 2. 로그인<br>
-![로그인]()
+![커플코드없는사람 마이페이지](https://github.com/user-attachments/assets/e221204c-4007-4df2-89eb-0db56026b425)
+![커플코드있는아이디 로그인](https://github.com/user-attachments/assets/f9a61c47-9985-4888-8972-13cfd08887ef)
 - 3. 1대 1 채팅<br>
-![채팅]()
+![채팅기능](https://github.com/user-attachments/assets/8e48e5f1-cdd0-474c-a3c3-43f22f0ceac5)
 - 4. 1 대 1 화상채팅 <br>
-![화상채팅]()
+![화상통화 다시만듬](https://github.com/user-attachments/assets/2b804ecb-7062-47fc-93a3-675d3b1e6a6b)
 
 - **이은지**
 
