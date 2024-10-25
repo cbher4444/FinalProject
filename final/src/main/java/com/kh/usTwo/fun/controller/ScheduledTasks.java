@@ -21,7 +21,7 @@ public class ScheduledTasks {
 	@Autowired
 	private FunServiceImpl fService;
 	
-	@Scheduled(cron = "0 0 0 * * ?")
+	@Scheduled(cron = "0 05 10 * * ?")
 	public void executeTask() {
 		System.out.println(new Date() + " : 코드 실행됨");
 		ArrayList<Member> members = mService.selectMember();
