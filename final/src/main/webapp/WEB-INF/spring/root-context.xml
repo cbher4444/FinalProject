@@ -22,8 +22,7 @@
 		id="dataSource" destroy-method="close">
 		<property name="driverClassName"
 			value="oracle.jdbc.driver.OracleDriver" />
-		<property name="url"
-			value="jdbc:oracle:thin:@localhost:1521:xe" />
+		<property name="url" value="jdbc:oracle:thin:@192.168.20.35:1521:xe" />
 		<property name="username" value="final" />
 		<property name="password" value="final" />
 	</bean>
