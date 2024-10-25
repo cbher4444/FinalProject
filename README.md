@@ -311,7 +311,7 @@
 > - 상대방 재촉하기(상대방이 설문조사에 참여하지 않았을 경우에만 가능한 기능) : KakaoTalk API
 > - 사이트 화면
 ![연애고사-재촉화면](https://github.com/user-attachments/assets/c685bd00-9ce7-4031-956b-4b6ba1a71034)
-> - 카카오톡 화면
+> - 카카오톡 화면<br/>
 ![연애고사-재촉](https://github.com/user-attachments/assets/15781167-62aa-4e1b-8149-3cb10300bb56)
 ##### 연애고사 - 연애고사 응시
 > - 연애고사 응시(문제 및 선택지 생성 : Google Gemini API)
